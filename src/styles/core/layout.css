@@ -1,0 +1,358 @@
+/**
+ * Layout System Tokens
+ * Breakpoints, z-index, containers, sizing, flexbox, and grid
+ */
+
+:root {
+  /* Breakpoints */
+  --screen-xs: 475px;
+  --screen-sm: 640px;
+  --screen-md: 768px;
+  --screen-lg: 1024px;
+  --screen-xl: 1280px;
+  --screen-2xl: 1536px;
+  
+  /* Z-Index Scale */
+  --z-auto: auto;
+  --z-base: 0;
+  --z-below: -1;
+  --z-dropdown: 10;
+  --z-sticky: 20;
+  --z-fixed: 30;
+  --z-overlay: 40;
+  --z-modal: 50;
+  --z-popover: 60;
+  --z-tooltip: 70;
+  --z-notification: 80;
+  --z-maximum: 9999;
+  
+  /* Width Scale */
+  --w-0: 0;
+  --w-px: 1px;
+  --w-0-5: 0.125rem;  /* 2px */
+  --w-1: 0.25rem;     /* 4px */
+  --w-1-5: 0.375rem;  /* 6px */
+  --w-2: 0.5rem;      /* 8px */
+  --w-2-5: 0.625rem;  /* 10px */
+  --w-3: 0.75rem;     /* 12px */
+  --w-3-5: 0.875rem;  /* 14px */
+  --w-4: 1rem;        /* 16px */
+  --w-5: 1.25rem;     /* 20px */
+  --w-6: 1.5rem;      /* 24px */
+  --w-7: 1.75rem;     /* 28px */
+  --w-8: 2rem;        /* 32px */
+  --w-9: 2.25rem;     /* 36px */
+  --w-10: 2.5rem;     /* 40px */
+  --w-11: 2.75rem;    /* 44px */
+  --w-12: 3rem;       /* 48px */
+  --w-14: 3.5rem;     /* 56px */
+  --w-16: 4rem;       /* 64px */
+  --w-20: 5rem;       /* 80px */
+  --w-24: 6rem;       /* 96px */
+  --w-28: 7rem;       /* 112px */
+  --w-32: 8rem;       /* 128px */
+  --w-36: 9rem;       /* 144px */
+  --w-40: 10rem;      /* 160px */
+  --w-44: 11rem;      /* 176px */
+  --w-48: 12rem;      /* 192px */
+  --w-52: 13rem;      /* 208px */
+  --w-56: 14rem;      /* 224px */
+  --w-60: 15rem;      /* 240px */
+  --w-64: 16rem;      /* 256px */
+  --w-72: 18rem;      /* 288px */
+  --w-80: 20rem;      /* 320px */
+  --w-96: 24rem;      /* 384px */
+  
+  /* Width percentages */
+  --w-1-2: 50%;
+  --w-1-3: 33.333333%;
+  --w-2-3: 66.666667%;
+  --w-1-4: 25%;
+  --w-2-4: 50%;
+  --w-3-4: 75%;
+  --w-1-5: 20%;
+  --w-2-5: 40%;
+  --w-3-5: 60%;
+  --w-4-5: 80%;
+  --w-1-6: 16.666667%;
+  --w-2-6: 33.333333%;
+  --w-3-6: 50%;
+  --w-4-6: 66.666667%;
+  --w-5-6: 83.333333%;
+  --w-full: 100%;
+  --w-screen: 100vw;
+  --w-min: min-content;
+  --w-max: max-content;
+  --w-fit: fit-content;
+  
+  /* Height Scale */
+  --h-0: 0;
+  --h-px: 1px;
+  --h-0-5: 0.125rem;  /* 2px */
+  --h-1: 0.25rem;     /* 4px */
+  --h-1-5: 0.375rem;  /* 6px */
+  --h-2: 0.5rem;      /* 8px */
+  --h-2-5: 0.625rem;  /* 10px */
+  --h-3: 0.75rem;     /* 12px */
+  --h-3-5: 0.875rem;  /* 14px */
+  --h-4: 1rem;        /* 16px */
+  --h-5: 1.25rem;     /* 20px */
+  --h-6: 1.5rem;      /* 24px */
+  --h-7: 1.75rem;     /* 28px */
+  --h-8: 2rem;        /* 32px */
+  --h-9: 2.25rem;     /* 36px */
+  --h-10: 2.5rem;     /* 40px */
+  --h-11: 2.75rem;    /* 44px */
+  --h-12: 3rem;       /* 48px */
+  --h-14: 3.5rem;     /* 56px */
+  --h-16: 4rem;       /* 64px */
+  --h-20: 5rem;       /* 80px */
+  --h-24: 6rem;       /* 96px */
+  --h-28: 7rem;       /* 112px */
+  --h-32: 8rem;       /* 128px */
+  --h-36: 9rem;       /* 144px */
+  --h-40: 10rem;      /* 160px */
+  --h-44: 11rem;      /* 176px */
+  --h-48: 12rem;      /* 192px */
+  --h-52: 13rem;      /* 208px */
+  --h-56: 14rem;      /* 224px */
+  --h-60: 15rem;      /* 240px */
+  --h-64: 16rem;      /* 256px */
+  --h-72: 18rem;      /* 288px */
+  --h-80: 20rem;      /* 320px */
+  --h-96: 24rem;      /* 384px */
+  
+  /* Height percentages */
+  --h-1-2: 50%;
+  --h-1-3: 33.333333%;
+  --h-2-3: 66.666667%;
+  --h-1-4: 25%;
+  --h-2-4: 50%;
+  --h-3-4: 75%;
+  --h-1-5: 20%;
+  --h-2-5: 40%;
+  --h-3-5: 60%;
+  --h-4-5: 80%;
+  --h-1-6: 16.666667%;
+  --h-2-6: 33.333333%;
+  --h-3-6: 50%;
+  --h-4-6: 66.666667%;
+  --h-5-6: 83.333333%;
+  --h-full: 100%;
+  --h-screen: 100vh;
+  --h-min: min-content;
+  --h-max: max-content;
+  --h-fit: fit-content;
+  
+  /* Min/Max Width */
+  --min-w-0: 0;
+  --min-w-full: 100%;
+  --min-w-min: min-content;
+  --min-w-max: max-content;
+  --min-w-fit: fit-content;
+  
+  --max-w-0: 0;
+  --max-w-none: none;
+  --max-w-xs: 20rem;     /* 320px */
+  --max-w-sm: 24rem;     /* 384px */
+  --max-w-md: 28rem;     /* 448px */
+  --max-w-lg: 32rem;     /* 512px */
+  --max-w-xl: 36rem;     /* 576px */
+  --max-w-2xl: 42rem;    /* 672px */
+  --max-w-3xl: 48rem;    /* 768px */
+  --max-w-4xl: 56rem;    /* 896px */
+  --max-w-5xl: 64rem;    /* 1024px */
+  --max-w-6xl: 72rem;    /* 1152px */
+  --max-w-7xl: 80rem;    /* 1280px */
+  --max-w-full: 100%;
+  --max-w-min: min-content;
+  --max-w-max: max-content;
+  --max-w-fit: fit-content;
+  --max-w-prose: 65ch;
+  --max-w-screen-xs: var(--screen-xs);
+  --max-w-screen-sm: var(--screen-sm);
+  --max-w-screen-md: var(--screen-md);
+  --max-w-screen-lg: var(--screen-lg);
+  --max-w-screen-xl: var(--screen-xl);
+  --max-w-screen-2xl: var(--screen-2xl);
+  
+  /* Min/Max Height */
+  --min-h-0: 0;
+  --min-h-full: 100%;
+  --min-h-screen: 100vh;
+  --min-h-min: min-content;
+  --min-h-max: max-content;
+  --min-h-fit: fit-content;
+  
+  --max-h-0: 0;
+  --max-h-none: none;
+  --max-h-12: 3rem;
+  --max-h-16: 4rem;
+  --max-h-20: 5rem;
+  --max-h-24: 6rem;
+  --max-h-32: 8rem;
+  --max-h-40: 10rem;
+  --max-h-48: 12rem;
+  --max-h-56: 14rem;
+  --max-h-64: 16rem;
+  --max-h-72: 18rem;
+  --max-h-80: 20rem;
+  --max-h-96: 24rem;
+  --max-h-full: 100%;
+  --max-h-screen: 100vh;
+  --max-h-min: min-content;
+  --max-h-max: max-content;
+  --max-h-fit: fit-content;
+  
+  /* Flexbox Properties */
+  
+  /* Flex basis */
+  --basis-auto: auto;
+  --basis-0: 0;
+  --basis-1-2: 50%;
+  --basis-1-3: 33.333333%;
+  --basis-2-3: 66.666667%;
+  --basis-1-4: 25%;
+  --basis-2-4: 50%;
+  --basis-3-4: 75%;
+  --basis-full: 100%;
+  
+  /* Flex grow/shrink */
+  --flex-grow-0: 0;
+  --flex-grow: 1;
+  --flex-shrink-0: 0;
+  --flex-shrink: 1;
+  
+  /* Flex shorthand */
+  --flex-1: 1 1 0%;
+  --flex-auto: 1 1 auto;
+  --flex-initial: 0 1 auto;
+  --flex-none: none;
+  
+  /* Grid Properties */
+  
+  /* Grid template columns */
+  --cols-1: repeat(1, minmax(0, 1fr));
+  --cols-2: repeat(2, minmax(0, 1fr));
+  --cols-3: repeat(3, minmax(0, 1fr));
+  --cols-4: repeat(4, minmax(0, 1fr));
+  --cols-5: repeat(5, minmax(0, 1fr));
+  --cols-6: repeat(6, minmax(0, 1fr));
+  --cols-7: repeat(7, minmax(0, 1fr));
+  --cols-8: repeat(8, minmax(0, 1fr));
+  --cols-9: repeat(9, minmax(0, 1fr));
+  --cols-10: repeat(10, minmax(0, 1fr));
+  --cols-11: repeat(11, minmax(0, 1fr));
+  --cols-12: repeat(12, minmax(0, 1fr));
+  --cols-none: none;
+  
+  /* Grid template rows */
+  --rows-1: repeat(1, minmax(0, 1fr));
+  --rows-2: repeat(2, minmax(0, 1fr));
+  --rows-3: repeat(3, minmax(0, 1fr));
+  --rows-4: repeat(4, minmax(0, 1fr));
+  --rows-5: repeat(5, minmax(0, 1fr));
+  --rows-6: repeat(6, minmax(0, 1fr));
+  --rows-none: none;
+  
+  /* Grid auto columns/rows */
+  --auto-cols-auto: auto;
+  --auto-cols-min: min-content;
+  --auto-cols-max: max-content;
+  --auto-cols-fr: minmax(0, 1fr);
+  
+  --auto-rows-auto: auto;
+  --auto-rows-min: min-content;
+  --auto-rows-max: max-content;
+  --auto-rows-fr: minmax(0, 1fr);
+  
+  /* Grid gaps (use spacing variables) */
+  --gap-0: var(--space-0);
+  --gap-px: var(--space-px);
+  --gap-0-5: var(--space-0-5);
+  --gap-1: var(--space-1);
+  --gap-2: var(--space-2);
+  --gap-3: var(--space-3);
+  --gap-4: var(--space-4);
+  --gap-5: var(--space-5);
+  --gap-6: var(--space-6);
+  --gap-8: var(--space-8);
+  --gap-10: var(--space-10);
+  --gap-12: var(--space-12);
+  --gap-16: var(--space-16);
+  --gap-20: var(--space-20);
+  --gap-24: var(--space-24);
+  
+  /* Container Sizes */
+  --container-xs: 20rem;     /* 320px */
+  --container-sm: 24rem;     /* 384px */
+  --container-md: 28rem;     /* 448px */
+  --container-lg: 32rem;     /* 512px */
+  --container-xl: 36rem;     /* 576px */
+  --container-2xl: 42rem;    /* 672px */
+  --container-3xl: 48rem;    /* 768px */
+  --container-4xl: 56rem;    /* 896px */
+  --container-5xl: 64rem;    /* 1024px */
+  --container-6xl: 72rem;    /* 1152px */
+  --container-7xl: 80rem;    /* 1280px */
+  --container-full: 100%;
+  
+  /* Aspect Ratios */
+  --aspect-auto: auto;
+  --aspect-square: 1 / 1;
+  --aspect-video: 16 / 9;
+  --aspect-portrait: 3 / 4;
+  --aspect-landscape: 4 / 3;
+  --aspect-wide: 21 / 9;
+  
+  /* Object Fit */
+  --object-contain: contain;
+  --object-cover: cover;
+  --object-fill: fill;
+  --object-none: none;
+  --object-scale-down: scale-down;
+  
+  /* Object Position */
+  --object-bottom: bottom;
+  --object-center: center;
+  --object-left: left;
+  --object-left-bottom: left bottom;
+  --object-left-top: left top;
+  --object-right: right;
+  --object-right-bottom: right bottom;
+  --object-right-top: right top;
+  --object-top: top;
+  
+  /* Overflow */
+  --overflow-auto: auto;
+  --overflow-hidden: hidden;
+  --overflow-visible: visible;
+  --overflow-scroll: scroll;
+  --overflow-x-auto: auto;
+  --overflow-x-hidden: hidden;
+  --overflow-x-visible: visible;
+  --overflow-x-scroll: scroll;
+  --overflow-y-auto: auto;
+  --overflow-y-hidden: hidden;
+  --overflow-y-visible: visible;
+  --overflow-y-scroll: scroll;
+  
+  /* Position */
+  --position-static: static;
+  --position-fixed: fixed;
+  --position-absolute: absolute;
+  --position-relative: relative;
+  --position-sticky: sticky;
+  
+  /* Inset */
+  --inset-0: 0;
+  --inset-px: 1px;
+  --inset-auto: auto;
+  --inset-1-2: 50%;
+  --inset-1-3: 33.333333%;
+  --inset-2-3: 66.666667%;
+  --inset-1-4: 25%;
+  --inset-2-4: 50%;
+  --inset-3-4: 75%;
+  --inset-full: 100%;
+}

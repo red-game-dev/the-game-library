@@ -1,0 +1,89 @@
+/**
+ * Theme System
+ * Dark theme is default, with support for light and custom gaming themes
+ */
+
+/* Default Dark Theme - Defined in colors.css as :root defaults */
+
+/* Theme Switching Utilities */
+
+/* Ensure dark theme is default */
+:root {
+  color-scheme: dark;
+}
+
+/* Light theme class */
+.light {
+  color-scheme: light;
+}
+
+/* Theme transition for smooth switching */
+.theme-transition,
+.theme-transition *,
+.theme-transition *::before,
+.theme-transition *::after {
+  transition: background-color var(--duration-700) var(--ease-in-out),
+              border-color var(--duration-700) var(--ease-in-out),
+              color var(--duration-700) var(--ease-in-out) !important;
+}
+
+/* Theme-aware Utility Classes */
+
+/* Text that adapts to theme */
+.text-theme {
+  color: var(--color-text);
+}
+
+.text-theme-secondary {
+  color: var(--color-text-secondary);
+}
+
+.text-theme-tertiary {
+  color: var(--color-text-tertiary);
+}
+
+/* Backgrounds that adapt to theme */
+.bg-theme {
+  background-color: var(--color-background);
+}
+
+.bg-theme-surface {
+  background-color: var(--color-surface);
+}
+
+.bg-theme-elevated {
+  background-color: var(--color-surface-elevated);
+}
+
+/* Borders that adapt to theme */
+.border-theme {
+  border-color: var(--color-border);
+}
+
+/* Forced Theme Classes */
+
+.dark {
+  color-scheme: dark;
+}
+
+.dark,
+:root[data-theme="dark"] {
+  --color-background: #030712;
+  --color-surface: #0f172a;
+  --color-surface-elevated: #1e293b;
+  --color-border: rgba(255, 255, 255, var(--opacity-10));
+  
+  --color-text: #f8fafc;
+  --color-text-secondary: #cbd5e1;
+  --color-text-tertiary: #94a3b8;
+}
+
+/* Print Styles */
+
+@media print {
+  :root {
+    --color-background: white;
+    --color-text: black;
+    --color-border: rgba(0, 0, 0, var(--opacity-20));
+  }
+}

@@ -1,0 +1,189 @@
+/**
+ * Text Utilities
+ * Custom text effects not available in Tailwind
+ */
+
+/* Gradient text effects */
+.text-gradient {
+  background: linear-gradient(135deg, var(--purple-400), var(--lime-400));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.text-gradient-gold {
+  background: linear-gradient(135deg, var(--yellow-400), var(--orange-500), var(--yellow-400));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.text-gradient-rainbow {
+  background: linear-gradient(
+    90deg,
+    var(--red-500),
+    var(--orange-500),
+    var(--yellow-500),
+    var(--green-500),
+    var(--blue-500),
+    var(--indigo-500),
+    var(--violet-500)
+  );
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+/* Neon text effects */
+.text-neon {
+  color: var(--color-primary);
+  text-shadow: 
+    0 0 10px currentColor,
+    0 0 20px currentColor,
+    0 0 40px currentColor;
+}
+
+.text-neon-green {
+  color: var(--green-500);
+  text-shadow: 
+    0 0 10px currentColor,
+    0 0 20px currentColor,
+    0 0 40px currentColor;
+}
+
+.text-neon-pink {
+  color: var(--pink-500);
+  text-shadow: 
+    0 0 10px currentColor,
+    0 0 20px currentColor,
+    0 0 40px currentColor;
+}
+
+.text-neon-cyan {
+  color: var(--cyan-400);
+  text-shadow: 
+    0 0 10px currentColor,
+    0 0 20px currentColor,
+    0 0 40px currentColor;
+}
+
+/* 3D text effect */
+.text-3d {
+  text-shadow: 
+    1px 1px 0 rgba(0, 0, 0, var(--opacity-20)),
+    2px 2px 0 rgba(0, 0, 0, var(--opacity-15)),
+    3px 3px 0 rgba(0, 0, 0, var(--opacity-10)),
+    4px 4px 0 rgba(0, 0, 0, var(--opacity-5));
+}
+
+/* Glitch text effect */
+.text-glitch {
+  position: relative;
+}
+
+.text-glitch::before,
+.text-glitch::after {
+  content: attr(data-text);
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+}
+
+.text-glitch::before {
+  animation: glitch-cyan 0.3s infinite;
+  color: var(--cyan-400);
+  z-index: -1;
+}
+
+.text-glitch::after {
+  animation: glitch-magenta 0.3s infinite;
+  color: var(--pink-500);
+  z-index: -2;
+}
+
+@keyframes glitch-cyan {
+  0%, 100% {
+    clip-path: inset(0 0 0 0);
+    transform: translate(0);
+  }
+  20% {
+    clip-path: inset(33% 0 0 0);
+    transform: translate(-2px, 2px);
+  }
+  40% {
+    clip-path: inset(0 0 66% 0);
+    transform: translate(2px, -2px);
+  }
+  60% {
+    clip-path: inset(0 0 0 70%);
+    transform: translate(-1px, 1px);
+  }
+  80% {
+    clip-path: inset(0 70% 0 0);
+    transform: translate(1px, -1px);
+  }
+}
+
+@keyframes glitch-magenta {
+  0%, 100% {
+    clip-path: inset(0 0 0 0);
+    transform: translate(0);
+  }
+  20% {
+    clip-path: inset(0 0 66% 0);
+    transform: translate(2px, -1px);
+  }
+  40% {
+    clip-path: inset(33% 0 0 0);
+    transform: translate(-2px, 1px);
+  }
+  60% {
+    clip-path: inset(0 70% 0 0);
+    transform: translate(1px, 2px);
+  }
+  80% {
+    clip-path: inset(0 0 0 70%);
+    transform: translate(-1px, -2px);
+  }
+}
+
+/* Responsive text adjustments */
+@media (max-width: 640px) {
+  .text-neon,
+  .text-neon-green,
+  .text-neon-pink,
+  .text-neon-cyan {
+    text-shadow: 
+      0 0 5px currentColor,
+      0 0 10px currentColor;
+  }
+  
+  .text-3d {
+    text-shadow: 
+      1px 1px 0 rgba(0, 0, 0, var(--opacity-20)),
+      2px 2px 0 rgba(0, 0, 0, var(--opacity-10));
+  }
+}
+
+@media (min-width: 1024px) {
+  .text-neon,
+  .text-neon-green,
+  .text-neon-pink,
+  .text-neon-cyan {
+    text-shadow: 
+      0 0 15px currentColor,
+      0 0 30px currentColor,
+      0 0 60px currentColor;
+  }
+  
+  .text-3d {
+    text-shadow: 
+      1px 1px 0 rgba(0, 0, 0, var(--opacity-20)),
+      2px 2px 0 rgba(0, 0, 0, var(--opacity-15)),
+      3px 3px 0 rgba(0, 0, 0, var(--opacity-10)),
+      4px 4px 0 rgba(0, 0, 0, var(--opacity-5)),
+      5px 5px 0 rgba(0, 0, 0, var(--opacity-5));
+  }
+}

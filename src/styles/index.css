@@ -1,0 +1,18 @@
+/**
+ * The Game Library Design System
+ * Consolidated style imports - works independently of any CSS framework
+ */
+
+/* Core Design Tokens */
+@import './core/index.css';
+
+/* Base Styles */
+@import './_base.css';
+
+/* Component Styles - Built step-by-step when implementing Game Library UI */
+
+/* Utility Styles */
+@import './utilities/index.css';
+
+/* Animation Keyframes */
+@import './_animations.css';

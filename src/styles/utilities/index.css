@@ -1,0 +1,16 @@
+/**
+ * Utilities Index
+ * Imports all utility classes
+ */
+
+/* Core utilities */
+@import './accessibility.css';
+@import './animate.css';
+@import './backgrounds.css';
+@import './borders.css';
+@import './glass.css';
+@import './glow.css';
+@import './layout.css';
+@import './opacity.css';
+@import './text.css';
+@import './typography.css';

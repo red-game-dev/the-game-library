@@ -1,0 +1,44 @@
+/**
+ * Breakpoint System
+ * Responsive design breakpoints
+ * Note: CSS doesn't support variables in @media queries yet,
+ * so we define the breakpoints as comments for reference
+ */
+
+/* 
+Breakpoint values:
+- xs: 475px
+- sm: 640px  
+- md: 768px
+- lg: 1024px
+- xl: 1280px
+- 2xl: 1536px
+
+Usage:
+@media (min-width: 640px) { } // sm
+@media (min-width: 768px) { } // md
+@media (min-width: 1024px) { } // lg
+@media (min-width: 1280px) { } // xl
+@media (min-width: 1536px) { } // 2xl
+*/
+
+/* Container responsive adjustments */
+@container (min-width: 640px) {
+  .container-sm { max-width: 640px; }
+}
+
+@container (min-width: 768px) {
+  .container-md { max-width: 768px; }
+}
+
+@container (min-width: 1024px) {
+  .container-lg { max-width: 1024px; }
+}
+
+@container (min-width: 1280px) {
+  .container-xl { max-width: 1280px; }
+}
+
+@container (min-width: 1536px) {
+  .container-2xl { max-width: 1536px; }
+}

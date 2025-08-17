@@ -1,0 +1,14 @@
+/**
+ * Utility Imports
+ * Gaming-specific utilities that extend Tailwind
+ * @layer utilities
+ */
+
+/* Import all utility styles */
+@import './utilities/text.css';
+@import './utilities/glow.css';
+@import './utilities/glass.css';
+@import './utilities/animate.css';
+@import './utilities/game-elements.css';
+@import './utilities/game-states.css';
+@import './utilities/accessibility.css';

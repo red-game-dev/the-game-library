@@ -1,0 +1,15 @@
+/**
+ * Core Design System Index
+ * Imports all core design tokens and variables
+ */
+
+/* Design tokens - order matters for dependencies */
+@import './colors.css';
+@import './typography.css';
+@import './spacing.css';
+@import './borders.css';
+@import './effects.css';
+@import './motion.css';
+@import './layout.css';
+@import './breakpoints.css';
+@import './theme.css';

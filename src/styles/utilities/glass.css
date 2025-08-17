@@ -1,0 +1,93 @@
+/**
+ * Glass Morphism Utilities
+ * Enhanced glass effects for gaming UI
+ */
+
+/* Base glass effect */
+.glass {
+  backdrop-filter: blur(var(--blur-md));
+  background: rgba(255, 255, 255, var(--opacity-5));
+  border: var(--border-1) solid rgba(255, 255, 255, var(--opacity-10));
+  box-shadow: var(--shadow-glass);
+}
+
+/* Glass variants by intensity */
+.glass-light {
+  backdrop-filter: blur(var(--blur-sm));
+  background: rgba(255, 255, 255, var(--opacity-10));
+  border: var(--border-1) solid rgba(255, 255, 255, var(--opacity-20));
+  box-shadow: var(--shadow-sm);
+}
+
+.glass-medium {
+  backdrop-filter: blur(var(--blur-md));
+  background: rgba(255, 255, 255, var(--opacity-20));
+  border: var(--border-1) solid rgba(255, 255, 255, var(--opacity-30));
+  box-shadow: var(--shadow-md);
+}
+
+.glass-heavy {
+  backdrop-filter: blur(var(--blur-lg));
+  background: rgba(255, 255, 255, var(--opacity-30));
+  border: var(--border-1) solid rgba(255, 255, 255, var(--opacity-40));
+  box-shadow: var(--shadow-lg);
+}
+
+/* Dark glass variants */
+.glass-dark {
+  backdrop-filter: blur(var(--blur-md));
+  background: rgba(0, 0, 0, var(--opacity-30));
+  border: var(--border-1) solid rgba(255, 255, 255, var(--opacity-10));
+  box-shadow: var(--shadow-glass);
+}
+
+.glass-dark-heavy {
+  backdrop-filter: blur(var(--blur-lg));
+  background: rgba(0, 0, 0, var(--opacity-50));
+  border: var(--border-1) solid rgba(255, 255, 255, var(--opacity-20));
+  box-shadow: var(--shadow-elevated);
+}
+
+/* Colored glass */
+.glass-primary {
+  backdrop-filter: blur(var(--blur-md));
+  background: rgba(168, 85, 247, var(--opacity-10));
+  border: var(--border-1) solid rgba(168, 85, 247, var(--opacity-20));
+  box-shadow: var(--shadow-glow-primary);
+}
+
+.glass-accent {
+  backdrop-filter: blur(var(--blur-md));
+  background: rgba(163, 230, 53, var(--opacity-10));
+  border: var(--border-1) solid rgba(163, 230, 53, var(--opacity-20));
+  box-shadow: var(--shadow-glow-accent);
+}
+
+.glass-success {
+  backdrop-filter: blur(var(--blur-md));
+  background: rgba(34, 197, 94, var(--opacity-10));
+  border: var(--border-1) solid rgba(34, 197, 94, var(--opacity-20));
+  box-shadow: var(--shadow-glow-success);
+}
+
+.glass-error {
+  backdrop-filter: blur(var(--blur-md));
+  background: rgba(239, 68, 68, var(--opacity-10));
+  border: var(--border-1) solid rgba(239, 68, 68, var(--opacity-20));
+  box-shadow: var(--shadow-glow-error);
+}
+
+/* Frosted glass */
+.glass-frosted {
+  backdrop-filter: blur(var(--blur-base)) saturate(180%);
+  background: rgba(255, 255, 255, var(--opacity-5));
+  border: var(--border-1) solid rgba(255, 255, 255, var(--opacity-10));
+  box-shadow: var(--shadow-glass);
+}
+
+/* No backdrop filter for performance */
+.glass-static {
+  background: rgba(255, 255, 255, var(--opacity-10));
+  border: var(--border-1) solid rgba(255, 255, 255, var(--opacity-20));
+  box-shadow: var(--shadow-md);
+}

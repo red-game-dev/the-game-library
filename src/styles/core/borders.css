@@ -1,0 +1,68 @@
+/**
+ * Border System Tokens
+ * Border widths, styles, and colors
+ */
+
+:root {
+  /* Border Widths */
+  --border-0: 0;
+  --border-px: 1px;
+  --border-1: 1px;
+  --border-2: 2px;
+  --border-3: 3px;
+  --border-4: 4px;
+  --border-5: 5px;
+  --border-6: 6px;
+  --border-8: 8px;
+  --border-10: 10px;
+  --border-12: 12px;
+  --border-16: 16px;
+  
+  /* Semantic border widths */
+  --border-thin: 1px;
+  --border-base: 1px;
+  --border-thick: 2px;
+  --border-bold: 4px;
+  
+  /* Border Styles */
+  --border-solid: solid;
+  --border-dashed: dashed;
+  --border-dotted: dotted;
+  --border-double: double;
+  --border-none: none;
+  
+  /* Outline Widths */
+  --outline-0: 0;
+  --outline-1: 1px;
+  --outline-2: 2px;
+  --outline-3: 3px;
+  --outline-4: 4px;
+  --outline-8: 8px;
+  
+  /* Ring Widths */
+  --ring-0: 0;
+  --ring-px: 1px;
+  --ring-1: 1px;
+  --ring-2: 2px;
+  --ring-3: 3px;
+  --ring-4: 4px;
+  --ring-5: 5px;
+  --ring-6: 6px;
+  --ring-8: 8px;
+  --ring-10: 10px;
+  --ring-12: 12px;
+  
+  /* Ring Offsets */
+  --ring-offset-0: 0;
+  --ring-offset-1: 1px;
+  --ring-offset-2: 2px;
+  --ring-offset-4: 4px;
+  --ring-offset-8: 8px;
+  
+  /* Divide Widths */
+  --divide-0: 0;
+  --divide-1: 1px;
+  --divide-2: 2px;
+  --divide-4: 4px;
+  --divide-8: 8px;
+}

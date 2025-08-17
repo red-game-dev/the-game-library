@@ -1,0 +1,124 @@
+/**
+ * Animation Utilities
+ * Classes that apply custom animations from animations.css
+ */
+
+/* Gradient animations */
+.animate-gradient {
+  background-size: 200% 200%;
+  animation: gradient-shift 3s ease infinite;
+}
+
+.animate-gradient-slow {
+  background-size: 200% 200%;
+  animation: gradient-shift 6s ease infinite;
+}
+
+.animate-gradient-fast {
+  background-size: 200% 200%;
+  animation: gradient-shift 1.5s ease infinite;
+}
+
+/* Shimmer animations */
+.animate-shimmer {
+  animation: shimmer 2s infinite;
+}
+
+.animate-shimmer-slow {
+  animation: shimmer 3s infinite;
+}
+
+/* Glow animations */
+.animate-glow-pulse {
+  animation: glow-pulse 2s ease-in-out infinite;
+}
+
+/* Pulse animations */
+.animate-pulse {
+  animation: pulse 2s ease-in-out infinite;
+}
+
+/* Bounce animations */
+.animate-bounce {
+  animation: bounce 1s ease-in-out infinite;
+}
+
+/* Spin animations */
+.animate-spin {
+  animation: spin 1s linear infinite;
+}
+
+.animate-spin-slow {
+  animation: spin 3s linear infinite;
+}
+
+/* Ticker animation */
+.animate-ticker {
+  animation: ticker 30s linear infinite;
+}
+
+.animate-ticker-fast {
+  animation: ticker 15s linear infinite;
+}
+
+.animate-ticker-slow {
+  animation: ticker 45s linear infinite;
+}
+
+/* Hover animations */
+.hover-scale {
+  transition: transform var(--transition-fast);
+}
+
+.hover-scale:hover {
+  transform: scale(1.05);
+}
+
+.hover-lift {
+  transition: transform var(--transition-fast), box-shadow var(--transition-fast);
+}
+
+.hover-lift:hover {
+  transform: translateY(-4px);
+  box-shadow: var(--shadow-xl);
+}
+
+/* Animation delays */
+.animation-delay-100 {
+  animation-delay: 100ms;
+}
+
+.animation-delay-200 {
+  animation-delay: 200ms;
+}
+
+.animation-delay-300 {
+  animation-delay: 300ms;
+}
+
+.animation-delay-500 {
+  animation-delay: 500ms;
+}
+
+.animation-delay-1000 {
+  animation-delay: 1000ms;
+}
+
+/* Animation control */
+.animation-paused {
+  animation-play-state: paused;
+}
+
+.animation-running {
+  animation-play-state: running;
+}
+
+/* Hover to pause */
+.hover-pause:hover {
+  animation-play-state: paused;
+}
+
+/* Hover to play */
+.hover-play:hover {
+  animation-play-state: running;
+}
