@@ -1,0 +1,258 @@
+/* ============================================
+   PATTERNS
+   Common layout and utility patterns
+   ============================================ */
+
+/* Flexbox Patterns */
+.flex-center {
+  @apply flex items-center justify-center;
+}
+
+.flex-between {
+  @apply flex items-center justify-between;
+}
+
+.flex-start {
+  @apply flex items-center justify-start;
+}
+
+.flex-end {
+  @apply flex items-center justify-end;
+}
+
+.flex-col-center {
+  @apply flex flex-col items-center justify-center;
+}
+
+.flex-col-between {
+  @apply flex flex-col justify-between;
+}
+
+/* Grid Patterns */
+.grid-auto {
+  @apply grid grid-cols-[repeat(auto-fill,minmax(250px,1fr))] gap-4;
+}
+
+.grid-responsive {
+  @apply grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4;
+}
+
+.grid-2 {
+  @apply grid grid-cols-1 md:grid-cols-2 gap-4;
+}
+
+.grid-3 {
+  @apply grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4;
+}
+
+.grid-4 {
+  @apply grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4;
+}
+
+/* Container Patterns */
+.container-narrow {
+  @apply max-w-4xl mx-auto px-4;
+}
+
+.container-wide {
+  @apply max-w-7xl mx-auto px-4;
+}
+
+.container-full {
+  @apply w-full px-4 sm:px-6 lg:px-8;
+}
+
+/* Section Patterns */
+.section {
+  @apply py-12 md:py-16 lg:py-20;
+}
+
+.section-compact {
+  @apply py-6 md:py-8 lg:py-10;
+}
+
+.section-loose {
+  @apply py-16 md:py-24 lg:py-32;
+}
+
+/* Stack Patterns */
+.stack-sm {
+  @apply space-y-2;
+}
+
+.stack-md {
+  @apply space-y-4;
+}
+
+.stack-lg {
+  @apply space-y-6;
+}
+
+.stack-xl {
+  @apply space-y-8;
+}
+
+/* Responsive Patterns */
+.mobile-only {
+  @apply block sm:hidden;
+}
+
+.desktop-only {
+  @apply hidden sm:block;
+}
+
+.tablet-up {
+  @apply hidden md:block;
+}
+
+.desktop-up {
+  @apply hidden lg:block;
+}
+
+/* Aspect Ratios */
+.aspect-game-card {
+  @apply aspect-[3/4];
+}
+
+.aspect-game-thumb {
+  @apply aspect-[16/9];
+}
+
+.aspect-game-banner {
+  @apply aspect-[21/9];
+}
+
+/* Transition Patterns */
+.transition-smooth {
+  @apply transition-all duration-200 ease-in-out;
+}
+
+.transition-colors {
+  @apply transition-colors duration-200;
+}
+
+.transition-transform {
+  @apply transition-transform duration-200;
+}
+
+.transition-opacity {
+  @apply transition-opacity duration-200;
+}
+
+/* Interactive States */
+.interactive {
+  @apply transition-all duration-200 hover:scale-105 active:scale-95;
+}
+
+.interactive-subtle {
+  @apply transition-all duration-200 hover:scale-102 active:scale-98;
+}
+
+.interactive-glow {
+  @apply transition-all duration-200 hover:shadow-glow-primary;
+}
+
+/* Loading States */
+.skeleton {
+  @apply animate-skeleton bg-surface-elevated rounded;
+}
+
+.skeleton-text {
+  @apply h-4 w-full animate-skeleton bg-surface-elevated rounded;
+}
+
+.skeleton-heading {
+  @apply h-6 w-3/4 animate-skeleton bg-surface-elevated rounded;
+}
+
+.skeleton-card {
+  @apply h-64 w-full animate-skeleton bg-surface-elevated rounded-xl;
+}
+
+/* Glassmorphism */
+.glass {
+  backdrop-filter: blur(12px);
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.glass:hover {
+  background: rgba(255, 255, 255, 0.08);
+  border-color: rgba(255, 255, 255, 0.2);
+}
+
+.glass-dark {
+  backdrop-filter: blur(16px);
+  background: rgba(0, 0, 0, 0.3);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+/* Text Patterns */
+.text-gradient {
+  background: linear-gradient(to right, #a855f7, #3b82f6);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.text-gradient-gold {
+  background: linear-gradient(135deg, #fbbf24, #f59e0b, #d97706);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.text-balance {
+  text-wrap: balance;
+}
+
+/* Overflow Patterns */
+.line-clamp-1 {
+  overflow: hidden;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 1;
+}
+
+.line-clamp-2 {
+  overflow: hidden;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
+}
+
+.line-clamp-3 {
+  overflow: hidden;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 3;
+}
+
+/* Scrollbar */
+.custom-scrollbar::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+.custom-scrollbar::-webkit-scrollbar-track {
+  background: #27272a;
+  border-radius: 9999px;
+}
+
+.custom-scrollbar::-webkit-scrollbar-thumb {
+  background: #52525b;
+  border-radius: 9999px;
+}
+
+.custom-scrollbar::-webkit-scrollbar-thumb:hover {
+  background: #71717a;
+}
+
+/* Focus Patterns */
+.focus-ring {
+  @apply focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary-500 focus-visible:ring-offset-2;
+}
+
+.focus-border {
+  @apply focus-visible:outline-none focus-visible:border-primary-500;
+}

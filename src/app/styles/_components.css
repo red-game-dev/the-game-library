@@ -1,0 +1,322 @@
+/* ============================================
+   COMPONENTS
+   Reusable component classes
+   ============================================ */
+
+/* Buttons */
+.btn {
+  @apply inline-flex items-center justify-center font-medium transition-all;
+  @apply focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary-500 focus-visible:ring-offset-2;
+  @apply disabled:pointer-events-none disabled:opacity-50;
+}
+
+/* Button Variants */
+.btn-primary {
+  @apply btn bg-primary-500 text-white hover:bg-primary-600 active:bg-primary-700;
+}
+
+.btn-secondary {
+  @apply btn bg-neutral-200 text-neutral-900 hover:bg-neutral-300 active:bg-neutral-400;
+}
+
+.btn-ghost {
+  @apply btn hover:bg-neutral-100 hover:text-neutral-900;
+}
+
+.btn-danger {
+  @apply btn bg-error text-white hover:bg-red-600 active:bg-red-700;
+}
+
+.btn-success {
+  @apply btn bg-success text-black hover:bg-lime-500 active:bg-lime-600;
+}
+
+.btn-outline {
+  @apply btn border-2 border-primary-500 text-primary-500 hover:bg-primary-500 hover:text-white;
+}
+
+/* Button Sizes */
+.btn-xs { @apply h-7 px-2.5 text-xs rounded; }
+.btn-sm { @apply h-9 px-3 text-sm rounded-md; }
+.btn-md { @apply h-10 px-4 text-base rounded-lg; }
+.btn-lg { @apply h-12 px-6 text-lg rounded-lg; }
+.btn-xl { @apply h-14 px-8 text-xl rounded-xl; }
+
+/* Button States */
+.btn-loading {
+  @apply relative text-transparent pointer-events-none;
+}
+
+.btn-loading::after {
+  content: "";
+  @apply absolute inset-0 flex items-center justify-center;
+  @apply animate-spin rounded-full h-4 w-4 border-2 border-white border-t-transparent;
+}
+
+/* Icon Buttons */
+.btn-icon {
+  @apply btn p-0 aspect-square;
+}
+
+.btn-icon-sm { @apply btn-icon h-9 w-9; }
+.btn-icon-md { @apply btn-icon h-10 w-10; }
+.btn-icon-lg { @apply btn-icon h-12 w-12; }
+
+/* Cards */
+.card {
+  @apply rounded-xl border bg-card text-card-foreground;
+}
+
+.card-elevated {
+  @apply card shadow-lg hover:shadow-xl transition-shadow;
+}
+
+.card-glass {
+  @apply glass backdrop-blur-xl rounded-xl;
+}
+
+.card-interactive {
+  @apply card cursor-pointer hover:border-border-hover transition-all;
+}
+
+.card-game {
+  @apply card-interactive group overflow-hidden;
+}
+
+.card-game-image {
+  @apply aspect-game-card w-full object-cover transition-transform duration-300 group-hover:scale-110;
+}
+
+.card-game-overlay {
+  @apply absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity;
+}
+
+/* Card Sections */
+.card-header {
+  @apply px-6 py-4 border-b;
+}
+
+.card-body {
+  @apply p-6;
+}
+
+.card-footer {
+  @apply px-6 py-4 border-t;
+}
+
+/* Inputs */
+.input {
+  @apply flex w-full rounded-lg border bg-transparent px-3 py-2 text-sm;
+  @apply ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium;
+  @apply placeholder:text-neutral-500 focus-visible:outline-none focus-visible:ring-2;
+  @apply focus-visible:ring-primary-500 focus-visible:ring-offset-2;
+  @apply disabled:cursor-not-allowed disabled:opacity-50;
+}
+
+.input-error {
+  @apply input border-error focus-visible:ring-error;
+}
+
+.input-success {
+  @apply input border-success focus-visible:ring-success;
+}
+
+/* Input Sizes */
+.input-sm { @apply h-8 text-xs; }
+.input-md { @apply h-10 text-sm; }
+.input-lg { @apply h-12 text-base; }
+
+/* Input Groups */
+.input-group {
+  @apply flex items-stretch;
+}
+
+.input-group-text {
+  @apply flex items-center px-3 bg-surface border border-r-0 rounded-l-lg text-foreground-secondary;
+}
+
+.input-group .input {
+  @apply rounded-l-none;
+}
+
+/* Badges */
+.badge {
+  @apply inline-flex items-center rounded-full px-2.5 py-0.5 text-xs font-semibold transition-colors;
+}
+
+/* Badge Variants */
+.badge-default { @apply badge bg-neutral-100 text-neutral-900; }
+.badge-primary { @apply badge bg-primary-100 text-primary-900; }
+.badge-success { @apply badge bg-green-100 text-green-900; }
+.badge-warning { @apply badge bg-amber-100 text-amber-900; }
+.badge-error { @apply badge bg-red-100 text-red-900; }
+.badge-info { @apply badge bg-blue-100 text-blue-900; }
+
+/* Game-specific badges */
+.badge-slots { @apply badge text-game-slots border-game-slots bg-game-slots/10; }
+.badge-table { @apply badge text-game-table border-game-table bg-game-table/10; }
+.badge-live { @apply badge text-game-live border-game-live bg-game-live/10 animate-pulse; }
+.badge-instant { @apply badge text-game-instant border-game-instant bg-game-instant/10; }
+
+/* Badge Sizes */
+.badge-sm { @apply text-xs px-2 py-0; }
+.badge-lg { @apply text-sm px-3 py-1; }
+
+/* Chips (interactive badges) */
+.chip {
+  @apply badge cursor-pointer hover:opacity-80 active:scale-95 transition-all;
+}
+
+.chip-removable {
+  @apply chip pr-1;
+}
+
+.chip-remove {
+  @apply ml-1 hover:text-error;
+}
+
+/* Modals/Dialogs */
+.modal-backdrop {
+  @apply fixed inset-0 bg-black/50 backdrop-blur-sm z-modalBackdrop;
+}
+
+.modal {
+  @apply fixed inset-0 flex items-center justify-center p-4 z-modal;
+}
+
+.modal-content {
+  @apply bg-surface rounded-xl shadow-2xl max-w-lg w-full max-h-[90vh] overflow-auto;
+}
+
+.modal-header {
+  @apply flex items-center justify-between p-6 border-b;
+}
+
+.modal-body {
+  @apply p-6;
+}
+
+.modal-footer {
+  @apply flex items-center justify-end gap-2 p-6 border-t;
+}
+
+/* Dropdowns */
+.dropdown {
+  @apply relative inline-block;
+}
+
+.dropdown-menu {
+  @apply absolute top-full mt-1 bg-surface rounded-lg shadow-lg border min-w-[200px] py-1 z-dropdown;
+}
+
+.dropdown-item {
+  @apply px-4 py-2 hover:bg-surface-elevated cursor-pointer transition-colors;
+}
+
+.dropdown-divider {
+  @apply border-t my-1;
+}
+
+/* Tooltips */
+.tooltip {
+  @apply absolute bg-neutral-900 text-white text-xs px-2 py-1 rounded pointer-events-none z-tooltip;
+  @apply after:content-[''] after:absolute after:border-4 after:border-transparent;
+}
+
+.tooltip-top {
+  @apply bottom-full left-1/2 -translate-x-1/2 mb-2;
+  @apply after:top-full after:left-1/2 after:-translate-x-1/2 after:border-t-neutral-900;
+}
+
+.tooltip-bottom {
+  @apply top-full left-1/2 -translate-x-1/2 mt-2;
+  @apply after:bottom-full after:left-1/2 after:-translate-x-1/2 after:border-b-neutral-900;
+}
+
+/* Tabs */
+.tabs {
+  @apply flex items-center border-b;
+}
+
+.tab {
+  @apply px-4 py-2 -mb-px cursor-pointer transition-colors;
+  @apply hover:text-primary-500 border-b-2 border-transparent;
+}
+
+.tab-active {
+  @apply tab text-primary-500 border-primary-500;
+}
+
+.tab-content {
+  @apply py-4;
+}
+
+/* Alerts */
+.alert {
+  @apply rounded-lg px-4 py-3 mb-4;
+}
+
+.alert-info {
+  @apply alert bg-blue-100 text-blue-900 border border-blue-200;
+}
+
+.alert-success {
+  @apply alert bg-green-100 text-green-900 border border-green-200;
+}
+
+.alert-warning {
+  @apply alert bg-amber-100 text-amber-900 border border-amber-200;
+}
+
+.alert-error {
+  @apply alert bg-red-100 text-red-900 border border-red-200;
+}
+
+/* Progress */
+.progress {
+  @apply w-full h-2 bg-surface-elevated rounded-full overflow-hidden;
+}
+
+.progress-bar {
+  @apply h-full bg-primary-500 transition-all duration-300;
+}
+
+.progress-striped {
+  @apply bg-gradient-to-r from-primary-500 via-primary-400 to-primary-500;
+  background-size: 1rem 1rem;
+  animation: progress-stripes 1s linear infinite;
+}
+
+@keyframes progress-stripes {
+  0% { background-position: 0 0; }
+  100% { background-position: 1rem 0; }
+}
+
+/* Spinners */
+.spinner {
+  @apply inline-block animate-spin rounded-full border-2 border-current border-t-transparent;
+}
+
+.spinner-sm { @apply spinner h-4 w-4; }
+.spinner-md { @apply spinner h-6 w-6; }
+.spinner-lg { @apply spinner h-8 w-8; }
+.spinner-xl { @apply spinner h-12 w-12; }
+
+/* Dividers */
+.divider {
+  @apply relative my-6;
+}
+
+.divider::before {
+  content: "";
+  @apply absolute inset-0 flex items-center;
+  @apply border-t;
+}
+
+.divider-text {
+  @apply relative flex justify-center text-xs uppercase;
+}
+
+.divider-text span {
+  @apply px-2 bg-background;
+}

@@ -1,0 +1,64 @@
+/* ============================================
+   CSS VARIABLES
+   Theme colors and design tokens
+   ============================================ */
+
+:root {
+  /* Dark theme (default) */
+  --background: #030712;
+  --surface: #0f172a;
+  --surface-elevated: #1e293b;
+  --border: rgba(148, 163, 184, 0.1);
+  --border-hover: rgba(148, 163, 184, 0.2);
+  --foreground: #f8fafc;
+  --foreground-secondary: #cbd5e1;
+  --foreground-tertiary: #94a3b8;
+  --primary: #a855f7;
+  --primary-foreground: #f8fafc;
+  --accent: #a3e635;
+  --accent-foreground: #030712;
+  --card: #0f172a;
+  --card-foreground: #f8fafc;
+  
+  /* Other variables */
+  --ring: #a855f7;
+  --radius: 0.5rem;
+}
+
+/* Light theme */
+@media (prefers-color-scheme: light) {
+  :root {
+    --background: #ffffff;
+    --surface: #f8fafc;
+    --surface-elevated: #ffffff;
+    --border: rgba(0, 0, 0, 0.1);
+    --border-hover: rgba(0, 0, 0, 0.2);
+    --foreground: #030712;
+    --foreground-secondary: #334155;
+    --foreground-tertiary: #64748b;
+    --primary: #9333ea;
+    --primary-foreground: #f8fafc;
+    --accent: #84cc16;
+    --accent-foreground: #ffffff;
+    --card: #ffffff;
+    --card-foreground: #030712;
+  }
+}
+
+/* Manual light class override */
+.light {
+  --background: #ffffff;
+  --surface: #f8fafc;
+  --surface-elevated: #ffffff;
+  --border: rgba(0, 0, 0, 0.1);
+  --border-hover: rgba(0, 0, 0, 0.2);
+  --foreground: #030712;
+  --foreground-secondary: #334155;
+  --foreground-tertiary: #64748b;
+  --primary: #9333ea;
+  --primary-foreground: #f8fafc;
+  --accent: #84cc16;
+  --accent-foreground: #ffffff;
+  --card: #ffffff;
+  --card-foreground: #030712;
+}

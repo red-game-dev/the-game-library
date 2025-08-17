@@ -1,0 +1,219 @@
+/* ============================================
+   UTILITIES
+   Custom utility classes and helpers
+   ============================================ */
+
+/* Accessibility */
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border-width: 0;
+}
+
+.not-sr-only {
+  position: static;
+  width: auto;
+  height: auto;
+  padding: 0;
+  margin: 0;
+  overflow: visible;
+  clip: auto;
+  white-space: normal;
+}
+
+/* Reduced motion */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+/* High contrast mode adjustments */
+@media (prefers-contrast: high) {
+  .card,
+  .btn,
+  .input {
+    border-width: 2px;
+  }
+}
+
+/* Print styles */
+@media print {
+  .no-print {
+    display: none !important;
+  }
+  
+  .print-only {
+    display: block !important;
+  }
+}
+
+/* Cursor utilities */
+.cursor-grab {
+  cursor: grab;
+}
+
+.cursor-grab:active {
+  cursor: grabbing;
+}
+
+.cursor-help {
+  cursor: help;
+}
+
+.cursor-wait {
+  cursor: wait;
+}
+
+.cursor-crosshair {
+  cursor: crosshair;
+}
+
+/* User select */
+.select-all {
+  user-select: all;
+}
+
+.select-text {
+  user-select: text;
+}
+
+.select-none {
+  user-select: none;
+}
+
+/* Pointer events */
+.pointer-events-all {
+  pointer-events: all;
+}
+
+.pointer-events-none {
+  pointer-events: none;
+}
+
+/* Backdrop filters */
+.backdrop-blur-xs {
+  backdrop-filter: blur(2px);
+}
+
+.backdrop-blur-sm {
+  backdrop-filter: blur(4px);
+}
+
+.backdrop-blur-md {
+  backdrop-filter: blur(8px);
+}
+
+.backdrop-blur-lg {
+  backdrop-filter: blur(12px);
+}
+
+.backdrop-blur-xl {
+  backdrop-filter: blur(16px);
+}
+
+/* Z-index utilities */
+.z-dropdown { z-index: 1000; }
+.z-sticky { z-index: 1020; }
+.z-fixed { z-index: 1030; }
+.z-modal-backdrop { z-index: 1040; }
+.z-modal { z-index: 1050; }
+.z-popover { z-index: 1060; }
+.z-tooltip { z-index: 1070; }
+
+/* Overflow utilities */
+.overflow-x-auto {
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+}
+
+.overflow-y-auto {
+  overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
+}
+
+/* Touch utilities */
+.touch-manipulation {
+  touch-action: manipulation;
+}
+
+.touch-none {
+  touch-action: none;
+}
+
+/* Will change */
+.will-change-transform {
+  will-change: transform;
+}
+
+.will-change-opacity {
+  will-change: opacity;
+}
+
+/* Gaming-specific utilities */
+.glow-primary {
+  box-shadow: 0 0 40px rgba(168, 85, 247, 0.4);
+}
+
+.glow-accent {
+  box-shadow: 0 0 40px rgba(163, 230, 53, 0.4);
+}
+
+.glow-slots {
+  box-shadow: 0 0 30px rgba(249, 115, 22, 0.3);
+}
+
+.glow-table {
+  box-shadow: 0 0 30px rgba(16, 185, 129, 0.3);
+}
+
+.glow-live {
+  box-shadow: 0 0 30px rgba(239, 68, 68, 0.3);
+}
+
+.glow-instant {
+  box-shadow: 0 0 30px rgba(139, 92, 246, 0.3);
+}
+
+/* Neon text effects */
+.text-neon-primary {
+  text-shadow: 0 0 10px rgba(168, 85, 247, 0.8),
+               0 0 20px rgba(168, 85, 247, 0.6),
+               0 0 30px rgba(168, 85, 247, 0.4);
+}
+
+.text-neon-accent {
+  text-shadow: 0 0 10px rgba(163, 230, 53, 0.8),
+               0 0 20px rgba(163, 230, 53, 0.6),
+               0 0 30px rgba(163, 230, 53, 0.4);
+}
+
+/* Gradient backgrounds */
+.bg-gradient-primary {
+  background: linear-gradient(135deg, #a855f7, #3b82f6);
+}
+
+.bg-gradient-accent {
+  background: linear-gradient(135deg, #84cc16, #a3e635);
+}
+
+.bg-gradient-gold {
+  background: linear-gradient(135deg, #fbbf24, #f59e0b, #d97706);
+}
+
+.bg-gradient-holographic {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 25%, #f093fb 50%, #fda085 75%, #667eea 100%);
+  background-size: 400% 400%;
+  animation: holographic-shift 4s ease infinite;
+}

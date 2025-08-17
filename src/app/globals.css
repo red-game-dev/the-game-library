@@ -1,26 +1,95 @@
 @import "tailwindcss";
 
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
-}
+/* ============================================
+   THE GAME LIBRARY - Design System
+   Modern Crypto-Gaming Platform
+   
+   Using Tailwind layers for proper CSS organization:
+   - @base: Reset and base styles
+   - @components: Component classes
+   - @utilities: Utility classes
+   ============================================ */
 
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
-}
+/* ============================================
+   BASE LAYER
+   CSS variables, themes, and base styles
+   ============================================ */
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+@layer base {
+  /* Import CSS variables and themes */
+  @import "./styles/_variables.css";
+  
+  /* Tailwind v4 theme integration */
+  @theme inline {
+    --color-background: var(--background);
+    --color-foreground: var(--foreground);
+    --font-sans: var(--font-geist-sans);
+    --font-mono: var(--font-geist-mono);
+  }
+
+  /* Base body styles */
+  body {
+    background: var(--background);
+    color: var(--foreground);
+    font-family: var(--font-geist-sans), system-ui, -apple-system, sans-serif;
+    font-feature-settings: "rlig" 1, "calt" 1;
+    transition: background-color 200ms, color 200ms;
+    @apply antialiased;
+  }
+
+  /* Default link styles */
+  a {
+    @apply transition-colors hover:text-primary-500;
+  }
+
+  /* Selection styles */
+  ::selection {
+    background: rgba(168, 85, 247, 0.3);
+    color: var(--foreground);
+  }
+
+  /* Focus visible styles */
+  *:focus-visible {
+    outline: 2px solid var(--primary);
+    outline-offset: 2px;
+    border-radius: var(--radius);
   }
 }
 
-body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+/* ============================================
+   COMPONENTS LAYER
+   Reusable component classes
+   ============================================ */
+
+@layer components {
+  @import "./styles/_components.css";
+  @import "./styles/_patterns.css";
 }
+
+/* ============================================
+   UTILITIES LAYER
+   Custom utility classes
+   ============================================ */
+
+@layer utilities {
+  @import "./styles/_utilities.css";
+}
+
+/* ============================================
+   ANIMATIONS
+   Keyframes don't need to be in a layer
+   ============================================ */
+
+@import "./styles/_animations.css";
+
+/* ============================================
+   RESPONSIVE BREAKPOINT HELPERS
+   Quick reference for media queries
+   
+   xs: 475px
+   sm: 640px  
+   md: 768px
+   lg: 1024px
+   xl: 1280px
+   2xl: 1536px
+   ============================================ */
