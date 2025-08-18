@@ -42,6 +42,8 @@
  *    - Custom utilities can be preserved alongside Tailwind utilities
  *    - Gradual migration possible - both systems can work together
  *    - If project grows, simply install Tailwind and it will complement our system
+ *    - When we need a Tailwind-like CSS class, we simply add it to the appropriate style file
+ *    - This ensures migration is simple - just install Tailwind and remove duplicates
  */
 
 /* Import our complete design system */

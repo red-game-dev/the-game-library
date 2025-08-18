@@ -4,42 +4,50 @@ import { Meta, ColorPalette, ColorItem, Typeset } from '@storybook/blocks';
 
 # The Game Library Design System
 
-A modern crypto-gaming platform design system that combines casino excitement with Web3 aesthetics, 
-professional trust with gaming delight, and accessibility-first development.
+A comprehensive custom CSS design system built from scratch, providing Tailwind-like utility classes without framework dependencies.
+Optimized for gaming platforms with theme switching, accessibility, and performance in mind.
 
 ## 🎯 Design Philosophy
 
+### Why Custom CSS Over Tailwind
+
+We chose to build a custom design system instead of using Tailwind CSS v4:
+
+1. **Framework Independence** - No build tool complications or configuration issues
+2. **Tailwind v4 Alpha Issues** - Avoided 4+ hours of debugging unstable APIs
+3. **Complete Control** - Full ownership of design tokens and utilities
+4. **Future-Proof** - Can add Tailwind later without breaking changes
+5. **Performance** - Lighter bundle without unused utilities
+
 ### Core Principles
 
-1. **Crypto-Native Aesthetics**
-   - Electric purple represents Web3 culture and innovation
-   - Cyber lime for success, wins, and positive actions
-   - Gradients and glows for modern gaming excitement
+1. **Gaming-First Aesthetics**
+   - Electric purple for Web3 identity
+   - Cyber lime for success and wins
+   - Neon glows and glass morphism effects
+   - Dark theme as default
 
 2. **Accessibility First**
-   - WCAG AAA target (7:1 contrast ratio)
-   - 44px minimum touch targets
-   - Reduced motion support
+   - WCAG AAA contrast targets
+   - Clear focus states
+   - Semantic HTML structure
    - Screen reader optimized
 
-3. **Performance Optimized**
-   - GPU-accelerated animations
-   - CSS-based effects over JavaScript
-   - Lazy loading and progressive enhancement
-
-4. **Dark Mode Primary**
-   - Gaming happens in low-light environments
-   - Reduces eye strain during extended sessions
-   - Better battery life on OLED screens
+3. **CSS Variables Architecture**
+   - Theme switching via CSS custom properties
+   - Runtime theme changes without recompilation
+   - Consistent design tokens across all utilities
 
 ## 🎨 Color System
+
+Our design system includes **11 color scales** with **11 shades each** (110+ colors total).
 
 ### Primary Palette
 
 <ColorPalette>
   <ColorItem
-    title="Primary - Electric Purple"
-    subtitle="Web3 identity, CTAs, brand"
+    title="Purple - Primary Brand"
+    subtitle="CTAs, links, brand identity"
     colors={{
       50: '#faf5ff',
       100: '#f3e8ff',
@@ -51,11 +59,12 @@ professional trust with gaming delight, and accessibility-first development.
       700: '#7e22ce',
       800: '#6b21a8',
       900: '#581c87',
+      950: '#3b0764'
     }}
   />
   <ColorItem
-    title="Accent - Cyber Lime"
-    subtitle="Success, wins, profits"
+    title="Lime - Accent"
+    subtitle="Success, wins, positive actions"
     colors={{
       50: '#f7fee7',
       100: '#ecfccb',
@@ -65,291 +74,402 @@ professional trust with gaming delight, and accessibility-first development.
       500: '#84cc16',
       600: '#65a30d',
       700: '#4d7c0f',
+      800: '#3f6212',
+      900: '#365314',
+      950: '#1a2e05'
     }}
   />
 </ColorPalette>
 
-### Game Categories
+### Extended Palette
 
-<ColorPalette>
-  <ColorItem
-    title="Game Types"
-    subtitle="Distinct colors for each game category"
-    colors={{
-      Slots: '#f97316',
-      Table: '#10b981',
-      Live: '#ef4444',
-      Instant: '#8b5cf6',
-    }}
-  />
-</ColorPalette>
+All colors available as utilities: `bg-{color}-{shade}`, `text-{color}-{shade}`, `border-{color}-{shade}`
+
+- **Gray** - Neutral UI elements
+- **Red** - Errors and destructive actions
+- **Orange** - Warnings and slots games
+- **Yellow** - Caution and gold themes
+- **Green** - Success and table games
+- **Emerald** - Alternative success
+- **Cyan** - Info and neon themes
+- **Blue** - Links and information
+- **Violet** - Alternative brand
+- **Pink** - Accent and neon themes
 
 ### Semantic Colors
 
-<ColorPalette>
-  <ColorItem
-    title="Semantic"
-    subtitle="System feedback colors"
-    colors={{
-      Success: '#a3e635',
-      Error: '#ef4444',
-      Warning: '#f59e0b',
-      Info: '#3b82f6',
-    }}
-  />
-</ColorPalette>
+```css
+--color-primary: var(--purple-500);
+--color-accent: var(--lime-500);
+--color-success: var(--green-500);
+--color-error: var(--red-500);
+--color-warning: var(--orange-500);
+--color-info: var(--blue-500);
+```
 
-## 🔤 Typography
+## 🔤 Typography System
 
-Our typography system uses **Inter** for UI elements and **Geist** for branding, 
-providing excellent readability and a modern aesthetic.
-
-<Typeset
-  fontFamily="Inter, system-ui, sans-serif"
-  fontSizes={[12, 14, 16, 18, 20, 24, 30, 36, 48]}
-  sampleText="The quick brown fox jumps over the lazy dog"
-/>
+### Font Families
+```css
+--font-sans: system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
+--font-mono: 'SF Mono', Monaco, 'Cascadia Code', monospace;
+```
 
 ### Typography Scale
 
-- **xs**: 0.75rem (12px) - Small labels
-- **sm**: 0.875rem (14px) - Secondary text
-- **base**: 1rem (16px) - Body text
-- **lg**: 1.125rem (18px) - Emphasized body
-- **xl**: 1.25rem (20px) - Small headings
-- **2xl**: 1.5rem (24px) - Section headings
-- **3xl**: 1.875rem (30px) - Page headings
-- **4xl**: 2.25rem (36px) - Hero headings
-- **5xl**: 3rem (48px) - Display
+<Typeset
+  fontFamily="system-ui, -apple-system, sans-serif"
+  fontSizes={[12, 14, 16, 18, 20, 24, 30, 36, 48, 60, 72]}
+  sampleText="The Game Library"
+/>
+
+### Utility Classes
+
+```css
+/* Font Sizes */
+.text-xs    /* 0.75rem (12px) */
+.text-sm    /* 0.875rem (14px) */
+.text-base  /* 1rem (16px) */
+.text-lg    /* 1.125rem (18px) */
+.text-xl    /* 1.25rem (20px) */
+.text-2xl   /* 1.5rem (24px) */
+.text-3xl   /* 1.875rem (30px) */
+.text-4xl   /* 2.25rem (36px) */
+.text-5xl   /* 3rem (48px) */
+.text-6xl   /* 3.75rem (60px) */
+
+/* Font Weights */
+.font-thin       /* 100 */
+.font-light      /* 300 */
+.font-normal     /* 400 */
+.font-medium     /* 500 */
+.font-semibold   /* 600 */
+.font-bold       /* 700 */
+.font-extrabold  /* 800 */
+.font-black      /* 900 */
+```
 
 ## 📐 Spacing System
 
-Based on a **4px grid** for pixel-perfect alignment:
+Based on a 4px grid with comprehensive scale:
 
-- `1` = 4px
-- `2` = 8px
-- `3` = 12px
-- `4` = 16px
-- `6` = 24px
-- `8` = 32px
-- `12` = 48px
-- `16` = 64px
+```css
+--space-0: 0;
+--space-px: 1px;
+--space-0-5: 0.125rem;  /* 2px */
+--space-1: 0.25rem;     /* 4px */
+--space-2: 0.5rem;      /* 8px */
+--space-3: 0.75rem;     /* 12px */
+--space-4: 1rem;        /* 16px */
+--space-5: 1.25rem;     /* 20px */
+--space-6: 1.5rem;      /* 24px */
+--space-8: 2rem;        /* 32px */
+--space-10: 2.5rem;     /* 40px */
+--space-12: 3rem;       /* 48px */
+--space-16: 4rem;       /* 64px */
+--space-20: 5rem;       /* 80px */
+--space-24: 6rem;       /* 96px */
+```
 
-### Touch Targets
-Minimum touch target size is **44px** (11 spacing units) for mobile accessibility.
+### Spacing Utilities
+
+```css
+/* Margin */
+.m-{size}   /* All sides */
+.mx-{size}  /* Horizontal */
+.my-{size}  /* Vertical */
+.mt-{size}  /* Top */
+.mr-{size}  /* Right */
+.mb-{size}  /* Bottom */
+.ml-{size}  /* Left */
+
+/* Padding */
+.p-{size}   /* All sides */
+.px-{size}  /* Horizontal */
+.py-{size}  /* Vertical */
+.pt-{size}  /* Top */
+.pr-{size}  /* Right */
+.pb-{size}  /* Bottom */
+.pl-{size}  /* Left */
+
+/* Gap */
+.gap-{size}    /* All directions */
+.gap-x-{size}  /* Column gap */
+.gap-y-{size}  /* Row gap */
+```
 
 ## 🎭 Visual Effects
 
-### Shadows
-
-- **Elevation**: Standard depth shadows for cards and modals
-- **Glow Effects**: Neon glows for gaming excitement
-- **Glass Morphism**: Modern frosted glass effect
-
-### Animations
-
-- **Glow**: Pulsing glow for interactive elements
-- **Shimmer**: Loading state animation
-- **Live Pulse**: Indicates live/active content
-- **Win Celebration**: Success feedback animation
-
 ### Border Radius
 
-- **sm**: 2px - Subtle rounding
-- **DEFAULT**: 4px - Inputs, small buttons
-- **md**: 6px - Cards inner elements
-- **lg**: 8px - Cards, containers
-- **xl**: 12px - Modals
-- **full**: 9999px - Pills, avatars
+```css
+--radius-none: 0;
+--radius-px: 1px;
+--radius-xs: 0.0625rem;   /* 1px */
+--radius-sm: 0.125rem;    /* 2px */
+--radius-base: 0.25rem;   /* 4px */
+--radius-md: 0.375rem;    /* 6px */
+--radius-lg: 0.5rem;      /* 8px */
+--radius-xl: 0.75rem;     /* 12px */
+--radius-2xl: 1rem;       /* 16px */
+--radius-3xl: 1.5rem;     /* 24px */
+--radius-4xl: 2rem;       /* 32px */
+--radius-5xl: 2.5rem;     /* 40px */
+--radius-6xl: 3rem;       /* 48px */
+--radius-full: 9999px;
+```
 
-## 🌗 Theming
+### Shadows
 
-The design system supports both **dark** and **light** themes through CSS variables:
+```css
+/* Standard Shadows */
+.shadow-xs
+.shadow-sm
+.shadow-base
+.shadow-md
+.shadow-lg
+.shadow-xl
+.shadow-2xl
+.shadow-inner
+.shadow-none
 
-### Dark Theme (Default)
-- Background: `#030712` - Near black
-- Surface: `#0f172a` - Dark blue-slate
-- Text: `#f8fafc` - Almost white
+/* Gaming Glow Effects */
+.glow-primary   /* Purple glow */
+.glow-accent    /* Lime glow */
+.glow-success   /* Green glow */
+.glow-error     /* Red glow */
+.glow-warning   /* Orange glow */
+.glow-info      /* Blue glow */
+.glow-gold      /* Gold glow */
+.glow-rainbow   /* Animated rainbow */
+```
 
-### Light Theme
-- Background: `#ffffff` - Pure white
-- Surface: `#f8fafc` - Light gray
-- Text: `#030712` - Near black
+### Glass Morphism
 
-## ♿ Accessibility
+```css
+.glass           /* Basic glass effect */
+.glass-light     /* Light glass */
+.glass-medium    /* Medium opacity */
+.glass-heavy     /* Heavy blur */
+.glass-dark      /* Dark glass */
+.glass-primary   /* Colored glass */
+.glass-frosted   /* Frosted effect */
+```
 
-### Color Contrast
-- All text meets **WCAG AAA** standards (7:1 ratio)
-- Interactive elements have clear focus states
-- Error states use multiple indicators (color + icon + text)
+## 🌗 Theme System
 
-### Motion
-- All animations respect `prefers-reduced-motion`
-- Essential animations have non-motion alternatives
-- Smooth transitions enhance rather than distract
+### Available Themes
 
-### Keyboard Navigation
-- Full keyboard support for all interactive elements
-- Visible focus indicators
-- Logical tab order
-- Skip links for navigation
+1. **Dark (Default)**
+   ```css
+   :root {
+     --color-background: #030712;
+     --color-surface: #0f172a;
+     --color-text: #f8fafc;
+   }
+   ```
 
-## 🚀 Performance
+2. **Light**
+   ```css
+   :root[data-theme="light"] {
+     --color-background: #ffffff;
+     --color-surface: #f8fafc;
+     --color-text: #030712;
+   }
+   ```
 
-### Optimization Strategies
-- **CSS-based animations** over JavaScript
-- **GPU acceleration** for transforms
-- **Will-change** for predictable animations
-- **Lazy loading** for images and heavy components
+3. **Neon**
+   ```css
+   [data-theme="neon"] {
+     --color-primary: var(--cyan-400);
+     --color-accent: var(--pink-500);
+   }
+   ```
 
-### Bundle Size
-- Modular design system allows tree-shaking
-- CSS utilities generated on-demand
-- Minimal JavaScript for interactions
+4. **Gold**
+   ```css
+   [data-theme="gold"] {
+     --color-primary: var(--yellow-400);
+     --color-accent: var(--orange-500);
+   }
+   ```
 
-## 📱 Responsive Design
+### Theme Switching
 
-### Breakpoints
-- **xs**: 475px - Small phones
-- **sm**: 640px - Phones
-- **md**: 768px - Tablets
-- **lg**: 1024px - Desktop
-- **xl**: 1280px - Large desktop
-- **2xl**: 1536px - Wide screens
+```tsx
+const handleThemeChange = (theme: string) => {
+  document.documentElement.setAttribute('data-theme', theme);
+};
+```
 
-### Mobile-First
-All components are designed mobile-first with progressive enhancement for larger screens.
+## 📦 Layout System
+
+### Flexbox Utilities
+
+```css
+.flex
+.inline-flex
+.flex-row
+.flex-col
+.flex-wrap
+.flex-nowrap
+
+.justify-start
+.justify-end
+.justify-center
+.justify-between
+.justify-around
+.justify-evenly
+
+.items-start
+.items-end
+.items-center
+.items-baseline
+.items-stretch
+```
+
+### Grid System
+
+```css
+.grid
+.grid-cols-1 through .grid-cols-12
+.grid-rows-1 through .grid-rows-6
+.col-span-1 through .col-span-12
+.row-span-1 through .row-span-6
+```
+
+### Container
+
+```css
+.container  /* Responsive container with padding */
+```
+
+### Position
+
+```css
+.static
+.fixed
+.absolute
+.relative
+.sticky
+
+.inset-0
+.top-0, .right-0, .bottom-0, .left-0
+.z-0 through .z-50
+```
 
 ## 🎮 Gaming-Specific Features
 
-### Visual Effects
-- **Neon glows** for CTAs and wins
-- **Particle effects** for celebrations
-- **Glass morphism** for modern UI
-- **Holographic** effects for VIP elements
-
-### Feedback Systems
-- **Haptic feedback** support on mobile
-- **Sound effect** triggers (optional)
-- **Win celebrations** with confetti
-- **Live indicators** with pulsing animation
-
-## 📚 Usage
-
-### CSS-First Approach
-
-Our design system uses a CSS-first architecture for optimal performance:
-
-```tsx
-// ✅ CORRECT - Use className with our design system classes
-<button className="btn btn-primary btn-lg">Play Game</button>
-<div className="card card-elevated glow-primary">Game Card</div>
-<div className="flex-center grid-responsive">Centered Grid</div>
-
-// ❌ NEVER - No style objects or CSS-in-JS
-<button style={{ background: 'purple' }}>Bad</button>
-```
-
-### Available Component Classes
-
-```tsx
-// Components
-<button className="btn btn-primary">Button</button>
-<div className="card card-glass">Glass Card</div>
-<input className="input input-lg" />
-<span className="badge badge-success">New</span>
-<div className="modal">Modal Content</div>
-
-// Patterns
-<div className="flex-center">Centered Content</div>
-<div className="flex-between">Space Between</div>
-<div className="grid-responsive">Responsive Grid</div>
-<div className="container-wide">Wide Container</div>
-<section className="section">Page Section</section>
-
-// Utilities
-<div className="glow-primary">Primary Glow</div>
-<h1 className="text-gradient">Gradient Text</h1>
-<div className="animate-float">Floating Animation</div>
-<div className="glass">Glassmorphism</div>
-```
-
-### Conditional Styling
-
-```tsx
-import { cn } from '@/lib/design-system';
-
-function GameCard({ game, isActive, size }) {
-  return (
-    <div className={cn(
-      'card',                           // Base class
-      isActive && 'card-interactive',   // Conditional
-      size === 'large' && 'p-8',        // Size variant
-      game.isLive && 'glow-live'        // Game state
-    )}>
-      <h3 className="text-lg font-bold">{game.title}</h3>
-      <button className="btn btn-primary w-full">
-        Play Now
-      </button>
-    </div>
-  );
-}
-```
-
-### Design Token Access (When Needed)
-
-```tsx
-// Only import tokens when you need values in JavaScript
-import { colors, spacing } from '@/lib/design-system';
-
-// For dynamic calculations or non-CSS usage
-const chartColor = colors.raw.purple[500];
-const gridGap = spacing[4];
-```
-
-## 🏗️ Architecture
-
-### File Structure
-
-```
-src/
-├── app/
-│   ├── globals.css           # Imports all CSS partials
-│   └── styles/
-│       ├── _variables.css    # CSS variables & themes
-│       ├── _components.css   # Component classes
-│       ├── _patterns.css     # Layout patterns
-│       ├── _utilities.css    # Custom utilities
-│       └── _animations.css   # Keyframes
-└── lib/design-system/
-    ├── colors.ts            # Color tokens
-    ├── typography.ts        # Font tokens
-    ├── spacing.ts           # Spacing scale
-    ├── effects.ts           # Shadows & radius
-    └── tailwind-helpers.ts  # cn() utility
-```
-
-### Tailwind Layers
+### Animations
 
 ```css
-@layer base {
-  /* CSS variables, base styles */
-}
-
-@layer components {
-  /* Component classes with @apply */
-  .btn { @apply inline-flex items-center... }
-}
-
-@layer utilities {
-  /* Custom utilities not in Tailwind */
-  .glow-primary { box-shadow: ... }
-}
+.animate-pulse      /* Pulsing opacity */
+.animate-bounce     /* Bouncing */
+.animate-spin       /* Continuous rotation */
+.animate-gradient   /* Gradient animation */
+.animate-glow       /* Glow pulse */
+.animate-float      /* Floating effect */
+.animate-shimmer    /* Loading shimmer */
 ```
 
-## 🔗 Resources
+### Special Effects
+
+```css
+/* Neon Text */
+.text-gradient
+.text-neon
+.text-rainbow
+
+/* Background Patterns */
+.bg-dots
+.bg-grid
+.bg-circuit
+
+/* Gradients */
+.bg-gradient-primary
+.bg-gradient-accent
+.bg-gradient-gold
+.bg-gradient-ocean
+.bg-gradient-sunset
+.bg-gradient-neon
+```
+
+## 🚀 Usage Examples
+
+### Basic Component
+
+```html
+<button className="px-4 py-2 bg-primary text-white rounded-lg hover:bg-primary-hover">
+  Play Now
+</button>
+```
+
+### Card with Glass Effect
+
+```html
+<div className="p-6 glass rounded-xl glow-primary">
+  <h3 className="text-2xl font-bold mb-4">Game Title</h3>
+  <p className="text-secondary">Game description...</p>
+</div>
+```
+
+### Responsive Grid
+
+```html
+<div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+  <!-- Game cards -->
+</div>
+```
+
+### Theme-Aware Component
+
+```html
+<div className="bg-surface text-text border border-border rounded-lg p-4">
+  Automatically adapts to current theme
+</div>
+```
+
+## 📁 File Structure
+
+```
+src/styles/
+├── index.css              # Main entry point
+├── core/                  # Design tokens
+│   ├── borders.css
+│   ├── breakpoints.css
+│   ├── colors.css
+│   ├── effects.css
+│   ├── layout.css
+│   ├── motion.css
+│   ├── spacing.css
+│   ├── theme.css
+│   └── typography.css
+├── utilities/             # Utility classes
+│   ├── accessibility.css
+│   ├── animate.css
+│   ├── backgrounds.css
+│   ├── borders.css
+│   ├── glass.css
+│   ├── glow.css
+│   ├── layout.css
+│   ├── opacity.css
+│   ├── text.css
+│   └── typography.css
+└── _animations.css        # Keyframes
+```
+
+## 🔄 Migration Path
+
+Our custom system is designed to work alongside Tailwind if needed:
+
+1. **Compatible Naming** - Uses Tailwind conventions (bg-*, text-*, etc.)
+2. **CSS Variables** - Can coexist with Tailwind's design tokens
+3. **No Breaking Changes** - Add Tailwind later without refactoring
+4. **Gradual Migration** - Both systems can work together
+
+## 📚 Resources
+
 
 - [WCAG Guidelines](https://www.w3.org/WAI/WCAG21/quickref/)
 - [Color Contrast Checker](https://webaim.org/resources/contrastchecker/)
-- [Tailwind CSS v4 Docs](https://tailwindcss.com/docs)
-- [Implementation Checklist](/docs/CHECKLIST.md)
+- [CSS Variables Reference](https://developer.mozilla.org/en-US/docs/Web/CSS/Using_CSS_custom_properties)
