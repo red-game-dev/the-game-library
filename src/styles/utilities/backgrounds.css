@@ -12,6 +12,40 @@
 .bg-warning { background-color: var(--color-warning); }
 .bg-info { background-color: var(--color-info); }
 
+/* Skeleton loading background with shimmer effect */
+.bg-skeleton {
+  background: linear-gradient(
+    90deg,
+    var(--gray-200) 0%,
+    var(--gray-100) 50%,
+    var(--gray-200) 100%
+  );
+  background-size: 200% 100%;
+  animation: shimmer-bg 1.5s ease-in-out infinite;
+}
+
+[data-theme="dark"] .bg-skeleton {
+  background: linear-gradient(
+    90deg,
+    var(--gray-800) 0%,
+    var(--gray-700) 50%,
+    var(--gray-800) 100%
+  );
+  background-size: 200% 100%;
+}
+
+[data-theme="light"] .bg-skeleton {
+  background: linear-gradient(
+    90deg,
+    var(--gray-300) 0%,
+    var(--gray-200) 50%,
+    var(--gray-300) 100%
+  );
+  background-size: 200% 100%;
+}
+
+/* Shimmer animation defined in _animations.css as shimmer-bg */
+
 /* Color Palette */
 
 /* Gray Scale */
@@ -182,7 +216,37 @@
 .bg-white { background-color: var(--color-white); }
 
 
-/* Gradients */
+/* Gradients - Tailwind-like syntax for easy migration */
+
+/* Gradient directions */
+.bg-gradient-to-t { background-image: linear-gradient(to top, var(--gradient-from, transparent), var(--gradient-to, transparent)); }
+.bg-gradient-to-tr { background-image: linear-gradient(to top right, var(--gradient-from, transparent), var(--gradient-to, transparent)); }
+.bg-gradient-to-r { background-image: linear-gradient(to right, var(--gradient-from, transparent), var(--gradient-to, transparent)); }
+.bg-gradient-to-br { background-image: linear-gradient(to bottom right, var(--gradient-from, transparent), var(--gradient-to, transparent)); }
+.bg-gradient-to-b { background-image: linear-gradient(to bottom, var(--gradient-from, transparent), var(--gradient-to, transparent)); }
+.bg-gradient-to-bl { background-image: linear-gradient(to bottom left, var(--gradient-from, transparent), var(--gradient-to, transparent)); }
+.bg-gradient-to-l { background-image: linear-gradient(to left, var(--gradient-from, transparent), var(--gradient-to, transparent)); }
+.bg-gradient-to-tl { background-image: linear-gradient(to top left, var(--gradient-from, transparent), var(--gradient-to, transparent)); }
+
+/* Gradient color stops - from colors */
+.from-purple-500 { --gradient-from: var(--purple-500); }
+.from-orange-500 { --gradient-from: var(--orange-500); }
+.from-green-500 { --gradient-from: var(--green-500); }
+.from-blue-500 { --gradient-from: var(--blue-500); }
+.from-red-500 { --gradient-from: var(--red-500); }
+.from-pink-500 { --gradient-from: var(--pink-500); }
+.from-yellow-500 { --gradient-from: var(--yellow-500); }
+
+/* Gradient color stops - to colors */
+.to-purple-500 { --gradient-to: var(--purple-500); }
+.to-pink-500 { --gradient-to: var(--pink-500); }
+.to-red-500 { --gradient-to: var(--red-500); }
+.to-emerald-500 { --gradient-to: var(--emerald-500); }
+.to-orange-500 { --gradient-to: var(--orange-500); }
+.to-blue-500 { --gradient-to: var(--blue-500); }
+.to-yellow-500 { --gradient-to: var(--yellow-500); }
+
+/* Predefined gradients */
 .bg-gradient-primary {
   background: linear-gradient(135deg, var(--purple-500), var(--purple-700));
 }

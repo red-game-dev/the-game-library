@@ -1,6 +1,6 @@
 /**
  * Opacity Utilities
- * Apply opacity values to elements
+ * Apply opacity values to elements using CSS variables
  */
 
 .opacity-0 { opacity: var(--opacity-0); }
@@ -18,3 +18,29 @@
 .opacity-90 { opacity: var(--opacity-90); }
 .opacity-95 { opacity: var(--opacity-95); }
 .opacity-100 { opacity: var(--opacity-100); }
+
+
+/* Border opacity modifiers */
+.border-opacity-10 { --border-opacity: var(--opacity-10); }
+.border-opacity-20 { --border-opacity: var(--opacity-20); }
+.border-opacity-30 { --border-opacity: var(--opacity-30); }
+.border-opacity-40 { --border-opacity: var(--opacity-40); }
+.border-opacity-50 { --border-opacity: var(--opacity-50); }
+.border-opacity-60 { --border-opacity: var(--opacity-60); }
+.border-opacity-70 { --border-opacity: var(--opacity-70); }
+.border-opacity-80 { --border-opacity: var(--opacity-80); }
+.border-opacity-90 { --border-opacity: var(--opacity-90); }
+.border-opacity-100 { --border-opacity: var(--opacity-100); }
+
+/* Background opacity modifiers */
+.bg-opacity-5 { --bg-opacity: var(--opacity-5); }
+.bg-opacity-10 { --bg-opacity: var(--opacity-10); }
+.bg-opacity-20 { --bg-opacity: var(--opacity-20); }
+.bg-opacity-30 { --bg-opacity: var(--opacity-30); }
+.bg-opacity-40 { --bg-opacity: var(--opacity-40); }
+.bg-opacity-50 { --bg-opacity: var(--opacity-50); }
+.bg-opacity-60 { --bg-opacity: var(--opacity-60); }
+.bg-opacity-70 { --bg-opacity: var(--opacity-70); }
+.bg-opacity-80 { --bg-opacity: var(--opacity-80); }
+.bg-opacity-90 { --bg-opacity: var(--opacity-90); }
+.bg-opacity-100 { --bg-opacity: var(--opacity-100); }

@@ -30,21 +30,21 @@
 @keyframes glow-pulse {
   0%, 100% {
     box-shadow: 0 0 20px var(--purple-500);
-    opacity: 0.8;
+    opacity: var(--opacity-80);
   }
   50% {
     box-shadow: 0 0 40px var(--purple-500);
-    opacity: 1;
+    opacity: var(--opacity-100);
   }
 }
 
 /* Pulse animation */
 @keyframes pulse {
   0%, 100% {
-    opacity: 1;
+    opacity: var(--opacity-100);
   }
   50% {
-    opacity: 0.5;
+    opacity: var(--opacity-50);
   }
 }
 
@@ -68,23 +68,23 @@
   }
 }
 
-/* Fade in animation */
+/* Fade in animation - already exists, keeping for reference */
 @keyframes fadeIn {
   from {
-    opacity: 0;
+    opacity: var(--opacity-0);
   }
   to {
-    opacity: 1;
+    opacity: var(--opacity-100);
   }
 }
 
 /* Fade out animation */
 @keyframes fadeOut {
   from {
-    opacity: 1;
+    opacity: var(--opacity-100);
   }
   to {
-    opacity: 0;
+    opacity: var(--opacity-0);
   }
 }
 
@@ -92,11 +92,35 @@
 @keyframes slideInTop {
   from {
     transform: translateY(-100%);
-    opacity: 0;
+    opacity: var(--opacity-0);
   }
   to {
     transform: translateY(0);
-    opacity: 1;
+    opacity: var(--opacity-100);
+  }
+}
+
+/* Slide in from top (subtle) - for alerts/toasts */
+@keyframes slideInTopSubtle {
+  from {
+    transform: translateY(-10px);
+    opacity: var(--opacity-0);
+  }
+  to {
+    transform: translateY(0);
+    opacity: var(--opacity-100);
+  }
+}
+
+/* Slide down expansion - for expandable content */
+@keyframes slideDown {
+  from {
+    opacity: var(--opacity-0);
+    max-height: 0;
+  }
+  to {
+    opacity: var(--opacity-100);
+    max-height: 500px;
   }
 }
 
@@ -104,11 +128,11 @@
 @keyframes slideInBottom {
   from {
     transform: translateY(100%);
-    opacity: 0;
+    opacity: var(--opacity-0);
   }
   to {
     transform: translateY(0);
-    opacity: 1;
+    opacity: var(--opacity-100);
   }
 }
 
@@ -116,11 +140,11 @@
 @keyframes slideInLeft {
   from {
     transform: translateX(-100%);
-    opacity: 0;
+    opacity: var(--opacity-0);
   }
   to {
     transform: translateX(0);
-    opacity: 1;
+    opacity: var(--opacity-100);
   }
 }
 
@@ -128,11 +152,11 @@
 @keyframes slideInRight {
   from {
     transform: translateX(100%);
-    opacity: 0;
+    opacity: var(--opacity-0);
   }
   to {
     transform: translateX(0);
-    opacity: 1;
+    opacity: var(--opacity-100);
   }
 }
 
@@ -140,11 +164,11 @@
 @keyframes scaleIn {
   from {
     transform: scale(0);
-    opacity: 0;
+    opacity: var(--opacity-0);
   }
   to {
     transform: scale(1);
-    opacity: 1;
+    opacity: var(--opacity-100);
   }
 }
 
@@ -152,11 +176,11 @@
 @keyframes scaleOut {
   from {
     transform: scale(1);
-    opacity: 1;
+    opacity: var(--opacity-100);
   }
   to {
     transform: scale(0);
-    opacity: 0;
+    opacity: var(--opacity-0);
   }
 }
 
@@ -167,5 +191,98 @@
   }
   100% { 
     transform: translateX(-100%); 
+  }
+}
+
+/* Zoom in animation for modals and overlays */
+@keyframes zoomIn {
+  from {
+    opacity: 0;
+    transform: scale(0.95);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+/* Shake animation for error/validation feedback */
+@keyframes shake {
+  0%, 100% {
+    transform: translateX(0);
+  }
+  10%, 30%, 50%, 70%, 90% {
+    transform: translateX(-10px);
+  }
+  20%, 40%, 60%, 80% {
+    transform: translateX(10px);
+  }
+}
+
+/* Shimmer for backgrounds (different from loading shimmer) */
+@keyframes shimmer-bg {
+  0% {
+    background-position: -200% 0;
+  }
+  100% {
+    background-position: 200% 0;
+  }
+}
+
+/* Glitch effect cyan */
+@keyframes glitch-cyan {
+  0%, 100% {
+    clip-path: inset(0 0 0 0);
+    transform: translate(0);
+  }
+  20% {
+    clip-path: inset(20% 0 30% 0);
+    transform: translate(-2px, 2px);
+  }
+  40% {
+    clip-path: inset(50% 0 20% 0);
+    transform: translate(2px, -2px);
+  }
+  60% {
+    clip-path: inset(10% 0 60% 0);
+    transform: translate(-2px, 2px);
+  }
+  80% {
+    clip-path: inset(80% 0 10% 0);
+    transform: translate(2px, -2px);
+  }
+}
+
+/* Glitch effect magenta */
+@keyframes glitch-magenta {
+  0%, 100% {
+    clip-path: inset(0 0 0 0);
+    transform: translate(0);
+  }
+  20% {
+    clip-path: inset(30% 0 20% 0);
+    transform: translate(2px, -2px);
+  }
+  40% {
+    clip-path: inset(20% 0 50% 0);
+    transform: translate(-2px, 2px);
+  }
+  60% {
+    clip-path: inset(60% 0 10% 0);
+    transform: translate(2px, -2px);
+  }
+  80% {
+    clip-path: inset(10% 0 80% 0);
+    transform: translate(-2px, 2px);
+  }
+}
+
+/* Glow breathe animation */
+@keyframes glow-breathe {
+  0%, 100% {
+    box-shadow: 0 0 20px rgba(168, 85, 247, var(--opacity-30));
+  }
+  50% {
+    box-shadow: 0 0 60px rgba(168, 85, 247, var(--opacity-60));
   }
 }

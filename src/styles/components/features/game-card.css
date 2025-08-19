@@ -1,0 +1,105 @@
+/**
+ * Game Card Feature Styles
+ * Specific styling for game cards
+ */
+
+/* Game card specific hover effect */
+.game-card {
+  position: relative;
+  overflow: hidden;
+  
+  .card-image {
+    transition: transform 0.3s ease;
+  }
+  
+  &:hover .card-image {
+    transform: scale(1.05);
+  }
+  
+  /* Overlay that appears on hover */
+  .card-overlay {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(180deg, transparent 0%, rgba(0, 0, 0, var(--opacity-80)) 100%);
+    opacity: var(--opacity-0);
+    transition: opacity 0.3s ease;
+  }
+  
+  &:hover .card-overlay {
+    opacity: var(--opacity-100);
+  }
+}
+
+/* Play Overlay - appears on hover */
+.game-card-play-overlay {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(0, 0, 0, 0.6);
+  opacity: 0;
+  transition: opacity var(--duration-300) var(--ease-in-out);
+  pointer-events: none;
+  
+  &:hover {
+    opacity: 1;
+    pointer-events: auto;
+  }
+}
+
+/* When parent card is hovered, show overlay */
+.game-card:hover .game-card-play-overlay {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+/* Game card content spacing */
+.game-card-content {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3); /* Better default spacing between sections */
+}
+
+/* Mobile-first responsive adjustments */
+@media (max-width: 640px) {
+  /* Smaller text sizes on mobile for game card elements */
+  .game-card-title {
+    font-size: var(--text-base); /* 16px instead of larger */
+  }
+  
+  .game-card-description {
+    font-size: var(--text-sm); /* 14px */
+    line-height: 1.4; /* Tighter line height for mobile */
+  }
+  
+  /* Keep reasonable gap between elements */
+  .game-card-content {
+    gap: var(--space-2); /* 8px gap for better spacing */
+  }
+  
+  /* Smaller image height on mobile */
+  .game-card .card-image-container {
+    max-height: 120px;
+  }
+}
+
+/* Tablet adjustments */
+@media (min-width: 641px) and (max-width: 1024px) {
+  .game-card-title {
+    font-size: var(--text-lg); /* 18px */
+  }
+  
+  .game-card-content {
+    gap: var(--space-2-5); /* 10px gap for better spacing */
+  }
+  
+  .game-card .card-image-container {
+    max-height: 150px;
+  }
+}
+
+/* Desktop - full size (default) */
+@media (min-width: 1025px) {
+  /* Use default styles */
+}

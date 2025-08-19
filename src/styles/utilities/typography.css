@@ -72,6 +72,23 @@
 .text-warning { color: var(--color-warning); }
 .text-info { color: var(--color-info); }
 
+/* Light mode semantic colors for better contrast */
+[data-theme="light"] .text-success {
+  color: var(--green-700);
+}
+
+[data-theme="light"] .text-error {
+  color: var(--red-700);
+}
+
+[data-theme="light"] .text-warning {
+  color: var(--orange-700);
+}
+
+[data-theme="light"] .text-info {
+  color: var(--blue-700);
+}
+
 /* Theme Colors */
 .text-background { color: var(--color-background); }
 .text-surface { color: var(--color-surface); }
@@ -292,4 +309,20 @@
 
 .break-keep {
   word-break: keep-all;
+}
+
+/* Line clamping - use with style="--line-clamp: 3" for custom values */
+.line-clamp {
+  overflow: hidden;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: var(--line-clamp, 3); /* Default to 3 lines */
+}
+
+/* Common presets for convenience */
+.line-clamp-none {
+  overflow: visible;
+  display: block;
+  -webkit-box-orient: initial;
+  -webkit-line-clamp: none;
 }

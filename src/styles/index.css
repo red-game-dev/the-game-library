@@ -9,7 +9,8 @@
 /* Base Styles */
 @import './_base.css';
 
-/* Component Styles - Built step-by-step when implementing Game Library UI */
+/* Component Styles */
+@import './components/index.css';
 
 /* Utility Styles */
 @import './utilities/index.css';

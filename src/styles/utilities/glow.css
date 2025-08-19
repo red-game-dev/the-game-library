@@ -67,16 +67,7 @@
 }
 
 .glow-breathe {
-  animation: glow-breathe var(--duration-1000) var(--ease-in-out) infinite;
-}
-
-@keyframes glow-breathe {
-  0%, 100% {
-    box-shadow: 0 0 20px rgba(168, 85, 247, var(--opacity-30));
-  }
-  50% {
-    box-shadow: 0 0 60px rgba(168, 85, 247, var(--opacity-60));
-  }
+  animation: glow-breathe var(--duration-1000) var(--ease-in-out) infinite; /* Animation defined in _animations.css */
 }
 
 /* Directional glows */

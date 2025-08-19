@@ -1,0 +1,20 @@
+/**
+ * Component Styles Index
+ * Imports all component-specific styles
+ */
+
+/* Base Components - Generic reusable component styles */
+/* Note: Component-specific CSS is now imported directly in components */
+/* The following are still globally imported for shared styles */
+@import './base/button.css';
+@import './base/card.css';
+@import './base/carousel.css';
+@import './base/input.css';
+@import './base/badge.css';
+@import './base/image.css';
+/* Modal CSS is imported directly in Modal component */
+
+/* Feature Components - Domain-specific component styles */
+@import './features/game-card.css';
+@import './features/game-grid.css';
+@import './features/search-bar.css';

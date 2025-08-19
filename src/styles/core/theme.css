@@ -1,15 +1,30 @@
 /**
  * Theme System
- * Dark theme is default, with support for light and custom gaming themes
+ * Gaming-optimized theme with rich colors for both light and dark modes
  */
 
-/* Default Dark Theme - Defined in colors.css as :root defaults */
-
-/* Theme Switching Utilities */
-
-/* Ensure dark theme is default */
+/* Default variables (gaming dark theme) */
 :root {
   color-scheme: dark;
+  
+  /* Gaming Dark Theme Colors */
+  --color-background: #0a0e1a;        /* Deep dark blue */
+  --color-surface: #131823;            /* Slightly lighter blue-black */
+  --color-surface-elevated: #1a2332;   /* Elevated surface */
+  --color-surface-hover: #202938;      /* Hover state */
+  --color-border: rgba(139, 92, 246, 0.15); /* Purple tinted borders */
+  --color-border-hover: rgba(139, 92, 246, 0.3);
+  
+  /* Text colors with better contrast */
+  --color-text: #f1f5f9;               /* Bright white text */
+  --color-text-secondary: #94a3b8;     /* Muted text */
+  --color-text-tertiary: #64748b;      /* Even more muted */
+  
+  /* Gaming accent colors */
+  --color-primary: #8b5cf6;            /* Purple */
+  --color-primary-dark: #7c3aed;
+  --color-accent: #06b6d4;             /* Cyan */
+  --color-accent-dark: #0891b2;
 }
 
 /* Light theme class */
@@ -66,16 +81,54 @@
   color-scheme: dark;
 }
 
-.dark,
-:root[data-theme="dark"] {
-  --color-background: #030712;
-  --color-surface: #0f172a;
-  --color-surface-elevated: #1e293b;
-  --color-border: rgba(255, 255, 255, var(--opacity-10));
+/* Light Theme */
+[data-theme="light"],
+.light {
+  color-scheme: light;
   
-  --color-text: #f8fafc;
-  --color-text-secondary: #cbd5e1;
-  --color-text-tertiary: #94a3b8;
+  /* Gaming Light Theme Colors */
+  --color-background: #f8f9fb;        /* Soft blue-gray */
+  --color-surface: #ffffff;            /* Clean white */
+  --color-surface-elevated: #f1f3f7;   /* Slightly gray */
+  --color-surface-hover: #e8ebf1;      /* Hover state */
+  --color-border: rgba(139, 92, 246, 0.12); /* Purple tinted borders */
+  --color-border-hover: rgba(139, 92, 246, 0.25);
+  
+  /* Text colors optimized for light */
+  --color-text: #0f172a;               /* Deep dark text */
+  --color-text-secondary: #475569;     /* Medium gray */
+  --color-text-tertiary: #64748b;      /* Light gray */
+  
+  /* Gaming accent colors for light */
+  --color-primary: #8b5cf6;            /* Purple */
+  --color-primary-dark: #7c3aed;
+  --color-accent: #06b6d4;             /* Cyan */
+  --color-accent-dark: #0891b2;
+}
+
+/* Dark Theme (explicit) */
+[data-theme="dark"],
+.dark {
+  color-scheme: dark;
+  
+  /* Gaming Dark Theme Colors */
+  --color-background: #0a0e1a;        /* Deep dark blue */
+  --color-surface: #131823;            /* Slightly lighter blue-black */
+  --color-surface-elevated: #1a2332;   /* Elevated surface */
+  --color-surface-hover: #202938;      /* Hover state */
+  --color-border: rgba(139, 92, 246, 0.15); /* Purple tinted borders */
+  --color-border-hover: rgba(139, 92, 246, 0.3);
+  
+  /* Text colors with better contrast */
+  --color-text: #f1f5f9;               /* Bright white text */
+  --color-text-secondary: #94a3b8;     /* Muted text */
+  --color-text-tertiary: #64748b;      /* Even more muted */
+  
+  /* Gaming accent colors */
+  --color-primary: #8b5cf6;            /* Purple */
+  --color-primary-dark: #7c3aed;
+  --color-accent: #06b6d4;             /* Cyan */
+  --color-accent-dark: #0891b2;
 }
 
 /* Print Styles */

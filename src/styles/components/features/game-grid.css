@@ -1,0 +1,120 @@
+/**
+ * GameGrid Component Styles
+ */
+
+/* Auto-fit grid that automatically adjusts columns based on available space */
+.game-grid-auto {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+}
+
+/* Mobile-first responsive auto-fit variations */
+@media (max-width: 640px) {
+  .game-grid-auto {
+    /* ALWAYS 1 column on mobile for better UX */
+    grid-template-columns: 1fr !important;
+  }
+}
+
+@media (min-width: 641px) and (max-width: 1024px) {
+  .game-grid-auto {
+    /* 2-3 columns on tablet */
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  }
+}
+
+@media (min-width: 1025px) and (max-width: 1279px) {
+  .game-grid-auto {
+    /* 3-4 columns on desktop */
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  }
+}
+
+@media (min-width: 1280px) {
+  .game-grid-auto {
+    /* 4+ columns on wide screens */
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  }
+}
+
+/* Responsive grid using CSS custom properties */
+.game-grid-responsive {
+  display: grid;
+  /* Force single column on mobile regardless of settings */
+  grid-template-columns: 1fr;
+}
+
+/* Only allow multiple columns on larger screens */
+@media (min-width: 641px) {
+  .game-grid-responsive {
+    grid-template-columns: repeat(var(--grid-cols-tablet, 2), minmax(0, 1fr));
+  }
+}
+
+@media (min-width: 1024px) {
+  .game-grid-responsive {
+    grid-template-columns: repeat(var(--grid-cols-desktop, 3), minmax(0, 1fr));
+  }
+}
+
+@media (min-width: 1280px) {
+  .game-grid-responsive {
+    grid-template-columns: repeat(var(--grid-cols-wide, 4), minmax(0, 1fr));
+  }
+}
+
+/* Flex layout for game grid */
+.game-grid-flex {
+  display: flex;
+  flex-wrap: wrap;
+  
+  .game-grid-item {
+    flex: 1 1 280px;
+    max-width: 100%;
+  }
+}
+
+/* Mobile-first flex adjustments */
+@media (max-width: 640px) {
+  .game-grid-flex .game-grid-item {
+    flex: 1 1 100%; /* Always full width on mobile */
+  }
+}
+
+/* Compact variant */
+.game-grid-compact {
+  .game-grid-item {
+    flex: 1 1 200px;
+  }
+}
+
+/* Mobile adjustments for compact */
+@media (max-width: 640px) {
+  .game-grid-compact .game-grid-item {
+    flex: 1 1 100%; /* Always stack on mobile, even for compact */
+  }
+}
+
+/* Featured variant */
+.game-grid-featured {
+  .game-grid-item {
+    flex: 1 1 400px;
+  }
+}
+
+/* Mobile adjustments for featured */
+@media (max-width: 768px) {
+  .game-grid-featured .game-grid-item {
+    flex: 1 1 100%; /* Always stack featured items on mobile/tablet */
+  }
+}
+
+/* Carousel layout wrapper */
+.game-grid-carousel {
+  width: 100%;
+  
+  .game-grid-item {
+    width: 280px;
+    flex-shrink: 0;
+  }
+}

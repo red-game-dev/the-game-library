@@ -1,0 +1,151 @@
+/**
+ * SearchBar Component Styles
+ * Uses Input base component with search-specific styling
+ */
+
+/* Main search bar container */
+.search-bar {
+  position: relative;
+  width: 100%;
+}
+
+/* Container for the input wrapper */
+.search-bar-container {
+  width: 100%;
+}
+
+/* Override input styles for search-specific behavior */
+.search-bar-input {
+  padding-left: 2.5rem;
+  padding-right: 2.5rem;
+  
+  &.search-bar-focused {
+    box-shadow: var(--shadow-lg), 0 0 20px rgba(var(--purple-500-rgb), 0.2);
+  }
+  
+  /* Hide browser's native search clear button */
+  &::-webkit-search-cancel-button,
+  &::-webkit-search-decoration {
+    display: none;
+    -webkit-appearance: none;
+  }
+}
+
+/* Search icon styling */
+.search-bar-search-icon {
+  width: 1.25rem;
+  height: 1.25rem;
+  color: var(--color-text-secondary);
+}
+
+/* Loading spinner */
+.search-bar-spinner {
+  width: 1.25rem;
+  height: 1.25rem;
+  animation: spin 1s linear infinite;
+  color: var(--color-primary);
+}
+
+/* Clear button styling */
+.search-bar-clear-btn {
+  padding: 0.25rem;
+  min-width: auto;
+  height: auto;
+  border-radius: var(--radius-full);
+  
+  &:hover {
+    background: var(--color-surface-elevated);
+  }
+}
+
+.search-bar-clear-icon {
+  width: 1rem;
+  height: 1rem;
+}
+
+/* Keyboard hint */
+.search-bar-hint {
+  position: absolute;
+  bottom: -1.5rem;
+  left: 0;
+  font-size: var(--text-xs);
+  color: var(--color-text-tertiary);
+  animation: fadeIn 0.2s ease-in-out;
+}
+
+.search-bar-kbd {
+  padding: 0.125rem 0.25rem;
+  margin: 0 0.125rem;
+  background: var(--color-surface-elevated);
+  border-radius: var(--radius-sm);
+  border: 1px solid var(--color-border);
+  color: var(--color-text-secondary);
+  font-family: var(--font-mono);
+  font-size: 0.625rem;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, var(--opacity-10));
+}
+
+/* Animation for spinner */
+@keyframes spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+/* Animation for hint */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(-0.25rem);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Responsive adjustments */
+@media (max-width: 640px) {
+  .search-bar-input {
+    padding-left: 2rem;
+    padding-right: 2rem;
+  }
+  
+  .search-bar-search-icon {
+    width: 1rem;
+    height: 1rem;
+  }
+  
+  .search-bar-spinner {
+    width: 1rem;
+    height: 1rem;
+  }
+}
+
+/* Dark mode adjustments */
+[data-theme="dark"] {
+  .search-bar-kbd {
+    background: rgba(255, 255, 255, var(--opacity-10));
+    border-color: rgba(255, 255, 255, var(--opacity-20));
+  }
+  
+  .search-bar-input.search-bar-focused {
+    box-shadow: var(--shadow-lg), 0 0 30px rgba(var(--purple-400-rgb), 0.3);
+  }
+}
+
+/* Light mode adjustments */
+[data-theme="light"] {
+  .search-bar-kbd {
+    background: var(--gray-100);
+    border-color: var(--gray-300);
+    color: var(--gray-700);
+  }
+  
+  .search-bar-input.search-bar-focused {
+    box-shadow: var(--shadow-md), 0 0 15px rgba(var(--purple-500-rgb), 0.15);
+  }
+}

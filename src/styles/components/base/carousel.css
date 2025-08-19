@@ -1,0 +1,232 @@
+/**
+ * Carousel Component Styles
+ */
+
+/* Base carousel container */
+.carousel-container {
+  position: relative;
+  width: 100%;
+}
+
+/* Scroll container */
+.carousel-scroll {
+  scrollbar-width: none; /* Firefox */
+  -ms-overflow-style: none; /* IE and Edge */
+  display: flex;
+  align-items: stretch;
+  
+  &::-webkit-scrollbar {
+    display: none; /* Chrome, Safari, Opera */
+  }
+  
+  /* Smooth scrolling */
+  scroll-behavior: smooth;
+  
+  /* Prevent vertical overflow */
+  overflow-y: hidden;
+  overflow-x: auto;
+  
+  /* Touch scrolling optimization */
+  -webkit-overflow-scrolling: touch;
+}
+
+/* Scroll snap utilities */
+.scroll-snap-type-x-mandatory {
+  scroll-snap-type: x mandatory;
+}
+
+.scroll-snap-type-x-proximity {
+  scroll-snap-type: x proximity;
+}
+
+.scroll-snap-align-start {
+  scroll-snap-align: start;
+}
+
+.scroll-snap-align-center {
+  scroll-snap-align: center;
+}
+
+.scroll-snap-align-end {
+  scroll-snap-align: end;
+}
+
+/* Carousel items */
+.carousel-item {
+  flex-shrink: 0;
+  display: flex;
+  align-items: stretch;
+  /* Width is handled dynamically via inline styles or auto */
+}
+
+/* Ensure carousel item children take full height */
+.carousel-item > * {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+/* Navigation arrows */
+.carousel-arrow {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%) !important; /* Prevent button hover from overriding */
+  z-index: 10;
+  background: rgba(0, 0, 0, 0.5);
+  backdrop-filter: blur(8px);
+  border-radius: var(--radius-full);
+  opacity: 0;
+  transition: opacity 0.3s ease, background-color 0.3s ease;
+  
+  &:hover {
+    background: rgba(0, 0, 0, 0.7);
+    transform: translateY(-50%) !important; /* Maintain position on hover */
+  }
+  
+  &:active {
+    transform: translateY(-50%) !important; /* Maintain position on active */
+  }
+}
+
+.carousel-container:hover .carousel-arrow {
+  opacity: 1;
+}
+
+.carousel-arrow-left {
+  left: var(--space-2);
+}
+
+.carousel-arrow-right {
+  right: var(--space-2);
+}
+
+/* Touch devices - always show arrows */
+@media (hover: none) {
+  .carousel-arrow {
+    opacity: 1;
+  }
+}
+
+/* Dot indicators */
+.carousel-dots {
+  display: flex;
+  justify-content: center;
+  gap: var(--space-1);
+  margin-top: var(--space-4);
+}
+
+.carousel-dot {
+  width: var(--space-2);
+  height: var(--space-2);
+  border-radius: var(--radius-full);
+  border: none;
+  background: var(--gray-400);
+  cursor: pointer;
+  transition: all 0.3s ease;
+  padding: 0;
+  
+  &:hover {
+    background: var(--gray-500);
+  }
+  
+  &.active {
+    width: var(--space-6);
+    background: var(--color-primary);
+  }
+}
+
+/* Fade edges effect */
+.carousel-fade-edges {
+  &::before,
+  &::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    width: 60px;
+    pointer-events: none;
+    z-index: 5;
+  }
+  
+  &::before {
+    left: 0;
+    background: linear-gradient(to right, 
+      var(--color-background) 0%, 
+      transparent 100%);
+  }
+  
+  &::after {
+    right: 0;
+    background: linear-gradient(to left, 
+      var(--color-background) 0%, 
+      transparent 100%);
+  }
+}
+
+/* Carousel variants */
+.carousel-cards {
+  .carousel-item {
+    transition: transform 0.3s ease, opacity 0.3s ease;
+    
+    &:hover {
+      transform: scale(1.02);
+    }
+  }
+}
+
+.carousel-thumbnails {
+  .carousel-item {
+    cursor: pointer;
+    opacity: 0.6;
+    transition: opacity 0.3s ease;
+    
+    &:hover,
+    &.active {
+      opacity: 1;
+    }
+  }
+}
+
+/* Full width carousel */
+.carousel-fullwidth {
+  .carousel-scroll {
+    gap: 0;
+  }
+  
+  .carousel-item {
+    width: 100vw;
+  }
+}
+
+/* Centered carousel */
+.carousel-centered {
+  .carousel-scroll {
+    padding: 0 20%;
+  }
+  
+  .carousel-item {
+    width: 60%;
+  }
+  
+  @media (max-width: 768px) {
+    .carousel-scroll {
+      padding: 0 10%;
+    }
+    
+    .carousel-item {
+      width: 80%;
+    }
+  }
+}
+
+/* Peek carousel - shows partial next/prev items */
+.carousel-peek {
+  .carousel-scroll {
+    padding: 0 var(--space-4);
+  }
+  
+  .carousel-item {
+    width: calc(100% - var(--space-8));
+  }
+}

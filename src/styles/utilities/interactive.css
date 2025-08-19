@@ -1,0 +1,237 @@
+/**
+ * Interactive State Utilities
+ * Generic utilities for hover, focus, active, and disabled states
+ */
+
+/* Transform utilities */
+.transform { transform: translateZ(0); }
+.scale-90 { transform: scale(0.9); }
+.scale-95 { transform: scale(0.95); }
+.scale-100 { transform: scale(1); }
+.scale-105 { transform: scale(1.05); }
+.scale-110 { transform: scale(1.1); }
+
+/* Cursor utilities */
+.cursor-pointer { cursor: pointer; }
+.cursor-default { cursor: default; }
+.cursor-not-allowed { cursor: not-allowed; }
+.cursor-wait { cursor: wait; }
+.cursor-grab { cursor: grab; }
+.cursor-grabbing { cursor: grabbing; }
+.cursor-text { cursor: text; }
+
+/* Transition utilities */
+.transition-none { transition: none; }
+.transition-all { transition-property: all; }
+.transition-transform { transition-property: transform; }
+.transition-opacity { transition-property: opacity; }
+.transition-colors { transition-property: background-color, border-color, color, fill, stroke; }
+.transition-shadow { transition-property: box-shadow; }
+
+/* Transition durations */
+.duration-75 { transition-duration: 75ms; }
+.duration-100 { transition-duration: 100ms; }
+.duration-150 { transition-duration: 150ms; }
+.duration-200 { transition-duration: 200ms; }
+.duration-300 { transition-duration: 300ms; }
+.duration-500 { transition-duration: 500ms; }
+.duration-700 { transition-duration: 700ms; }
+.duration-1000 { transition-duration: 1000ms; }
+
+/* Transition timing */
+.ease-linear { transition-timing-function: linear; }
+.ease-in { transition-timing-function: cubic-bezier(0.4, 0, 1, 1); }
+.ease-out { transition-timing-function: cubic-bezier(0, 0, 0.2, 1); }
+.ease-in-out { transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1); }
+
+/* User select */
+.select-none { user-select: none; }
+.select-text { user-select: text; }
+.select-all { user-select: all; }
+.select-auto { user-select: auto; }
+
+/* Pointer events */
+.pointer-events-none { pointer-events: none; }
+.pointer-events-auto { pointer-events: auto; }
+
+/* Filter utilities */
+.brightness-75 { filter: brightness(0.75); }
+.brightness-90 { filter: brightness(0.9); }
+.brightness-100 { filter: brightness(1); }
+.brightness-110 { filter: brightness(1.1); }
+.brightness-125 { filter: brightness(1.25); }
+.brightness-150 { filter: brightness(1.5); }
+
+.grayscale { filter: grayscale(1); }
+.grayscale-0 { filter: grayscale(0); }
+.blur-sm { filter: blur(4px); }
+.blur-md { filter: blur(8px); }
+.blur-lg { filter: blur(16px); }
+
+/* SVG Fill utilities */
+.fill-current { fill: currentColor; }
+.fill-transparent { fill: transparent; }
+.fill-white { fill: var(--color-white); }
+.fill-black { fill: var(--color-black); }
+
+/* Gray Scale Fills */
+.fill-gray-50 { fill: var(--gray-50); }
+.fill-gray-100 { fill: var(--gray-100); }
+.fill-gray-200 { fill: var(--gray-200); }
+.fill-gray-300 { fill: var(--gray-300); }
+.fill-gray-400 { fill: var(--gray-400); }
+.fill-gray-500 { fill: var(--gray-500); }
+.fill-gray-600 { fill: var(--gray-600); }
+.fill-gray-700 { fill: var(--gray-700); }
+.fill-gray-800 { fill: var(--gray-800); }
+.fill-gray-900 { fill: var(--gray-900); }
+.fill-gray-950 { fill: var(--gray-950); }
+
+/* Red Scale Fills */
+.fill-red-50 { fill: var(--red-50); }
+.fill-red-100 { fill: var(--red-100); }
+.fill-red-200 { fill: var(--red-200); }
+.fill-red-300 { fill: var(--red-300); }
+.fill-red-400 { fill: var(--red-400); }
+.fill-red-500 { fill: var(--red-500); }
+.fill-red-600 { fill: var(--red-600); }
+.fill-red-700 { fill: var(--red-700); }
+.fill-red-800 { fill: var(--red-800); }
+.fill-red-900 { fill: var(--red-900); }
+.fill-red-950 { fill: var(--red-950); }
+
+/* Orange Scale Fills */
+.fill-orange-50 { fill: var(--orange-50); }
+.fill-orange-100 { fill: var(--orange-100); }
+.fill-orange-200 { fill: var(--orange-200); }
+.fill-orange-300 { fill: var(--orange-300); }
+.fill-orange-400 { fill: var(--orange-400); }
+.fill-orange-500 { fill: var(--orange-500); }
+.fill-orange-600 { fill: var(--orange-600); }
+.fill-orange-700 { fill: var(--orange-700); }
+.fill-orange-800 { fill: var(--orange-800); }
+.fill-orange-900 { fill: var(--orange-900); }
+.fill-orange-950 { fill: var(--orange-950); }
+
+/* Yellow Scale Fills */
+.fill-yellow-50 { fill: var(--yellow-50); }
+.fill-yellow-100 { fill: var(--yellow-100); }
+.fill-yellow-200 { fill: var(--yellow-200); }
+.fill-yellow-300 { fill: var(--yellow-300); }
+.fill-yellow-400 { fill: var(--yellow-400); }
+.fill-yellow-500 { fill: var(--yellow-500); }
+.fill-yellow-600 { fill: var(--yellow-600); }
+.fill-yellow-700 { fill: var(--yellow-700); }
+.fill-yellow-800 { fill: var(--yellow-800); }
+.fill-yellow-900 { fill: var(--yellow-900); }
+.fill-yellow-950 { fill: var(--yellow-950); }
+
+/* Green Scale Fills */
+.fill-green-50 { fill: var(--green-50); }
+.fill-green-100 { fill: var(--green-100); }
+.fill-green-200 { fill: var(--green-200); }
+.fill-green-300 { fill: var(--green-300); }
+.fill-green-400 { fill: var(--green-400); }
+.fill-green-500 { fill: var(--green-500); }
+.fill-green-600 { fill: var(--green-600); }
+.fill-green-700 { fill: var(--green-700); }
+.fill-green-800 { fill: var(--green-800); }
+.fill-green-900 { fill: var(--green-900); }
+.fill-green-950 { fill: var(--green-950); }
+
+/* Emerald Scale Fills */
+.fill-emerald-50 { fill: var(--emerald-50); }
+.fill-emerald-100 { fill: var(--emerald-100); }
+.fill-emerald-200 { fill: var(--emerald-200); }
+.fill-emerald-300 { fill: var(--emerald-300); }
+.fill-emerald-400 { fill: var(--emerald-400); }
+.fill-emerald-500 { fill: var(--emerald-500); }
+.fill-emerald-600 { fill: var(--emerald-600); }
+.fill-emerald-700 { fill: var(--emerald-700); }
+.fill-emerald-800 { fill: var(--emerald-800); }
+.fill-emerald-900 { fill: var(--emerald-900); }
+.fill-emerald-950 { fill: var(--emerald-950); }
+
+/* Cyan Scale Fills */
+.fill-cyan-50 { fill: var(--cyan-50); }
+.fill-cyan-100 { fill: var(--cyan-100); }
+.fill-cyan-200 { fill: var(--cyan-200); }
+.fill-cyan-300 { fill: var(--cyan-300); }
+.fill-cyan-400 { fill: var(--cyan-400); }
+.fill-cyan-500 { fill: var(--cyan-500); }
+.fill-cyan-600 { fill: var(--cyan-600); }
+.fill-cyan-700 { fill: var(--cyan-700); }
+.fill-cyan-800 { fill: var(--cyan-800); }
+.fill-cyan-900 { fill: var(--cyan-900); }
+.fill-cyan-950 { fill: var(--cyan-950); }
+
+/* Blue Scale Fills */
+.fill-blue-50 { fill: var(--blue-50); }
+.fill-blue-100 { fill: var(--blue-100); }
+.fill-blue-200 { fill: var(--blue-200); }
+.fill-blue-300 { fill: var(--blue-300); }
+.fill-blue-400 { fill: var(--blue-400); }
+.fill-blue-500 { fill: var(--blue-500); }
+.fill-blue-600 { fill: var(--blue-600); }
+.fill-blue-700 { fill: var(--blue-700); }
+.fill-blue-800 { fill: var(--blue-800); }
+.fill-blue-900 { fill: var(--blue-900); }
+.fill-blue-950 { fill: var(--blue-950); }
+
+/* Purple Scale Fills */
+.fill-purple-50 { fill: var(--purple-50); }
+.fill-purple-100 { fill: var(--purple-100); }
+.fill-purple-200 { fill: var(--purple-200); }
+.fill-purple-300 { fill: var(--purple-300); }
+.fill-purple-400 { fill: var(--purple-400); }
+.fill-purple-500 { fill: var(--purple-500); }
+.fill-purple-600 { fill: var(--purple-600); }
+.fill-purple-700 { fill: var(--purple-700); }
+.fill-purple-800 { fill: var(--purple-800); }
+.fill-purple-900 { fill: var(--purple-900); }
+.fill-purple-950 { fill: var(--purple-950); }
+
+/* Violet Scale Fills */
+.fill-violet-50 { fill: var(--violet-50); }
+.fill-violet-100 { fill: var(--violet-100); }
+.fill-violet-200 { fill: var(--violet-200); }
+.fill-violet-300 { fill: var(--violet-300); }
+.fill-violet-400 { fill: var(--violet-400); }
+.fill-violet-500 { fill: var(--violet-500); }
+.fill-violet-600 { fill: var(--violet-600); }
+.fill-violet-700 { fill: var(--violet-700); }
+.fill-violet-800 { fill: var(--violet-800); }
+.fill-violet-900 { fill: var(--violet-900); }
+.fill-violet-950 { fill: var(--violet-950); }
+
+/* Pink Scale Fills */
+.fill-pink-50 { fill: var(--pink-50); }
+.fill-pink-100 { fill: var(--pink-100); }
+.fill-pink-200 { fill: var(--pink-200); }
+.fill-pink-300 { fill: var(--pink-300); }
+.fill-pink-400 { fill: var(--pink-400); }
+.fill-pink-500 { fill: var(--pink-500); }
+.fill-pink-600 { fill: var(--pink-600); }
+.fill-pink-700 { fill: var(--pink-700); }
+.fill-pink-800 { fill: var(--pink-800); }
+.fill-pink-900 { fill: var(--pink-900); }
+.fill-pink-950 { fill: var(--pink-950); }
+
+/* Lime Scale Fills */
+.fill-lime-50 { fill: var(--lime-50); }
+.fill-lime-100 { fill: var(--lime-100); }
+.fill-lime-200 { fill: var(--lime-200); }
+.fill-lime-300 { fill: var(--lime-300); }
+.fill-lime-400 { fill: var(--lime-400); }
+.fill-lime-500 { fill: var(--lime-500); }
+.fill-lime-600 { fill: var(--lime-600); }
+.fill-lime-700 { fill: var(--lime-700); }
+.fill-lime-800 { fill: var(--lime-800); }
+.fill-lime-900 { fill: var(--lime-900); }
+.fill-lime-950 { fill: var(--lime-950); }
+
+/* SVG Stroke utilities */
+.stroke-current { stroke: currentColor; }
+.stroke-transparent { stroke: transparent; }
+.stroke-white { stroke: var(--color-white); }
+.stroke-black { stroke: var(--color-black); }
