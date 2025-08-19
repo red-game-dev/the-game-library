@@ -1,0 +1,102 @@
+/**
+ * Base Image Component Styles
+ * Styles for image component including fallback states
+ */
+
+/* Image fallback container */
+.image-fallback {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+  width: 100%;
+  background-color: var(--gray-100);
+  padding: var(--space-2);
+  text-align: center;
+  overflow: hidden;
+}
+
+/* Dark mode fallback background */
+[data-theme="dark"] .image-fallback {
+  background-color: var(--gray-800);
+}
+
+/* Fallback icon - scales based on container size */
+.image-fallback-icon {
+  width: 30%;
+  height: 30%;
+  max-width: 3rem;
+  max-height: 3rem;
+  min-width: 1.5rem;
+  min-height: 1.5rem;
+  color: var(--gray-400);
+  margin-bottom: var(--space-1);
+}
+
+[data-theme="dark"] .image-fallback-icon {
+  color: var(--gray-600);
+}
+
+/* Fallback text - responsive sizing */
+.image-fallback-text {
+  font-size: clamp(0.625rem, 2vw, 0.875rem); /* Min 10px, preferred 2vw, max 14px */
+  color: var(--gray-500);
+  line-height: 1.2;
+  word-wrap: break-word;
+  max-width: 90%;
+  
+  /* Hide text if container is too small */
+  @media (max-width: 100px) {
+    display: none;
+  }
+}
+
+[data-theme="dark"] .image-fallback-text {
+  color: var(--gray-400);
+}
+
+/* For circular/small containers, adjust layout */
+.rounded-full .image-fallback {
+  padding: var(--space-1);
+}
+
+.rounded-full .image-fallback-text {
+  font-size: clamp(0.5rem, 1.5vw, 0.75rem);
+}
+
+/* For very small images (like avatars), only show icon */
+.w-8 .image-fallback-text,
+.w-10 .image-fallback-text,
+.w-12 .image-fallback-text {
+  display: none;
+}
+
+.w-8 .image-fallback-icon,
+.w-10 .image-fallback-icon,
+.w-12 .image-fallback-icon {
+  width: 50%;
+  height: 50%;
+  margin-bottom: 0;
+}
+
+/* Loading skeleton for images */
+.image-loading {
+  background: linear-gradient(
+    90deg,
+    var(--gray-200) 0%,
+    var(--gray-100) 50%,
+    var(--gray-200) 100%
+  );
+  background-size: 200% 100%;
+  animation: shimmer 1.5s ease-in-out infinite; /* Uses shimmer from _animations.css */
+}
+
+[data-theme="dark"] .image-loading {
+  background: linear-gradient(
+    90deg,
+    var(--gray-700) 0%,
+    var(--gray-600) 50%,
+    var(--gray-700) 100%
+  );
+}
