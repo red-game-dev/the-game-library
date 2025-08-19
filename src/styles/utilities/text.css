@@ -103,51 +103,7 @@
   z-index: -2;
 }
 
-@keyframes glitch-cyan {
-  0%, 100% {
-    clip-path: inset(0 0 0 0);
-    transform: translate(0);
-  }
-  20% {
-    clip-path: inset(33% 0 0 0);
-    transform: translate(-2px, 2px);
-  }
-  40% {
-    clip-path: inset(0 0 66% 0);
-    transform: translate(2px, -2px);
-  }
-  60% {
-    clip-path: inset(0 0 0 70%);
-    transform: translate(-1px, 1px);
-  }
-  80% {
-    clip-path: inset(0 70% 0 0);
-    transform: translate(1px, -1px);
-  }
-}
-
-@keyframes glitch-magenta {
-  0%, 100% {
-    clip-path: inset(0 0 0 0);
-    transform: translate(0);
-  }
-  20% {
-    clip-path: inset(0 0 66% 0);
-    transform: translate(2px, -1px);
-  }
-  40% {
-    clip-path: inset(33% 0 0 0);
-    transform: translate(-2px, 1px);
-  }
-  60% {
-    clip-path: inset(0 70% 0 0);
-    transform: translate(1px, 2px);
-  }
-  80% {
-    clip-path: inset(0 0 0 70%);
-    transform: translate(-1px, -2px);
-  }
-}
+/* Glitch animations defined in _animations.css */
 
 /* Responsive text adjustments */
 @media (max-width: 640px) {
