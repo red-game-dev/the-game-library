@@ -1,0 +1,481 @@
+import { Meta, Canvas, Controls, Story, ArgTypes } from '@storybook/addon-docs/blocks';
+import ImageMeta, * as ImageStories from '../components/ui/Image/Image.stories';
+import { Image } from '../components/ui/Image';
+
+<Meta title="Documentation/Base UI/Image" />
+
+# Image Component
+
+The Image component provides optimized image loading with lazy loading, placeholders, and responsive sizing. It ensures performant image display across all devices.
+
+## Overview
+
+The Image component enhances the standard HTML img element with automatic optimization, lazy loading, error handling, and loading states. It's designed to improve performance and user experience when displaying images.
+
+<Canvas of={ImageStories.Default} />
+
+## Props
+
+<ArgTypes of={Image} />
+
+## Detailed Props Documentation
+
+### `src`
+**Type:** `string`  
+**Required**
+
+The image source URL:
+
+```tsx
+<Image src="/path/to/image.jpg" alt="Description" />
+```
+
+### `alt`
+**Type:** `string`  
+**Required**
+
+Alternative text for accessibility:
+
+```tsx
+<Image 
+  src="/game-thumbnail.jpg" 
+  alt="Game title screenshot"
+/>
+```
+
+### `width` & `height`
+**Type:** `number | string`  
+**Default:** `undefined`
+
+Dimensions to prevent layout shift:
+
+```tsx
+<Image 
+  src="/image.jpg"
+  width={400}
+  height={300}
+  alt="Fixed dimensions"
+/>
+```
+
+### `loading`
+**Type:** `'lazy' | 'eager'`  
+**Default:** `'lazy'`
+
+Loading strategy:
+
+- **lazy**: Load when entering viewport
+- **eager**: Load immediately
+
+```tsx
+// Above the fold
+<Image loading="eager" src="/hero.jpg" alt="Hero" />
+
+// Below the fold
+<Image loading="lazy" src="/content.jpg" alt="Content" />
+```
+
+### `placeholder`
+**Type:** `'blur' | 'empty' | string`  
+**Default:** `'empty'`
+
+Placeholder while loading:
+
+```tsx
+// Blur placeholder
+<Image 
+  placeholder="blur"
+  blurDataURL="data:image/jpeg;base64,..."
+  src="/image.jpg"
+/>
+
+// Custom placeholder
+<Image 
+  placeholder="/placeholder.svg"
+  src="/image.jpg"
+/>
+```
+
+### `objectFit`
+**Type:** `'contain' | 'cover' | 'fill' | 'none' | 'scale-down'`  
+**Default:** `'cover'`
+
+How image fits container:
+
+```tsx
+<Image 
+  objectFit="contain"
+  className="w-full h-64"
+  src="/image.jpg"
+/>
+```
+
+### `onLoad` & `onError`
+**Type:** `() => void`  
+**Default:** `undefined`
+
+Event callbacks:
+
+```tsx
+<Image 
+  src="/image.jpg"
+  onLoad={() => console.log('Loaded')}
+  onError={() => console.log('Error')}
+/>
+```
+
+### `fallback`
+**Type:** `string`  
+**Default:** `undefined`
+
+Fallback image on error:
+
+```tsx
+<Image 
+  src="/game-thumbnail.jpg"
+  fallback="/default-game.jpg"
+  alt="Game"
+/>
+```
+
+## Usage Examples
+
+### Basic Image
+
+```tsx
+import { Image } from '@/components/ui/Image';
+
+function BasicImage() {
+  return (
+    <Image 
+      src="/path/to/image.jpg"
+      alt="Descriptive text"
+      width={400}
+      height={300}
+    />
+  );
+}
+```
+
+### Game Thumbnail
+
+```tsx
+function GameThumbnail({ game }) {
+  return (
+    <div className="aspect-video relative">
+      <Image
+        src={game.thumbnail}
+        alt={`${game.title} game thumbnail`}
+        fallback="/default-game-thumb.jpg"
+        objectFit="cover"
+        className="rounded-lg"
+        loading="lazy"
+      />
+      {game.isNew && (
+        <Badge className="absolute top-2 right-2">NEW</Badge>
+      )}
+    </div>
+  );
+}
+```
+
+### Avatar Image
+
+```tsx
+function UserAvatar({ user }) {
+  return (
+    <Image
+      src={user.avatar}
+      alt={`${user.name} avatar`}
+      width={40}
+      height={40}
+      className="rounded-full"
+      fallback="/default-avatar.svg"
+      loading="eager"
+    />
+  );
+}
+```
+
+### Hero Image
+
+```tsx
+function HeroSection() {
+  return (
+    <div className="relative h-96">
+      <Image
+        src="/hero-background.jpg"
+        alt="Hero background"
+        objectFit="cover"
+        className="w-full h-full"
+        loading="eager"
+        priority
+      />
+      <div className="absolute inset-0 bg-gradient-to-t from-black/60">
+        <h1>Welcome to The Game Library</h1>
+      </div>
+    </div>
+  );
+}
+```
+
+### Gallery Image
+
+```tsx
+function GalleryImage({ image, onClick }) {
+  const [loaded, setLoaded] = useState(false);
+  
+  return (
+    <div className="relative cursor-pointer" onClick={onClick}>
+      {!loaded && (
+        <div className="absolute inset-0 animate-pulse bg-gray-200" />
+      )}
+      <Image
+        src={image.url}
+        alt={image.caption}
+        onLoad={() => setLoaded(true)}
+        className={`transition-opacity ${loaded ? 'opacity-100' : 'opacity-0'}`}
+      />
+    </div>
+  );
+}
+```
+
+### Responsive Image
+
+```tsx
+function ResponsiveImage() {
+  return (
+    <picture>
+      <source 
+        media="(max-width: 640px)" 
+        srcSet="/image-mobile.jpg"
+      />
+      <source 
+        media="(max-width: 1024px)" 
+        srcSet="/image-tablet.jpg"
+      />
+      <Image
+        src="/image-desktop.jpg"
+        alt="Responsive image"
+        className="w-full"
+      />
+    </picture>
+  );
+}
+```
+
+## Loading States
+
+### Skeleton Loading
+
+```tsx
+function ImageWithSkeleton() {
+  const [loading, setLoading] = useState(true);
+  
+  return (
+    <div className="relative">
+      {loading && (
+        <div className="absolute inset-0 animate-pulse bg-gray-200 rounded" />
+      )}
+      <Image
+        src="/image.jpg"
+        alt="Image"
+        onLoad={() => setLoading(false)}
+        className={loading ? 'invisible' : 'visible'}
+      />
+    </div>
+  );
+}
+```
+
+### Progressive Loading
+
+```tsx
+function ProgressiveImage({ lowQuality, highQuality, alt }) {
+  const [currentSrc, setCurrentSrc] = useState(lowQuality);
+  
+  return (
+    <Image
+      src={currentSrc}
+      alt={alt}
+      className="transition-all duration-300"
+      onLoad={() => {
+        if (currentSrc === lowQuality) {
+          const img = new Image();
+          img.src = highQuality;
+          img.onload = () => setCurrentSrc(highQuality);
+        }
+      }}
+    />
+  );
+}
+```
+
+## Accessibility
+
+The Image component follows accessibility best practices:
+
+- **Alt text**: Required for all images
+- **Decorative images**: Use `alt=""` for decorative images
+- **Loading states**: Announce to screen readers
+- **Error handling**: Provide fallback content
+- **Keyboard**: Images in interactive elements are keyboard accessible
+
+### Best Practices
+
+```tsx
+// ✅ Good - Descriptive alt text
+<Image 
+  src="/game.jpg" 
+  alt="Poker game with 4 players at a green table"
+/>
+
+// ✅ Good - Empty alt for decorative
+<Image 
+  src="/decoration.svg" 
+  alt=""
+  role="presentation"
+/>
+
+// ❌ Bad - Missing or poor alt text
+<Image src="/game.jpg" alt="Image" />
+<Image src="/game.jpg" alt="game.jpg" />
+```
+
+## Performance
+
+### Optimization Techniques
+
+1. **Lazy Loading**: Default for below-fold images
+2. **Eager Loading**: For critical above-fold images
+3. **Responsive Sizing**: Different sizes for viewports
+4. **Format Selection**: WebP with fallbacks
+5. **Caching**: Proper cache headers
+
+### Image Formats
+
+```tsx
+// Modern format with fallback
+<picture>
+  <source type="image/webp" srcSet="/image.webp" />
+  <source type="image/jpeg" srcSet="/image.jpg" />
+  <Image src="/image.jpg" alt="Description" />
+</picture>
+```
+
+## Design Tokens
+
+```css
+/* Aspect Ratios */
+--aspect-square: 1 / 1;
+--aspect-video: 16 / 9;
+--aspect-portrait: 3 / 4;
+--aspect-landscape: 4 / 3;
+
+/* Object Fit */
+--object-contain: contain;
+--object-cover: cover;
+--object-fill: fill;
+```
+
+## Best Practices
+
+### Do's ✅
+
+- Always provide meaningful alt text
+- Specify dimensions to prevent layout shift
+- Use lazy loading for below-fold images
+- Provide fallback images for errors
+- Optimize image formats and sizes
+- Test loading performance
+
+### Don'ts ❌
+
+- Don't use generic alt text
+- Don't load all images eagerly
+- Don't forget error handling
+- Don't use unoptimized images
+- Don't ignore responsive sizing
+- Don't skip loading states
+
+## Theme Support
+
+Images adapt to theme with filters and overlays:
+
+<Canvas of={ImageStories.DarkMode} />
+<Canvas of={ImageStories.LightMode} />
+
+## Common Patterns
+
+### Card Thumbnail
+
+```tsx
+function CardWithImage() {
+  return (
+    <Card>
+      <div className="aspect-video">
+        <Image
+          src="/thumbnail.jpg"
+          alt="Card thumbnail"
+          objectFit="cover"
+          className="rounded-t-lg"
+        />
+      </div>
+      <CardBody>
+        <h3>Card Title</h3>
+      </CardBody>
+    </Card>
+  );
+}
+```
+
+### Background Image
+
+```tsx
+function BackgroundImage({ children }) {
+  return (
+    <div className="relative">
+      <Image
+        src="/background.jpg"
+        alt=""
+        className="absolute inset-0 w-full h-full"
+        objectFit="cover"
+      />
+      <div className="relative z-10">
+        {children}
+      </div>
+    </div>
+  );
+}
+```
+
+## Migration Guide
+
+From native img elements:
+
+1. Replace `<img>` with `<Image>`
+2. Ensure alt text is provided
+3. Add width/height for layout stability
+4. Configure lazy loading
+5. Add error handling with fallback
+
+## Related Components
+
+- [Card](/?path=/docs/documentation-base-ui-card--docs) - Often contains images
+- [Carousel](/?path=/docs/documentation-base-ui-carousel--docs) - Image galleries
+- [GameCard](/?path=/docs/documentation-features-gamecard--docs) - Game thumbnails
+
+## FAQ
+
+**Q: When should I use eager vs lazy loading?**  
+A: Use eager for above-fold critical images, lazy for everything else.
+
+**Q: How do I handle different image sizes?**  
+A: Use responsive images with picture element or srcSet.
+
+**Q: What's the best format for images?**  
+A: Use WebP with JPEG fallback for photos, SVG for icons.
+
+**Q: How do I optimize image performance?**  
+A: Compress images, use correct formats, lazy load, and cache properly.

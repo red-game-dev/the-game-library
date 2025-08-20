@@ -1,0 +1,723 @@
+import { Meta, Canvas, Controls, Story, ArgTypes } from '@storybook/addon-docs/blocks';
+import GameGridMeta, * as GameGridStories from '../components/features/GameGrid/GameGrid.stories';
+import { GameGrid } from '../components/features/GameGrid';
+
+<Meta title="Documentation/Features/GameGrid" />
+
+# GameGrid Component
+
+The GameGrid component provides a responsive, virtualized grid layout for displaying game collections. It handles large datasets efficiently with lazy loading, skeleton states, and responsive column management.
+
+## Overview
+
+The GameGrid is a high-performance grid component specifically designed for gaming platforms. It features virtualization for handling thousands of games, responsive layouts that adapt to any screen size, and comprehensive loading and empty states.
+
+<Canvas of={GameGridStories.Default} />
+
+## Props
+
+<ArgTypes of={GameGrid} />
+
+## Detailed Props Documentation
+
+### `games`
+**Type:** `Game[]`  
+**Required**
+
+Array of games to display:
+
+```tsx
+interface Game {
+  id: string;
+  title: string;
+  slug: string;
+  thumbnail: string;
+  provider: Provider;
+  type: 'slots' | 'table' | 'live' | 'instant';
+  isNew?: boolean;
+  isHot?: boolean;
+  isFavorite?: boolean;
+  tags?: string[];
+  rtp?: number;
+}
+
+<GameGrid games={gamesList} />
+```
+
+### `loading`
+**Type:** `boolean`  
+**Default:** `false`
+
+Shows skeleton loading state:
+
+```tsx
+<GameGrid 
+  games={[]}
+  loading={true}
+  skeletonCount={12}
+/>
+```
+
+### `columns`
+**Type:** `number | { mobile: number; tablet: number; desktop: number }`  
+**Default:** `{ mobile: 1, tablet: 2, desktop: 4 }`
+
+Number of columns in the grid:
+
+```tsx
+// Fixed columns
+<GameGrid games={games} columns={3} />
+
+// Responsive columns
+<GameGrid 
+  games={games}
+  columns={{
+    mobile: 1,
+    tablet: 3,
+    desktop: 5
+  }}
+/>
+```
+
+### `gap`
+**Type:** `number | { mobile: number; tablet: number; desktop: number }`  
+**Default:** `16`
+
+Gap between grid items in pixels:
+
+```tsx
+<GameGrid 
+  games={games}
+  gap={{
+    mobile: 8,
+    tablet: 16,
+    desktop: 24
+  }}
+/>
+```
+
+### `onGameClick`
+**Type:** `(game: Game) => void`  
+**Default:** `undefined`
+
+Callback when a game is clicked:
+
+```tsx
+<GameGrid 
+  games={games}
+  onGameClick={(game) => {
+    router.push(`/games/${game.slug}`);
+  }}
+/>
+```
+
+### `onFavoriteToggle`
+**Type:** `(gameId: string, isFavorite: boolean) => void`  
+**Default:** `undefined`
+
+Callback for favorite toggle:
+
+```tsx
+<GameGrid 
+  games={games}
+  onFavoriteToggle={async (gameId, isFavorite) => {
+    await updateFavorite(gameId, isFavorite);
+    refetchGames();
+  }}
+/>
+```
+
+### `enableVirtualization`
+**Type:** `boolean`  
+**Default:** `true`
+
+Enable virtualization for large datasets:
+
+```tsx
+<GameGrid 
+  games={thousandsOfGames}
+  enableVirtualization={true}
+  virtualizeThreshold={100}
+/>
+```
+
+### `virtualizeThreshold`
+**Type:** `number`  
+**Default:** `50`
+
+Number of games before virtualization kicks in:
+
+```tsx
+<GameGrid 
+  games={games}
+  enableVirtualization={true}
+  virtualizeThreshold={100} // Virtualize after 100 games
+/>
+```
+
+### `itemHeight`
+**Type:** `number`  
+**Default:** `320`
+
+Height of each grid item for virtualization:
+
+```tsx
+<GameGrid 
+  games={games}
+  itemHeight={350}
+  enableVirtualization
+/>
+```
+
+### `emptyState`
+**Type:** `React.ReactNode`  
+**Default:** `Default empty message`
+
+Custom empty state component:
+
+```tsx
+<GameGrid 
+  games={[]}
+  emptyState={
+    <div className="text-center py-12">
+      <GameController className="w-16 h-16 mx-auto mb-4 text-gray-400" />
+      <h3 className="text-lg font-semibold mb-2">No games found</h3>
+      <p className="text-secondary">Try adjusting your filters</p>
+      <Button variant="primary" className="mt-4">
+        Clear Filters
+      </Button>
+    </div>
+  }
+/>
+```
+
+### `skeletonCount`
+**Type:** `number`  
+**Default:** `12`
+
+Number of skeleton cards to show while loading:
+
+```tsx
+<GameGrid 
+  games={[]}
+  loading={true}
+  skeletonCount={20}
+/>
+```
+
+### `infiniteScroll`
+**Type:** `boolean`  
+**Default:** `false`
+
+Enable infinite scrolling:
+
+```tsx
+<GameGrid 
+  games={games}
+  infiniteScroll
+  onLoadMore={loadNextPage}
+  hasMore={hasNextPage}
+/>
+```
+
+### `onLoadMore`
+**Type:** `() => void`  
+**Default:** `undefined`
+
+Callback to load more games (infinite scroll):
+
+```tsx
+<GameGrid 
+  games={games}
+  infiniteScroll
+  onLoadMore={() => {
+    fetchNextPage();
+  }}
+  hasMore={hasNextPage}
+  loadingMore={isFetchingNextPage}
+/>
+```
+
+## Usage Examples
+
+### Basic Game Grid
+
+```tsx
+import { GameGrid } from '@/components/features/GameGrid';
+import { useGames } from '@/hooks/useGames';
+
+function GameLibrary() {
+  const { data: games, isLoading } = useGames();
+  
+  return (
+    <GameGrid 
+      games={games || []}
+      loading={isLoading}
+      onGameClick={(game) => console.log('Clicked:', game.title)}
+    />
+  );
+}
+```
+
+### With Filtering and Search
+
+```tsx
+function FilteredGameGrid() {
+  const [filters, setFilters] = useState({});
+  const [searchQuery, setSearchQuery] = useState('');
+  
+  const { data: games, isLoading } = useGames({
+    ...filters,
+    search: searchQuery
+  });
+  
+  return (
+    <div>
+      <div className="mb-6 flex gap-4">
+        <SearchBar 
+          onSearch={setSearchQuery}
+          placeholder="Search games..."
+        />
+        <FilterPanel 
+          filters={filters}
+          onFilterChange={setFilters}
+        />
+      </div>
+      
+      <GameGrid 
+        games={games || []}
+        loading={isLoading}
+        emptyState={
+          <EmptyState 
+            message="No games match your criteria"
+            action={() => {
+              setFilters({});
+              setSearchQuery('');
+            }}
+            actionLabel="Clear filters"
+          />
+        }
+      />
+    </div>
+  );
+}
+```
+
+### Infinite Scroll Implementation
+
+```tsx
+function InfiniteGameGrid() {
+  const {
+    data,
+    fetchNextPage,
+    hasNextPage,
+    isFetchingNextPage,
+    isLoading
+  } = useInfiniteQuery({
+    queryKey: ['games'],
+    queryFn: ({ pageParam = 0 }) => fetchGames({ page: pageParam }),
+    getNextPageParam: (lastPage, pages) => 
+      lastPage.hasMore ? pages.length : undefined
+  });
+  
+  const games = data?.pages.flatMap(page => page.games) || [];
+  
+  return (
+    <GameGrid 
+      games={games}
+      loading={isLoading}
+      infiniteScroll
+      onLoadMore={fetchNextPage}
+      hasMore={hasNextPage}
+      loadingMore={isFetchingNextPage}
+      columns={{
+        mobile: 2,
+        tablet: 3,
+        desktop: 4
+      }}
+    />
+  );
+}
+```
+
+### Virtualized Large Dataset
+
+```tsx
+function VirtualizedGrid() {
+  const { data: allGames } = useAllGames(); // Thousands of games
+  
+  return (
+    <div className="h-screen overflow-y-auto">
+      <GameGrid 
+        games={allGames || []}
+        enableVirtualization
+        virtualizeThreshold={50}
+        itemHeight={320}
+        columns={4}
+        gap={16}
+      />
+    </div>
+  );
+}
+```
+
+### Responsive Column Layout
+
+```tsx
+function ResponsiveGrid() {
+  const [viewMode, setViewMode] = useState('grid');
+  
+  const columns = {
+    list: { mobile: 1, tablet: 1, desktop: 1 },
+    grid: { mobile: 2, tablet: 3, desktop: 4 },
+    compact: { mobile: 3, tablet: 4, desktop: 6 }
+  };
+  
+  return (
+    <div>
+      <div className="mb-4 flex gap-2">
+        <Button 
+          variant={viewMode === 'list' ? 'primary' : 'ghost'}
+          onClick={() => setViewMode('list')}
+        >
+          <List className="w-4 h-4" />
+        </Button>
+        <Button 
+          variant={viewMode === 'grid' ? 'primary' : 'ghost'}
+          onClick={() => setViewMode('grid')}
+        >
+          <Grid className="w-4 h-4" />
+        </Button>
+        <Button 
+          variant={viewMode === 'compact' ? 'primary' : 'ghost'}
+          onClick={() => setViewMode('compact')}
+        >
+          <Grid3x3 className="w-4 h-4" />
+        </Button>
+      </div>
+      
+      <GameGrid 
+        games={games}
+        columns={columns[viewMode]}
+        gap={viewMode === 'compact' ? 8 : 16}
+      />
+    </div>
+  );
+}
+```
+
+### With Sorting
+
+```tsx
+function SortableGameGrid() {
+  const [sortBy, setSortBy] = useState('popular');
+  const [games, setGames] = useState(initialGames);
+  
+  const sortedGames = useMemo(() => {
+    const sorted = [...games];
+    switch (sortBy) {
+      case 'popular':
+        return sorted.sort((a, b) => b.playCount - a.playCount);
+      case 'new':
+        return sorted.sort((a, b) => 
+          new Date(b.releaseDate).getTime() - new Date(a.releaseDate).getTime()
+        );
+      case 'az':
+        return sorted.sort((a, b) => a.title.localeCompare(b.title));
+      case 'rtp':
+        return sorted.sort((a, b) => (b.rtp || 0) - (a.rtp || 0));
+      default:
+        return sorted;
+    }
+  }, [games, sortBy]);
+  
+  return (
+    <div>
+      <div className="mb-4 flex justify-between items-center">
+        <h2 className="text-2xl font-bold">
+          All Games ({games.length})
+        </h2>
+        <select
+          value={sortBy}
+          onChange={(e) => setSortBy(e.target.value)}
+          className="px-4 py-2 border rounded-lg"
+        >
+          <option value="popular">Most Popular</option>
+          <option value="new">Newest First</option>
+          <option value="az">A-Z</option>
+          <option value="rtp">Highest RTP</option>
+        </select>
+      </div>
+      
+      <GameGrid 
+        games={sortedGames}
+        onGameClick={handleGameClick}
+        onFavoriteToggle={handleFavoriteToggle}
+      />
+    </div>
+  );
+}
+```
+
+### Category Sections
+
+```tsx
+function CategorizedGameGrid() {
+  const { data: gamesByCategory } = useGamesByCategory();
+  
+  return (
+    <div className="space-y-8">
+      {gamesByCategory?.map(category => (
+        <section key={category.id}>
+          <div className="flex justify-between items-center mb-4">
+            <h2 className="text-xl font-bold">
+              {category.name}
+            </h2>
+            <Link href={`/category/${category.slug}`}>
+              View All →
+            </Link>
+          </div>
+          
+          <GameGrid 
+            games={category.games.slice(0, 8)}
+            columns={{
+              mobile: 2,
+              tablet: 4,
+              desktop: 4
+            }}
+            enableVirtualization={false}
+          />
+        </section>
+      ))}
+    </div>
+  );
+}
+```
+
+## Loading States
+
+### Skeleton Loading
+
+```tsx
+function LoadingGrid() {
+  return (
+    <GameGrid 
+      games={[]}
+      loading={true}
+      skeletonCount={16}
+      columns={4}
+    />
+  );
+}
+```
+
+### Progressive Loading
+
+```tsx
+function ProgressiveGrid() {
+  const [loadedGames, setLoadedGames] = useState([]);
+  const [loading, setLoading] = useState(true);
+  
+  useEffect(() => {
+    // Load games in batches
+    const loadBatch = async (batch) => {
+      const games = await fetchGamesBatch(batch);
+      setLoadedGames(prev => [...prev, ...games]);
+      
+      if (batch < totalBatches) {
+        setTimeout(() => loadBatch(batch + 1), 100);
+      } else {
+        setLoading(false);
+      }
+    };
+    
+    loadBatch(0);
+  }, []);
+  
+  return (
+    <GameGrid 
+      games={loadedGames}
+      loading={loading && loadedGames.length === 0}
+      skeletonCount={4}
+    />
+  );
+}
+```
+
+## Performance Optimization
+
+### Virtualization
+
+The GameGrid uses virtualization for large datasets:
+
+```tsx
+// Automatically virtualizes when games > threshold
+<GameGrid 
+  games={thousandsOfGames}
+  enableVirtualization={true}
+  virtualizeThreshold={100}
+  itemHeight={320}
+/>
+```
+
+### Memoization
+
+Prevent unnecessary re-renders:
+
+```tsx
+const MemoizedGameGrid = memo(GameGrid, (prevProps, nextProps) => {
+  return (
+    prevProps.games === nextProps.games &&
+    prevProps.loading === nextProps.loading &&
+    prevProps.columns === nextProps.columns
+  );
+});
+```
+
+### Image Optimization
+
+Games use lazy loading and placeholders:
+
+```tsx
+// Each GameCard in the grid optimizes images
+<GameCard 
+  game={game}
+  lazyLoad={true}
+  placeholder="/game-placeholder.jpg"
+/>
+```
+
+## Accessibility
+
+The GameGrid is fully accessible:
+
+- **Keyboard Navigation**: Arrow keys to navigate grid
+- **Screen Reader**: Grid role and proper labels
+- **Focus Management**: Focus follows selection
+- **Loading States**: Announced to screen readers
+- **Empty States**: Descriptive messages
+
+### ARIA Implementation
+
+```tsx
+<div
+  role="grid"
+  aria-label="Game library"
+  aria-rowcount={totalRows}
+  aria-colcount={columns}
+  aria-busy={loading}
+>
+  {games.map((game, index) => (
+    <div
+      role="gridcell"
+      aria-rowindex={Math.floor(index / columns) + 1}
+      aria-colindex={(index % columns) + 1}
+      tabIndex={0}
+    >
+      <GameCard game={game} />
+    </div>
+  ))}
+</div>
+```
+
+## Responsive Design
+
+The grid adapts to all screen sizes:
+
+- **Mobile**: 1-2 columns, touch optimized
+- **Tablet**: 2-3 columns, balanced layout
+- **Desktop**: 3-6 columns, hover states
+
+<Canvas of={GameGridStories.Mobile} />
+
+## Theme Support
+
+Full theme adaptation:
+
+<Canvas of={GameGridStories.DarkMode} />
+
+## Best Practices
+
+### Do's ✅
+
+- Use virtualization for large datasets
+- Provide loading and empty states
+- Implement infinite scroll for exploration
+- Show game count
+- Cache rendered games
+- Optimize images
+
+### Don'ts ❌
+
+- Don't render thousands of DOM nodes
+- Don't forget loading states
+- Don't ignore mobile layouts
+- Don't skip keyboard navigation
+- Don't load all images at once
+- Don't forget error handling
+
+## Common Patterns
+
+### Featured Games Section
+
+```tsx
+function FeaturedGames() {
+  const { data: featured } = useFeaturedGames();
+  
+  return (
+    <section className="mb-8">
+      <h2 className="text-2xl font-bold mb-4">Featured Games</h2>
+      <GameGrid 
+        games={featured}
+        columns={{ mobile: 1, tablet: 2, desktop: 3 }}
+        gap={24}
+        enableVirtualization={false}
+      />
+    </section>
+  );
+}
+```
+
+### Recently Played
+
+```tsx
+function RecentlyPlayed() {
+  const { data: recentGames } = useRecentlyPlayed();
+  
+  return (
+    <GameGrid 
+      games={recentGames}
+      columns={{ mobile: 2, tablet: 4, desktop: 6 }}
+      gap={12}
+      emptyState={
+        <div className="text-center py-8">
+          <p>No recently played games</p>
+          <Button variant="primary" className="mt-4">
+            Explore Games
+          </Button>
+        </div>
+      }
+    />
+  );
+}
+```
+
+## Related Components
+
+- [GameCard](/?path=/docs/documentation-features-gamecard--docs) - Individual game cards
+- [FilterPanel](/?path=/docs/documentation-features-filterpanel--docs) - Filter games
+- [SearchBar](/?path=/docs/documentation-features-searchbar--docs) - Search games
+
+## FAQ
+
+**Q: When should I use virtualization?**  
+A: Enable it when displaying more than 50-100 games.
+
+**Q: How do I handle different card sizes?**  
+A: Adjust `itemHeight` prop and GameCard sizing together.
+
+**Q: Can I mix different card types?**  
+A: Yes, pass different components through game data.
+
+**Q: How do I implement pagination instead of infinite scroll?**  
+A: Use pagination controls and update the games array.

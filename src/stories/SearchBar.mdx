@@ -1,0 +1,524 @@
+import { Meta, Canvas, Controls, Story, ArgTypes } from '@storybook/addon-docs/blocks';
+import SearchBarMeta, * as SearchBarStories from '../components/features/SearchBar/SearchBar.stories';
+import { SearchBar } from '../components/features/SearchBar';
+
+<Meta title="Documentation/Features/SearchBar" />
+
+# SearchBar Component
+
+The SearchBar component provides advanced search functionality with debouncing, loading states, and keyboard shortcuts. It's optimized for searching through large game libraries with instant feedback.
+
+## Overview
+
+The SearchBar is a feature-rich search component built on top of the base Input component. It includes debounced search, clear functionality, loading indicators, and keyboard shortcuts for enhanced user experience.
+
+<Canvas of={SearchBarStories.Default} />
+
+## Props
+
+<ArgTypes of={SearchBar} />
+
+## Detailed Props Documentation
+
+### `initialValue`
+**Type:** `string`  
+**Default:** `''`
+
+Initial search query value:
+
+```tsx
+<SearchBar 
+  initialValue="poker"
+  onSearch={handleSearch}
+/>
+```
+
+### `placeholder`
+**Type:** `string`  
+**Default:** `'Search...'`
+
+Placeholder text for the search input:
+
+```tsx
+<SearchBar 
+  placeholder="Search games, providers, or categories..."
+/>
+```
+
+### `onSearch`
+**Type:** `(query: string) => void`  
+**Default:** `undefined`
+
+Callback fired after debounce delay:
+
+```tsx
+<SearchBar 
+  onSearch={(query) => {
+    // Perform search with debounced query
+    searchGames(query);
+  }}
+  debounceDelay={300}
+/>
+```
+
+### `onChange`
+**Type:** `(value: string) => void`  
+**Default:** `undefined`
+
+Immediate callback for every keystroke:
+
+```tsx
+<SearchBar 
+  onChange={(value) => {
+    // Update UI immediately
+    setSearchTerm(value);
+  }}
+  onSearch={(query) => {
+    // Perform actual search after debounce
+    fetchResults(query);
+  }}
+/>
+```
+
+### `debounceDelay`
+**Type:** `number`  
+**Default:** `300`
+
+Milliseconds to wait before triggering onSearch:
+
+```tsx
+<SearchBar 
+  debounceDelay={500} // Wait 500ms after typing stops
+  onSearch={handleSearch}
+/>
+```
+
+### `isLoading`
+**Type:** `boolean`  
+**Default:** `false`
+
+Shows loading spinner when searching:
+
+```tsx
+<SearchBar 
+  isLoading={isSearching}
+  onSearch={handleSearch}
+/>
+```
+
+### `showClear`
+**Type:** `boolean`  
+**Default:** `true`
+
+Show/hide clear button when text is present:
+
+```tsx
+<SearchBar 
+  showClear={true}
+  onClear={() => console.log('Cleared')}
+/>
+```
+
+### `autoFocus`
+**Type:** `boolean`  
+**Default:** `false`
+
+Auto-focus the input on mount:
+
+```tsx
+<SearchBar 
+  autoFocus
+  placeholder="Start typing to search..."
+/>
+```
+
+### `size`
+**Type:** `'sm' | 'md' | 'lg'`  
+**Default:** `'md'`
+
+Search bar size variant:
+
+```tsx
+<SearchBar 
+  size="lg"
+  placeholder="Search our game library..."
+/>
+```
+
+## Usage Examples
+
+### Basic Search
+
+```tsx
+import { SearchBar } from '@/components/features/SearchBar';
+import { useState } from 'react';
+
+function GameSearch() {
+  const [results, setResults] = useState([]);
+  const [loading, setLoading] = useState(false);
+  
+  const handleSearch = async (query) => {
+    setLoading(true);
+    const games = await searchGames(query);
+    setResults(games);
+    setLoading(false);
+  };
+  
+  return (
+    <div>
+      <SearchBar 
+        placeholder="Search games..."
+        onSearch={handleSearch}
+        isLoading={loading}
+      />
+      
+      <div className="mt-4">
+        {results.map(game => (
+          <GameCard key={game.id} game={game} />
+        ))}
+      </div>
+    </div>
+  );
+}
+```
+
+### With Filters Integration
+
+```tsx
+function AdvancedSearch() {
+  const [searchQuery, setSearchQuery] = useState('');
+  const [filters, setFilters] = useState({});
+  
+  const { data: games, isLoading } = useGames({
+    search: searchQuery,
+    ...filters
+  });
+  
+  return (
+    <div className="space-y-4">
+      <SearchBar 
+        placeholder="Search games, providers, or tags..."
+        onSearch={setSearchQuery}
+        isLoading={isLoading}
+        size="lg"
+      />
+      
+      <FilterPanel 
+        filters={filters}
+        onFilterChange={setFilters}
+      />
+      
+      <GameGrid games={games} />
+    </div>
+  );
+}
+```
+
+### Search with Suggestions
+
+```tsx
+function SearchWithSuggestions() {
+  const [query, setQuery] = useState('');
+  const [suggestions, setSuggestions] = useState([]);
+  const [showSuggestions, setShowSuggestions] = useState(false);
+  
+  const handleSearch = async (searchTerm) => {
+    if (searchTerm.length > 2) {
+      const results = await fetchSuggestions(searchTerm);
+      setSuggestions(results);
+      setShowSuggestions(true);
+    } else {
+      setShowSuggestions(false);
+    }
+  };
+  
+  return (
+    <div className="relative">
+      <SearchBar 
+        onChange={setQuery}
+        onSearch={handleSearch}
+        onFocus={() => setShowSuggestions(true)}
+        onBlur={() => setTimeout(() => setShowSuggestions(false), 200)}
+      />
+      
+      {showSuggestions && suggestions.length > 0 && (
+        <div className="absolute top-full left-0 right-0 mt-1 bg-white dark:bg-gray-800 rounded-lg shadow-lg z-50">
+          {suggestions.map(suggestion => (
+            <button
+              key={suggestion.id}
+              className="w-full px-4 py-2 text-left hover:bg-gray-100 dark:hover:bg-gray-700"
+              onClick={() => {
+                setQuery(suggestion.title);
+                handleSearch(suggestion.title);
+              }}
+            >
+              <div className="font-medium">{suggestion.title}</div>
+              <div className="text-sm text-secondary">{suggestion.category}</div>
+            </button>
+          ))}
+        </div>
+      )}
+    </div>
+  );
+}
+```
+
+### Global Search Header
+
+```tsx
+function HeaderSearch() {
+  const router = useRouter();
+  const [isSearching, setIsSearching] = useState(false);
+  
+  const handleSearch = (query) => {
+    if (query) {
+      router.push(`/search?q=${encodeURIComponent(query)}`);
+    }
+  };
+  
+  return (
+    <header className="sticky top-0 z-50 bg-background">
+      <div className="container mx-auto px-4 py-3 flex items-center gap-4">
+        <Logo />
+        
+        <SearchBar 
+          placeholder="Search games, providers, categories..."
+          onSearch={handleSearch}
+          className="flex-1 max-w-xl mx-auto"
+          showClear
+          autoFocus={false}
+        />
+        
+        <nav className="flex gap-4">
+          {/* Navigation items */}
+        </nav>
+      </div>
+    </header>
+  );
+}
+```
+
+### Mobile Search Modal
+
+```tsx
+function MobileSearch() {
+  const [isOpen, setIsOpen] = useState(false);
+  
+  return (
+    <>
+      <button 
+        onClick={() => setIsOpen(true)}
+        className="p-2 rounded-lg"
+        aria-label="Open search"
+      >
+        <Search className="w-5 h-5" />
+      </button>
+      
+      <Modal 
+        isOpen={isOpen}
+        onClose={() => setIsOpen(false)}
+        fullScreen
+      >
+        <div className="p-4">
+          <SearchBar 
+            autoFocus
+            placeholder="What are you looking for?"
+            size="lg"
+            onSearch={(query) => {
+              handleSearch(query);
+              setIsOpen(false);
+            }}
+          />
+          
+          <div className="mt-6">
+            <h3 className="font-semibold mb-3">Popular Searches</h3>
+            <div className="flex flex-wrap gap-2">
+              {popularSearches.map(term => (
+                <button
+                  key={term}
+                  className="px-3 py-1 bg-gray-100 dark:bg-gray-800 rounded-full text-sm"
+                  onClick={() => {
+                    handleSearch(term);
+                    setIsOpen(false);
+                  }}
+                >
+                  {term}
+                </button>
+              ))}
+            </div>
+          </div>
+        </div>
+      </Modal>
+    </>
+  );
+}
+```
+
+## Keyboard Shortcuts
+
+The SearchBar supports these keyboard shortcuts:
+
+- **Escape**: Clear search input
+- **Enter**: Trigger immediate search
+- **Cmd/Ctrl + K**: Focus search (when global)
+
+### Implementation
+
+```tsx
+useEffect(() => {
+  const handleKeyDown = (e: KeyboardEvent) => {
+    // Global search shortcut
+    if ((e.metaKey || e.ctrlKey) && e.key === 'k') {
+      e.preventDefault();
+      searchInputRef.current?.focus();
+    }
+  };
+  
+  window.addEventListener('keydown', handleKeyDown);
+  return () => window.removeEventListener('keydown', handleKeyDown);
+}, []);
+```
+
+## Search Strategies
+
+### Debounced Search
+
+```tsx
+// Default behavior - waits for user to stop typing
+<SearchBar 
+  debounceDelay={300}
+  onSearch={performSearch}
+/>
+```
+
+### Instant Search
+
+```tsx
+// Immediate feedback with loading states
+<SearchBar 
+  debounceDelay={0}
+  onSearch={performSearch}
+  isLoading={isSearching}
+/>
+```
+
+### Throttled Search
+
+```tsx
+// For rate-limited APIs
+const throttledSearch = useThrottle(performSearch, 1000);
+
+<SearchBar 
+  onSearch={throttledSearch}
+/>
+```
+
+## Accessibility
+
+The SearchBar is fully accessible:
+
+- **ARIA Labels**: Proper search role and labels
+- **Keyboard Navigation**: Full keyboard support
+- **Screen Reader**: Status announcements
+- **Focus Management**: Clear focus indicators
+- **Mobile Optimization**: Large touch targets
+
+### ARIA Attributes
+
+```tsx
+<div role="search">
+  <input
+    type="search"
+    aria-label="Search games"
+    aria-describedby="search-hint"
+    aria-busy={isLoading}
+    aria-live="polite"
+  />
+  <span id="search-hint" className="sr-only">
+    Press Escape to clear, Enter to search
+  </span>
+</div>
+```
+
+## Performance
+
+### Optimization Techniques
+
+1. **Debouncing**: Reduces API calls
+2. **Caching**: Cache recent searches
+3. **Abort Controllers**: Cancel outdated requests
+4. **Virtual Scrolling**: For large result sets
+5. **Memoization**: Prevent unnecessary re-renders
+
+### Request Cancellation
+
+```tsx
+const abortControllerRef = useRef<AbortController>();
+
+const handleSearch = async (query: string) => {
+  // Cancel previous request
+  abortControllerRef.current?.abort();
+  abortControllerRef.current = new AbortController();
+  
+  try {
+    const results = await fetch(`/api/search?q=${query}`, {
+      signal: abortControllerRef.current.signal
+    });
+    // Handle results
+  } catch (error) {
+    if (error.name !== 'AbortError') {
+      // Handle actual error
+    }
+  }
+};
+```
+
+## Best Practices
+
+### Do's ✅
+
+- Provide clear placeholder text
+- Show loading states
+- Implement keyboard shortcuts
+- Cache search results
+- Handle empty states
+- Support search history
+
+### Don'ts ❌
+
+- Don't search on every keystroke without debounce
+- Don't forget to handle errors
+- Don't block UI during search
+- Don't ignore accessibility
+- Don't make search field too small
+- Don't hide important actions behind search
+
+## Theme Support
+
+Adapts to current theme:
+
+<Canvas of={SearchBarStories.DarkMode} />
+
+## Mobile Optimization
+
+<Canvas of={SearchBarStories.Mobile} />
+
+## Related Components
+
+- [Input](/?path=/docs/documentation-base-ui-input--docs) - Base input component
+- [FilterPanel](/?path=/docs/documentation-features-filterpanel--docs) - Advanced filtering
+- [GameGrid](/?path=/docs/documentation-features-gamegrid--docs) - Display search results
+
+## FAQ
+
+**Q: How do I implement search history?**  
+A: Store recent searches in localStorage and display them as suggestions.
+
+**Q: Can I search multiple fields?**  
+A: Yes, implement full-text search on your backend.
+
+**Q: How do I handle typos?**  
+A: Implement fuzzy search or search suggestions.
+
+**Q: Should I use instant or debounced search?**  
+A: Use debounced for API calls, instant for local filtering.

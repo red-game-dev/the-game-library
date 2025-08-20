@@ -1,0 +1,227 @@
+import { Meta, Canvas, Story, ArgTypes, Source } from '@storybook/addon-docs/blocks';
+import GameCardMeta, * as GameCardStories from '../components/features/GameCard/GameCard.stories';
+import { GameCard } from '../components/features/GameCard';
+
+<Meta title="Documentation/Features/GameCard" />
+
+# GameCard Component
+
+The **GameCard** is a core component of The Game Library, designed to showcase individual games with rich interactivity and visual appeal. It follows gaming industry best practices while maintaining exceptional performance and accessibility.
+
+## Overview
+
+<Canvas of={GameCardStories.Default} />
+
+## Design Philosophy
+
+### Why This Component?
+
+The GameCard serves as the primary touchpoint between users and games. Our design decisions prioritize:
+
+1. **Visual Hierarchy** - Clear information architecture with thumbnail prominence
+2. **Instant Feedback** - Micro-interactions that respond to user actions
+3. **Performance** - GPU-accelerated animations and lazy loading
+4. **Accessibility** - Full keyboard navigation and screen reader support
+5. **Mobile-First** - Touch-optimized with appropriate target sizes
+
+### Technical Decisions
+
+- **React.memo** - Prevents unnecessary re-renders in large grids
+- **CSS Transforms** - GPU acceleration for smooth 60fps animations
+- **Lazy Loading** - Images load on-demand with blur placeholders
+- **Semantic HTML** - Proper ARIA labels and roles for accessibility
+
+## Variants
+
+### Default Variant
+Standard card with balanced information density.
+
+<Canvas of={GameCardStories.Default} />
+
+### Size Variants
+Different sizes for various layout needs.
+
+<Canvas of={GameCardStories.SizeComparison} />
+
+### With All Badges
+Cards can display multiple badges for featured games.
+
+<Canvas of={GameCardStories.WithAllBadges} />
+
+## Game Types
+
+Each game type has a distinct color scheme for quick visual identification:
+
+<Canvas of={GameCardStories.GameTypes} />
+
+- 🎰 **Slots** - Orange (excitement, energy)
+- 🃏 **Table** - Emerald (classic, sophisticated)
+- 📹 **Live** - Red (live action, urgency)
+- ⚡ **Instant** - Violet (quick, modern)
+
+## States
+
+### Loading State
+Skeleton loader maintains layout stability during data fetching.
+
+<Canvas of={GameCardStories.Loading} />
+
+### Interactive States
+- **Hover** - Elevation and glow effect with "Play Now" overlay
+- **Focus** - Clear focus ring for keyboard navigation
+- **Active** - Subtle scale animation on click
+
+## Usage
+
+### Basic Implementation
+
+```tsx
+import { GameCard } from '@/components/features/GameCard';
+
+function GameLibrary() {
+  const handleFavorite = (gameId: string, isFavorite: boolean) => {
+    // Update favorite status
+    console.log(`Game ${gameId} favorite: ${isFavorite}`);
+  };
+
+  const handleClick = (game: Game) => {
+    // Navigate to game or launch
+    console.log(`Launching ${game.title}`);
+  };
+
+  return (
+    <GameCard
+      game={gameData}
+      onFavoriteToggle={handleFavorite}
+      onClick={handleClick}
+      variant="default"
+      enableHover={true}
+    />
+  );
+}
+```
+
+### Responsive Grid Layout
+
+```tsx
+<div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
+  {games.map(game => (
+    <GameCard
+      key={game.id}
+      game={game}
+      onFavoriteToggle={handleFavorite}
+      onClick={handleGameClick}
+    />
+  ))}
+</div>
+```
+
+### With Loading States
+
+```tsx
+{isLoading ? (
+  <div className="grid grid-cols-4 gap-4">
+    {Array.from({ length: 8 }).map((_, i) => (
+      <GameCard key={i} game={null} isLoading={true} />
+    ))}
+  </div>
+) : (
+  <div className="grid grid-cols-4 gap-4">
+    {games.map(game => (
+      <GameCard key={game.id} game={game} />
+    ))}
+  </div>
+)}
+```
+
+## Props
+
+<ArgTypes of={GameCard} />
+
+## Performance Optimizations
+
+### 1. Image Loading Strategy
+- **Lazy Loading**: Images load only when entering viewport
+- **Priority Hints**: Above-fold images get priority
+- **Blur Placeholder**: Smooth transition from loading to loaded
+- **Responsive Sizing**: Appropriate image sizes for different viewports
+
+### 2. Animation Performance
+- **Transform-Only**: Uses only GPU-accelerated properties
+- **Will-Change**: Hints browser about upcoming animations
+- **Reduced Motion**: Respects user preferences
+- **60fps Target**: All animations maintain smooth frame rate
+
+### 3. React Optimizations
+- **Memoization**: Component wrapped in React.memo
+- **Callback Memoization**: Event handlers use useCallback
+- **Minimal Re-renders**: State updates are localized
+
+## Accessibility Features
+
+### Keyboard Navigation
+- **Tab Navigation**: Full keyboard accessibility
+- **Enter/Space**: Trigger card click
+- **Focus Indicators**: Clear visual focus states
+
+### Screen Reader Support
+- **Semantic HTML**: Proper heading hierarchy
+- **ARIA Labels**: Descriptive labels for all interactive elements
+- **Role Attributes**: Appropriate roles for non-semantic elements
+
+### Visual Accessibility
+- **Color Contrast**: WCAG AAA compliant (7:1 ratio)
+- **Text Sizing**: Minimum 14px for body text
+- **Touch Targets**: Minimum 44x44px for interactive elements
+
+## Mobile Considerations
+
+### Touch Optimization
+- **44px Touch Targets**: All interactive elements meet minimum size
+- **Touch Feedback**: Visual feedback on touch interactions
+- **Swipe Gestures**: Future support for swipe actions
+
+### Responsive Design
+- **Fluid Typography**: Scales appropriately across devices
+- **Flexible Grid**: Adapts from 1 to 5 columns
+- **Optimized Images**: Different sizes for different viewports
+
+## Theme Support
+
+The GameCard automatically adapts to the current theme:
+
+### Dark Mode
+<Canvas of={GameCardStories.DarkMode} />
+
+### Glass Card Variant
+<Canvas of={GameCardStories.GlassCards} />
+
+## Best Practices
+
+### Do's ✅
+- Use semantic game types for proper coloring
+- Provide meaningful alt text for thumbnails
+- Handle loading states properly
+- Use appropriate variants for context
+
+### Don'ts ❌
+- Don't disable hover effects on desktop
+- Don't skip loading states
+- Don't use inline styles
+- Don't forget keyboard navigation
+
+## Migration Guide
+
+If migrating from a previous card component:
+
+1. **Update imports**: `import { GameCard } from '@/components/features/GameCard'`
+2. **Map props**: Ensure game object matches the Game interface
+3. **Update callbacks**: Use new callback signatures
+4. **Test thoroughly**: Verify all interactions work as expected
+
+## Related Components
+
+- **GameGrid** - Container for multiple GameCards
+- **GameCardSkeleton** - Loading state component
+- **FilterPanel** - Filtering game cards
+- **SearchBar** - Searching through games

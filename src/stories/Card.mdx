@@ -1,0 +1,505 @@
+import { Meta, Canvas, Controls, Story, ArgTypes } from '@storybook/addon-docs/blocks';
+import CardMeta, * as CardStories from '../components/ui/Card/Card.stories';
+import { Card, CardHeader, CardBody, CardFooter } from '../components/ui/Card';
+
+<Meta title="Documentation/Base UI/Card" />
+
+# Card Component
+
+The Card component is a versatile container that groups related content and actions. It provides consistent styling, elevation, and interactive states for content presentation.
+
+## Overview
+
+Cards are surfaces that display content and actions on a single topic. They should be easy to scan for relevant information. The Card component includes sub-components for structured layouts: CardHeader, CardBody, and CardFooter.
+
+<Canvas of={CardStories.Default} />
+
+## Components
+
+### Card
+Main container component with variants and interactive states.
+
+### CardHeader
+Optional header section with title, subtitle, and actions.
+
+### CardBody
+Main content area with proper padding and scrolling support.
+
+### CardFooter
+Optional footer section for actions and metadata.
+
+## Props
+
+### Card Props
+
+<ArgTypes of={Card} />
+
+## Detailed Props Documentation
+
+### Card Component
+
+#### `variant`
+**Type:** `'default' | 'elevated' | 'outlined' | 'ghost' | 'gradient' | 'glass'`  
+**Default:** `'default'`
+
+Visual style variants:
+- **default**: Standard card with subtle background
+- **elevated**: Card with shadow for depth
+- **outlined**: Border-only style
+- **ghost**: Minimal style, transparent background
+- **gradient**: Gradient background for emphasis
+- **glass**: Glassmorphism effect
+
+<Canvas of={CardStories.Variants} />
+
+#### `padding`
+**Type:** `'none' | 'sm' | 'md' | 'lg' | 'xl'`  
+**Default:** `'md'`
+
+Controls internal padding:
+- **none**: No padding (for custom layouts)
+- **sm**: Compact padding (8px)
+- **md**: Standard padding (16px)
+- **lg**: Comfortable padding (24px)
+- **xl**: Spacious padding (32px)
+
+#### `interactive`
+**Type:** `boolean`  
+**Default:** `false`
+
+Adds hover and click states for clickable cards.
+
+#### `selected`
+**Type:** `boolean`  
+**Default:** `false`
+
+Shows selected state with accent border and background.
+
+#### `disabled`
+**Type:** `boolean`  
+**Default:** `false`
+
+Disables interaction and applies disabled styling.
+
+### CardHeader Props
+
+#### `title`
+**Type:** `string | React.ReactNode`  
+**Required**
+
+Main title of the card.
+
+#### `subtitle`
+**Type:** `string | React.ReactNode`  
+**Optional**
+
+Secondary text below the title.
+
+#### `action`
+**Type:** `React.ReactNode`  
+**Optional**
+
+Action elements (buttons, menus) aligned to the right.
+
+#### `icon`
+**Type:** `React.ReactNode`  
+**Optional**
+
+Icon displayed before the title.
+
+### CardBody Props
+
+#### `scrollable`
+**Type:** `boolean`  
+**Default:** `false`
+
+Makes content scrollable with max height.
+
+#### `padded`
+**Type:** `boolean`  
+**Default:** `true`
+
+Controls padding (useful when Card has padding='none').
+
+### CardFooter Props
+
+#### `separated`
+**Type:** `boolean`  
+**Default:** `false`
+
+Adds top border for visual separation.
+
+#### `actions`
+**Type:** `React.ReactNode`  
+**Optional**
+
+Action buttons aligned to the right.
+
+## Usage Examples
+
+### Basic Card
+
+```tsx
+import { Card } from '@/components/ui/Card';
+
+function BasicCard() {
+  return (
+    <Card>
+      <h3>Card Title</h3>
+      <p>Card content goes here.</p>
+    </Card>
+  );
+}
+```
+
+### Structured Card
+
+```tsx
+import { Card, CardHeader, CardBody, CardFooter } from '@/components/ui/Card';
+import { Button } from '@/components/ui/Button';
+
+function StructuredCard() {
+  return (
+    <Card variant="elevated">
+      <CardHeader
+        title="Game Statistics"
+        subtitle="Last 30 days"
+        icon={<ChartBar className="w-5 h-5" />}
+        action={
+          <Button variant="ghost" size="sm">
+            <MoreVertical className="w-4 h-4" />
+          </Button>
+        }
+      />
+      <CardBody>
+        <div className="space-y-4">
+          <div>Games Played: 142</div>
+          <div>Win Rate: 68%</div>
+          <div>Total Score: 15,420</div>
+        </div>
+      </CardBody>
+      <CardFooter
+        separated
+        actions={
+          <>
+            <Button variant="ghost">View Details</Button>
+            <Button variant="primary">Play Now</Button>
+          </>
+        }
+      >
+        <span className="text-sm text-secondary">Updated 2 hours ago</span>
+      </CardFooter>
+    </Card>
+  );
+}
+```
+
+### Interactive Card
+
+```tsx
+function InteractiveCard() {
+  const [selected, setSelected] = useState(false);
+  
+  return (
+    <Card
+      interactive
+      selected={selected}
+      onClick={() => setSelected(!selected)}
+      variant="outlined"
+    >
+      <CardBody>
+        <h4>Click to select</h4>
+        <p>This card is {selected ? 'selected' : 'not selected'}</p>
+      </CardBody>
+    </Card>
+  );
+}
+```
+
+### Game Card Example
+
+```tsx
+function GameCard({ game }) {
+  return (
+    <Card variant="elevated" interactive>
+      <div className="aspect-video">
+        <img src={game.thumbnail} alt={game.title} />
+      </div>
+      <CardBody>
+        <h3 className="font-semibold">{game.title}</h3>
+        <p className="text-sm text-secondary">{game.provider}</p>
+        <div className="flex gap-2 mt-2">
+          <Badge variant="info">{game.type}</Badge>
+          {game.isNew && <Badge variant="new">NEW</Badge>}
+        </div>
+      </CardBody>
+      <CardFooter separated>
+        <Button fullWidth variant="primary">
+          Play Now
+        </Button>
+      </CardFooter>
+    </Card>
+  );
+}
+```
+
+### Scrollable Content
+
+```tsx
+function ScrollableCard() {
+  return (
+    <Card>
+      <CardHeader title="Activity Log" />
+      <CardBody scrollable style={{ maxHeight: '300px' }}>
+        {activities.map(activity => (
+          <div key={activity.id} className="py-2 border-b">
+            <div>{activity.action}</div>
+            <div className="text-sm text-secondary">{activity.time}</div>
+          </div>
+        ))}
+      </CardBody>
+    </Card>
+  );
+}
+```
+
+### Glass Card
+
+```tsx
+function GlassCard() {
+  return (
+    <Card variant="glass" className="backdrop-blur-lg">
+      <CardBody>
+        <h3 className="text-white">Premium Features</h3>
+        <p className="text-white/80">
+          Unlock exclusive content and bonuses
+        </p>
+      </CardBody>
+    </Card>
+  );
+}
+```
+
+## Layout Patterns
+
+### Card Grid
+
+```tsx
+function CardGrid() {
+  return (
+    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+      {items.map(item => (
+        <Card key={item.id}>
+          {/* Card content */}
+        </Card>
+      ))}
+    </div>
+  );
+}
+```
+
+### Card List
+
+```tsx
+function CardList() {
+  return (
+    <div className="space-y-4">
+      {items.map(item => (
+        <Card key={item.id} variant="outlined">
+          {/* Card content */}
+        </Card>
+      ))}
+    </div>
+  );
+}
+```
+
+### Horizontal Scroll
+
+```tsx
+function HorizontalCards() {
+  return (
+    <div className="flex gap-4 overflow-x-auto pb-4">
+      {items.map(item => (
+        <Card key={item.id} className="flex-shrink-0 w-64">
+          {/* Card content */}
+        </Card>
+      ))}
+    </div>
+  );
+}
+```
+
+## Accessibility
+
+The Card component is accessible:
+
+- **Semantic HTML**: Uses appropriate HTML elements
+- **Keyboard Navigation**: Interactive cards are keyboard accessible
+- **ARIA Labels**: Proper roles and labels for screen readers
+- **Focus Management**: Clear focus indicators
+- **Color Contrast**: Meets WCAG AAA standards
+
+### Interactive Card Accessibility
+
+```tsx
+<Card
+  interactive
+  role="button"
+  tabIndex={0}
+  aria-pressed={selected}
+  onKeyDown={(e) => {
+    if (e.key === 'Enter' || e.key === ' ') {
+      handleClick();
+    }
+  }}
+>
+  {/* Content */}
+</Card>
+```
+
+## Design Tokens
+
+```css
+/* Padding */
+--card-padding-sm: 0.5rem;   /* 8px */
+--card-padding-md: 1rem;     /* 16px */
+--card-padding-lg: 1.5rem;   /* 24px */
+--card-padding-xl: 2rem;     /* 32px */
+
+/* Border Radius */
+--card-radius: var(--radius-lg);
+
+/* Shadows */
+--card-shadow-sm: var(--shadow-sm);
+--card-shadow-md: var(--shadow-md);
+--card-shadow-lg: var(--shadow-lg);
+```
+
+## Animation & Transitions
+
+Cards support smooth transitions:
+
+```css
+/* Hover animation */
+.card-interactive {
+  transition: all 0.2s ease;
+}
+
+.card-interactive:hover {
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-lg);
+}
+```
+
+## Best Practices
+
+### Do's ✅
+
+- Use consistent padding across cards
+- Group related information
+- Provide clear visual hierarchy
+- Use appropriate variants for context
+- Include clear actions when needed
+- Test responsive layouts
+
+### Don'ts ❌
+
+- Don't overload cards with content
+- Don't nest cards within cards
+- Don't use too many card variants together
+- Don't forget hover states for interactive cards
+- Don't make cards too small on mobile
+
+## Responsive Design
+
+Cards adapt to screen sizes:
+
+- **Mobile**: Stack vertically, full-width
+- **Tablet**: 2-column grid typically
+- **Desktop**: Multi-column grids, fixed widths
+
+<Canvas of={CardStories.Mobile} />
+
+## Theme Support
+
+Full theme support with variants:
+
+<Canvas of={CardStories.DarkMode} />
+<Canvas of={CardStories.LightMode} />
+
+## Performance
+
+- Lazy loading for card images
+- Virtualization for large card lists
+- Optimized re-renders with React.memo
+- CSS-based animations for better performance
+
+## Related Components
+
+- [Button](/?path=/docs/documentation-button--docs) - For card actions
+- [Badge](/?path=/docs/documentation-badge--docs) - For card metadata
+- [Image](/?path=/docs/documentation-image--docs) - For card media
+- [GameCard](/?path=/docs/documentation-gamecard--docs) - Specialized game card
+
+## Migration Guide
+
+From custom card implementations:
+
+1. Replace wrapper divs with `Card` component
+2. Use `CardHeader`, `CardBody`, `CardFooter` for structure
+3. Replace custom padding with `padding` prop
+4. Update hover states to use `interactive` prop
+5. Use `variant` prop instead of custom classes
+
+## Common Patterns
+
+### Loading Card
+
+```tsx
+function LoadingCard() {
+  return (
+    <Card>
+      <CardBody>
+        <div className="animate-pulse">
+          <div className="h-4 bg-gray-300 rounded w-3/4 mb-2" />
+          <div className="h-3 bg-gray-300 rounded w-full" />
+          <div className="h-3 bg-gray-300 rounded w-5/6 mt-2" />
+        </div>
+      </CardBody>
+    </Card>
+  );
+}
+```
+
+### Empty State Card
+
+```tsx
+function EmptyCard() {
+  return (
+    <Card variant="ghost" className="text-center">
+      <CardBody>
+        <div className="py-8">
+          <Icon className="w-12 h-12 mx-auto text-gray-400" />
+          <h3 className="mt-4">No data available</h3>
+          <p className="text-secondary">Start by adding some items</p>
+        </div>
+      </CardBody>
+    </Card>
+  );
+}
+```
+
+## FAQ
+
+**Q: How do I make a card clickable?**  
+A: Use the `interactive` prop and add an `onClick` handler.
+
+**Q: Can I remove card padding?**  
+A: Yes, use `padding="none"` prop.
+
+**Q: How do I add a dropdown menu to a card?**  
+A: Use the `action` prop in `CardHeader`.
+
+**Q: Can cards be draggable?**  
+A: Yes, combine with drag-and-drop libraries like react-beautiful-dnd.

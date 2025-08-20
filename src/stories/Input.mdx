@@ -1,0 +1,439 @@
+import { Meta, Canvas, Controls, Story, ArgTypes } from '@storybook/addon-docs/blocks';
+import InputMeta, * as InputStories from '../components/ui/Input/Input.stories';
+import { Input } from '../components/ui/Input';
+
+<Meta title="Documentation/Base UI/Input" />
+
+# Input Component
+
+The Input component is a flexible form control that supports various types, sizes, states, and validation feedback. It serves as the foundation for all text-based user input in the application.
+
+## Overview
+
+The Input component provides consistent styling and behavior for form inputs across the application. It includes built-in support for labels, helper text, error messages, icons, and validation states.
+
+<Canvas of={InputStories.Default} />
+
+## Props
+
+<ArgTypes of={Input} />
+
+## Detailed Props Documentation
+
+### `size`
+**Type:** `'xs' | 'sm' | 'md' | 'lg' | 'xl'`  
+**Default:** `'md'`
+
+Controls the input size for different contexts:
+
+- **xs**: Inline forms, compact spaces (28px height)
+- **sm**: Secondary forms, filters (32px height)
+- **md**: Standard forms (40px height)
+- **lg**: Prominent forms (48px height)
+- **xl**: Hero sections, landing pages (56px height)
+
+<Canvas of={InputStories.Sizes} />
+
+### `variant`
+**Type:** `'default' | 'filled' | 'ghost' | 'outline'`  
+**Default:** `'default'`
+
+Visual style variants:
+
+- **default**: Standard bordered input
+- **filled**: Filled background with no border
+- **ghost**: Transparent background
+- **outline**: Emphasized border (2px)
+
+<Canvas of={InputStories.Variants} />
+
+### `state`
+**Type:** `'default' | 'success' | 'error' | 'warning'`  
+**Default:** `'default'`
+
+Validation state with visual feedback:
+
+- **default**: Normal state
+- **success**: Valid input (green)
+- **error**: Invalid input (red)
+- **warning**: Caution needed (orange)
+
+<Canvas of={InputStories.ValidationStates} />
+
+### `label`
+**Type:** `string`  
+**Default:** `undefined`
+
+Label text displayed above the input. Automatically linked to input for accessibility.
+
+```tsx
+<Input 
+  label="Email Address" 
+  type="email"
+  placeholder="Enter your email"
+/>
+```
+
+### `helperText`
+**Type:** `string`  
+**Default:** `undefined`
+
+Helpful information displayed below the input.
+
+### `error`
+**Type:** `string`  
+**Default:** `undefined`
+
+Error message displayed below input. Automatically sets state to 'error'.
+
+### `leftIcon` & `rightIcon`
+**Type:** `React.ReactNode`  
+**Default:** `undefined`
+
+Icons displayed inside the input:
+
+```tsx
+<Input 
+  leftIcon={<Search className="w-4 h-4" />}
+  placeholder="Search..."
+/>
+
+<Input 
+  type="password"
+  rightIcon={<Eye className="w-4 h-4" />}
+  rightIconClickable
+/>
+```
+
+### `rightIconClickable`
+**Type:** `boolean`  
+**Default:** `false`
+
+Makes the right icon interactive (e.g., password toggle).
+
+### `fullWidth`
+**Type:** `boolean`  
+**Default:** `false`
+
+Makes the input expand to fill container width.
+
+### Native Input Props
+
+All standard HTML input attributes are supported:
+- `type`: text, email, password, number, tel, url, etc.
+- `placeholder`: Placeholder text
+- `disabled`: Disable input
+- `required`: Mark as required
+- `pattern`: Validation pattern
+- `min`, `max`, `step`: For number inputs
+- `maxLength`, `minLength`: Character limits
+- `autoComplete`: Autocomplete behavior
+- `autoFocus`: Focus on mount
+
+## Usage Examples
+
+### Basic Form
+
+```tsx
+import { Input } from '@/components/ui/Input';
+
+function LoginForm() {
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  
+  return (
+    <form>
+      <Input
+        label="Email"
+        type="email"
+        value={email}
+        onChange={(e) => setEmail(e.target.value)}
+        placeholder="email@example.com"
+        required
+      />
+      
+      <Input
+        label="Password"
+        type="password"
+        value={password}
+        onChange={(e) => setPassword(e.target.value)}
+        placeholder="Enter password"
+        required
+      />
+    </form>
+  );
+}
+```
+
+### With Validation
+
+```tsx
+function ValidatedInput() {
+  const [email, setEmail] = useState('');
+  const [error, setError] = useState('');
+  
+  const validateEmail = (value: string) => {
+    if (!value.includes('@')) {
+      setError('Please enter a valid email');
+    } else {
+      setError('');
+    }
+  };
+  
+  return (
+    <Input
+      label="Email Address"
+      type="email"
+      value={email}
+      onChange={(e) => {
+        setEmail(e.target.value);
+        validateEmail(e.target.value);
+      }}
+      error={error}
+      state={error ? 'error' : 'default'}
+    />
+  );
+}
+```
+
+### Password Input with Toggle
+
+```tsx
+function PasswordInput() {
+  const [showPassword, setShowPassword] = useState(false);
+  
+  return (
+    <Input
+      label="Password"
+      type={showPassword ? 'text' : 'password'}
+      rightIcon={
+        <button onClick={() => setShowPassword(!showPassword)}>
+          {showPassword ? <EyeOff /> : <Eye />}
+        </button>
+      }
+      rightIconClickable
+    />
+  );
+}
+```
+
+### Search Input
+
+```tsx
+function SearchInput() {
+  return (
+    <Input
+      leftIcon={<Search className="w-4 h-4" />}
+      placeholder="Search games..."
+      type="text"
+      variant="filled"
+    />
+  );
+}
+```
+
+## Form Integration
+
+### With React Hook Form
+
+```tsx
+import { useForm } from 'react-hook-form';
+
+function FormExample() {
+  const { register, formState: { errors } } = useForm();
+  
+  return (
+    <Input
+      label="Username"
+      {...register('username', { required: 'Username is required' })}
+      error={errors.username?.message}
+    />
+  );
+}
+```
+
+### Controlled vs Uncontrolled
+
+```tsx
+// Controlled
+function Controlled() {
+  const [value, setValue] = useState('');
+  return (
+    <Input 
+      value={value} 
+      onChange={(e) => setValue(e.target.value)} 
+    />
+  );
+}
+
+// Uncontrolled
+function Uncontrolled() {
+  const inputRef = useRef<HTMLInputElement>(null);
+  return <Input ref={inputRef} defaultValue="Initial" />;
+}
+```
+
+## Accessibility
+
+The Input component is fully accessible:
+
+- **Labels**: Automatically associated with inputs
+- **ARIA attributes**: 
+  - `aria-invalid` for error states
+  - `aria-describedby` for helper/error text
+  - `aria-required` for required fields
+- **Keyboard**: Full keyboard navigation support
+- **Screen readers**: Proper announcements for all states
+
+### Accessibility Example
+
+```tsx
+<Input
+  label="Email"
+  type="email"
+  required
+  error="Invalid email format"
+  helperText="We'll never share your email"
+  placeholder="email@example.com"
+/>
+```
+
+Generates:
+```html
+<label for="input-123">Email</label>
+<input
+  id="input-123"
+  type="email"
+  required
+  aria-invalid="true"
+  aria-describedby="input-123-error input-123-helper"
+  placeholder="email@example.com"
+/>
+<p id="input-123-error">Invalid email format</p>
+<p id="input-123-helper">We'll never share your email</p>
+```
+
+## Design Tokens
+
+```css
+/* Sizes */
+--input-height-xs: 1.75rem;  /* 28px */
+--input-height-sm: 2rem;      /* 32px */
+--input-height-md: 2.5rem;    /* 40px */
+--input-height-lg: 3rem;      /* 48px */
+--input-height-xl: 3.5rem;    /* 56px */
+
+/* Padding */
+--input-padding-xs: 0.25rem 0.5rem;
+--input-padding-sm: 0.375rem 0.75rem;
+--input-padding-md: 0.5rem 1rem;
+--input-padding-lg: 0.625rem 1.25rem;
+--input-padding-xl: 0.75rem 1.5rem;
+```
+
+## Validation Patterns
+
+Common validation patterns:
+
+```tsx
+// Email
+<Input 
+  type="email" 
+  pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$"
+/>
+
+// Phone
+<Input 
+  type="tel" 
+  pattern="[0-9]{3}-[0-9]{3}-[0-9]{4}"
+  placeholder="123-456-7890"
+/>
+
+// URL
+<Input 
+  type="url" 
+  pattern="https?://.+"
+  placeholder="https://example.com"
+/>
+
+// Number range
+<Input 
+  type="number" 
+  min="1" 
+  max="100" 
+  step="1"
+/>
+```
+
+## Best Practices
+
+### Do's ✅
+
+- Always provide labels for inputs
+- Use appropriate input types (email, tel, number)
+- Provide clear error messages
+- Include helper text for complex inputs
+- Use proper validation patterns
+- Test with keyboard and screen readers
+
+### Don'ts ❌
+
+- Don't rely on placeholder as label
+- Don't hide important information in placeholders
+- Don't disable without explanation
+- Don't use vague error messages
+- Don't forget focus states
+- Don't make inputs too small on mobile
+
+## Responsive Design
+
+The Input component adapts to screen sizes:
+
+- **Mobile**: Larger touch targets, full-width by default
+- **Tablet**: Balanced sizing
+- **Desktop**: Standard sizing, inline layouts
+
+<Canvas of={InputStories.Mobile} />
+
+## Theme Support
+
+Full dark and light theme support:
+
+<Canvas of={InputStories.DarkMode} />
+<Canvas of={InputStories.LightMode} />
+
+## Related Components
+
+- [Button](/?path=/docs/documentation-button--docs) - For form submission
+- [SearchBar](/?path=/docs/documentation-searchbar--docs) - Specialized search input
+- [Select](/?path=/docs/documentation-select--docs) - Dropdown selections
+- [Textarea](/?path=/docs/documentation-textarea--docs) - Multi-line input
+
+## Performance
+
+- Uses `forwardRef` for ref forwarding
+- Memoized with `React.memo` when needed
+- Debounced validation for performance
+- Lazy validation on blur
+
+## Migration Guide
+
+From native inputs:
+1. Replace `className` with `size` and `variant` props
+2. Move validation messages to `error` prop
+3. Add `label` prop instead of separate `<label>`
+4. Update icon implementation to use `leftIcon`/`rightIcon`
+
+## FAQ
+
+**Q: How do I clear an input?**  
+A: Control the value and set it to empty string, or add a clear button as `rightIcon`.
+
+**Q: Can I use custom validation?**  
+A: Yes, use the `error` prop with your validation logic.
+
+**Q: How do I handle form submission?**  
+A: Use standard form handling or libraries like React Hook Form.
+
+**Q: Can I customize the colors?**  
+A: Use CSS variables or create custom variants.

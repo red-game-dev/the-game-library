@@ -1,0 +1,479 @@
+import { Meta, Canvas, Story, Controls, Source, ArgTypes } from '@storybook/addon-docs/blocks';
+import AlertMeta, * as AlertStories from '../components/ui/Alert/Alert.stories';
+import { Alert } from '../components/ui/Alert';
+
+<Meta title="Documentation/Base UI/Alert" />
+
+# Alert Component
+
+The Alert component displays important messages and notifications to users. It supports multiple variants, types, sizes, and includes customizable icons, actions, and dismissible states.
+
+## Overview
+
+Alerts provide contextual feedback messages for typical user actions. They can be used for success messages, warnings, errors, or informational content. The component is fully accessible and responsive.
+
+<Canvas of={AlertStories.Default} />
+
+## Props
+
+<ArgTypes of={Alert} />
+
+## Detailed Props Documentation
+
+### `variant`
+**Type:** `'info' | 'success' | 'warning' | 'error' | 'accent'`  
+**Default:** `'info'`
+
+Controls the visual style and color scheme:
+
+- **info**: Blue - General information (default)
+- **success**: Green - Positive confirmations
+- **warning**: Orange - Cautions and warnings
+- **error**: Red - Errors and critical issues
+- **accent**: Purple - Special announcements
+
+<Canvas of={AlertStories.Variants} />
+
+### `type`
+**Type:** `'default' | 'banner' | 'inline' | 'toast'`  
+**Default:** `'default'`
+
+Controls the alert layout and positioning:
+
+- **default**: Standard alert box
+- **banner**: Full-width banner, typically at page top
+- **inline**: Minimal inline alert for forms
+- **toast**: Floating notification style
+
+<Canvas of={AlertStories.Types} />
+
+### `size`
+**Type:** `'xs' | 'sm' | 'md' | 'lg' | 'xl'`  
+**Default:** `'sm'`
+
+Controls the alert size and padding:
+
+- **xs**: Extra small - Minimal padding (mobile optimized)
+- **sm**: Small - Compact (default)
+- **md**: Medium - Standard
+- **lg**: Large - Comfortable
+- **xl**: Extra large - Spacious
+
+<Canvas of={AlertStories.Sizes} />
+
+### `icon`
+**Type:** `React.ReactNode | boolean`  
+**Default:** `true`
+
+Custom icon or boolean to show/hide default icon:
+
+```tsx
+// Default icon based on variant
+<Alert variant="success" />
+
+// Custom icon
+<Alert icon={<Shield className="w-4 h-4" />} />
+
+// Hide icon
+<Alert icon={false} />
+```
+
+### `iconSize`
+**Type:** `'xs' | 'sm' | 'md' | 'lg' | 'xl'`  
+**Default:** Based on alert size
+
+Controls the icon size independently:
+
+```tsx
+<Alert size="sm" iconSize="lg" />
+```
+
+### `iconStyle`
+**Type:** `'default' | 'square'`  
+**Default:** `'default'`
+
+Icon layout style:
+
+- **default**: Inline with content
+- **square**: Square icon container on left
+
+### `title`
+**Type:** `string`  
+**Default:** `undefined`
+
+Optional title text displayed prominently:
+
+```tsx
+<Alert 
+  title="Success!"
+  variant="success"
+>
+  Your changes have been saved.
+</Alert>
+```
+
+### `dismissible`
+**Type:** `boolean`  
+**Default:** `false`
+
+Shows close button and enables dismissal:
+
+```tsx
+<Alert 
+  dismissible
+  onDismiss={() => console.log('Dismissed')}
+>
+  This alert can be closed
+</Alert>
+```
+
+### `action`
+**Type:** `React.ReactNode`  
+**Default:** `undefined`
+
+Custom action button or element:
+
+```tsx
+<Alert
+  action={
+    <Button size="sm" variant="ghost">
+      View Details
+    </Button>
+  }
+>
+  New update available
+</Alert>
+```
+
+## Usage Examples
+
+### Basic Alerts
+
+```tsx
+import { Alert } from '@/components/ui/Alert';
+
+function Notifications() {
+  return (
+    <div className="space-y-2">
+      <Alert variant="info">
+        Your session will expire in 5 minutes.
+      </Alert>
+      
+      <Alert variant="success">
+        Payment processed successfully!
+      </Alert>
+      
+      <Alert variant="warning">
+        Low disk space warning.
+      </Alert>
+      
+      <Alert variant="error">
+        Failed to save changes.
+      </Alert>
+    </div>
+  );
+}
+```
+
+### With Title and Actions
+
+```tsx
+function UpdateAlert() {
+  return (
+    <Alert
+      variant="accent"
+      title="New Version Available"
+      action={
+        <Button size="sm" variant="primary">
+          Update Now
+        </Button>
+      }
+      dismissible
+    >
+      Version 2.0 includes performance improvements and new features.
+    </Alert>
+  );
+}
+```
+
+### Form Validation Alert
+
+```tsx
+function FormAlert() {
+  const [errors, setErrors] = useState([
+    'Email is required',
+    'Password must be 8+ characters'
+  ]);
+  
+  return (
+    <Alert 
+      variant="error" 
+      type="inline"
+      size="xs"
+      title="Please fix the following errors:"
+    >
+      <ul className="list-disc pl-4">
+        {errors.map((error, i) => (
+          <li key={i}>{error}</li>
+        ))}
+      </ul>
+    </Alert>
+  );
+}
+```
+
+### Toast Notifications
+
+```tsx
+function ToastExample() {
+  const [show, setShow] = useState(true);
+  
+  if (!show) return null;
+  
+  return (
+    <Alert
+      variant="success"
+      type="toast"
+      dismissible
+      onDismiss={() => setShow(false)}
+      className="fixed top-4 right-4 z-50"
+    >
+      File uploaded successfully!
+    </Alert>
+  );
+}
+```
+
+### Banner Alert
+
+```tsx
+function BannerAlert() {
+  return (
+    <Alert
+      variant="warning"
+      type="banner"
+      icon={<AlertTriangle />}
+      action={
+        <Link href="/maintenance">
+          Learn more →
+        </Link>
+      }
+    >
+      Scheduled maintenance: Sunday, 2-4 AM EST
+    </Alert>
+  );
+}
+```
+
+### Custom Icon Styles
+
+```tsx
+function IconStyleExamples() {
+  return (
+    <>
+      {/* Default inline icon */}
+      <Alert
+        variant="info"
+        iconSize="md"
+      >
+        Default icon style
+      </Alert>
+      
+      {/* Square icon layout */}
+      <Alert
+        variant="success"
+        iconStyle="square"
+        iconSize="lg"
+      >
+        Square icon container for emphasis
+      </Alert>
+    </>
+  );
+}
+```
+
+
+## Accessibility
+
+The Alert component follows WCAG 2.1 AAA guidelines:
+
+- **ARIA roles**: Uses `role="alert"` for important messages
+- **Live regions**: Supports `aria-live` for dynamic alerts
+- **Color contrast**: All variants meet AAA contrast ratios
+- **Keyboard navigation**: Dismissible alerts are keyboard accessible
+- **Screen readers**: Proper announcements for all states
+- **Focus management**: Proper focus handling for dismissible alerts
+
+### ARIA Attributes
+
+```tsx
+<Alert
+  role="alert"
+  aria-live="polite"
+  aria-atomic="true"
+>
+  Important announcement
+</Alert>
+```
+
+## Design Tokens
+
+```css
+/* Sizes */
+--alert-padding-xs: 0.25rem 0.5rem;
+--alert-padding-sm: 0.375rem 0.625rem;
+--alert-padding-md: 0.5rem 0.875rem;
+--alert-padding-lg: 0.625rem 1rem;
+--alert-padding-xl: 0.75rem 1.25rem;
+
+/* Icon sizes */
+--alert-icon-xs: 0.875rem;  /* 14px */
+--alert-icon-sm: 1rem;       /* 16px */
+--alert-icon-md: 1.125rem;   /* 18px */
+--alert-icon-lg: 1.25rem;    /* 20px */
+--alert-icon-xl: 1.5rem;     /* 24px */
+
+/* Colors (light mode) */
+--alert-info-bg: var(--blue-500);
+--alert-success-bg: var(--green-500);
+--alert-warning-bg: var(--orange-500);
+--alert-error-bg: var(--red-500);
+--alert-accent-bg: var(--purple-500);
+```
+
+## Responsive Design
+
+Alerts adapt to screen sizes:
+
+- **Mobile**: Extra small size by default, full-width
+- **Tablet**: Small to medium sizes, responsive padding
+- **Desktop**: All sizes available, inline or banner layouts
+
+<Canvas of={AlertStories.Mobile} />
+<Canvas of={AlertStories.Tablet} />
+
+## Theme Support
+
+Alerts automatically adapt to the current theme:
+
+### Dark Mode
+<Canvas of={AlertStories.DarkMode} />
+
+### Light Mode
+<Canvas of={AlertStories.LightMode} />
+
+## Best Practices
+
+### Do's ✅
+
+- Use appropriate variants for message type
+- Keep messages concise and actionable
+- Provide clear actions when needed
+- Use dismissible for non-critical alerts
+- Test color contrast in both themes
+- Consider mobile viewport sizes
+
+### Don'ts ❌
+
+- Don't use multiple alerts for one message
+- Don't auto-dismiss critical errors
+- Don't overuse accent/error variants
+- Don't hide important actions in alerts
+- Don't use alerts for regular content
+- Don't stack too many alerts
+
+## Common Patterns
+
+### Stacked Alerts
+
+```tsx
+function StackedAlerts() {
+  return (
+    <div className="space-y-2">
+      <Alert variant="error" size="xs">
+        Error 1: Invalid email
+      </Alert>
+      <Alert variant="error" size="xs">
+        Error 2: Password too short
+      </Alert>
+    </div>
+  );
+}
+```
+
+### Auto-dismiss Alert
+
+```tsx
+function AutoDismissAlert() {
+  const [show, setShow] = useState(true);
+  
+  useEffect(() => {
+    const timer = setTimeout(() => setShow(false), 5000);
+    return () => clearTimeout(timer);
+  }, []);
+  
+  if (!show) return null;
+  
+  return (
+    <Alert variant="success" dismissible>
+      This will auto-dismiss in 5 seconds
+    </Alert>
+  );
+}
+```
+
+### Conditional Alerts
+
+```tsx
+function ConditionalAlert({ hasError, errorMessage }) {
+  if (!hasError) return null;
+  
+  return (
+    <Alert 
+      variant="error" 
+      type="inline"
+      size="xs"
+    >
+      {errorMessage}
+    </Alert>
+  );
+}
+```
+
+## Migration Guide
+
+From previous alert implementations:
+
+1. Replace custom alert divs with `Alert` component
+2. Map color classes to `variant` prop
+3. Use `size` prop instead of custom padding
+4. Replace close buttons with `dismissible` prop
+5. Use `type` prop for layout variants
+
+## Related Components
+
+- [Badge](/?path=/docs/documentation-badge--docs) - For status indicators
+- [Toast](/?path=/docs/documentation-toast--docs) - For temporary notifications
+- [Modal](/?path=/docs/documentation-modal--docs) - For important dialogs
+- [Tooltip](/?path=/docs/documentation-tooltip--docs) - For contextual help
+
+## Performance
+
+- Animations use CSS transforms
+- Lazy rendering for dismissed alerts
+- Optimized re-renders with React.memo
+- CSS-based transitions
+
+## FAQ
+
+**Q: When should I use Alert vs Toast?**  
+A: Alerts are for persistent messages, Toasts for temporary notifications.
+
+**Q: Can I customize alert colors?**  
+A: Use CSS variables in your theme to customize variant colors.
+
+**Q: How do I handle multiple errors?**  
+A: Use a single alert with a list, or stack alerts with `space-y-2`.
+
+**Q: Should alerts be dismissible?**  
+A: Yes for informational, no for critical errors or required actions.

@@ -1,0 +1,232 @@
+import { Meta } from '@storybook/addon-docs/blocks';
+
+<Meta title="Documentation/Base UI/Overview" />
+
+# Base/UI Components
+
+Base UI components are the foundational building blocks of The Game Library. These components are generic, reusable, and contain no domain-specific logic, making them perfect for composing more complex features.
+
+## Component Philosophy
+
+### Design Principles
+
+1. **Reusability**: Can be used in any context
+2. **Composability**: Combine to create complex UIs  
+3. **Customizability**: Flexible props and variants
+4. **Accessibility**: WCAG AAA compliant
+5. **Performance**: Optimized renders and animations
+
+### Component Architecture
+
+```
+Base Components (Generic)
+    ↓
+Feature Components (Domain-specific)
+    ↓
+Page Layouts (Complete views)
+```
+
+## Available Components
+
+### Feedback & Status
+
+#### Alert
+Display important messages and notifications
+- Multiple severity levels
+- Dismissible options
+- Custom actions
+- [View Documentation →](/?path=/docs/documentation-base-ui-alert--docs)
+
+#### Badge
+Small status indicators and labels
+- Semantic variants
+- Removable tags
+- Count indicators
+- [View Documentation →](/?path=/docs/documentation-base-ui-badge--docs)
+
+#### Tooltip
+Contextual information on hover/focus
+- Multiple positions
+- Rich content support
+- Accessibility-first
+- [View Documentation →](/?path=/docs/documentation-base-ui-tooltip--docs)
+
+### Actions & Inputs
+
+#### Button
+Primary interactive element
+- 8 variants
+- 5 sizes
+- Loading states
+- Icon support
+- [View Documentation →](/?path=/docs/documentation-base-ui-button--docs)
+
+#### Input
+Form input controls
+- Validation states
+- Helper text
+- Icon support
+- Multiple types
+- [View Documentation →](/?path=/docs/documentation-base-ui-input--docs)
+
+### Layout & Content
+
+#### Card
+Versatile content container
+- Header/Body/Footer structure
+- Interactive states
+- Multiple variants
+- [View Documentation →](/?path=/docs/documentation-base-ui-card--docs)
+
+#### Modal
+Overlay dialogs
+- Size variants
+- Custom footer
+- Focus management
+- [View Documentation →](/?path=/docs/documentation-base-ui-modal--docs)
+
+### Media & Display
+
+#### Image
+Optimized image display
+- Lazy loading
+- Placeholder states
+- Responsive sizing
+- [View Documentation →](/?path=/docs/documentation-base-ui-image--docs)
+
+#### Carousel
+Content slider
+- Touch support
+- Auto-play
+- Multiple items
+- [View Documentation →](/?path=/docs/documentation-base-ui-carousel--docs)
+
+## Usage Guidelines
+
+### When to Use Base Components
+
+✅ **Use when you need**:
+- Generic UI elements
+- Consistent styling
+- Reusable patterns
+- Custom compositions
+
+❌ **Don't use when you need**:
+- Game-specific logic
+- Business rules
+- Complex state management
+- Domain-specific behavior
+
+### Composition Example
+
+```tsx
+// Composing base components for a feature
+import { Card, CardHeader, CardBody, CardFooter } from '@/components/ui/Card';
+import { Button } from '@/components/ui/Button';
+import { Badge } from '@/components/ui/Badge';
+
+function ProductCard({ product }) {
+  return (
+    <Card variant="elevated" interactive>
+      <CardHeader 
+        title={product.name}
+        action={<Badge variant="new">NEW</Badge>}
+      />
+      <CardBody>
+        <img src={product.image} alt={product.name} />
+        <p>{product.description}</p>
+      </CardBody>
+      <CardFooter>
+        <Button variant="primary" fullWidth>
+          Add to Cart
+        </Button>
+      </CardFooter>
+    </Card>
+  );
+}
+```
+
+## Styling System
+
+All base components use our custom CSS design system:
+
+### CSS Classes
+```tsx
+// ✅ Correct - Use utility classes
+<div className="p-4 bg-primary rounded-lg">
+  <Button className="w-full" />
+</div>
+
+// ❌ Wrong - Don't use inline styles
+<div style={{ padding: '1rem' }}>
+  <Button style={{ width: '100%' }} />
+</div>
+```
+
+### Theme Support
+All components automatically adapt to the current theme:
+- Light mode
+- Dark mode  
+- Gaming themes (Neon, Gold)
+
+## Best Practices
+
+### 1. Prop Usage
+```tsx
+// ✅ Use semantic props
+<Button variant="primary" size="lg" loading />
+
+// ❌ Don't override with classes
+<Button className="bg-blue-500 text-white p-4" />
+```
+
+### 2. Composition
+```tsx
+// ✅ Compose for complex UI
+<Card>
+  <Alert />
+  <Input />
+  <Button />
+</Card>
+
+// ❌ Don't create monolithic components
+<SuperComplexFormCard /> // Too specific
+```
+
+### 3. Accessibility
+```tsx
+// ✅ Include accessibility props
+<Button aria-label="Save document">
+  <SaveIcon />
+</Button>
+
+// ❌ Don't forget screen readers
+<Button>
+  <SaveIcon /> // No text or label
+</Button>
+```
+
+## Performance Tips
+
+1. **Use React.memo** for expensive components
+2. **Lazy load** heavy components
+3. **Debounce** input handlers
+4. **Virtualize** long lists
+5. **Optimize** images with proper sizing
+
+## Migration Guide
+
+Moving from another UI library? Follow these steps:
+
+1. **Map components** to our equivalents
+2. **Update imports** to use `@/components/ui`
+3. **Replace props** with our API
+4. **Update styles** to use our classes
+5. **Test thoroughly** for regressions
+
+## Related Resources
+
+- [Design System](/?path=/docs/design-system-introduction--docs)
+- [Feature Components](/?path=/docs/documentation-features-overview--docs)
+- [Accessibility Guide](/?path=/docs/documentation-accessibility--docs)
+- [Performance Guide](/?path=/docs/documentation-performance--docs)

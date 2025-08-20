@@ -1,0 +1,336 @@
+import { Meta } from '@storybook/addon-docs/blocks';
+
+<Meta title="Documentation/Features/Overview" />
+
+# Feature Components
+
+Feature components are domain-specific, higher-level components built specifically for The Game Library's gaming functionality. They compose base UI components with business logic to create rich, interactive experiences.
+
+## Component Philosophy
+
+### Key Characteristics
+
+1. **Domain-Specific**: Built for gaming use cases
+2. **Composed**: Combine multiple base components
+3. **Stateful**: Include business logic and data handling
+4. **Integrated**: Connect with app state and APIs
+5. **Optimized**: Performance-tuned for gaming scenarios
+
+### Architecture Flow
+
+```
+User Interaction
+    ↓
+Feature Component (Business Logic)
+    ↓
+Base Components (Presentation)
+    ↓
+Design System (Styling)
+```
+
+## Available Components
+
+### Game Display
+
+#### GameCard
+Individual game presentation card
+- Rich interactions
+- Favorite toggling
+- Loading states
+- Multiple badges
+- [View Documentation →](/?path=/docs/documentation-features-gamecard--docs)
+
+#### GameGrid
+Responsive grid layout for game collections
+- Virtualization support
+- Responsive columns
+- Loading skeletons
+- Empty states
+- [View Documentation →](/?path=/docs/documentation-features-gamegrid--docs)
+
+### Search & Discovery
+
+#### SearchBar
+Advanced game search functionality
+- Debounced input
+- Loading states
+- Clear functionality
+- Keyboard shortcuts
+- [View Documentation →](/?path=/docs/documentation-features-searchbar--docs)
+
+#### FilterPanel
+Comprehensive filtering system
+- Provider filtering
+- Game type selection
+- Tag filtering
+- Special filters (new, hot, favorites)
+- [View Documentation →](/?path=/docs/documentation-features-filterpanel--docs)
+
+## Usage Guidelines
+
+### When to Use Feature Components
+
+✅ **Use when you need**:
+- Game-specific functionality
+- Business logic integration
+- Complex state management
+- API interactions
+
+❌ **Don't use when you need**:
+- Generic UI elements
+- Simple presentations
+- Non-gaming features
+- Basic layouts
+
+### Integration Example
+
+```tsx
+// Complete game library implementation
+import { GameGrid } from '@/components/features/GameGrid';
+import { SearchBar } from '@/components/features/SearchBar';
+import { FilterPanel } from '@/components/features/FilterPanel';
+import { useGames } from '@/hooks/useGames';
+
+function GameLibrary() {
+  const [filters, setFilters] = useState({
+    search: '',
+    providers: [],
+    types: [],
+    favorites: false
+  });
+  
+  const { games, loading } = useGames(filters);
+  
+  return (
+    <div className="game-library">
+      <SearchBar 
+        onSearch={(query) => setFilters({...filters, search: query})}
+      />
+      
+      <div className="flex gap-4">
+        <FilterPanel 
+          filters={filters}
+          onFilterChange={setFilters}
+        />
+        
+        <GameGrid 
+          games={games}
+          loading={loading}
+          onGameClick={handleGameLaunch}
+        />
+      </div>
+    </div>
+  );
+}
+```
+
+## Component Patterns
+
+### 1. GameCard Pattern
+```tsx
+// Composing base components for gaming
+<Card interactive>
+  <Image src={game.thumbnail} lazy />
+  <CardBody>
+    <Badge variant="new">NEW</Badge>
+    <h3>{game.title}</h3>
+    <p>{game.provider}</p>
+  </CardBody>
+  <Button onClick={playGame}>Play Now</Button>
+</Card>
+```
+
+### 2. Search Pattern
+```tsx
+// Debounced search with loading
+<SearchBar
+  placeholder="Search games..."
+  debounceDelay={300}
+  onSearch={handleSearch}
+  isLoading={searching}
+/>
+```
+
+### 3. Filter Pattern
+```tsx
+// Multi-faceted filtering
+<FilterPanel
+  providers={availableProviders}
+  tags={availableTags}
+  filters={activeFilters}
+  onFilterChange={updateFilters}
+  showCount={true}
+/>
+```
+
+## State Management
+
+Feature components integrate with app state:
+
+### React Query Integration
+```tsx
+// Server state management
+const { data: games, isLoading } = useQuery({
+  queryKey: ['games', filters],
+  queryFn: () => fetchGames(filters)
+});
+```
+
+### Local State
+```tsx
+// UI state management  
+const [favorites, setFavorites] = useState<string[]>([]);
+const toggleFavorite = (gameId: string) => {
+  setFavorites(prev => 
+    prev.includes(gameId) 
+      ? prev.filter(id => id !== gameId)
+      : [...prev, gameId]
+  );
+};
+```
+
+## Performance Optimizations
+
+### 1. Virtualization
+```tsx
+// GameGrid uses virtualization for large lists
+<GameGrid 
+  games={thousandsOfGames}
+  enableVirtualization
+  itemsPerRow={4}
+/>
+```
+
+### 2. Lazy Loading
+```tsx
+// Images load on demand
+<GameCard 
+  game={game}
+  lazyLoadImages
+  placeholderSrc="/placeholder.jpg"
+/>
+```
+
+### 3. Memoization
+```tsx
+// Prevent unnecessary re-renders
+const MemoizedGameCard = memo(GameCard, (prev, next) => 
+  prev.game.id === next.game.id && 
+  prev.isFavorite === next.isFavorite
+);
+```
+
+## API Integration
+
+Feature components handle API calls:
+
+```tsx
+// GameCard favorite toggle
+const handleFavorite = async (gameId: string, isFavorite: boolean) => {
+  try {
+    await api.updateFavorite(gameId, isFavorite);
+    // Update local state
+    queryClient.invalidateQueries(['games']);
+  } catch (error) {
+    // Handle error
+    toast.error('Failed to update favorite');
+  }
+};
+```
+
+## Gaming-Specific Features
+
+### Game States
+- **New**: Recently added games
+- **Hot**: Trending/popular games
+- **Featured**: Promoted games
+- **Favorites**: User's saved games
+
+### Game Types
+- **Slots**: Slot machine games
+- **Table**: Card and table games
+- **Live**: Live dealer games
+- **Instant**: Quick play games
+
+### Provider Integration
+- Dynamic provider logos
+- Provider-specific styling
+- Game count per provider
+- Provider filtering
+
+## Best Practices
+
+### 1. Error Handling
+```tsx
+// Always handle loading and error states
+<GameGrid
+  games={games}
+  loading={loading}
+  error={error}
+  onRetry={refetch}
+/>
+```
+
+### 2. Accessibility
+```tsx
+// Maintain accessibility in complex components
+<GameCard
+  game={game}
+  aria-label={`Play ${game.title}`}
+  onKeyDown={handleKeyboardNav}
+/>
+```
+
+### 3. Responsive Design
+```tsx
+// Ensure mobile compatibility
+<FilterPanel
+  mobileMode="drawer"
+  breakpoint={768}
+/>
+```
+
+## Testing Strategies
+
+### Component Testing
+```tsx
+// Test user interactions
+it('should toggle favorite on click', async () => {
+  const onFavorite = jest.fn();
+  render(<GameCard game={mockGame} onFavoriteToggle={onFavorite} />);
+  
+  await userEvent.click(screen.getByLabelText('Add to favorites'));
+  expect(onFavorite).toHaveBeenCalledWith(mockGame.id, true);
+});
+```
+
+### Integration Testing
+```tsx
+// Test component integration
+it('should filter games when search changes', async () => {
+  render(<GameLibrary />);
+  
+  await userEvent.type(screen.getByPlaceholderText('Search...'), 'poker');
+  await waitFor(() => {
+    expect(screen.getAllByText(/poker/i)).toHaveLength(3);
+  });
+});
+```
+
+## Migration from Generic Components
+
+Converting generic components to feature components:
+
+1. **Identify domain logic** needed
+2. **Compose base components** together
+3. **Add business rules** and validation
+4. **Integrate with state** management
+5. **Add gaming-specific** features
+6. **Optimize performance** for scale
+
+## Related Resources
+
+- [Base UI Components](/?path=/docs/documentation-base-ui-overview--docs)
+- [Design System](/?path=/docs/design-system-introduction--docs)
+- [API Documentation](/?path=/docs/documentation-api--docs)
+- [State Management](/?path=/docs/documentation-state--docs)

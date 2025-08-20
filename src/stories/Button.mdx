@@ -1,0 +1,305 @@
+import { Meta, Canvas, Controls, Story, ArgTypes } from '@storybook/addon-docs/blocks';
+import ButtonMeta, * as ButtonStories from '../components/ui/Button/Button.stories';
+import { Button } from '../components/ui/Button';
+
+<Meta title="Documentation/Base UI/Button" />
+
+# Button Component
+
+The Button component is a versatile, accessible button element that supports multiple variants, sizes, and states. It's designed to be the primary interactive element across the application.
+
+## Overview
+
+The Button component provides consistent interaction patterns and visual feedback across the entire application. It supports icons, loading states, and various style variants to match different use cases.
+
+<Canvas of={ButtonStories.Default} />
+
+## Props
+
+<ArgTypes of={Button} />
+
+## Detailed Props Documentation
+
+### `variant`
+**Type:** `'primary' | 'secondary' | 'accent' | 'ghost' | 'outline' | 'success' | 'warning' | 'error'`  
+**Default:** `'primary'`
+
+Controls the visual style of the button. Each variant is designed for specific use cases:
+
+- **primary**: Main actions and CTAs
+- **secondary**: Secondary actions
+- **accent**: Special emphasis or branding
+- **ghost**: Minimal style for less prominent actions
+- **outline**: Border-only style
+- **success**: Positive actions (save, confirm)
+- **warning**: Caution actions
+- **error**: Destructive actions (delete, remove)
+
+<Canvas of={ButtonStories.Variants} />
+
+### `size`
+**Type:** `'xs' | 'sm' | 'md' | 'lg' | 'xl'`  
+**Default:** `'md'`
+
+Controls the button size. Sizes are optimized for different contexts:
+
+- **xs**: Compact spaces, inline actions
+- **sm**: Secondary actions, form controls
+- **md**: Standard size for most uses
+- **lg**: Primary CTAs, prominent actions
+- **xl**: Hero sections, major CTAs
+
+<Canvas of={ButtonStories.Sizes} />
+
+### `loading`
+**Type:** `boolean`  
+**Default:** `false`
+
+Shows a loading spinner and disables interaction. The button maintains its size to prevent layout shifts.
+
+```tsx
+<Button loading onClick={handleSave}>
+  Saving...
+</Button>
+```
+
+### `disabled`
+**Type:** `boolean`  
+**Default:** `false`
+
+Disables the button and applies disabled styling. Prevents all interactions.
+
+### `fullWidth`
+**Type:** `boolean`  
+**Default:** `false`
+
+Makes the button expand to fill its container width. Useful for mobile layouts and forms.
+
+### `iconOnly`
+**Type:** `boolean`  
+**Default:** `false`
+
+Optimizes padding for icon-only buttons, creating square proportions.
+
+```tsx
+<Button iconOnly variant="ghost">
+  <Settings className="w-4 h-4" />
+</Button>
+```
+
+### `leftIcon` & `rightIcon`
+**Type:** `React.ReactNode`  
+**Default:** `undefined`
+
+Add icons to either side of the button text. Icons should be sized appropriately (usually 16-20px).
+
+```tsx
+<Button leftIcon={<Search className="w-4 h-4" />}>
+  Search
+</Button>
+
+<Button rightIcon={<ChevronRight className="w-4 h-4" />}>
+  Next
+</Button>
+```
+
+### `rounded`
+**Type:** `'sm' | 'md' | 'lg' | 'full'`  
+**Default:** `'md'`
+
+Controls border radius for different visual styles.
+
+### `pulse`
+**Type:** `boolean`  
+**Default:** `false`
+
+Adds a pulsing animation for attention-grabbing buttons.
+
+### `glow`
+**Type:** `boolean`  
+**Default:** `false`
+
+Adds a glowing effect, perfect for gaming-themed CTAs.
+
+## Usage Examples
+
+### Basic Usage
+
+```tsx
+import { Button } from '@/components/ui/Button';
+
+function MyComponent() {
+  return (
+    <Button onClick={() => console.log('Clicked!')}>
+      Click Me
+    </Button>
+  );
+}
+```
+
+### With Icons
+
+```tsx
+import { Button } from '@/components/ui/Button';
+import { Play, Download } from 'lucide-react';
+
+function GameActions() {
+  return (
+    <div className="space-y-2">
+      <Button 
+        variant="primary" 
+        leftIcon={<Play className="w-4 h-4" />}
+        onClick={handlePlay}
+      >
+        Play Now
+      </Button>
+      
+      <Button 
+        variant="secondary" 
+        rightIcon={<Download className="w-4 h-4" />}
+        onClick={handleDownload}
+      >
+        Download Game
+      </Button>
+    </div>
+  );
+}
+```
+
+### Loading State
+
+```tsx
+function SaveButton() {
+  const [saving, setSaving] = useState(false);
+  
+  const handleSave = async () => {
+    setSaving(true);
+    await saveData();
+    setSaving(false);
+  };
+  
+  return (
+    <Button 
+      loading={saving} 
+      onClick={handleSave}
+      variant="success"
+    >
+      {saving ? 'Saving...' : 'Save Changes'}
+    </Button>
+  );
+}
+```
+
+### Button Group
+
+```tsx
+function ButtonGroup() {
+  return (
+    <div className="flex gap-2">
+      <Button variant="outline">Cancel</Button>
+      <Button variant="primary">Confirm</Button>
+    </div>
+  );
+}
+```
+
+## Accessibility
+
+The Button component follows WCAG 2.1 AAA guidelines:
+
+- **Keyboard Navigation**: Full keyboard support with focus indicators
+- **Screen Readers**: Proper ARIA labels and roles
+- **Color Contrast**: All variants meet AAA contrast ratios
+- **Focus Management**: Clear focus states for keyboard navigation
+- **Touch Targets**: Minimum 44x44px touch target size
+
+### ARIA Properties
+
+- `aria-label`: Used when button has only an icon
+- `aria-pressed`: For toggle buttons
+- `aria-disabled`: Applied when disabled
+- `aria-busy`: Applied when loading
+
+## Design Tokens
+
+The Button component uses these design tokens:
+
+```css
+/* Sizes */
+--button-height-xs: 1.75rem;  /* 28px */
+--button-height-sm: 2rem;      /* 32px */
+--button-height-md: 2.5rem;    /* 40px */
+--button-height-lg: 3rem;      /* 48px */
+--button-height-xl: 3.5rem;    /* 56px */
+
+/* Padding */
+--button-padding-xs: 0.375rem 0.75rem;
+--button-padding-sm: 0.5rem 1rem;
+--button-padding-md: 0.625rem 1.25rem;
+--button-padding-lg: 0.75rem 1.5rem;
+--button-padding-xl: 1rem 2rem;
+```
+
+## Best Practices
+
+### Do's ✅
+
+- Use descriptive labels that clearly indicate the action
+- Choose appropriate variants for the action type
+- Provide loading states for async operations
+- Include icons to enhance understanding
+- Test keyboard navigation and screen readers
+
+### Don'ts ❌
+
+- Don't use vague labels like "Click Here"
+- Don't disable buttons without clear reasons
+- Don't use multiple primary buttons in the same view
+- Don't forget loading states for async actions
+- Don't neglect touch target sizes on mobile
+
+## Responsive Behavior
+
+The Button component adapts to different screen sizes:
+
+- **Mobile**: Larger touch targets, often full-width
+- **Tablet**: Balanced sizing, grouped layouts
+- **Desktop**: Standard sizing, inline layouts
+
+<Canvas of={ButtonStories.Mobile} />
+
+## Theme Support
+
+The Button component fully supports dark and light themes:
+
+<Canvas of={ButtonStories.DarkMode} />
+<Canvas of={ButtonStories.LightMode} />
+
+## Related Components
+
+- [Badge](/?path=/docs/documentation-badge--docs) - For status indicators
+- [Input](/?path=/docs/documentation-input--docs) - For form inputs
+- [Link](/?path=/docs/documentation-link--docs) - For navigation
+
+## Migration Guide
+
+If migrating from a previous button implementation:
+
+1. Replace `className` props with appropriate `variant` and `size` props
+2. Update icon implementations to use `leftIcon` or `rightIcon`
+3. Replace custom loading implementations with `loading` prop
+4. Update disabled styles to use `disabled` prop
+
+## FAQ
+
+**Q: How do I make a button look like a link?**  
+A: Use `variant="ghost"` with appropriate text styling.
+
+**Q: Can I customize button colors?**  
+A: Use CSS variables in your theme or create a custom variant.
+
+**Q: How do I handle button groups?**  
+A: Wrap buttons in a flex container with appropriate gap spacing.
+
+**Q: What's the difference between disabled and loading?**  
+A: Loading shows activity and prevents interaction temporarily. Disabled indicates the action is not available.

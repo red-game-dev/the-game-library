@@ -1,0 +1,505 @@
+import { Meta, Canvas, Controls, Story, ArgTypes } from '@storybook/addon-docs/blocks';
+import TooltipMeta, * as TooltipStories from '../components/ui/Tooltip/Tooltip.stories';
+import { Tooltip } from '../components/ui/Tooltip';
+
+<Meta title="Documentation/Base UI/Tooltip" />
+
+# Tooltip Component
+
+The Tooltip component provides contextual information on hover or focus. It's designed to enhance user understanding without cluttering the interface.
+
+## Overview
+
+Tooltips display helpful text when users hover over, focus on, or tap an element. They're perfect for providing additional context, explaining features, or showing truncated text. The component supports multiple positions, variants, and trigger methods.
+
+<Canvas of={TooltipStories.Default} />
+
+## Props
+
+<ArgTypes of={Tooltip} />
+
+## Detailed Props Documentation
+
+### `content`
+**Type:** `React.ReactNode`  
+**Required**
+
+The content to display in the tooltip:
+
+```tsx
+<Tooltip content="This is helpful information">
+  Hover me
+</Tooltip>
+
+// Rich content
+<Tooltip content={
+  <div>
+    <strong>Pro tip:</strong>
+    <p>Use keyboard shortcuts for faster gameplay</p>
+  </div>
+}>
+  Help
+</Tooltip>
+```
+
+### `position`
+**Type:** `'top' | 'bottom' | 'left' | 'right' | 'top-start' | 'top-end' | 'bottom-start' | 'bottom-end'`  
+**Default:** `'top'`
+
+Controls tooltip placement:
+
+- **top**: Centered above the trigger
+- **bottom**: Centered below the trigger
+- **left**: Centered to the left
+- **right**: Centered to the right
+- **top-start**: Top aligned to start edge
+- **top-end**: Top aligned to end edge
+- **bottom-start**: Bottom aligned to start edge
+- **bottom-end**: Bottom aligned to end edge
+
+<Canvas of={TooltipStories.Positions} />
+
+### `variant`
+**Type:** `'default' | 'dark' | 'light' | 'info' | 'success' | 'warning' | 'error'`  
+**Default:** `'default'`
+
+Visual style variants matching alert colors:
+
+- **default**: Dark background with light text
+- **dark**: Always dark theme
+- **light**: Always light theme
+- **info**: Blue information style
+- **success**: Green success style
+- **warning**: Orange warning style
+- **error**: Red error style
+
+<Canvas of={TooltipStories.Variants} />
+
+### `trigger`
+**Type:** `'hover' | 'click' | 'focus' | 'manual'`  
+**Default:** `'hover'`
+
+How the tooltip is triggered:
+
+- **hover**: Show on mouse hover
+- **click**: Show on click/tap
+- **focus**: Show on keyboard focus
+- **manual**: Controlled via `isOpen` prop
+
+### `delay`
+**Type:** `number`  
+**Default:** `200`
+
+Delay in milliseconds before showing tooltip:
+
+```tsx
+<Tooltip content="Instant" delay={0}>
+  No delay
+</Tooltip>
+
+<Tooltip content="Delayed" delay={500}>
+  500ms delay
+</Tooltip>
+```
+
+### `arrow`
+**Type:** `boolean`  
+**Default:** `true`
+
+Shows arrow pointing to trigger element:
+
+```tsx
+<Tooltip content="With arrow" arrow>
+  Default
+</Tooltip>
+
+<Tooltip content="No arrow" arrow={false}>
+  Clean look
+</Tooltip>
+```
+
+### `maxWidth`
+**Type:** `number | string`  
+**Default:** `250`
+
+Maximum width of tooltip content:
+
+```tsx
+<Tooltip 
+  content="This is a very long tooltip that will wrap at the specified max width"
+  maxWidth={200}
+>
+  Narrow tooltip
+</Tooltip>
+```
+
+### `disabled`
+**Type:** `boolean`  
+**Default:** `false`
+
+Disables the tooltip:
+
+```tsx
+<Tooltip 
+  content="You won't see this"
+  disabled={!showHelp}
+>
+  Conditional help
+</Tooltip>
+```
+
+## Usage Examples
+
+### Basic Tooltip
+
+```tsx
+import { Tooltip } from '@/components/ui/Tooltip';
+
+function BasicExample() {
+  return (
+    <Tooltip content="Click to play this game">
+      <button>Play Now</button>
+    </Tooltip>
+  );
+}
+```
+
+### Icon with Tooltip
+
+```tsx
+import { Info, HelpCircle } from 'lucide-react';
+
+function IconTooltip() {
+  return (
+    <Tooltip content="This field is required">
+      <Info className="w-4 h-4 text-gray-400" />
+    </Tooltip>
+  );
+}
+```
+
+### Game Card Tooltips
+
+```tsx
+function GameCardWithTooltips({ game }) {
+  return (
+    <div className="game-card">
+      <Tooltip content={game.fullDescription} maxWidth={300}>
+        <h3 className="truncate">{game.title}</h3>
+      </Tooltip>
+      
+      <div className="flex gap-2">
+        <Tooltip content="Return to Player percentage">
+          <Badge>RTP: {game.rtp}%</Badge>
+        </Tooltip>
+        
+        <Tooltip content="Maximum possible win">
+          <Badge>Max: {game.maxWin}x</Badge>
+        </Tooltip>
+      </div>
+    </div>
+  );
+}
+```
+
+### Form Field Help
+
+```tsx
+function FormWithTooltips() {
+  return (
+    <form>
+      <div className="form-group">
+        <label className="flex items-center gap-1">
+          Username
+          <Tooltip content="3-20 characters, letters and numbers only">
+            <HelpCircle className="w-3 h-3" />
+          </Tooltip>
+        </label>
+        <input type="text" />
+      </div>
+      
+      <div className="form-group">
+        <label className="flex items-center gap-1">
+          Password
+          <Tooltip 
+            content="Must be at least 8 characters with one uppercase, lowercase, and number"
+            variant="warning"
+          >
+            <HelpCircle className="w-3 h-3" />
+          </Tooltip>
+        </label>
+        <input type="password" />
+      </div>
+    </form>
+  );
+}
+```
+
+### Truncated Text
+
+```tsx
+function TruncatedWithTooltip({ text, maxLength = 50 }) {
+  const truncated = text.length > maxLength;
+  const displayText = truncated 
+    ? `${text.slice(0, maxLength)}...` 
+    : text;
+  
+  return (
+    <Tooltip 
+      content={text} 
+      disabled={!truncated}
+    >
+      <span className="truncate">{displayText}</span>
+    </Tooltip>
+  );
+}
+```
+
+### Click Trigger
+
+```tsx
+function ClickTooltip() {
+  return (
+    <Tooltip 
+      content="Click outside to close"
+      trigger="click"
+      position="right"
+    >
+      <button>Click for info</button>
+    </Tooltip>
+  );
+}
+```
+
+### Controlled Tooltip
+
+```tsx
+function ControlledTooltip() {
+  const [isOpen, setIsOpen] = useState(false);
+  
+  return (
+    <>
+      <button onClick={() => setIsOpen(!isOpen)}>
+        Toggle Tooltip
+      </button>
+      
+      <Tooltip 
+        content="Manually controlled"
+        trigger="manual"
+        isOpen={isOpen}
+      >
+        <div>Target element</div>
+      </Tooltip>
+    </>
+  );
+}
+```
+
+### Rich Content
+
+```tsx
+function RichTooltip() {
+  return (
+    <Tooltip
+      content={
+        <div className="space-y-2">
+          <h4 className="font-semibold">Game Features</h4>
+          <ul className="text-sm space-y-1">
+            <li>• Free Spins</li>
+            <li>• Multipliers up to 10x</li>
+            <li>• Bonus Round</li>
+            <li>• Wild Symbols</li>
+          </ul>
+        </div>
+      }
+      maxWidth={250}
+    >
+      <Badge variant="info">Features</Badge>
+    </Tooltip>
+  );
+}
+```
+
+## Accessibility
+
+The Tooltip component is fully accessible:
+
+- **ARIA attributes**: Uses `aria-describedby` to associate tooltip with trigger
+- **Keyboard support**: Shows on focus for keyboard users
+- **Screen readers**: Content is announced when focused
+- **Touch devices**: Falls back to tap behavior
+- **Focus management**: Proper focus handling
+
+### Keyboard Navigation
+
+- **Tab**: Focus elements with tooltips
+- **Escape**: Close open tooltip (click trigger)
+
+### ARIA Example
+
+```tsx
+<Tooltip 
+  content="Delete this item permanently"
+  id="delete-tooltip"
+>
+  <button aria-describedby="delete-tooltip">
+    Delete
+  </button>
+</Tooltip>
+```
+
+## Design Tokens
+
+```css
+/* Positioning */
+--tooltip-offset: 8px;
+--tooltip-arrow-size: 6px;
+
+/* Sizing */
+--tooltip-padding: 0.5rem 0.75rem;
+--tooltip-max-width: 250px;
+--tooltip-min-height: 32px;
+
+/* Typography */
+--tooltip-font-size: 0.875rem;
+--tooltip-line-height: 1.4;
+
+/* Animation */
+--tooltip-transition: opacity 0.2s, transform 0.2s;
+--tooltip-delay: 200ms;
+```
+
+## Best Practices
+
+### Do's ✅
+
+- Keep tooltip content concise
+- Use for supplementary information only
+- Ensure content isn't essential for task completion
+- Test on touch devices
+- Provide keyboard access
+- Use appropriate variants for context
+
+### Don'ts ❌
+
+- Don't put critical information only in tooltips
+- Don't use for form error messages
+- Don't include interactive elements in tooltips
+- Don't use excessive delays
+- Don't make tooltips too wide
+- Don't nest tooltips
+
+## Responsive Behavior
+
+Tooltips adapt to screen constraints:
+
+- **Mobile**: Larger touch targets, position adjusts to stay on screen
+- **Tablet**: Standard behavior
+- **Desktop**: Full positioning options
+
+<Canvas of={TooltipStories.Mobile} />
+
+## Theme Support
+
+Tooltips adapt to light and dark themes:
+
+<Canvas of={TooltipStories.DarkMode} />
+<Canvas of={TooltipStories.LightMode} />
+
+## Common Patterns
+
+### Disabled Button Explanation
+
+```tsx
+function DisabledWithReason({ disabled, reason }) {
+  return (
+    <Tooltip 
+      content={reason}
+      disabled={!disabled}
+    >
+      <span>
+        <button disabled={disabled}>
+          Action
+        </button>
+      </span>
+    </Tooltip>
+  );
+}
+```
+
+### Copy to Clipboard
+
+```tsx
+function CopyWithTooltip({ text }) {
+  const [copied, setCopied] = useState(false);
+  
+  const handleCopy = () => {
+    navigator.clipboard.writeText(text);
+    setCopied(true);
+    setTimeout(() => setCopied(false), 2000);
+  };
+  
+  return (
+    <Tooltip content={copied ? "Copied!" : "Click to copy"}>
+      <button onClick={handleCopy}>
+        {text}
+      </button>
+    </Tooltip>
+  );
+}
+```
+
+### Loading State
+
+```tsx
+function LoadingTooltip({ isLoading }) {
+  return (
+    <Tooltip 
+      content={isLoading ? "Loading..." : "Click to refresh"}
+      variant={isLoading ? "warning" : "default"}
+    >
+      <button>
+        <RefreshIcon className={isLoading ? "animate-spin" : ""} />
+      </button>
+    </Tooltip>
+  );
+}
+```
+
+## Performance
+
+- Tooltips render on demand (portal)
+- Position calculations are optimized
+- Uses CSS transforms for animations
+- Minimal re-renders with React.memo
+
+## Migration Guide
+
+From other tooltip libraries:
+
+1. Replace tooltip wrapper with `Tooltip` component
+2. Move tooltip text to `content` prop
+3. Map positioning props to `position`
+4. Update trigger behavior if needed
+5. Adjust styling with `variant` prop
+
+## Related Components
+
+- [Badge](/?path=/docs/documentation-badge--docs) - Often used with tooltips
+- [Button](/?path=/docs/documentation-button--docs) - Common tooltip trigger
+- [Alert](/?path=/docs/documentation-alert--docs) - For persistent messages
+- [Modal](/?path=/docs/documentation-modal--docs) - For complex interactions
+
+## FAQ
+
+**Q: Why isn't my tooltip showing?**  
+A: Check that the trigger element can receive focus/hover events. Disabled elements may need a wrapper.
+
+**Q: Can I show multiple tooltips?**  
+A: Only one tooltip shows at a time to avoid clutter.
+
+**Q: How do I style the tooltip?**  
+A: Use the `variant` prop or override CSS variables.
+
+**Q: Can tooltips contain links?**  
+A: Not recommended. Use click trigger or modal for interactive content.

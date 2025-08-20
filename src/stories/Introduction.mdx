@@ -1,0 +1,154 @@
+import { Meta } from '@storybook/addon-docs/blocks';
+
+<Meta title="Documentation/Introduction" />
+
+# The Game Library Documentation
+
+Welcome to The Game Library component documentation. This comprehensive guide covers all components, patterns, and best practices for building our gaming platform.
+
+## Documentation Structure
+
+### 📚 Documentation
+Complete documentation for all components with examples, props, and usage guidelines.
+
+#### 🎨 Base/UI Components
+Core reusable UI components that form the foundation of our design system:
+- **Alert** - Notification and feedback messages
+- **Badge** - Status indicators and labels
+- **Button** - Interactive action elements
+- **Card** - Content containers with structure
+- **Carousel** - Image and content sliders
+- **Image** - Optimized image display
+- **Input** - Form input controls
+- **Modal** - Dialog overlays
+- **Tooltip** - Contextual information on hover
+
+#### 🎮 Feature Components
+Domain-specific components built for gaming functionality:
+- **GameCard** - Individual game display cards
+- **GameGrid** - Grid layout for game collections
+- **SearchBar** - Game search functionality
+- **FilterPanel** - Advanced filtering options
+
+### 🎨 Design System
+Core design tokens and guidelines:
+- **Colors** - Color palette and themes
+- **Typography** - Font system and text styles
+- **Spacing** - Consistent spacing scale
+- **Effects** - Shadows, blurs, and visual effects
+- **Animations** - Motion and transitions
+
+## Quick Start
+
+1. **Browse Components**: Navigate through the sidebar to explore components
+2. **Interactive Examples**: Use the Canvas tab to interact with live examples
+3. **View Code**: Check the Story tab for implementation code
+4. **Modify Props**: Use Controls to experiment with different prop combinations
+
+## Key Features
+
+### 🌟 Accessibility First
+All components meet WCAG 2.1 AAA standards with:
+- Full keyboard navigation
+- Screen reader support
+- High contrast ratios
+- Focus management
+
+### 📱 Responsive Design
+Mobile-first approach with:
+- Touch-optimized interactions
+- Flexible layouts
+- Adaptive typography
+- Performance optimization
+
+### 🎨 Theming
+Complete theme support including:
+- Dark/Light modes
+- Gaming themes (Neon, Gold)
+- CSS variable customization
+- Consistent design tokens
+
+### ⚡ Performance
+Optimized for speed with:
+- Lazy loading
+- Code splitting
+- CSS-only animations
+- Minimal re-renders
+
+## Component Categories
+
+### Base Components
+Foundation elements that can be used anywhere:
+- Generic and reusable
+- No domain logic
+- Highly customizable
+- Well-documented APIs
+
+### Feature Components
+Specialized components for gaming:
+- Domain-specific logic
+- Composed from base components
+- Integrated with app state
+- Business logic included
+
+## Best Practices
+
+### Using Components
+
+1. **Import from the correct path**:
+   ```tsx
+   // Base components
+   import { Button } from '@/components/ui/Button';
+   
+   // Feature components
+   import { GameCard } from '@/components/features/GameCard';
+   ```
+
+2. **Follow composition patterns**:
+   ```tsx
+   // Compose feature components from base
+   <Card>
+     <CardHeader title="Game Stats" />
+     <CardBody>
+       <GameCard game={gameData} />
+     </CardBody>
+   </Card>
+   ```
+
+3. **Use design tokens**:
+   ```tsx
+   // Use our CSS classes, not inline styles
+   <div className="p-4 bg-primary rounded-lg">
+     <Button variant="primary" size="lg">
+       Play Now
+     </Button>
+   </div>
+   ```
+
+## Development Workflow
+
+1. **Check existing components** before creating new ones
+2. **Use Storybook** for component development
+3. **Write stories** for all component states
+4. **Document props** and usage examples
+5. **Test accessibility** with keyboard and screen readers
+6. **Verify responsive** behavior on all viewports
+
+## Resources
+
+- **Design System**: Complete token reference
+- **Component Examples**: Live interactive demos
+- **Code Snippets**: Copy-paste examples
+- **Migration Guides**: Upgrading from other systems
+
+## Support
+
+For questions or issues:
+- Check component documentation
+- Review example implementations
+- Consult design system guidelines
+- Follow accessibility best practices
+
+---
+
+*Built with focus on performance, accessibility, and exceptional user experience.*

@@ -1,0 +1,682 @@
+import { Meta, Canvas, Controls, Story, ArgTypes } from '@storybook/addon-docs/blocks';
+import FilterPanelMeta, * as FilterPanelStories from '../components/features/FilterPanel/FilterPanel.stories';
+import { FilterPanel } from '../components/features/FilterPanel';
+
+<Meta title="Documentation/Features/FilterPanel" />
+
+# FilterPanel Component
+
+The FilterPanel component provides comprehensive filtering capabilities for the game library. It supports multiple filter types, collapsible sections, active filter indicators, and mobile-optimized layouts.
+
+## Overview
+
+The FilterPanel is a feature-rich filtering system designed specifically for gaming platforms. It handles provider filtering, game type selection, tag-based filtering, and special filters like favorites and new games, all with an intuitive and responsive interface.
+
+<Canvas of={FilterPanelStories.Default} />
+
+## Props
+
+<ArgTypes of={FilterPanel} />
+
+## Detailed Props Documentation
+
+### `filters`
+**Type:** `FilterState`  
+**Default:** `{ providers: [], types: [], tags: [], favorites: false, new: false, hot: false }`
+
+Current active filter state:
+
+```tsx
+interface FilterState {
+  providers: string[];
+  types: GameType[];
+  tags: string[];
+  favorites: boolean;
+  new: boolean;
+  hot: boolean;
+}
+
+<FilterPanel 
+  filters={{
+    providers: ['pragmatic', 'evolution'],
+    types: ['slots'],
+    favorites: true
+  }}
+  onFilterChange={handleFilterChange}
+/>
+```
+
+### `onFilterChange`
+**Type:** `(filters: FilterState) => void`  
+**Required**
+
+Callback when any filter changes:
+
+```tsx
+<FilterPanel 
+  filters={filters}
+  onFilterChange={(newFilters) => {
+    setFilters(newFilters);
+    // Trigger search with new filters
+    searchGames(newFilters);
+  }}
+/>
+```
+
+### `providers`
+**Type:** `Provider[]`  
+**Default:** `[]`
+
+Available game providers:
+
+```tsx
+interface Provider {
+  id: string;
+  name: string;
+  logo?: string;
+  gameCount?: number;
+}
+
+const providers = [
+  { id: 'pragmatic', name: 'Pragmatic Play', gameCount: 245 },
+  { id: 'evolution', name: 'Evolution Gaming', gameCount: 189 }
+];
+
+<FilterPanel providers={providers} />
+```
+
+### `tags`
+**Type:** `string[]`  
+**Default:** `[]`
+
+Available tags for filtering:
+
+```tsx
+<FilterPanel 
+  tags={['Popular', 'New Release', 'High RTP', 'Bonus Buy', 'Megaways']}
+  filters={filters}
+  onFilterChange={handleChange}
+/>
+```
+
+### `collapsible`
+**Type:** `boolean`  
+**Default:** `true`
+
+Enable collapsible panel:
+
+```tsx
+<FilterPanel 
+  collapsible={true}
+  defaultCollapsed={false}
+/>
+```
+
+### `defaultCollapsed`
+**Type:** `boolean`  
+**Default:** `false`
+
+Initial collapsed state:
+
+```tsx
+<FilterPanel 
+  collapsible
+  defaultCollapsed={true}
+/>
+```
+
+### `showCount`
+**Type:** `boolean`  
+**Default:** `true`
+
+Show active filter count badge:
+
+```tsx
+<FilterPanel 
+  showCount={true}
+  filters={activeFilters}
+/>
+```
+
+### `mobileMode`
+**Type:** `'drawer' | 'dropdown' | 'inline'`  
+**Default:** `'inline'`
+
+Mobile display mode:
+
+- **drawer**: Slide-out drawer from side
+- **dropdown**: Expandable dropdown
+- **inline**: Stack filters vertically
+
+```tsx
+<FilterPanel 
+  mobileMode="drawer"
+  filters={filters}
+/>
+```
+
+### `onReset`
+**Type:** `() => void`  
+**Default:** `undefined`
+
+Callback for reset button:
+
+```tsx
+<FilterPanel 
+  filters={filters}
+  onReset={() => {
+    setFilters(initialFilters);
+    toast.success('Filters reset');
+  }}
+/>
+```
+
+## Usage Examples
+
+### Basic Filter Panel
+
+```tsx
+import { FilterPanel } from '@/components/features/FilterPanel';
+import { useState } from 'react';
+
+function GameFilters() {
+  const [filters, setFilters] = useState({
+    providers: [],
+    types: [],
+    tags: [],
+    favorites: false,
+    new: false,
+    hot: false
+  });
+  
+  return (
+    <FilterPanel 
+      providers={gameProviders}
+      tags={availableTags}
+      filters={filters}
+      onFilterChange={setFilters}
+      showCount
+    />
+  );
+}
+```
+
+### With Game Grid Integration
+
+```tsx
+function GameLibraryWithFilters() {
+  const [filters, setFilters] = useState(initialFilters);
+  
+  const { data: games, isLoading } = useGames(filters);
+  const { data: providers } = useProviders();
+  const { data: tags } = useTags();
+  
+  return (
+    <div className="flex gap-6">
+      <aside className="w-80 flex-shrink-0">
+        <FilterPanel 
+          providers={providers}
+          tags={tags}
+          filters={filters}
+          onFilterChange={setFilters}
+          showCount
+          collapsible
+        />
+      </aside>
+      
+      <main className="flex-1">
+        <div className="mb-4 flex justify-between items-center">
+          <h2 className="text-2xl font-bold">
+            Games ({games?.length || 0})
+          </h2>
+          {Object.values(filters).some(Boolean) && (
+            <Button 
+              variant="ghost"
+              onClick={() => setFilters(initialFilters)}
+            >
+              Clear All Filters
+            </Button>
+          )}
+        </div>
+        
+        <GameGrid 
+          games={games}
+          loading={isLoading}
+        />
+      </main>
+    </div>
+  );
+}
+```
+
+### Mobile Responsive Layout
+
+```tsx
+function MobileFilterPanel() {
+  const [isOpen, setIsOpen] = useState(false);
+  const [filters, setFilters] = useState(initialFilters);
+  const activeCount = getActiveFilterCount(filters);
+  
+  return (
+    <>
+      {/* Mobile Filter Button */}
+      <button
+        className="lg:hidden fixed bottom-4 right-4 z-50 bg-primary text-white rounded-full p-4 shadow-lg"
+        onClick={() => setIsOpen(true)}
+      >
+        <Filter className="w-6 h-6" />
+        {activeCount > 0 && (
+          <span className="absolute -top-2 -right-2 bg-red-500 text-white rounded-full w-6 h-6 flex items-center justify-center text-xs">
+            {activeCount}
+          </span>
+        )}
+      </button>
+      
+      {/* Mobile Drawer */}
+      <Drawer
+        isOpen={isOpen}
+        onClose={() => setIsOpen(false)}
+        position="left"
+      >
+        <FilterPanel 
+          providers={providers}
+          tags={tags}
+          filters={filters}
+          onFilterChange={(newFilters) => {
+            setFilters(newFilters);
+            setIsOpen(false);
+          }}
+          mobileMode="drawer"
+        />
+      </Drawer>
+      
+      {/* Desktop Sidebar */}
+      <aside className="hidden lg:block w-80">
+        <FilterPanel 
+          providers={providers}
+          tags={tags}
+          filters={filters}
+          onFilterChange={setFilters}
+        />
+      </aside>
+    </>
+  );
+}
+```
+
+### Advanced Filter Logic
+
+```tsx
+function AdvancedFilters() {
+  const [filters, setFilters] = useState(initialFilters);
+  const [sortBy, setSortBy] = useState('popular');
+  
+  // Compute derived filters
+  const processedFilters = useMemo(() => {
+    const processed = { ...filters };
+    
+    // Add RTP range based on tags
+    if (filters.tags.includes('High RTP')) {
+      processed.rtpMin = 96;
+    }
+    
+    // Add release date filter for new games
+    if (filters.new) {
+      processed.releasedAfter = getDateWeeksAgo(2);
+    }
+    
+    return processed;
+  }, [filters]);
+  
+  // Track filter changes
+  useEffect(() => {
+    analytics.track('Filters Changed', {
+      providers: filters.providers.length,
+      types: filters.types.length,
+      tags: filters.tags.length,
+      hasSpecialFilters: filters.favorites || filters.new || filters.hot
+    });
+  }, [filters]);
+  
+  return (
+    <FilterPanel 
+      providers={providers}
+      tags={tags}
+      filters={filters}
+      onFilterChange={setFilters}
+      additionalFilters={
+        <div className="mt-4 pt-4 border-t">
+          <label className="block text-sm font-medium mb-2">
+            Sort By
+          </label>
+          <select
+            value={sortBy}
+            onChange={(e) => setSortBy(e.target.value)}
+            className="w-full px-3 py-2 border rounded-lg"
+          >
+            <option value="popular">Most Popular</option>
+            <option value="new">Newest First</option>
+            <option value="az">A-Z</option>
+            <option value="rtp">Highest RTP</option>
+          </select>
+        </div>
+      }
+    />
+  );
+}
+```
+
+### Filter Presets
+
+```tsx
+function FilterWithPresets() {
+  const [filters, setFilters] = useState(initialFilters);
+  
+  const presets = [
+    {
+      name: 'High RTP Slots',
+      filters: {
+        types: ['slots'],
+        tags: ['High RTP'],
+        providers: [],
+        favorites: false,
+        new: false,
+        hot: false
+      }
+    },
+    {
+      name: 'Live Casino',
+      filters: {
+        types: ['live'],
+        providers: ['evolution'],
+        tags: [],
+        favorites: false,
+        new: false,
+        hot: false
+      }
+    },
+    {
+      name: 'New & Hot',
+      filters: {
+        providers: [],
+        types: [],
+        tags: [],
+        favorites: false,
+        new: true,
+        hot: true
+      }
+    }
+  ];
+  
+  return (
+    <div>
+      <div className="mb-4 flex gap-2">
+        {presets.map(preset => (
+          <Button
+            key={preset.name}
+            variant="outline"
+            size="sm"
+            onClick={() => setFilters(preset.filters)}
+          >
+            {preset.name}
+          </Button>
+        ))}
+      </div>
+      
+      <FilterPanel 
+        providers={providers}
+        tags={tags}
+        filters={filters}
+        onFilterChange={setFilters}
+      />
+    </div>
+  );
+}
+```
+
+### Saved Filters
+
+```tsx
+function SavedFilters() {
+  const [filters, setFilters] = useState(initialFilters);
+  const [savedFilters, setSavedFilters] = useState(
+    JSON.parse(localStorage.getItem('savedFilters') || '[]')
+  );
+  
+  const saveCurrentFilters = () => {
+    const name = prompt('Enter a name for this filter set:');
+    if (name) {
+      const newSaved = [...savedFilters, { name, filters }];
+      setSavedFilters(newSaved);
+      localStorage.setItem('savedFilters', JSON.stringify(newSaved));
+      toast.success(`Filter "${name}" saved`);
+    }
+  };
+  
+  return (
+    <div>
+      {savedFilters.length > 0 && (
+        <div className="mb-4">
+          <h3 className="text-sm font-medium mb-2">Saved Filters</h3>
+          <div className="flex flex-wrap gap-2">
+            {savedFilters.map((saved, index) => (
+              <Button
+                key={index}
+                variant="ghost"
+                size="sm"
+                onClick={() => setFilters(saved.filters)}
+              >
+                {saved.name}
+                <button
+                  className="ml-2 text-red-500"
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    const updated = savedFilters.filter((_, i) => i !== index);
+                    setSavedFilters(updated);
+                    localStorage.setItem('savedFilters', JSON.stringify(updated));
+                  }}
+                >
+                  ×
+                </button>
+              </Button>
+            ))}
+          </div>
+        </div>
+      )}
+      
+      <FilterPanel 
+        providers={providers}
+        tags={tags}
+        filters={filters}
+        onFilterChange={setFilters}
+        headerAction={
+          <Button
+            variant="ghost"
+            size="sm"
+            onClick={saveCurrentFilters}
+          >
+            Save Filters
+          </Button>
+        }
+      />
+    </div>
+  );
+}
+```
+
+## Filter Sections
+
+### Provider Filters
+
+Display game providers with logos and game counts:
+
+```tsx
+<div className="space-y-2">
+  {providers.map(provider => (
+    <label key={provider.id} className="flex items-center gap-3">
+      <input
+        type="checkbox"
+        checked={filters.providers.includes(provider.id)}
+        onChange={(e) => toggleProvider(provider.id)}
+      />
+      {provider.logo && (
+        <img src={provider.logo} alt={provider.name} className="w-6 h-6" />
+      )}
+      <span>{provider.name}</span>
+      {provider.gameCount && (
+        <span className="text-sm text-secondary ml-auto">
+          ({provider.gameCount})
+        </span>
+      )}
+    </label>
+  ))}
+</div>
+```
+
+### Game Type Filters
+
+Filter by game categories:
+
+```tsx
+const gameTypes = [
+  { id: 'slots', label: 'Slots', icon: '🎰' },
+  { id: 'table', label: 'Table Games', icon: '🃏' },
+  { id: 'live', label: 'Live Casino', icon: '📹' },
+  { id: 'instant', label: 'Instant Win', icon: '⚡' }
+];
+```
+
+### Special Filters
+
+Quick access toggles:
+
+```tsx
+<div className="space-y-2">
+  <label className="flex items-center gap-2">
+    <input
+      type="checkbox"
+      checked={filters.favorites}
+      onChange={(e) => updateFilter('favorites', e.target.checked)}
+    />
+    <Heart className="w-4 h-4" />
+    <span>Favorites Only</span>
+  </label>
+  
+  <label className="flex items-center gap-2">
+    <input
+      type="checkbox"
+      checked={filters.new}
+      onChange={(e) => updateFilter('new', e.target.checked)}
+    />
+    <Badge variant="new">NEW</Badge>
+    <span>New Games</span>
+  </label>
+</div>
+```
+
+## Accessibility
+
+The FilterPanel is fully accessible:
+
+- **Keyboard Navigation**: Tab through all filters
+- **Screen Reader**: Proper labels and announcements
+- **ARIA**: Correct roles and states
+- **Focus Management**: Clear focus indicators
+- **Mobile**: Large touch targets
+
+### ARIA Implementation
+
+```tsx
+<div
+  role="group"
+  aria-label="Game filters"
+>
+  <fieldset>
+    <legend>Providers</legend>
+    {/* Provider checkboxes */}
+  </fieldset>
+  
+  <div
+    role="status"
+    aria-live="polite"
+    aria-atomic="true"
+  >
+    {activeFilterCount} filters active
+  </div>
+</div>
+```
+
+## Performance
+
+### Optimization Strategies
+
+1. **Memoization**: Prevent unnecessary re-renders
+2. **Virtualization**: For long provider lists
+3. **Debouncing**: Batch filter updates
+4. **Local Storage**: Cache filter preferences
+5. **Lazy Loading**: Load providers on demand
+
+### Filter Debouncing
+
+```tsx
+const debouncedFilterChange = useMemo(
+  () => debounce(onFilterChange, 300),
+  [onFilterChange]
+);
+```
+
+## Best Practices
+
+### Do's ✅
+
+- Show active filter count
+- Provide clear all option
+- Group related filters
+- Show result count changes
+- Save user preferences
+- Make filters discoverable
+
+### Don'ts ❌
+
+- Don't hide important filters
+- Don't apply filters without feedback
+- Don't make filters too granular
+- Don't forget mobile users
+- Don't auto-apply without indication
+- Don't lose filter state on navigation
+
+## Responsive Design
+
+Adapts to all screen sizes:
+
+- **Mobile**: Drawer or dropdown mode
+- **Tablet**: Collapsible sidebar
+- **Desktop**: Full sidebar display
+
+<Canvas of={FilterPanelStories.Mobile} />
+
+## Theme Support
+
+Adapts to current theme:
+
+<Canvas of={FilterPanelStories.DarkMode} />
+
+## Related Components
+
+- [SearchBar](/?path=/docs/documentation-features-searchbar--docs) - Search functionality
+- [GameGrid](/?path=/docs/documentation-features-gamegrid--docs) - Display filtered results
+- [Badge](/?path=/docs/documentation-base-ui-badge--docs) - Filter indicators
+
+## FAQ
+
+**Q: How do I persist filters across sessions?**  
+A: Store filter state in localStorage or user preferences.
+
+**Q: Can I have dependent filters?**  
+A: Yes, update available options based on selected filters.
+
+**Q: How do I show filter results count?**  
+A: Use a separate API call or calculate client-side.
+
+**Q: Should filters auto-apply or need confirmation?**  
+A: Auto-apply for better UX, but provide loading states.

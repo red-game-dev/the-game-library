@@ -1,0 +1,510 @@
+import { Meta, Canvas, Controls, Story, ArgTypes } from '@storybook/addon-docs/blocks';
+import CarouselMeta, * as CarouselStories from '../components/ui/Carousel/Carousel.stories';
+import { Carousel } from '../components/ui/Carousel';
+
+<Meta title="Documentation/Base UI/Carousel" />
+
+# Carousel Component
+
+The Carousel component provides a responsive, touch-enabled slider for displaying multiple items. Perfect for image galleries, featured content, testimonials, and product showcases.
+
+## Overview
+
+The Carousel component offers smooth transitions, touch/swipe support, keyboard navigation, and various customization options. It's fully accessible and responsive across all devices.
+
+<Canvas of={CarouselStories.Default} />
+
+## Props
+
+<ArgTypes of={Carousel} />
+
+## Detailed Props Documentation
+
+### `items`
+**Type:** `Array<{ id: string; content: React.ReactNode; alt?: string }>`  
+**Required**
+
+Array of items to display in the carousel:
+
+```tsx
+const items = [
+  { id: '1', content: <img src="/slide1.jpg" alt="Slide 1" /> },
+  { id: '2', content: <div>Custom Content</div> },
+  { id: '3', content: <GameCard game={game} /> }
+];
+
+<Carousel items={items} />
+```
+
+### `autoPlay`
+**Type:** `boolean`  
+**Default:** `false`
+
+Enable automatic slide advancement:
+
+```tsx
+<Carousel 
+  items={items}
+  autoPlay
+  autoScrollInterval={5000}
+/>
+```
+
+### `autoScrollInterval`
+**Type:** `number`  
+**Default:** `3000`
+
+Time between slides in milliseconds when autoPlay is enabled.
+
+### `showArrows`
+**Type:** `boolean`  
+**Default:** `true`
+
+Show/hide navigation arrows:
+
+```tsx
+<Carousel 
+  items={items}
+  showArrows={false} // Touch/swipe only
+/>
+```
+
+### `showIndicators`
+**Type:** `boolean`  
+**Default:** `true`
+
+Show/hide slide indicators (dots):
+
+```tsx
+<Carousel 
+  items={items}
+  showIndicators={false}
+/>
+```
+
+### `loop`
+**Type:** `boolean`  
+**Default:** `true`
+
+Enable infinite loop navigation:
+
+```tsx
+<Carousel 
+  items={items}
+  loop={false} // Stop at first/last slide
+/>
+```
+
+### `slidesPerView`
+**Type:** `number | { mobile: number; tablet: number; desktop: number }`  
+**Default:** `1`
+
+Number of slides visible at once:
+
+```tsx
+// Fixed number
+<Carousel items={items} slidesPerView={3} />
+
+// Responsive
+<Carousel 
+  items={items}
+  slidesPerView={{
+    mobile: 1,
+    tablet: 2,
+    desktop: 3
+  }}
+/>
+```
+
+### `gap`
+**Type:** `number`  
+**Default:** `16`
+
+Gap between slides in pixels:
+
+```tsx
+<Carousel 
+  items={items}
+  slidesPerView={3}
+  gap={24}
+/>
+```
+
+### `transition`
+**Type:** `'slide' | 'fade' | 'cube'`  
+**Default:** `'slide'`
+
+Transition effect between slides:
+
+```tsx
+<Carousel 
+  items={items}
+  transition="fade"
+/>
+```
+
+### `onSlideChange`
+**Type:** `(index: number) => void`  
+**Default:** `undefined`
+
+Callback when active slide changes:
+
+```tsx
+<Carousel 
+  items={items}
+  onSlideChange={(index) => console.log(`Slide ${index}`)}
+/>
+```
+
+## Usage Examples
+
+### Basic Image Carousel
+
+```tsx
+import { Carousel } from '@/components/ui/Carousel';
+
+function ImageGallery() {
+  const images = [
+    { id: '1', content: <img src="/img1.jpg" alt="Image 1" /> },
+    { id: '2', content: <img src="/img2.jpg" alt="Image 2" /> },
+    { id: '3', content: <img src="/img3.jpg" alt="Image 3" /> }
+  ];
+  
+  return (
+    <Carousel 
+      items={images}
+      autoPlay
+      showIndicators
+    />
+  );
+}
+```
+
+### Game Showcase Carousel
+
+```tsx
+function GameShowcase({ games }) {
+  const gameSlides = games.map(game => ({
+    id: game.id,
+    content: (
+      <div className="relative">
+        <img 
+          src={game.banner} 
+          alt={game.title}
+          className="w-full h-96 object-cover"
+        />
+        <div className="absolute bottom-0 left-0 right-0 p-6 bg-gradient-to-t from-black">
+          <h2 className="text-2xl font-bold text-white">{game.title}</h2>
+          <p className="text-white/80">{game.description}</p>
+          <Button variant="primary" className="mt-4">
+            Play Now
+          </Button>
+        </div>
+      </div>
+    )
+  }));
+  
+  return (
+    <Carousel 
+      items={gameSlides}
+      autoPlay
+      autoScrollInterval={5000}
+      transition="fade"
+    />
+  );
+}
+```
+
+### Multi-Item Carousel
+
+```tsx
+function ProductCarousel({ products }) {
+  const productSlides = products.map(product => ({
+    id: product.id,
+    content: <ProductCard product={product} />
+  }));
+  
+  return (
+    <Carousel 
+      items={productSlides}
+      slidesPerView={{
+        mobile: 1,
+        tablet: 2,
+        desktop: 4
+      }}
+      gap={24}
+      showArrows
+      loop
+    />
+  );
+}
+```
+
+### Testimonial Carousel
+
+```tsx
+function TestimonialCarousel({ testimonials }) {
+  const slides = testimonials.map(testimonial => ({
+    id: testimonial.id,
+    content: (
+      <Card className="p-6 text-center">
+        <p className="text-lg italic mb-4">
+          "{testimonial.quote}"
+        </p>
+        <div className="flex items-center justify-center gap-3">
+          <img 
+            src={testimonial.avatar} 
+            alt={testimonial.name}
+            className="w-12 h-12 rounded-full"
+          />
+          <div>
+            <p className="font-semibold">{testimonial.name}</p>
+            <p className="text-sm text-secondary">{testimonial.role}</p>
+          </div>
+        </div>
+      </Card>
+    )
+  }));
+  
+  return (
+    <Carousel 
+      items={slides}
+      transition="fade"
+      autoPlay
+      autoScrollInterval={4000}
+    />
+  );
+}
+```
+
+### Thumbnail Navigation
+
+```tsx
+function GalleryWithThumbnails() {
+  const [activeIndex, setActiveIndex] = useState(0);
+  
+  return (
+    <>
+      <Carousel 
+        items={mainImages}
+        onSlideChange={setActiveIndex}
+        showIndicators={false}
+      />
+      
+      <div className="flex gap-2 mt-4 overflow-x-auto">
+        {thumbnails.map((thumb, index) => (
+          <button
+            key={thumb.id}
+            onClick={() => setActiveIndex(index)}
+            className={`flex-shrink-0 ${
+              index === activeIndex ? 'ring-2 ring-primary' : ''
+            }`}
+          >
+            <img 
+              src={thumb.src} 
+              alt={thumb.alt}
+              className="w-20 h-20 object-cover rounded"
+            />
+          </button>
+        ))}
+      </div>
+    </>
+  );
+}
+```
+
+### Controlled Carousel
+
+```tsx
+function ControlledCarousel() {
+  const [currentSlide, setCurrentSlide] = useState(0);
+  
+  return (
+    <div>
+      <Carousel 
+        items={items}
+        activeIndex={currentSlide}
+        onSlideChange={setCurrentSlide}
+        showIndicators={false}
+      />
+      
+      <div className="flex justify-center gap-2 mt-4">
+        {items.map((_, index) => (
+          <button
+            key={index}
+            onClick={() => setCurrentSlide(index)}
+            className={`w-2 h-2 rounded-full ${
+              index === currentSlide ? 'bg-primary' : 'bg-gray-300'
+            }`}
+            aria-label={`Go to slide ${index + 1}`}
+          />
+        ))}
+      </div>
+    </div>
+  );
+}
+```
+
+## Accessibility
+
+The Carousel component is fully accessible:
+
+- **Keyboard Navigation**: Arrow keys to navigate slides
+- **Screen Reader**: Proper ARIA labels and live regions
+- **Focus Management**: Focus moves with active slide
+- **Touch Support**: Swipe gestures on mobile
+- **Reduced Motion**: Respects prefers-reduced-motion
+
+### Keyboard Controls
+
+- **Left Arrow**: Previous slide
+- **Right Arrow**: Next slide
+- **Home**: First slide
+- **End**: Last slide
+- **Tab**: Navigate to controls
+
+### ARIA Implementation
+
+```tsx
+<div
+  role="region"
+  aria-label="Image carousel"
+  aria-roledescription="carousel"
+>
+  <div aria-live="polite" aria-atomic="true">
+    Slide {current} of {total}
+  </div>
+</div>
+```
+
+## Design Tokens
+
+```css
+/* Dimensions */
+--carousel-arrow-size: 2.5rem;
+--carousel-indicator-size: 0.5rem;
+--carousel-indicator-gap: 0.5rem;
+
+/* Transitions */
+--carousel-transition-duration: 500ms;
+--carousel-transition-timing: ease-in-out;
+
+/* Colors */
+--carousel-arrow-bg: rgba(0, 0, 0, 0.5);
+--carousel-indicator-active: var(--primary);
+--carousel-indicator-inactive: var(--gray-400);
+```
+
+## Performance
+
+### Optimization Techniques
+
+1. **Lazy Loading**: Images load as needed
+2. **Preloading**: Next/previous slides preloaded
+3. **GPU Acceleration**: CSS transforms for smooth transitions
+4. **Touch Optimization**: Passive event listeners
+5. **Virtual Slides**: Only render visible slides
+
+### Image Optimization
+
+```tsx
+<Carousel 
+  items={images}
+  lazyLoad
+  preloadCount={1}
+  placeholder="/placeholder.jpg"
+/>
+```
+
+## Best Practices
+
+### Do's ✅
+
+- Provide meaningful alt text for images
+- Include pause/play controls for autoplay
+- Test touch gestures on mobile
+- Use appropriate transition duration
+- Optimize images for web
+- Consider bandwidth limitations
+
+### Don'ts ❌
+
+- Don't autoplay without user control
+- Don't use excessive transition effects
+- Don't hide important content in carousel
+- Don't make carousel the only navigation
+- Don't use for critical content
+- Don't forget keyboard navigation
+
+## Responsive Design
+
+The Carousel adapts to different screen sizes:
+
+- **Mobile**: Touch/swipe navigation, full width
+- **Tablet**: Smaller arrows, multiple items
+- **Desktop**: Hover states, keyboard focus
+
+<Canvas of={CarouselStories.Mobile} />
+
+## Theme Support
+
+Full dark and light theme support:
+
+<Canvas of={CarouselStories.DarkMode} />
+
+## Common Patterns
+
+### Hero Banner
+
+```tsx
+function HeroBanner() {
+  return (
+    <Carousel 
+      items={heroSlides}
+      autoPlay
+      autoScrollInterval={6000}
+      transition="fade"
+      className="h-[600px]"
+      showArrows={false}
+    />
+  );
+}
+```
+
+### Product Gallery
+
+```tsx
+function ProductGallery({ images }) {
+  return (
+    <div className="grid grid-cols-2 gap-4">
+      <Carousel 
+        items={images}
+        className="col-span-2 lg:col-span-1"
+      />
+      <div className="col-span-2 lg:col-span-1">
+        {/* Product details */}
+      </div>
+    </div>
+  );
+}
+```
+
+## Related Components
+
+- [Image](/?path=/docs/documentation-base-ui-image--docs) - For optimized images
+- [Card](/?path=/docs/documentation-base-ui-card--docs) - For slide content
+- [GameCard](/?path=/docs/documentation-features-gamecard--docs) - For game carousels
+
+## FAQ
+
+**Q: How do I pause autoplay on hover?**  
+A: Use the `pauseOnHover` prop (enabled by default).
+
+**Q: Can I use vertical carousel?**  
+A: Use the `direction="vertical"` prop.
+
+**Q: How do I sync multiple carousels?**  
+A: Control them with shared state using `activeIndex` prop.
+
+**Q: Can I customize transition effects?**  
+A: Use CSS classes or the `transition` prop for predefined effects.
