@@ -27,6 +27,19 @@ const preview: Preview = {
         },
       ],
     },
+    nextjs: {
+      appDirectory: true,
+      navigation: {
+        pathname: '/',
+        query: {},
+        push: () => Promise.resolve(),
+        replace: () => Promise.resolve(),
+        forward: () => Promise.resolve(),
+        back: () => Promise.resolve(),
+        prefetch: () => Promise.resolve(),
+        refresh: () => Promise.resolve(),
+      },
+    },
   },
   globalTypes: {
     theme: {
@@ -35,7 +48,7 @@ const preview: Preview = {
       toolbar: {
         title: 'Theme',
         icon: 'circlehollow',
-        items: ['light', 'dark'],
+        items: ['light', 'dark', 'neon', 'gold'],
         dynamicTitle: true,
       },
     },
