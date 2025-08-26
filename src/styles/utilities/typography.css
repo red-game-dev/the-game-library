@@ -62,32 +62,22 @@
 .line-through { text-decoration-line: line-through; }
 .no-underline { text-decoration-line: none; }
 
+/* Text Underline Offset */
+.underline-offset-0 { text-underline-offset: 0; }
+.underline-offset-1 { text-underline-offset: 1px; }
+.underline-offset-2 { text-underline-offset: 2px; }
+.underline-offset-4 { text-underline-offset: 4px; }
+.underline-offset-8 { text-underline-offset: 8px; }
+
 /* Text Colors */
 
 /* Semantic Colors */
 .text-primary { color: var(--color-primary); }
 .text-accent { color: var(--color-accent); }
-.text-success { color: var(--color-success); }
-.text-error { color: var(--color-error); }
-.text-warning { color: var(--color-warning); }
-.text-info { color: var(--color-info); }
-
-/* Light mode semantic colors for better contrast */
-[data-theme="light"] .text-success {
-  color: var(--green-700);
-}
-
-[data-theme="light"] .text-error {
-  color: var(--red-700);
-}
-
-[data-theme="light"] .text-warning {
-  color: var(--orange-700);
-}
-
-[data-theme="light"] .text-info {
-  color: var(--blue-700);
-}
+.text-success { color: var(--text-success-color, var(--color-success)); }
+.text-error { color: var(--text-error-color, var(--color-error)); }
+.text-warning { color: var(--text-warning-color, var(--color-warning)); }
+.text-info { color: var(--text-info-color, var(--color-info)); }
 
 /* Theme Colors */
 .text-background { color: var(--color-background); }
