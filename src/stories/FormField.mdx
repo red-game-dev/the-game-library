@@ -1,0 +1,469 @@
+import { Meta, Story, Canvas, ArgTypes, Description } from '@storybook/addon-docs/blocks';
+import { FormField } from '../components/ui/FormField/FormField';
+import { FormFieldInput } from '../components/ui/FormField/FormFieldInput';
+import { FormFieldCheckbox } from '../components/ui/FormField/FormFieldCheckbox';
+import { FormFieldDualRange } from '../components/ui/FormField/FormFieldDualRange';
+import * as FormFieldStories from '../components/ui/FormField/FormField.stories';
+
+<Meta of={FormFieldStories} title="Documentation/Base UI/FormField" />
+
+# FormField System
+
+The **FormField** system provides a comprehensive, accessible, and consistent approach to building forms in The Game Library. It includes wrapper components, specialized field types, and advanced features like validation states, suggestions, and theming support.
+
+## System Overview
+
+The FormField system consists of:
+
+- **Base FormField**: Wrapper component with labels, validation, help text
+- **Specialized Components**: FormFieldInput, FormFieldCheckbox, FormFieldDualRange, etc.
+- **Advanced Features**: Suggestions, tags, tooltips, character counting
+- **Theme Integration**: Works with all theme variants (light, dark, neon, gold)
+- **Accessibility**: WCAG compliant with full keyboard and screen reader support
+
+## Architecture
+
+```
+FormField (Base Wrapper)
+├── Label + Tooltip
+├── Field Content (Input/Checkbox/etc.)
+├── Suggestions/Presets
+├── Footer (Messages + Count)
+└── Theme Integration
+```
+
+## Core Features
+
+### 🎯 Comprehensive Form Support
+- **Text Inputs**: Single-line, multi-line, numbers, emails, passwords
+- **Selections**: Checkboxes, radio buttons, dropdowns, multi-select
+- **Advanced**: Range inputs, dual ranges, tag inputs
+- **Validation**: Error, success, warning states with messages
+
+### 🧩 Modular Architecture
+- **Base FormField**: Handles labels, validation, messages
+- **Specialized Components**: Handle specific input types
+- **Composable**: Mix and match components as needed
+
+### ♿ Accessibility First
+- **Screen Reader Support**: Proper labels and ARIA attributes
+- **Keyboard Navigation**: Full keyboard support
+- **Error Handling**: Clear validation messages
+- **Focus Management**: Logical tab order
+
+### 🎨 Theme Integration
+- **Multi-Theme**: Light, dark, neon, gold theme support
+- **Custom Variables**: Easy theming with CSS custom properties
+- **Consistent Styling**: Unified appearance across all field types
+
+## Basic Usage
+
+### Simple Form Field
+```tsx
+import { FormFieldInput } from '@/components/ui/FormField';
+
+<FormFieldInput
+  label="Email Address"
+  type="email"
+  required
+  helperText="We'll never share your email"
+  placeholder="john@example.com"
+/>
+```
+
+### With Validation
+```tsx
+<FormFieldInput
+  label="Password"
+  type="password"
+  required
+  error="Password must be at least 8 characters"
+  minLength={8}
+/>
+```
+
+### Advanced Features
+```tsx
+<FormFieldInput
+  label="Bio"
+  as="textarea"
+  maxLength={500}
+  showCount
+  suggestions={[
+    { label: "Gaming enthusiast", value: "I love playing games" },
+    { label: "Casual player", value: "I play games occasionally" }
+  ]}
+  showSuggestions
+/>
+```
+
+## Component Examples
+
+### FormFieldInput
+
+<Canvas>
+  <Story id="ui-formfield-input--default" />
+</Canvas>
+
+The most common form field for text input with full validation support.
+
+### FormFieldCheckbox
+
+<Canvas>
+  <Story id="ui-formfield-checkbox--default" />
+</Canvas>
+
+Checkbox input with custom styling and right-aligned content support.
+
+### FormFieldDualRange
+
+<Canvas>
+  <Story id="ui-formfield-dualrange--default" />
+</Canvas>
+
+Dual range input for min/max value selection with preset suggestions.
+
+## Advanced Features
+
+### Suggestions System
+
+FormFields support intelligent suggestions to improve user experience:
+
+```tsx
+const gameTypeSuggestions = [
+  { label: "Slot Games", value: "slots", icon: "🎰" },
+  { label: "Table Games", value: "table", icon: "🃏" },
+  { label: "Live Games", value: "live", icon: "📹" }
+];
+
+<FormFieldInput
+  label="Favorite Game Type"
+  suggestions={gameTypeSuggestions}
+  showSuggestions
+  onSuggestionSelect={(value) => setGameType(value)}
+/>
+```
+
+### Validation States
+
+All FormField components support comprehensive validation:
+
+```tsx
+// Error state
+<FormFieldInput
+  label="Username"
+  error="Username already taken"
+  required
+/>
+
+// Success state
+<FormFieldInput
+  label="Email"
+  success="Email verified successfully"
+/>
+
+// Warning state
+<FormFieldInput
+  label="Password"
+  warning="Consider using a stronger password"
+/>
+```
+
+### Character Counting
+
+For text inputs, automatic character counting helps users stay within limits:
+
+```tsx
+<FormFieldInput
+  label="Game Review"
+  as="textarea"
+  maxLength={1000}
+  showCount
+  helperText="Share your experience with other players"
+/>
+```
+
+### Tag Input Mode
+
+Perfect for categorization and multi-selection:
+
+```tsx
+<FormFieldInput
+  label="Game Tags"
+  enableTags
+  tags={selectedTags}
+  onTagsChange={setSelectedTags}
+  maxTags={5}
+  tagPlaceholder="Add game tags..."
+  suggestions={popularTags}
+/>
+```
+
+## Form Integration Examples
+
+### React Hook Form Integration
+```tsx
+import { useForm } from 'react-hook-form';
+import { FormFieldInput } from '@/components/ui/FormField';
+
+const GameReviewForm = () => {
+  const { register, formState: { errors }, handleSubmit } = useForm();
+  
+  return (
+    <form onSubmit={handleSubmit(onSubmit)}>
+      <FormFieldInput
+        label="Game Title"
+        required
+        error={errors.title?.message}
+        {...register('title', { required: 'Game title is required' })}
+      />
+      
+      <FormFieldInput
+        label="Rating"
+        type="number"
+        min={1}
+        max={10}
+        required
+        error={errors.rating?.message}
+        {...register('rating', { 
+          required: 'Rating is required',
+          min: { value: 1, message: 'Minimum rating is 1' },
+          max: { value: 10, message: 'Maximum rating is 10' }
+        })}
+      />
+      
+      <Button type="submit">Submit Review</Button>
+    </form>
+  );
+};
+```
+
+### Custom Validation
+```tsx
+const validateEmail = (email: string) => {
+  const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+  if (!emailRegex.test(email)) {
+    return "Please enter a valid email address";
+  }
+  return undefined;
+};
+
+<FormFieldInput
+  label="Email"
+  type="email"
+  validate={validateEmail}
+  onBlur={() => triggerValidation()}
+/>
+```
+
+## Theme Support
+
+FormFields automatically adapt to all theme variants:
+
+<Canvas>
+  <Story id="ui-formfield-input--all-themes-default" />
+</Canvas>
+
+### Theme Customization
+
+```css
+/* Custom theme variables */
+:root[data-theme="custom"] {
+  --form-field-bg: #f8fafc;
+  --form-field-border: #e2e8f0;
+  --form-field-focus-border: #3b82f6;
+  --form-field-error-color: #ef4444;
+  --form-field-success-color: #10b981;
+}
+```
+
+## Component API Reference
+
+### Base FormField Props
+
+<ArgTypes of={FormField} />
+
+### Common Props Across All FormField Components
+
+| Prop | Type | Default | Description |
+|------|------|---------|-------------|
+| `label` | `string` | - | Field label displayed above input |
+| `required` | `boolean` | `false` | Shows required indicator (*) |
+| `helperText` | `string` | - | Help text below the field |
+| `error` | `string` | - | Error message (red styling) |
+| `success` | `string` | - | Success message (green styling) |
+| `warning` | `string` | - | Warning message (yellow styling) |
+| `tooltip` | `string` | - | Tooltip content for info icon |
+| `disabled` | `boolean` | `false` | Disables the entire field |
+| `className` | `string` | - | Custom CSS classes |
+| `testId` | `string` | - | Test identifier |
+
+### Validation Props
+
+| Prop | Type | Description |
+|------|------|-------------|
+| `validate` | `(value: any) => string \| undefined` | Custom validation function |
+| `onBlur` | `() => void` | Blur event handler for validation |
+| `onFocus` | `() => void` | Focus event handler |
+
+### Suggestion Props
+
+| Prop | Type | Description |
+|------|------|-------------|
+| `suggestions` | `SuggestionPreset[]` | Array of suggestion objects |
+| `showSuggestions` | `boolean` | Display suggestions UI |
+| `onSuggestionSelect` | `(value: any) => void` | Suggestion selection handler |
+| `multipleSuggestions` | `boolean` | Allow multiple selection |
+| `suggestionsCarousel` | `boolean` | Display as carousel |
+
+## Specialized Components
+
+### FormFieldInput
+- **Purpose**: Text inputs, textareas, number inputs
+- **Features**: Character counting, suggestions, validation
+- **Use Cases**: Names, emails, passwords, descriptions
+
+### FormFieldCheckbox
+- **Purpose**: Single checkbox inputs
+- **Features**: Right content (counts, badges), custom styling
+- **Use Cases**: Agreements, preferences, filters
+
+### FormFieldDualRange
+- **Purpose**: Min/max range selection
+- **Features**: Preset suggestions, validation, custom separators
+- **Use Cases**: Price ranges, RTP ranges, date ranges
+
+### FormFieldSelect
+- **Purpose**: Dropdown selections
+- **Features**: Search, multi-select, custom options
+- **Use Cases**: Categories, regions, game types
+
+### FormFieldRange
+- **Purpose**: Single range/slider inputs
+- **Features**: Custom min/max, step values, visual indicators
+- **Use Cases**: Volume, difficulty, ratings
+
+## Best Practices
+
+### Do's ✅
+
+1. **Use appropriate field types** for different data types
+2. **Provide clear labels** and helpful text
+3. **Implement proper validation** with clear error messages  
+4. **Group related fields** using consistent spacing
+5. **Use suggestions** to improve user experience
+6. **Test with keyboard navigation** and screen readers
+
+### Don'ts ❌
+
+1. **Don't mix FormField with raw inputs** - use consistently
+2. **Don't skip labels** - accessibility requirement
+3. **Don't use placeholder text as labels** - accessibility issue
+4. **Don't overcomplicate forms** - keep simple and focused
+5. **Don't forget validation feedback** - users need clear error states
+
+### Form Layout Example
+
+```tsx
+const GameSettingsForm = () => (
+  <div className="space-y-6">
+    {/* Basic info section */}
+    <div className="space-y-4">
+      <h3>Player Information</h3>
+      
+      <FormFieldInput
+        label="Display Name"
+        required
+        maxLength={50}
+        showCount
+        helperText="This name will be visible to other players"
+      />
+      
+      <FormFieldInput
+        label="Email"
+        type="email"
+        required
+        helperText="For account security and notifications"
+      />
+    </div>
+    
+    {/* Preferences section */}
+    <div className="space-y-4">
+      <h3>Game Preferences</h3>
+      
+      <FormFieldCheckbox
+        label="Notifications"
+        checkboxLabel="Enable game notifications"
+        helperText="Receive updates about new games and events"
+      />
+      
+      <FormFieldDualRange
+        label="RTP Range"
+        config={{ min: 0, max: 100, step: 0.1, suffix: '%' }}
+        minLabel="Min RTP"
+        maxLabel="Max RTP"
+        suggestions={rtpPresets}
+        showSuggestions
+      />
+    </div>
+  </div>
+);
+```
+
+## Migration Guide
+
+### From Raw HTML Forms
+```tsx
+// Before
+<div>
+  <label htmlFor="email">Email *</label>
+  <input id="email" type="email" required />
+  <span className="error">Invalid email</span>
+</div>
+
+// After
+<FormFieldInput
+  label="Email"
+  type="email"
+  required
+  error="Invalid email"
+/>
+```
+
+### From Other Form Libraries
+```tsx
+// Before (Material-UI)
+<TextField
+  label="Username"
+  error={!!errors.username}
+  helperText={errors.username?.message}
+  variant="outlined"
+/>
+
+// After (FormField)
+<FormFieldInput
+  label="Username"
+  error={errors.username?.message}
+/>
+```
+
+## Related Documentation
+
+- **[Label Component](/docs/ui-label--docs)** - Base label component used in FormFields
+- **[Input Component](/docs/ui-input--docs)** - Base input component
+- **[Button Component](/docs/ui-button--docs)** - For form submissions
+- **[Badge Component](/docs/ui-badge--docs)** - Used in suggestions and right content
+
+## Performance Notes
+
+- FormField components are optimized for re-rendering
+- Validation functions are memoized where possible
+- Suggestions are lazily loaded
+- Large forms benefit from field-level validation vs form-level
+
+## Browser Support
+
+- Modern browsers (Chrome, Firefox, Safari, Edge)
+- Full keyboard navigation support
+- Screen reader compatibility (NVDA, JAWS, VoiceOver)
+- Mobile-friendly touch interactions
