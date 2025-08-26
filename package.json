@@ -13,7 +13,14 @@
   },
   "dependencies": {
     "@tanstack/react-query": "^5.85.3",
+    "@tanstack/react-virtual": "^3.13.12",
     "clsx": "^2.1.1",
+    "embla-carousel-auto-height": "^8.6.0",
+    "embla-carousel-auto-scroll": "^8.6.0",
+    "embla-carousel-autoplay": "^8.6.0",
+    "embla-carousel-class-names": "^8.6.0",
+    "embla-carousel-react": "^8.6.0",
+    "embla-carousel-wheel-gestures": "^8.1.0",
     "lucide-react": "^0.539.0",
     "next": "15.4.6",
     "react": "19.1.0",
@@ -21,7 +28,6 @@
     "zustand": "^5.0.7"
   },
   "devDependencies": {
-    "@chromatic-com/storybook": "^4.1.0",
     "@eslint/eslintrc": "^3",
     "@storybook/addon-a11y": "^9.1.2",
     "@storybook/addon-docs": "^9.1.2",
