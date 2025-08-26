@@ -3,11 +3,14 @@
  * @module components/features/FilterPanel/stories
  */
 
-import type { Meta, StoryObj } from '@storybook/react';
+import type { Meta, StoryObj } from '@storybook/nextjs';
 import { FilterPanel } from './FilterPanel';
 import { useState } from 'react';
 import { Card } from '@/components/ui/Card';
-import type { FilterState, Provider } from './FilterPanel';
+import type { FilterState } from './FilterPanel';
+import type { Provider } from '@/lib/core/domain/entities/Provider';
+import { SORT_OPTIONS } from '@/lib/core/config/constants/app.constants';
+import { generateMockProviders, getSampleTags } from '@/lib/core/test';
 
 const meta: Meta<typeof FilterPanel> = {
   title: 'Features/FilterPanel',
@@ -56,29 +59,13 @@ FilterPanel component for comprehensive game filtering.
 export default meta;
 type Story = StoryObj<typeof meta>;
 
-// Sample providers data
-const sampleProviders: Provider[] = [
-  { id: 'pragmatic', name: 'Pragmatic Play', gameCount: 245 },
-  { id: 'evolution', name: 'Evolution Gaming', gameCount: 189 },
-  { id: 'netent', name: 'NetEnt', gameCount: 156 },
-  { id: 'microgaming', name: 'Microgaming', gameCount: 312 },
-  { id: 'playtech', name: 'Playtech', gameCount: 278 },
-  { id: 'betsoft', name: 'Betsoft', gameCount: 98 },
-  { id: 'yggdrasil', name: 'Yggdrasil', gameCount: 87 },
-  { id: 'quickspin', name: 'Quickspin', gameCount: 65 }
-];
+// Generate sample data using test generators
+const sampleProviders: Provider[] = generateMockProviders(8).map((provider) => ({
+  ...provider,
+  gameCount: Math.floor(Math.random() * 300) + 50
+}));
 
-// Sample tags
-const sampleTags = [
-  'Popular',
-  'New Release',
-  'High RTP',
-  'Bonus Buy',
-  'Megaways',
-  'Jackpot',
-  'Free Spins',
-  'Wild Features'
-];
+const sampleTags = getSampleTags();
 
 /**
  * Default filter panel
@@ -102,8 +89,11 @@ export const WithActiveFilters: Story = {
       types: ['slots', 'live'],
       tags: ['Popular', 'New Release'],
       favorites: true,
-      new: false,
-      hot: true
+      isNew: false,
+      isHot: true,
+      isComingSoon: false,
+      sort: 'new',
+      viewMode: 'grid'
     });
 
     return (
@@ -196,8 +186,10 @@ export const InteractiveDemo: Story = {
       types: [],
       tags: [],
       favorites: false,
-      new: false,
-      hot: false
+      isNew: false,
+      isHot: false,
+      sort: 'popular',
+      viewMode: 'grid'
     });
 
     const [results, setResults] = useState(1250);
@@ -212,8 +204,9 @@ export const InteractiveDemo: Story = {
       count -= newFilters.types.length * 200;
       count -= newFilters.tags.length * 100;
       if (newFilters.favorites) count -= 400;
-      if (newFilters.new) count -= 300;
-      if (newFilters.hot) count -= 250;
+      if (newFilters.isNew) count -= 300;
+      if (newFilters.isHot) count -= 250;
+      if (newFilters.isComingSoon) count -= 150;
       
       setResults(Math.max(0, count));
     };
@@ -276,6 +269,55 @@ export const InteractiveDemo: Story = {
 };
 
 /**
+ * Disabled state - entire panel
+ */
+export const DisabledPanel: Story = {
+  args: {
+    providers: sampleProviders,
+    tags: sampleTags,
+    disabled: true,
+    filters: {
+      providers: ['pragmatic'],
+      types: ['slots'],
+      tags: ['Bonus'],
+      favorites: true,
+      isNew: false,
+      isHot: false,
+      sort: 'popular',
+      viewMode: 'grid'
+    }
+  }
+};
+
+/**
+ * Disabled state - individual sections
+ */
+export const DisabledSections: Story = {
+  args: {
+    providers: sampleProviders,
+    tags: sampleTags,
+    disabled: {
+      providers: true,
+      types: false,
+      tags: true,
+      special: false,
+      sort: false,
+      viewMode: true
+    },
+    filters: {
+      providers: ['pragmatic'],
+      types: [],
+      tags: ['Popular'],
+      favorites: false,
+      isNew: false,
+      isHot: false,
+      sort: 'popular',
+      viewMode: 'grid'
+    }
+  }
+};
+
+/**
  * Dark mode
  */
 export const DarkMode: Story = {
@@ -306,9 +348,53 @@ export const LightMode: Story = {
 };
 
 /**
- * Mobile viewport
+ * Mobile viewport - Drawer Mode
  */
-export const Mobile: Story = {
+export const MobileDrawer: Story = {
+  args: {
+    providers: sampleProviders.slice(0, 4),
+    tags: sampleTags.slice(0, 4),
+    mobileMode: 'drawer',
+    collapsible: true,
+    defaultCollapsed: true
+  },
+  parameters: {
+    viewport: {
+      defaultViewport: 'mobile1'
+    },
+    docs: {
+      description: {
+        story: 'Mobile drawer mode - slides in from the left with overlay'
+      }
+    }
+  }
+};
+
+/**
+ * Mobile viewport - Accordion Mode
+ */
+export const MobileAccordion: Story = {
+  args: {
+    providers: sampleProviders.slice(0, 4),
+    tags: sampleTags.slice(0, 4),
+    mobileMode: 'accordion'
+  },
+  parameters: {
+    viewport: {
+      defaultViewport: 'mobile1'
+    },
+    docs: {
+      description: {
+        story: 'Mobile accordion mode - all sections collapsed by default'
+      }
+    }
+  }
+};
+
+/**
+ * Mobile viewport - Inline Mode
+ */
+export const MobileInline: Story = {
   args: {
     providers: sampleProviders.slice(0, 4),
     tags: sampleTags.slice(0, 4),
@@ -317,22 +403,55 @@ export const Mobile: Story = {
   parameters: {
     viewport: {
       defaultViewport: 'mobile1'
+    },
+    docs: {
+      description: {
+        story: 'Mobile inline mode - normal layout optimized for mobile'
+      }
     }
   }
 };
 
 /**
- * Tablet viewport
+ * Tablet viewport - Drawer Mode
  */
-export const Tablet: Story = {
+export const TabletDrawer: Story = {
   args: {
     providers: sampleProviders.slice(0, 6),
     tags: sampleTags.slice(0, 6),
-    mobileMode: 'dropdown'
+    mobileMode: 'drawer',
+    collapsible: true,
+    defaultCollapsed: true
   },
   parameters: {
     viewport: {
       defaultViewport: 'ipad'
+    },
+    docs: {
+      description: {
+        story: 'Tablet drawer mode - wider drawer for tablet screens'
+      }
+    }
+  }
+};
+
+/**
+ * Tablet viewport - Accordion Mode
+ */
+export const TabletAccordion: Story = {
+  args: {
+    providers: sampleProviders.slice(0, 6),
+    tags: sampleTags.slice(0, 6),
+    mobileMode: 'accordion'
+  },
+  parameters: {
+    viewport: {
+      defaultViewport: 'ipad'
+    },
+    docs: {
+      description: {
+        story: 'Tablet accordion mode - sections can be expanded/collapsed'
+      }
     }
   }
 };
@@ -347,8 +466,10 @@ export const CustomFilterState: Story = {
       types: ['slots'],
       tags: [],
       favorites: false,
-      new: true,
-      hot: false
+      isNew: true,
+      isHot: false,
+      sort: 'rating',
+      viewMode: 'compact'
     });
 
     return (
@@ -374,5 +495,243 @@ export const Playground: Story = {
     defaultCollapsed: false,
     showCount: true,
     mobileMode: 'inline'
+  }
+};
+
+/**
+ * Sort Options Demo
+ */
+export const SortOptionsDemo: Story = {
+  render: () => {
+    const [filters, setFilters] = useState<FilterState>({
+      providers: [],
+      types: [],
+      tags: [],
+      favorites: false,
+      isNew: false,
+      isHot: false,
+      sort: 'popular',
+      viewMode: 'grid'
+    });
+
+    return (
+      <div className="space-y-4">
+        <div className="text-sm text-secondary">
+          <strong>Current Sort:</strong> {SORT_OPTIONS.find(opt => opt.value === filters.sort)?.label}
+        </div>
+        <FilterPanel
+          providers={sampleProviders}
+          tags={sampleTags}
+          filters={filters}
+          onFilterChange={setFilters}
+        />
+      </div>
+    );
+  }
+};
+
+/**
+ * View Mode Demo
+ */
+export const ViewModeDemo: Story = {
+  render: () => {
+    const [filters, setFilters] = useState<FilterState>({
+      providers: [],
+      types: [],
+      tags: [],
+      favorites: false,
+      isNew: false,
+      isHot: false,
+      sort: 'popular',
+      viewMode: 'grid'
+    });
+
+    return (
+      <div className="space-y-4">
+        <div className="text-sm text-secondary">
+          <strong>Current View Mode:</strong> {filters.viewMode.charAt(0).toUpperCase() + filters.viewMode.slice(1)}
+        </div>
+        <FilterPanel
+          providers={sampleProviders}
+          tags={sampleTags}
+          filters={filters}
+          onFilterChange={setFilters}
+        />
+      </div>
+    );
+  }
+};
+
+/**
+ * Combined Sort and View Demo
+ */
+export const SortAndViewDemo: Story = {
+  render: () => {
+    const [filters, setFilters] = useState<FilterState>({
+      providers: ['pragmatic'],
+      types: ['slots'],
+      tags: ['Popular'],
+      favorites: false,
+      isNew: false,
+      isHot: true,
+      isComingSoon: false,
+      sort: 'new',
+      viewMode: 'grid'
+    });
+
+    return (
+      <div className="space-y-4">
+        <div className="flex gap-4 text-sm text-secondary">
+          <div>
+            <strong>Sort:</strong> {SORT_OPTIONS.find(opt => opt.value === filters.sort)?.label}
+          </div>
+          <div>
+            <strong>View:</strong> {filters.viewMode.charAt(0).toUpperCase() + filters.viewMode.slice(1)}
+          </div>
+        </div>
+        <FilterPanel
+          providers={sampleProviders}
+          tags={sampleTags}
+          filters={filters}
+          onFilterChange={setFilters}
+        />
+      </div>
+    );
+  }
+};
+
+/**
+ * Neon theme - Cyberpunk filters
+ */
+export const NeonTheme: Story = {
+  render: () => {
+    const [filters, setFilters] = useState<FilterState>({
+      providers: [],
+      types: [],
+      tags: [],
+      favorites: false,
+      isNew: false,
+      isHot: false,
+      sort: 'new',
+      viewMode: 'grid'
+    });
+
+    return (
+      <div data-theme="neon" className="p-8" style={{ background: 'rgb(3, 7, 18)' }}>
+        <h3 className="text-lg font-semibold text-purple-400 mb-6">Neon Theme Filters</h3>
+        <div className="w-80">
+          <FilterPanel
+            providers={sampleProviders}
+            tags={sampleTags}
+            filters={filters}
+            onFilterChange={setFilters}
+          />
+        </div>
+      </div>
+    );
+  },
+  parameters: {
+    backgrounds: { default: 'dark' }
+  }
+};
+
+/**
+ * Gold theme - Premium filters
+ */
+export const GoldTheme: Story = {
+  render: () => {
+    const [filters, setFilters] = useState<FilterState>({
+      providers: [],
+      types: [],
+      tags: [],
+      favorites: false,
+      isNew: false,
+      isHot: false,
+      sort: 'popular',
+      viewMode: 'grid'
+    });
+
+    return (
+      <div data-theme="gold" className="p-8" style={{ background: 'linear-gradient(135deg, #78350f, #422006)' }}>
+        <h3 className="text-lg font-semibold text-yellow-400 mb-6">Gold Theme Filters</h3>
+        <div className="w-80">
+          <FilterPanel
+            providers={sampleProviders}
+            tags={sampleTags}
+            filters={filters}
+            onFilterChange={setFilters}
+          />
+        </div>
+      </div>
+    );
+  },
+  parameters: {
+    backgrounds: { default: 'dark' }
+  }
+};
+
+/**
+ * All themes comparison
+ */
+export const AllThemes: Story = {
+  render: () => {
+    const [lightFilters, setLightFilters] = useState<FilterState>({
+      providers: [], types: [], tags: [], favorites: false, isNew: false, isHot: false, isComingSoon: false, sort: 'new', viewMode: 'grid'
+    });
+    const [darkFilters, setDarkFilters] = useState<FilterState>({
+      providers: [], types: [], tags: [], favorites: false, isNew: false, isHot: false, isComingSoon: false, sort: 'new', viewMode: 'grid'
+    });
+    const [neonFilters, setNeonFilters] = useState<FilterState>({
+      providers: [], types: [], tags: [], favorites: false, isNew: false, isHot: false, isComingSoon: false, sort: 'new', viewMode: 'grid'
+    });
+    const [goldFilters, setGoldFilters] = useState<FilterState>({
+      providers: [], types: [], tags: [], favorites: false, isNew: false, isHot: false, isComingSoon: false, sort: 'new', viewMode: 'grid'
+    });
+
+    return (
+      <div className="grid grid-cols-2 gap-6">
+        <div data-theme="light" className="p-6 bg-white rounded-lg">
+          <h3 className="text-lg font-semibold mb-3">Light Theme</h3>
+          <FilterPanel
+            providers={sampleProviders.slice(0, 4)}
+            tags={sampleTags.slice(0, 5)}
+            filters={lightFilters}
+            onFilterChange={setLightFilters}
+          />
+        </div>
+        
+        <div data-theme="dark" className="p-6 bg-gray-900 rounded-lg">
+          <h3 className="text-lg font-semibold text-white mb-3">Dark Theme</h3>
+          <FilterPanel
+            providers={sampleProviders.slice(0, 4)}
+            tags={sampleTags.slice(0, 5)}
+            filters={darkFilters}
+            onFilterChange={setDarkFilters}
+          />
+        </div>
+        
+        <div data-theme="neon" className="p-6 rounded-lg" style={{ background: 'rgb(3, 7, 18)' }}>
+          <h3 className="text-lg font-semibold text-purple-400 mb-3">Neon Theme</h3>
+          <FilterPanel
+            providers={sampleProviders.slice(0, 4)}
+            tags={sampleTags.slice(0, 5)}
+            filters={neonFilters}
+            onFilterChange={setNeonFilters}
+            className="border border-purple-500 border-opacity-20"
+          />
+        </div>
+        
+        <div data-theme="gold" className="p-6 rounded-lg" style={{ background: 'linear-gradient(135deg, #78350f, #422006)' }}>
+          <h3 className="text-lg font-semibold text-yellow-400 mb-3">Gold Theme</h3>
+          <FilterPanel
+            providers={sampleProviders.slice(0, 4)}
+            tags={sampleTags.slice(0, 5)}
+            filters={goldFilters}
+            onFilterChange={setGoldFilters}
+            className="border border-yellow-500 border-opacity-20"
+          />
+        </div>
+      </div>
+    );
   }
 };
