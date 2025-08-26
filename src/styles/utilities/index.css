@@ -13,5 +13,7 @@
 @import './interactive.css';
 @import './layout.css';
 @import './opacity.css';
+@import './scrollbar.css';
+@import './shadows.css';
 @import './text.css';
 @import './typography.css';

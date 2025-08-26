@@ -106,7 +106,7 @@
 /* Glitch animations defined in _animations.css */
 
 /* Responsive text adjustments */
-@media (max-width: 640px) {
+@media (max-width: 767px) {
   .text-neon,
   .text-neon-green,
   .text-neon-pink,

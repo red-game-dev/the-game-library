@@ -1,0 +1,27 @@
+/**
+ * Shadow Utility Classes
+ * Box shadow utilities using design system variables
+ */
+
+/* Standard Shadows */
+.shadow-none { box-shadow: var(--shadow-none); }
+.shadow-xs { box-shadow: var(--shadow-xs); }
+.shadow-sm { box-shadow: var(--shadow-sm); }
+.shadow { box-shadow: var(--shadow-base); }
+.shadow-md { box-shadow: var(--shadow-md); }
+.shadow-lg { box-shadow: var(--shadow-lg); }
+.shadow-xl { box-shadow: var(--shadow-xl); }
+.shadow-2xl { box-shadow: var(--shadow-2xl); }
+.shadow-inner { box-shadow: var(--shadow-inner); }
+
+/* Special Shadows */
+.shadow-glass { box-shadow: var(--shadow-glass); }
+.shadow-elevated { box-shadow: var(--shadow-elevated); }
+
+/* Glow Shadows */
+.shadow-glow-primary { box-shadow: var(--shadow-glow-primary); }
+.shadow-glow-accent { box-shadow: var(--shadow-glow-accent); }
+.shadow-glow-error { box-shadow: var(--shadow-glow-error); }
+.shadow-glow-success { box-shadow: var(--shadow-glow-success); }
+.shadow-glow-warning { box-shadow: var(--shadow-glow-warning); }
+.shadow-glow-info { box-shadow: var(--shadow-glow-info); }

@@ -1,0 +1,130 @@
+/**
+ * Scrollbar Utilities
+ * Theme-aware scrollbar styles that adapt based on data-theme
+ */
+
+/* Base scrollbar - theme-aware */
+.scrollbar-thin {
+  scrollbar-width: thin;
+  scrollbar-color: var(--scrollbar-thumb) var(--scrollbar-track);
+}
+
+.scrollbar-thin::-webkit-scrollbar {
+  width: var(--scrollbar-size-thin, 6px);
+  height: var(--scrollbar-size-thin, 6px);
+}
+
+.scrollbar-thin::-webkit-scrollbar-track {
+  background: var(--scrollbar-track);
+  border-radius: var(--radius-full);
+}
+
+.scrollbar-thin::-webkit-scrollbar-thumb {
+  background: var(--scrollbar-thumb);
+  border-radius: var(--radius-full);
+  border: 1px solid transparent;
+  background-clip: padding-box;
+}
+
+.scrollbar-thin::-webkit-scrollbar-thumb:hover {
+  background: var(--scrollbar-thumb-hover);
+}
+
+/* Auto-hide scrollbar - only visible on hover */
+.scrollbar-auto {
+  scrollbar-width: thin;
+  scrollbar-color: transparent transparent;
+  transition: scrollbar-color 0.3s ease;
+}
+
+.scrollbar-auto:hover {
+  scrollbar-color: var(--scrollbar-thumb) var(--scrollbar-track);
+}
+
+.scrollbar-auto::-webkit-scrollbar {
+  width: var(--scrollbar-size-thin, 6px);
+  height: var(--scrollbar-size-thin, 6px);
+}
+
+.scrollbar-auto::-webkit-scrollbar-track {
+  background: transparent;
+  border-radius: var(--radius-full);
+}
+
+.scrollbar-auto::-webkit-scrollbar-thumb {
+  background: transparent;
+  border-radius: var(--radius-full);
+  transition: background 0.3s ease;
+}
+
+.scrollbar-auto:hover::-webkit-scrollbar-thumb {
+  background: var(--scrollbar-thumb);
+}
+
+.scrollbar-auto:hover::-webkit-scrollbar-thumb:hover {
+  background: var(--scrollbar-thumb-hover);
+}
+
+/* Minimal scrollbar - extra thin */
+.scrollbar-minimal {
+  scrollbar-width: thin;
+  scrollbar-color: var(--scrollbar-thumb) transparent;
+}
+
+.scrollbar-minimal::-webkit-scrollbar {
+  width: 4px;
+  height: 4px;
+}
+
+.scrollbar-minimal::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.scrollbar-minimal::-webkit-scrollbar-thumb {
+  background: var(--scrollbar-thumb);
+  border-radius: var(--radius-full);
+  opacity: 0.7;
+}
+
+.scrollbar-minimal::-webkit-scrollbar-thumb:hover {
+  background: var(--scrollbar-thumb-hover);
+  opacity: 1;
+}
+
+/* Hide scrollbar completely */
+.scrollbar-none {
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+
+.scrollbar-none::-webkit-scrollbar {
+  display: none;
+}
+
+/* Horizontal scrollbar specific styles */
+.scrollbar-horizontal-thin {
+  overflow-x: auto;
+  overflow-y: hidden;
+}
+
+.scrollbar-horizontal-thin::-webkit-scrollbar {
+  height: 6px;
+}
+
+.scrollbar-horizontal-thin::-webkit-scrollbar:vertical {
+  width: 0;
+}
+
+/* Vertical scrollbar specific styles */
+.scrollbar-vertical-thin {
+  overflow-y: auto;
+  overflow-x: hidden;
+}
+
+.scrollbar-vertical-thin::-webkit-scrollbar {
+  width: 6px;
+}
+
+.scrollbar-vertical-thin::-webkit-scrollbar:horizontal {
+  height: 0;
+}

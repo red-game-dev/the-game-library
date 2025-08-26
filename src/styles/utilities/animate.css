@@ -1,7 +1,85 @@
 /**
  * Animation Utilities
  * Classes that apply custom animations from animations.css
+ * Performance utilities for GPU optimization
  */
+
+/* ============================================
+   Performance Optimization Classes
+   ============================================ */
+
+/* Apply to animated elements for better performance */
+.will-animate {
+  will-change: transform, opacity;
+  transform: translateZ(0); /* Force GPU layer */
+  backface-visibility: hidden; /* Prevent flickering */
+}
+
+/* Pause all animations (useful during theme switching) */
+.pause-animations,
+.pause-animations * {
+  animation-play-state: paused !important;
+  transition: none !important;
+}
+
+/* Resume animations */
+.resume-animations,
+.resume-animations * {
+  animation-play-state: running !important;
+}
+
+/* ============================================
+   Animation Duration Utilities
+   ============================================ */
+
+.duration-instant { animation-duration: var(--duration-instant); }
+.duration-75 { animation-duration: var(--duration-75); }
+.duration-100 { animation-duration: var(--duration-100); }
+.duration-150 { animation-duration: var(--duration-150); }
+.duration-200 { animation-duration: var(--duration-200); }
+.duration-300 { animation-duration: var(--duration-300); }
+.duration-500 { animation-duration: var(--duration-500); }
+.duration-700 { animation-duration: var(--duration-700); }
+.duration-1000 { animation-duration: var(--duration-1000); }
+
+/* Semantic durations */
+.duration-fast { animation-duration: var(--duration-fast); }
+.duration-base { animation-duration: var(--duration-base); }
+.duration-moderate { animation-duration: var(--duration-moderate); }
+.duration-slow { animation-duration: var(--duration-slow); }
+.duration-slower { animation-duration: var(--duration-slower); }
+.duration-slowest { animation-duration: var(--duration-slowest); }
+
+/* ============================================
+   Transition Duration Utilities
+   ============================================ */
+
+.transition-instant { transition-duration: var(--duration-instant); }
+.transition-75 { transition-duration: var(--duration-75); }
+.transition-100 { transition-duration: var(--duration-100); }
+.transition-150 { transition-duration: var(--duration-150); }
+.transition-200 { transition-duration: var(--duration-200); }
+.transition-300 { transition-duration: var(--duration-300); }
+.transition-500 { transition-duration: var(--duration-500); }
+.transition-700 { transition-duration: var(--duration-700); }
+.transition-1000 { transition-duration: var(--duration-1000); }
+
+/* ============================================
+   Easing Function Utilities
+   ============================================ */
+
+.ease-linear { animation-timing-function: var(--ease-linear); }
+.ease-in { animation-timing-function: var(--ease-in); }
+.ease-out { animation-timing-function: var(--ease-out); }
+.ease-in-out { animation-timing-function: var(--ease-in-out); }
+.ease-in-out-cubic { animation-timing-function: var(--ease-in-out-cubic); }
+.ease-out-expo { animation-timing-function: var(--ease-out-expo); }
+.ease-spring { animation-timing-function: var(--ease-spring); }
+.ease-bounce { animation-timing-function: var(--ease-bounce); }
+
+/* ============================================
+   Existing Animation Classes
+   ============================================ */
 
 /* Gradient animations */
 .animate-gradient {

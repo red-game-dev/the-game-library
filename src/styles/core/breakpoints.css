@@ -5,40 +5,50 @@
  * so we define the breakpoints as comments for reference
  */
 
-/* 
-Breakpoint values:
-- xs: 475px
-- sm: 640px  
-- md: 768px
-- lg: 1024px
-- xl: 1280px
-- 2xl: 1536px
+/*
+UPDATED 2024 BREAKPOINTS - Optimized for Gaming/Entertainment Sites
+
+Device-based breakpoint strategy:
+xs: 0px      Mobile portrait: iPhone SE (375px), small Android (360px)
+sm: 390px    Large phones: iPhone 14 Pro (393px), Pixel 7 (412px)
+md: 768px    Small tablets: iPad Mini portrait (768px)
+lg: 820px    Standard tablets: iPad 10.9" (820px), Surface (853px)
+xl: 1024px   Large tablets landscape + small laptops
+2xl: 1280px  Desktop: Most common laptop resolution
+3xl: 1440px  Large desktop + gaming monitors
 
 Usage:
-@media (min-width: 640px) { } // sm
-@media (min-width: 768px) { } // md
-@media (min-width: 1024px) { } // lg
-@media (min-width: 1280px) { } // xl
-@media (min-width: 1536px) { } // 2xl
+@media (min-width: 390px) - sm - Large phones
+@media (min-width: 820px) - md - Small tablets (iPad Mini)
+@media (min-width: 820px) - lg - Standard tablets (iPad)
+@media (min-width: 1024px) - xl - Tablets landscape + laptops
+@media (min-width: 1280px) - 2xl - Desktop
+@media (min-width: 1440px) - 3xl - Large desktop
+
+CRITICAL: iPad Mini (768x1024) now gets proper tablet treatment
 */
 
-/* Container responsive adjustments */
-@container (min-width: 640px) {
-  .container-sm { max-width: 640px; }
+/* Container responsive adjustments - Updated for new breakpoints */
+@container (min-width: 390px) {
+  .container-sm { max-width: 390px; }
 }
 
 @container (min-width: 768px) {
   .container-md { max-width: 768px; }
 }
 
+@container (min-width: 820px) {
+  .container-lg { max-width: 820px; }
+}
+
 @container (min-width: 1024px) {
-  .container-lg { max-width: 1024px; }
+  .container-xl { max-width: 1024px; }
 }
 
 @container (min-width: 1280px) {
-  .container-xl { max-width: 1280px; }
+  .container-2xl { max-width: 1280px; }
 }
 
-@container (min-width: 1536px) {
-  .container-2xl { max-width: 1536px; }
+@container (min-width: 1440px) {
+  .container-3xl { max-width: 1440px; }
 }
