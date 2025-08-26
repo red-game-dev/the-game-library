@@ -1,0 +1,142 @@
+[
+  {
+    "id": "pragmatic",
+    "name": "Pragmatic Play",
+    "logo": "https://picsum.photos/seed/pragmatic/200/80",
+    "gameCount": 250,
+    "description": "Leading content provider to the iGaming industry"
+  },
+  {
+    "id": "evolution",
+    "name": "Evolution Gaming",
+    "logo": "https://loremflickr.com/200/80/logo,gaming?lock=evolution",
+    "gameCount": 180,
+    "description": "World leader in live casino games"
+  },
+  {
+    "id": "netent",
+    "name": "NetEnt",
+    "logo": "https://picsum.photos/seed/netent/200/80",
+    "gameCount": 200,
+    "description": "Premium gaming solutions provider"
+  },
+  {
+    "id": "playngo",
+    "name": "Play'n GO",
+    "logo": "https://loremflickr.com/200/80/logo,casino?lock=playngo",
+    "gameCount": 300,
+    "description": "Leading supplier of gaming content"
+  },
+  {
+    "id": "microgaming",
+    "name": "Microgaming",
+    "logo": "https://picsum.photos/seed/microgaming/200/80",
+    "gameCount": 400,
+    "description": "Pioneer of online gaming software"
+  },
+  {
+    "id": "yggdrasil",
+    "name": "Yggdrasil",
+    "logo": "https://loremflickr.com/200/80/logo,tech?lock=yggdrasil",
+    "gameCount": 150,
+    "description": "Innovative gaming solutions provider"
+  },
+  {
+    "id": "quickspin",
+    "name": "Quickspin",
+    "logo": "https://picsum.photos/seed/quickspin/200/80",
+    "gameCount": 80,
+    "description": "Swedish game studio creating innovative slots"
+  },
+  {
+    "id": "redtiger",
+    "name": "Red Tiger",
+    "logo": "https://loremflickr.com/200/80/logo,tiger?lock=redtiger",
+    "gameCount": 170,
+    "description": "Award-winning casino software provider"
+  },
+  {
+    "id": "nolimit",
+    "name": "Nolimit City",
+    "logo": "https://picsum.photos/seed/nolimit/200/80",
+    "gameCount": 60,
+    "description": "Innovative and provocative slot games"
+  },
+  {
+    "id": "hacksaw",
+    "name": "Hacksaw Gaming",
+    "logo": "https://loremflickr.com/200/80/logo,game?lock=hacksaw",
+    "gameCount": 90,
+    "description": "Mobile-first games with unique mechanics"
+  },
+  {
+    "id": "pushgaming",
+    "name": "Push Gaming",
+    "logo": "https://picsum.photos/seed/pushgaming/200/80",
+    "gameCount": 45,
+    "description": "Creating entertaining player-first games"
+  },
+  {
+    "id": "relax",
+    "name": "Relax Gaming",
+    "logo": "https://loremflickr.com/200/80/logo,relax?lock=relax",
+    "gameCount": 120,
+    "description": "B2B supplier with unique content"
+  },
+  {
+    "id": "blueprint",
+    "name": "Blueprint Gaming",
+    "logo": "https://picsum.photos/seed/blueprint/200/80",
+    "gameCount": 140,
+    "description": "Part of the Gauselmann Group"
+  },
+  {
+    "id": "elk",
+    "name": "ELK Studios",
+    "logo": "https://loremflickr.com/200/80/logo,elk?lock=elk",
+    "gameCount": 50,
+    "description": "Mobile-first casino games"
+  },
+  {
+    "id": "thunderkick",
+    "name": "Thunderkick",
+    "logo": "https://picsum.photos/seed/thunderkick/200/80",
+    "gameCount": 65,
+    "description": "Independent game studio from Stockholm"
+  },
+  {
+    "id": "bgaming",
+    "name": "BGaming",
+    "logo": "https://loremflickr.com/200/80/logo,gaming?lock=bgaming",
+    "gameCount": 100,
+    "description": "Fast-growing iGaming content provider"
+  },
+  {
+    "id": "endorphina",
+    "name": "Endorphina",
+    "logo": "https://picsum.photos/seed/endorphina/200/80",
+    "gameCount": 110,
+    "description": "Prague-based B2B software provider"
+  },
+  {
+    "id": "isoftbet",
+    "name": "iSoftBet",
+    "logo": "https://loremflickr.com/200/80/logo,software?lock=isoftbet",
+    "gameCount": 160,
+    "description": "Award-winning online and mobile casino supplier"
+  },
+  {
+    "id": "wazdan",
+    "name": "Wazdan",
+    "logo": "https://picsum.photos/seed/wazdan/200/80",
+    "gameCount": 140,
+    "description": "Innovative game features and unique volatility levels"
+  },
+  {
+    "id": "betsoft",
+    "name": "Betsoft",
+    "logo": "https://picsum.photos/seed/betsoft/200/80",
+    "gameCount": 180,
+    "description": "Leader in cinematic casino gaming"
+  }
+]

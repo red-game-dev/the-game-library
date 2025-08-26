@@ -1,0 +1,322 @@
+[
+  {
+    "id": "bonus",
+    "name": "Bonus Features",
+    "category": "features"
+  },
+  {
+    "id": "free-spins",
+    "name": "Free Spins",
+    "category": "features"
+  },
+  {
+    "id": "multiplier",
+    "name": "Multiplier",
+    "category": "features"
+  },
+  {
+    "id": "wilds",
+    "name": "Wild Symbols",
+    "category": "features"
+  },
+  {
+    "id": "scatters",
+    "name": "Scatter Symbols",
+    "category": "features"
+  },
+  {
+    "id": "expanding-wilds",
+    "name": "Expanding Wilds",
+    "category": "features"
+  },
+  {
+    "id": "sticky-wilds",
+    "name": "Sticky Wilds",
+    "category": "features"
+  },
+  {
+    "id": "cascading",
+    "name": "Cascading Reels",
+    "category": "features"
+  },
+  {
+    "id": "megaways",
+    "name": "Megaways",
+    "category": "features"
+  },
+  {
+    "id": "bonus-buy",
+    "name": "Bonus Buy",
+    "category": "features"
+  },
+  {
+    "id": "respins",
+    "name": "Respins",
+    "category": "features"
+  },
+  {
+    "id": "hold-and-win",
+    "name": "Hold and Win",
+    "category": "features"
+  },
+  {
+    "id": "jackpot",
+    "name": "Jackpot",
+    "category": "wins"
+  },
+  {
+    "id": "progressive",
+    "name": "Progressive Jackpot",
+    "category": "wins"
+  },
+  {
+    "id": "mega-wins",
+    "name": "Mega Wins",
+    "category": "wins"
+  },
+  {
+    "id": "big-wins",
+    "name": "Big Wins",
+    "category": "wins"
+  },
+  {
+    "id": "instant-win",
+    "name": "Instant Win",
+    "category": "wins"
+  },
+  {
+    "id": "classic",
+    "name": "Classic",
+    "category": "style"
+  },
+  {
+    "id": "retro",
+    "name": "Retro",
+    "category": "style"
+  },
+  {
+    "id": "3-reel",
+    "name": "3 Reel",
+    "category": "style"
+  },
+  {
+    "id": "5-reel",
+    "name": "5 Reel",
+    "category": "style"
+  },
+  {
+    "id": "video-slots",
+    "name": "Video Slots",
+    "category": "style"
+  },
+  {
+    "id": "fruit-machine",
+    "name": "Fruit Machine",
+    "category": "style"
+  },
+  {
+    "id": "adventure",
+    "name": "Adventure",
+    "category": "theme"
+  },
+  {
+    "id": "mythology",
+    "name": "Mythology",
+    "category": "theme"
+  },
+  {
+    "id": "egyptian",
+    "name": "Egyptian",
+    "category": "theme"
+  },
+  {
+    "id": "asian",
+    "name": "Asian",
+    "category": "theme"
+  },
+  {
+    "id": "fantasy",
+    "name": "Fantasy",
+    "category": "theme"
+  },
+  {
+    "id": "space",
+    "name": "Space",
+    "category": "theme"
+  },
+  {
+    "id": "underwater",
+    "name": "Underwater",
+    "category": "theme"
+  },
+  {
+    "id": "wildlife",
+    "name": "Wildlife",
+    "category": "theme"
+  },
+  {
+    "id": "sports",
+    "name": "Sports",
+    "category": "theme"
+  },
+  {
+    "id": "music",
+    "name": "Music",
+    "category": "theme"
+  },
+  {
+    "id": "movie",
+    "name": "Movie",
+    "category": "theme"
+  },
+  {
+    "id": "horror",
+    "name": "Horror",
+    "category": "theme"
+  },
+  {
+    "id": "romance",
+    "name": "Romance",
+    "category": "theme"
+  },
+  {
+    "id": "food",
+    "name": "Food & Sweets",
+    "category": "theme"
+  },
+  {
+    "id": "luxury",
+    "name": "Luxury",
+    "category": "theme"
+  },
+  {
+    "id": "pirates",
+    "name": "Pirates",
+    "category": "theme"
+  },
+  {
+    "id": "vikings",
+    "name": "Vikings",
+    "category": "theme"
+  },
+  {
+    "id": "medieval",
+    "name": "Medieval",
+    "category": "theme"
+  },
+  {
+    "id": "live",
+    "name": "Live Casino",
+    "category": "game-type"
+  },
+  {
+    "id": "roulette",
+    "name": "Roulette",
+    "category": "game-type"
+  },
+  {
+    "id": "blackjack",
+    "name": "Blackjack",
+    "category": "game-type"
+  },
+  {
+    "id": "baccarat",
+    "name": "Baccarat",
+    "category": "game-type"
+  },
+  {
+    "id": "poker",
+    "name": "Poker",
+    "category": "game-type"
+  },
+  {
+    "id": "instant",
+    "name": "Instant Games",
+    "category": "game-type"
+  },
+  {
+    "id": "crash",
+    "name": "Crash Games",
+    "category": "game-type"
+  },
+  {
+    "id": "mines",
+    "name": "Mines",
+    "category": "game-type"
+  },
+  {
+    "id": "dice",
+    "name": "Dice",
+    "category": "game-type"
+  },
+  {
+    "id": "wheel",
+    "name": "Wheel Games",
+    "category": "game-type"
+  },
+  {
+    "id": "cards",
+    "name": "Card Games",
+    "category": "game-type"
+  },
+  {
+    "id": "table",
+    "name": "Table Games",
+    "category": "game-type"
+  },
+  {
+    "id": "strategy",
+    "name": "Strategy",
+    "category": "game-type"
+  },
+  {
+    "id": "high-volatility",
+    "name": "High Volatility",
+    "category": "volatility"
+  },
+  {
+    "id": "medium-volatility",
+    "name": "Medium Volatility",
+    "category": "volatility"
+  },
+  {
+    "id": "low-volatility",
+    "name": "Low Volatility",
+    "category": "volatility"
+  },
+  {
+    "id": "new",
+    "name": "New Games",
+    "category": "special"
+  },
+  {
+    "id": "popular",
+    "name": "Popular",
+    "category": "special"
+  },
+  {
+    "id": "hot",
+    "name": "Hot Games",
+    "category": "special"
+  },
+  {
+    "id": "exclusive",
+    "name": "Exclusive",
+    "category": "special"
+  },
+  {
+    "id": "featured",
+    "name": "Featured",
+    "category": "special"
+  },
+  {
+    "id": "branded",
+    "name": "Branded",
+    "category": "special"
+  },
+  {
+    "id": "licensed",
+    "name": "Licensed",
+    "category": "special"
+  }
+]

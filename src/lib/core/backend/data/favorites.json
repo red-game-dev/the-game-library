@@ -1,0 +1,7 @@
+{
+  "_comment": "This is mock data. In Next.js/Vercel, we cannot write to files. Favorites are maintained in memory during the session. For production, use a database or external storage.",
+  "favorites": {
+    "guest": []
+  },
+  "lastUpdated": "2024-01-01T00:00:00.000Z"
+}
