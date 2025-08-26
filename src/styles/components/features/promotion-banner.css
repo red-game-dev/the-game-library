@@ -1,0 +1,262 @@
+/**
+ * PromotionBanner Component Styles
+ * Premium promotional banner with multiple variants
+ */
+
+.promotion-banner {
+  position: relative;
+  overflow: hidden;
+  border-radius: var(--radius-xl);
+  background: var(--color-surface);
+}
+
+/* Variants */
+.promotion-banner--hero {
+  min-height: 400px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.promotion-banner--compact {
+  min-height: 200px;
+  display: flex;
+  align-items: center;
+}
+
+.promotion-banner--featured {
+  min-height: 350px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Background */
+.promotion-banner__background {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+}
+
+.promotion-banner__image {
+  object-fit: cover;
+  object-position: center;
+}
+
+.promotion-banner__overlay {
+  position: absolute;
+  inset: 0;
+  /* Background is set inline via props */
+  backdrop-filter: blur(1px);
+  pointer-events: none;
+}
+
+/* Content */
+.promotion-banner__content {
+  position: relative;
+  z-index: 1;
+  padding: var(--space-6);
+  max-width: 800px;
+  text-align: center;
+  
+  .promotion-banner--compact & {
+    padding: var(--space-4) var(--space-6);
+    text-align: left;
+    max-width: 600px;
+  }
+}
+
+.promotion-banner__badge {
+  margin-bottom: var(--space-4);
+  animation: pulse 2s infinite;
+}
+
+.promotion-banner__title {
+  font-size: 2rem;
+  font-weight: 900;
+  color: white;
+  margin: 0 0 var(--space-4) 0;
+  line-height: 1.2;
+  
+  .promotion-banner--compact & {
+    font-size: clamp(1.5rem, 3vw, 2rem);
+  }
+}
+
+.promotion-banner__highlight {
+  background: linear-gradient(135deg, var(--promotion-banner-highlight-start), var(--promotion-banner-highlight-end));
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  display: block;
+  font-size: 1.2em;
+  margin-bottom: var(--space-2);
+}
+
+.promotion-banner__subtitle {
+  font-size: var(--text-2xl);
+  font-weight: 600;
+  color: rgba(255, 255, 255, 0.9);
+  margin: 0 0 var(--space-4) 0;
+  
+  .promotion-banner--compact & {
+    font-size: var(--text-lg);
+  }
+}
+
+.promotion-banner__description {
+  font-size: var(--text-lg);
+  color: rgba(255, 255, 255, 0.8);
+  margin: 0 0 var(--space-6) 0;
+  line-height: 1.6;
+  
+  .promotion-banner--compact & {
+    font-size: var(--text-base);
+    margin-bottom: var(--space-4);
+  }
+}
+
+/* Countdown */
+.promotion-banner__countdown {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-3);
+  padding: var(--space-3) var(--space-6);
+  background: var(--promotion-banner-countdown-bg);
+  backdrop-filter: blur(10px);
+  border-radius: var(--radius-full);
+  margin-bottom: var(--space-6);
+  border: 1px solid var(--promotion-banner-countdown-border);
+}
+
+.promotion-banner__countdown-label {
+  font-size: var(--text-sm);
+  color: rgba(255, 255, 255, 0.7);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.promotion-banner__countdown-time {
+  font-size: var(--text-lg);
+  font-weight: 700;
+  color: white;
+  font-variant-numeric: tabular-nums;
+}
+
+/* Actions */
+.promotion-banner__actions {
+  display: flex;
+  gap: var(--space-4);
+  justify-content: center;
+  
+  .promotion-banner--compact & {
+    justify-content: flex-start;
+  }
+}
+
+.promotion-banner__cta {
+  padding: var(--space-4) var(--space-8);
+  font-size: var(--text-lg);
+  font-weight: 600;
+  gap: var(--space-2);
+  background: linear-gradient(135deg, var(--promotion-banner-cta-gradient-start), var(--promotion-banner-cta-gradient-end));
+  box-shadow: 
+    0 10px 40px rgba(var(--purple-500-rgb), 0.4),
+    inset 0 1px 0 rgba(255, 255, 255, 0.2);
+  
+  &:hover {
+    transform: translateY(-2px) scale(1.05);
+    box-shadow: 
+      0 15px 50px rgba(var(--purple-500-rgb), 0.5),
+      inset 0 1px 0 rgba(255, 255, 255, 0.3);
+  }
+}
+
+/* Decorations */
+.promotion-banner__decorations {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  overflow: hidden;
+}
+
+.promotion-banner__glow {
+  position: absolute;
+  width: 500px;
+  height: 500px;
+  border-radius: 50%;
+  filter: blur(100px);
+  opacity: 0.3;
+  animation: glow-float 10s ease-in-out infinite;
+}
+
+.promotion-banner__glow--1 {
+  top: -20%;
+  left: -10%;
+  background: var(--promotion-banner-glow-1);
+}
+
+.promotion-banner__glow--2 {
+  bottom: -20%;
+  right: -10%;
+  background: var(--promotion-banner-glow-2);
+  animation-delay: 3.3s;
+}
+
+.promotion-banner__glow--3 {
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background: var(--promotion-banner-glow-3);
+  animation-delay: 6.6s;
+}
+
+/* Visual Variants - work with theme variables */
+.promotion-banner--elevated {
+  box-shadow: var(--shadow-2xl);
+  border: 1px solid var(--color-border);
+}
+
+.promotion-banner--glowing {
+  border: 2px solid var(--promotion-banner-neon-border, transparent);
+  box-shadow: var(--promotion-banner-neon-shadow, var(--shadow-xl));
+    
+  .promotion-banner__title {
+    text-shadow: var(--promotion-banner-title-shadow, none);
+  }
+}
+
+.promotion-banner--premium {
+  .promotion-banner__overlay {
+    background: linear-gradient(
+      135deg,
+      var(--promotion-banner-gold-overlay-start, var(--promotion-banner-overlay-dark)) 0%,
+      var(--promotion-banner-gold-overlay-end, var(--promotion-banner-overlay-light)) 100%
+    );
+  }
+}
+
+.promotion-banner__actions {
+  flex-direction: column;
+  align-items: stretch;
+}
+
+@media (min-width: 820px) {
+  .promotion-banner--hero {
+    min-height: 500px;
+  }
+  
+  .promotion-banner__content {
+    padding: var(--space-8);
+  }
+  
+  .promotion-banner__title {
+    font-size: clamp(2rem, 4vw, 3.5rem);
+  }
+  
+  .promotion-banner__actions {
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+  }
+}

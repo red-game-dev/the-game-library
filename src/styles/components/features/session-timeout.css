@@ -1,0 +1,19 @@
+/* Session Timeout Modal Styles */
+.session-timeout-modal {
+  /* Ensure it appears above everything else */
+  z-index: var(--z-9999) !important;
+}
+
+/* Modal content styles */
+.session-timeout-modal-content {
+  /* Add urgency with subtle animation using theme-aware colors */
+  animation: pulse-warning 2s ease-in-out infinite;
+  border: 2px solid var(--session-timeout-border);
+}
+
+/* Reduced motion support */
+@media (prefers-reduced-motion: reduce) {
+  .session-timeout-modal-content {
+    animation: none;
+  }
+}

@@ -1,0 +1,17 @@
+/**
+ * App Layout Styles
+ * Main application layout with sticky footer
+ */
+
+.app-layout {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  background: var(--app-layout-bg);
+}
+
+.app-layout-main {
+  flex: 1;
+  width: 100%;
+  padding-bottom: var(--space-8);
+}
