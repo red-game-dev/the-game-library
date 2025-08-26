@@ -1,65 +1,32 @@
 /**
  * Type definitions for The Game Library
+ * @deprecated Use imports from @/lib/core/domain instead
+ * This file is kept for backward compatibility during migration
  */
 
-export type GameType = 'slots' | 'table' | 'live' | 'instant';
-export type SortOption = 'popular' | 'new' | 'az';
+// Re-export from new domain structure
+export type { 
+  Game,
+  GameType 
+} from '@/lib/core/domain/entities';
 
-export interface Provider {
-  id: string;
-  name: string;
-  logo?: string;
-  gameCount?: number;
-}
+export type { 
+  Provider 
+} from '@/lib/core/domain/entities';
 
-export interface Game {
-  id: string;
-  title: string;
-  slug: string;
-  thumbnail: string;
-  description?: string;
-  provider: Provider;
-  type: GameType;
-  isNew?: boolean;
-  isHot?: boolean;
-  isOnSale?: boolean;
-  isFavorite?: boolean;
-  tags?: string[];
-  playCount?: number;
-  releaseDate?: string;
-  rtp?: number; // Return to Player percentage
-}
+export type {
+  SortOption
+} from '@/lib/core/domain/models';
 
-export interface GameFilters {
-  search?: string;
-  providers?: string[];
-  types?: GameType[];
-  sort?: SortOption;
-  favorites?: boolean;
-  page?: number;
-  pageSize?: number;
-}
+export type {
+  FilterQueryParams
+} from '@/lib/core/shared/types/filters';
 
-export interface PaginationMeta {
-  page: number;
-  pageSize: number;
-  total: number;
-  totalPages: number;
-  hasMore: boolean;
-}
+export type {
+  PaginationMeta
+} from '@/lib/core/domain/models';
 
-export interface GamesResponse {
-  data: Game[];
-  pagination: PaginationMeta;
-  meta: {
-    providers: Provider[];
-    types: GameType[];
-    totalGames: number;
-  };
-}
-
-export interface ApiError {
-  message: string;
-  code?: string;
-  status?: number;
-}
+export type {
+  GamesResponse,
+  ApiError
+} from '@/lib/core/shared/types';
