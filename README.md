@@ -5,7 +5,7 @@ A modern crypto-gaming platform showcasing exceptional UX/UI design, accessibili
 ![Next.js](https://img.shields.io/badge/Next.js-15.4.6-black?style=flat-square&logo=next.js)
 ![React](https://img.shields.io/badge/React-19_RC-61DAFB?style=flat-square&logo=react)
 ![TypeScript](https://img.shields.io/badge/TypeScript-5.7+-3178C6?style=flat-square&logo=typescript)
-![Tailwind CSS](https://img.shields.io/badge/Tailwind-v4-06B6D4?style=flat-square&logo=tailwindcss)
+![Custom CSS](https://img.shields.io/badge/Custom_CSS-Design_System-06B6D4?style=flat-square&logo=css3)
 
 ## 🎯 Overview
 
@@ -46,35 +46,108 @@ Our design system embodies the excitement of crypto gaming while maintaining pro
 ### Architecture
 
 ```
-CSS-First Performance Architecture
-├── CSS Layer (All UI)
-│   ├── _variables.css    → Theme variables
-│   ├── _components.css   → Component classes (.btn, .card)
-│   ├── _patterns.css     → Layout patterns (.flex-center)
-│   ├── _utilities.css    → Custom utilities (.glow-*)
-│   └── _animations.css   → Keyframes & animations
+Custom CSS Design System (Tailwind-Inspired)
+├── Core Design Tokens
+│   ├── colors.css        → 11 color scales × 11 shades
+│   ├── typography.css    → Font sizes & weights
+│   ├── spacing.css       → Spacing scale (0-96)
+│   ├── effects.css       → Shadows, blur, radius
+│   ├── borders.css       → Border widths & styles
+│   ├── layout.css        → Sizing & positioning
+│   └── motion.css        → Animation durations & easings
 │
-└── JS Layer (Tokens Only)
-    ├── colors.ts         → Color values for Tailwind
-    ├── typography.ts     → Font scales
-    ├── spacing.ts        → Spacing system
-    └── effects.ts        → Shadows & radius
+├── Utility Classes
+│   ├── layout.css        → Flexbox, grid, position utilities
+│   ├── typography.css    → text-*, font-* utilities
+│   ├── backgrounds.css   → bg-*, gradient utilities
+│   ├── spacing.css       → p-*, m-*, gap-* utilities
+│   └── effects.css       → shadow-*, rounded-* utilities
+│
+└── Component Styles
+    ├── base/             → UI components (Button, Card, etc.)
+    ├── features/         → Feature components (GameCard, etc.)
+    └── layout/           → Layout components (Header, Footer)
 ```
 
-### Component Library
+### Component Library & CSS Usage Guidelines
 
-All components use semantic class names for optimal performance:
+#### 🎯 Hybrid Approach: Utilities + Component CSS
+
+We use a **mobile-first hybrid system** that combines utility classes for simple properties with dedicated CSS files for complex responsive layouts:
 
 ```tsx
-// ✅ Our Approach - CSS-first with className
-<button className="btn btn-primary btn-lg">Play Now</button>
-<div className="card card-elevated glow-primary">
-  <h2 className="text-2xl font-bold text-gradient">Mega Slots</h2>
+// ✅ UTILITIES for simple, single properties
+<div className="flex items-center gap-4 p-4">
+  <h2 className="text-2xl font-bold text-primary">Title</h2>
+  <Badge className="bg-success text-white">NEW</Badge>
 </div>
 
-// ❌ Never - No CSS-in-JS or style objects
+// ✅ COMPONENT CSS for complex layouts & responsive design
+<div className="footer">  {/* Complex responsive grid in CSS */}
+  <div className="footer-container">  {/* Media queries in CSS */}
+    <div className="footer-content">  {/* Mobile-first design in CSS */}
+</div>
+
+// ❌ NEVER - No inline styles or CSS-in-JS
 <button style={{ background: 'purple' }}>Bad</button>
 ```
+
+#### When to Use Utilities vs Component CSS
+
+**Use Utility Classes for:**
+- ✅ Simple spacing: `p-4`, `m-2`, `gap-4`
+- ✅ Basic flexbox/grid: `flex`, `items-center`, `grid-cols-3`
+- ✅ Typography: `text-lg`, `font-bold`, `text-primary`
+- ✅ Simple effects: `rounded-lg`, `shadow-md`, `opacity-50`
+- ✅ Single-value properties that don't change responsively
+
+**Use Component CSS for:**
+- ✅ Complex responsive layouts with multiple breakpoints
+- ✅ Hover/focus/active states: `&:hover`, `&:focus`
+- ✅ Animations and transitions
+- ✅ Component-specific styling patterns
+- ✅ Grid layouts that change structure across breakpoints
+- ✅ Any styling that requires media queries
+
+#### Mobile-First Responsive Design
+
+```css
+/* Component CSS handles responsive complexity */
+.footer-main {
+  /* Mobile first - single column */
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: var(--space-8);
+}
+
+@media (min-width: 768px) {
+  .footer-main {
+    /* Tablet - 2 columns */
+    grid-template-columns: 1fr 2fr;
+  }
+}
+
+@media (min-width: 1024px) {
+  .footer-main {
+    /* Desktop - complex layout */
+    grid-template-columns: 2fr 3fr;
+  }
+}
+```
+
+#### Important Notes
+
+⚠️ **NO Tailwind-specific syntax**:
+- ❌ No arbitrary values: `w-[400px]`, `text-[13px]`
+- ❌ No pseudo-class prefixes: `hover:bg-gray-100`, `focus:ring-2`
+- ❌ No responsive prefixes: `md:flex`, `lg:grid-cols-4`
+- ✅ Use CSS files for all responsive and interactive styles
+
+⚠️ **CSS Architecture Rules**:
+- All animations in `_animations.css` (never in component CSS)
+- Theme-specific values use CSS variables (no `[data-theme]` selectors)
+- Utilities should never be overridden in component CSS
+- Complex layouts belong in CSS files, not utility classes
 
 ### Available Components
 
@@ -92,7 +165,7 @@ All components use semantic class names for optimal performance:
 - **Next.js 15.4.6**: Latest App Router for optimal SEO and performance
 - **React 19 RC**: Cutting-edge features with improved performance
 - **TypeScript 5.7+**: Type safety with strict mode for reliability
-- **Tailwind CSS v4**: Modern utility-first CSS with our custom design system
+- **Custom CSS System**: Tailwind-inspired utilities without framework dependency
 - **Storybook 8**: Component documentation and visual testing
 
 ### Component Hierarchy
@@ -133,11 +206,12 @@ GameLibraryPage (Orchestrator)
 
 ### Performance Optimizations
 
-1. **CSS-First Architecture**: All styling via CSS classes, no runtime overhead
-2. **Image Optimization**: Lazy loading with blur placeholders
-3. **Code Splitting**: Route-based splitting with dynamic imports
-4. **Bundle Size**: ~15KB CSS (gzipped), minimal JS
-5. **Animations**: GPU-accelerated CSS transforms
+1. **Hybrid CSS Architecture**: Utilities for simple props, CSS for complex layouts
+2. **Mobile-First Design**: Base styles for mobile, progressive enhancement for larger screens
+3. **Image Optimization**: Next.js Image component with lazy loading
+4. **Code Splitting**: Route-based splitting with dynamic imports
+5. **Bundle Size**: Optimized CSS with tree-shaking of unused utilities
+6. **Animations**: GPU-accelerated CSS transforms, all keyframes in `_animations.css`
 
 ## ♿ Accessibility
 
@@ -163,17 +237,153 @@ GameLibraryPage (Orchestrator)
 ```css
 /* Mobile-first breakpoints */
 xs: 475px   → Small phones
-sm: 640px   → Phones
+sm: 640px   → Phones  
 md: 768px   → Tablets
 lg: 1024px  → Desktop
 xl: 1280px  → Large screens
 2xl: 1536px → Ultra-wide
 ```
 
+### CSS Migration Strategy
+
+#### Current Approach: Incremental Utility Adoption
+
+We're gradually migrating component styles to utilities where it makes sense:
+
+1. **Phase 1**: Identify simple, single-value properties
+2. **Phase 2**: Add utility classes to components
+3. **Phase 3**: Comment out migrated properties in CSS
+4. **Phase 4**: Keep complex responsive logic in CSS
+
+#### Example Migration
+
+```tsx
+// Before: All styles in CSS
+<div className="header-container">
+  <div className="header-logo">
+
+// After: Utilities for simple props, CSS for complex
+<div className="header-container max-w-7xl mx-auto px-4 flex items-center">
+  <div className="header-logo flex items-center gap-2">
+```
+
+```css
+/* header.css - After migration */
+.header-container {
+  /* Layout handled by utilities: max-w-7xl mx-auto px-4 flex items-center */
+  /* Complex responsive behavior stays in CSS */
+  transition: all var(--duration-300) ease;
+}
+
+@media (min-width: 768px) {
+  .header-container {
+    padding: var(--space-6); /* Responsive changes in CSS */
+  }
+}
+```
+
 ### Touch Interactions
 
 - **Swipe gestures** for navigation
 - **Pull-to-refresh** with elastic animation
+
+## 🎨 CSS Best Practices
+
+### Component CSS Organization
+
+```
+src/styles/
+├── components/
+│   ├── base/           # Base UI components
+│   │   ├── button.css  # Complex button states
+│   │   ├── card.css    # Card variations
+│   │   └── modal.css   # Modal responsive behavior
+│   ├── features/       # Feature components  
+│   │   ├── game-card.css     # Game-specific styling
+│   │   └── filter-panel.css  # Complex filter layouts
+│   └── layout/         # Layout components
+│       ├── header.css  # Responsive navigation
+│       └── footer.css  # Complex footer grid
+```
+
+### Common Patterns
+
+#### ✅ DO: Keep responsive complexity in CSS
+```css
+/* Complex responsive grid - stays in CSS */
+.footer-links {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: var(--space-6);
+}
+
+@media (min-width: 768px) {
+  .footer-links {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (min-width: 1024px) {
+  .footer-links {
+    grid-template-columns: repeat(4, 1fr);
+  }
+}
+```
+
+#### ✅ DO: Use utilities for simple properties
+```tsx
+// Simple, non-responsive properties
+<div className="flex items-center gap-4 p-4">
+  <h2 className="text-lg font-bold">Title</h2>
+</div>
+```
+
+#### ❌ DON'T: Mix responsibilities
+```tsx
+// Bad: Don't override utilities in CSS
+<div className="p-4 custom-padding">  // custom-padding overrides p-4
+
+// Bad: Don't use utilities for complex responsive
+<div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4"> // We don't support responsive prefixes
+```
+
+### Theme Variables
+
+All theme-specific values use CSS variables that automatically adapt:
+
+```css
+/* Define in theme.css */
+[data-theme="dark"] {
+  --header-bg: rgba(17, 24, 39, 0.95);
+  --header-border: rgba(255, 255, 255, 0.1);
+}
+
+[data-theme="light"] {
+  --header-bg: rgba(255, 255, 255, 0.95);
+  --header-border: rgba(0, 0, 0, 0.1);
+}
+
+/* Use in component CSS */
+.header {
+  background: var(--header-bg);
+  border-bottom: 1px solid var(--header-border);
+}
+```
+
+### Animation Rules
+
+```css
+/* All keyframes in _animations.css */
+@keyframes pulse {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.5; }
+}
+
+/* Use in components */
+.loading-state {
+  animation: pulse 2s infinite;
+}
+```
 - **Long press** for context menus
 - **Pinch to zoom** on game images
 
@@ -275,6 +485,86 @@ With more time, I would add:
 - **Incremental Static Regeneration** for game data
 - **Suspense boundaries** for progressive loading
 - **React Server Components** for initial load
+
+## 🔧 Development Workflow
+
+### CSS Development Guidelines
+
+#### Adding New Styles
+
+1. **Check if utility exists**: Look in `src/styles/utilities/`
+2. **For simple properties**: Use existing utilities
+3. **For complex layouts**: Create component CSS
+4. **For responsive**: Use CSS media queries, not utility prefixes
+
+#### Component Development Process
+
+```bash
+# 1. Create component structure
+src/components/ui/NewComponent/
+├── NewComponent.tsx           # Component logic
+├── NewComponent.stories.tsx   # Storybook stories (REQUIRED)
+└── index.ts                  # Barrel export
+
+# 2. Create CSS file if needed
+src/styles/components/base/new-component.css
+
+# 3. Import CSS in main stylesheet
+# In src/styles/components/index.css:
+@import './base/new-component.css';
+```
+
+#### CSS File Structure Rules
+
+```css
+/* new-component.css */
+
+/* Mobile-first base styles */
+.new-component {
+  /* Simple properties that could use utilities */
+  display: flex;  /* Could be: className="flex" */
+  padding: var(--space-4); /* Could be: className="p-4" */
+  
+  /* Complex properties that stay in CSS */
+  transition: all var(--duration-200) ease;
+  backdrop-filter: blur(8px);
+}
+
+/* Responsive enhancements */
+@media (min-width: 768px) {
+  .new-component {
+    /* Tablet and up adjustments */
+  }
+}
+
+@media (min-width: 1024px) {
+  .new-component {
+    /* Desktop adjustments */
+  }
+}
+```
+
+#### Utility Class Patterns
+
+```tsx
+// ✅ CORRECT: Mobile-first utilities
+<div className="p-4">  /* Same padding all sizes */
+
+// ❌ WRONG: We don't support responsive prefixes
+<div className="p-4 md:p-6 lg:p-8">  /* Not supported */
+
+// ✅ SOLUTION: Use CSS for responsive
+<div className="responsive-padding">
+/* CSS: */
+.responsive-padding {
+  padding: var(--space-4);
+}
+@media (min-width: 768px) {
+  .responsive-padding {
+    padding: var(--space-6);
+  }
+}
+```
 
 ## 🧪 Testing Strategy
 
