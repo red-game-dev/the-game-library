@@ -3,196 +3,126 @@
  * Supports filtering, searching, pagination, and sorting
  */
 
-import { NextRequest, NextResponse } from 'next/server';
-import { generateGames } from '@/lib/mock-data/games-generator';
-import providers from '@/lib/mock-data/providers.json';
-import type { Game, GameFilters, GamesResponse, GameType, SortOption } from '@/lib/types';
-
-// In-memory cache for session persistence
-let gamesCache: Game[] | null = null;
-let favoritesCache = new Set<string>();
-
-// Initialize games on first request
-function getGames(): Game[] {
-  if (!gamesCache) {
-    gamesCache = generateGames();
-  }
-  return gamesCache.map(game => ({
-    ...game,
-    isFavorite: favoritesCache.has(game.id)
-  }));
-}
-
-// Simulate network delay
-async function simulateDelay(ms: number = 500) {
-  await new Promise(resolve => setTimeout(resolve, ms));
-}
-
-// Filter games based on query parameters
-function filterGames(games: Game[], filters: GameFilters): Game[] {
-  let filtered = [...games];
-
-  // Search filter (title and tags)
-  if (filters.search) {
-    const searchLower = filters.search.toLowerCase();
-    filtered = filtered.filter(game => 
-      game.title.toLowerCase().includes(searchLower) ||
-      game.tags?.some(tag => tag.toLowerCase().includes(searchLower))
-    );
-  }
-
-  // Provider filter
-  if (filters.providers && filters.providers.length > 0) {
-    filtered = filtered.filter(game => 
-      filters.providers!.includes(game.provider.id)
-    );
-  }
-
-  // Type filter
-  if (filters.types && filters.types.length > 0) {
-    filtered = filtered.filter(game => 
-      filters.types!.includes(game.type)
-    );
-  }
-
-  // Favorites filter
-  if (filters.favorites) {
-    filtered = filtered.filter(game => game.isFavorite);
-  }
-
-  // Sorting
-  const sortOption = filters.sort || 'popular';
-  switch (sortOption) {
-    case 'popular':
-      filtered.sort((a, b) => (b.playCount || 0) - (a.playCount || 0));
-      break;
-    case 'new':
-      filtered.sort((a, b) => {
-        const dateA = new Date(a.releaseDate || 0).getTime();
-        const dateB = new Date(b.releaseDate || 0).getTime();
-        return dateB - dateA;
-      });
-      break;
-    case 'az':
-      filtered.sort((a, b) => a.title.localeCompare(b.title));
-      break;
-  }
-
-  return filtered;
-}
-
-// Paginate results
-function paginateGames(games: Game[], page: number = 1, pageSize: number = 20) {
-  const start = (page - 1) * pageSize;
-  const end = start + pageSize;
-  const paginatedGames = games.slice(start, end);
-  
-  return {
-    games: paginatedGames,
-    pagination: {
-      page,
-      pageSize,
-      total: games.length,
-      totalPages: Math.ceil(games.length / pageSize),
-      hasMore: end < games.length
-    }
-  };
-}
+import { NextRequest } from 'next/server';
+import { gameService } from '@/lib/core/backend/services/GameService';
+import { favoriteService } from '@/lib/core/backend/services/FavoriteService';
+import { providerService } from '@/lib/core/backend/services/ProviderService';
+import { PaginationService } from '@/lib/core/backend/services/PaginationService';
+import { gameEntityTransformers, providerEntityTransformers } from '@/lib/core/backend/transformers';
+import { simulateApiDelay, simulateMutationDelay } from '@/lib/core/shared/utils/delay';
+import { 
+  handleApiError, 
+  createPaginatedResponse,
+  createSuccessResponse 
+} from '@/lib/core/shared/errors/errorHandler';
+import { GameNotFoundError, ValidationError } from '@/lib/core/shared/errors/AppError';
+import { GAME_TYPES, DEFAULT_PAGE_SIZE } from '@/lib/core/config/constants/app.constants';
+import type { GameType } from '@/lib/core/domain/entities';
+import type { SortOption, SearchType } from '@/lib/core/domain/models';
+import type { FilterQueryParams } from '@/lib/core/shared/types/filters';
 
 export async function GET(request: NextRequest) {
   try {
     // Add delay to simulate real API
-    await simulateDelay(300 + Math.random() * 500); // 300-800ms
+    await simulateApiDelay();
 
     // Parse query parameters
     const searchParams = request.nextUrl.searchParams;
     
-    const filters: GameFilters = {
+    // Validate pagination parameters using PaginationService
+    const paginationParams = PaginationService.validateParams({
+      page: parseInt(searchParams.get('page') || '1'),
+      pageSize: parseInt(searchParams.get('pageSize') || String(DEFAULT_PAGE_SIZE))
+    });
+    
+    // Parse RTP parameters
+    const minRtpParam = searchParams.get('minRtp');
+    const maxRtpParam = searchParams.get('maxRtp');
+    const minRtp = minRtpParam ? parseFloat(minRtpParam) : undefined;
+    const maxRtp = maxRtpParam ? parseFloat(maxRtpParam) : undefined;
+    
+    const criteria: FilterQueryParams = {
       search: searchParams.get('search') || undefined,
+      searchType: (searchParams.get('searchType') as SearchType) || 'all',
       providers: searchParams.get('providers')?.split(',').filter(Boolean),
       types: searchParams.get('types')?.split(',').filter(Boolean) as GameType[],
+      tags: searchParams.get('tags')?.split(',').filter(Boolean),
       sort: (searchParams.get('sort') as SortOption) || 'popular',
       favorites: searchParams.get('favorites') === 'true',
-      page: parseInt(searchParams.get('page') || '1'),
-      pageSize: parseInt(searchParams.get('pageSize') || '20')
+      isNew: searchParams.get('new') === 'true',
+      isHot: searchParams.get('hot') === 'true',
+      isComingSoon: searchParams.get('coming') === 'true',
+      minRtp,
+      maxRtp,
+      page: paginationParams.page!,
+      pageSize: paginationParams.pageSize!
     };
 
-    // Get all games
-    const allGames = getGames();
-    
-    // Apply filters
-    const filteredGames = filterGames(allGames, filters);
-    
-    // Paginate
-    const { games, pagination } = paginateGames(
-      filteredGames,
-      filters.page,
-      filters.pageSize
-    );
+    // Use GameService to get filtered, sorted, and paginated games
+    const { games, pagination, totalGames } = gameService.getGames(criteria);
 
-    // Build response
-    const response: GamesResponse = {
-      data: games,
-      pagination,
-      meta: {
-        providers: providers,
-        types: ['slots', 'table', 'live', 'instant'] as GameType[],
-        totalGames: allGames.length
+    // Transform games to API response format
+    const apiGames = gameEntityTransformers.toApiGetAllGamesResponse(games);
+
+    // Get unique tags from the filtered games for the filter panel
+    const tagsSet = new Set<string>();
+    games.forEach(game => {
+      if (game.tags) {
+        game.tags.forEach(tag => tagsSet.add(tag));
       }
+    });
+    const availableTags = Array.from(tagsSet).sort();
+
+    // Transform providers to API response format
+    const providers = providerService.getAllProviders();
+    const apiProviders = providerEntityTransformers.toApiGetAllProvidersResponse(providers);
+
+    const responseData = {
+      providers: apiProviders,
+      types: [...GAME_TYPES],
+      tags: availableTags,
+      totalGames
     };
 
-    return NextResponse.json(response);
-  } catch (error) {
-    console.error('Error in /api/games:', error);
-    return NextResponse.json(
-      { error: 'Internal server error' },
-      { status: 500 }
+    // Return standardized paginated response
+    return createPaginatedResponse(
+      apiGames,
+      pagination,
+      responseData
     );
+  } catch (error) {
+    return handleApiError(error);
   }
 }
 
 // Toggle favorite status
 export async function POST(request: NextRequest) {
   try {
-    await simulateDelay(200);
+    await simulateMutationDelay();
 
     const body = await request.json();
-    const { gameId, isFavorite } = body;
+    const { gameId } = body;
 
     if (!gameId) {
-      return NextResponse.json(
-        { error: 'Game ID is required' },
-        { status: 400 }
-      );
+      throw new ValidationError('gameId', undefined, ['required']);
     }
 
-    // Update favorites cache
-    if (isFavorite) {
-      favoritesCache.add(gameId);
-    } else {
-      favoritesCache.delete(gameId);
-    }
-
-    // Find and update the game
-    const games = getGames();
-    const game = games.find(g => g.id === gameId);
-    
+    // Check if game exists
+    const game = gameService.getGameById(gameId);
     if (!game) {
-      return NextResponse.json(
-        { error: 'Game not found' },
-        { status: 404 }
-      );
+      throw new GameNotFoundError(gameId);
     }
 
-    return NextResponse.json({
+    // Use FavoriteService to toggle favorite
+    const isFavorite = favoriteService.toggleFavorite(gameId, 'game');
+
+    // Transform game to API response and return
+    const apiGame = gameEntityTransformers.toApi({
       ...game,
       isFavorite
     });
+    return createSuccessResponse(apiGame);
   } catch (error) {
-    console.error('Error toggling favorite:', error);
-    return NextResponse.json(
-      { error: 'Internal server error' },
-      { status: 500 }
-    );
+    return handleApiError(error);
   }
 }
