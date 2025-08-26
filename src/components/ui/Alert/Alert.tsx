@@ -157,7 +157,7 @@ export const Alert: React.FC<AlertProps> = ({
   if (isSimple) {
     return (
       <div 
-        className={`alert alert-simple ${variantClass} ${typeClass} ${sizeClass} ${fullWidthClass} ${animateClass} ${iconStyleClass} ${className}`}
+        className={`alert alert-simple will-animate ${variantClass} ${typeClass} ${sizeClass} ${fullWidthClass} ${animateClass} ${iconStyleClass} ${className}`}
         role="alert"
       >
         {showIcon && (
@@ -189,7 +189,7 @@ export const Alert: React.FC<AlertProps> = ({
   if (iconStyle === 'square' && showIcon) {
     return (
       <div 
-        className={`alert ${variantClass} ${typeClass} ${sizeClass} ${fullWidthClass} ${animateClass} ${iconStyleClass} ${className}`}
+        className={`alert will-animate ${variantClass} ${typeClass} ${sizeClass} ${fullWidthClass} ${animateClass} ${iconStyleClass} ${className}`}
         role="alert"
       >
         <div className="alert-icon-wrapper">
@@ -270,7 +270,7 @@ export const Alert: React.FC<AlertProps> = ({
   // Default layout for non-square icons
   return (
     <div 
-      className={`alert ${variantClass} ${typeClass} ${sizeClass} ${fullWidthClass} ${animateClass} ${iconStyleClass} ${className}`}
+      className={`alert will-animate ${variantClass} ${typeClass} ${sizeClass} ${fullWidthClass} ${animateClass} ${iconStyleClass} ${className}`}
       role="alert"
     >
       {(showIcon || title || dismissible) && (

@@ -3,10 +3,11 @@
  * @module components/features/SearchBar/stories
  */
 
-import type { Meta, StoryObj } from '@storybook/react';
+import type { Meta, StoryObj } from '@storybook/nextjs';
 import { SearchBar } from './SearchBar';
 import { useState } from 'react';
 import { Card } from '@/components/ui/Card';
+import { generateMockGames } from '@/lib/core/test';
 
 const meta: Meta<typeof SearchBar> = {
   title: 'Features/SearchBar',
@@ -16,10 +17,11 @@ const meta: Meta<typeof SearchBar> = {
     docs: {
       description: {
         component: `
-SearchBar component for game search functionality with debouncing and loading states.
+SearchBar component for game search functionality with debouncing, loading states, and search type toggle.
 
 ## Features
 - 🔍 Search with debouncing
+- 🎮 Search type toggle (games/providers/tags/all)
 - ⏱️ Configurable debounce delay
 - 🔄 Loading state indicator
 - ❌ Clear button
@@ -38,6 +40,15 @@ SearchBar component for game search functionality with debouncing and loading st
     placeholder: {
       control: 'text',
       description: 'Placeholder text'
+    },
+    enableTypeDropdown: {
+      control: 'boolean',
+      description: 'Enable search type dropdown (games/providers/tags)'
+    },
+    defaultSearchType: {
+      control: 'select',
+      options: ['all', 'games', 'providers', 'tags'],
+      description: 'Default search type when dropdown is enabled'
     },
     debounceDelay: {
       control: 'number',
@@ -89,14 +100,7 @@ export const WithSearchResults: Story = {
     const [searchQuery, setSearchQuery] = useState('');
     const [isSearching, setIsSearching] = useState(false);
     
-    const mockGames = [
-      'Space Adventure',
-      'Mystery Quest',
-      'Racing Pro',
-      'Puzzle Master',
-      'Battle Arena',
-      'Farm Life'
-    ];
+    const mockGames = generateMockGames(10).map(game => game.title);
     
     const handleSearch = (query: string) => {
       setIsSearching(true);
@@ -380,16 +384,240 @@ export const WithCallbacks: Story = {
 };
 
 /**
+ * With search type toggle
+ */
+export const WithTypeDropdown: Story = {
+  render: () => {
+    const [searchResults, setSearchResults] = useState<{
+      query: string;
+      type?: string;
+      timestamp: number;
+    } | null>(null);
+
+    return (
+      <div className="space-y-4">
+        <SearchBar
+          placeholder="Search games, providers, or tags..."
+          enableTypeDropdown
+          defaultSearchType="all"
+          showClear
+          onSearch={(query, type) => {
+            setSearchResults({
+              query,
+              type: type || 'all',
+              timestamp: Date.now()
+            });
+          }}
+        />
+        
+        {searchResults && (
+          <Card className="p-4">
+            <h4 className="font-semibold mb-2">Search Details:</h4>
+            <div className="space-y-1">
+              <p className="text-sm"><strong>Query:</strong> {searchResults.query || '(empty)'}</p>
+              <p className="text-sm"><strong>Type:</strong> {searchResults.type}</p>
+              <p className="text-sm"><strong>Time:</strong> {new Date(searchResults.timestamp).toLocaleTimeString()}</p>
+            </div>
+          </Card>
+        )}
+      </div>
+    );
+  }
+};
+
+/**
+ * Search type examples
+ */
+export const SearchTypes: Story = {
+  render: () => (
+    <div className="space-y-6">
+      <div>
+        <h3 className="text-sm font-semibold mb-2">All (Default)</h3>
+        <SearchBar
+          placeholder="Search everything..."
+          enableTypeDropdown
+          defaultSearchType="all"
+          showClear
+        />
+      </div>
+      
+      <div>
+        <h3 className="text-sm font-semibold mb-2">Games Only</h3>
+        <SearchBar
+          placeholder="Search games..."
+          enableTypeDropdown
+          defaultSearchType="games"
+          showClear
+        />
+      </div>
+      
+      <div>
+        <h3 className="text-sm font-semibold mb-2">Providers Only</h3>
+        <SearchBar
+          placeholder="Search providers..."
+          enableTypeDropdown
+          defaultSearchType="providers"
+          showClear
+        />
+      </div>
+      
+      <div>
+        <h3 className="text-sm font-semibold mb-2">Tags Only</h3>
+        <SearchBar
+          placeholder="Search tags..."
+          enableTypeDropdown
+          defaultSearchType="tags"
+          showClear
+        />
+      </div>
+    </div>
+  )
+};
+
+/**
+ * Mobile with type toggle
+ */
+export const MobileWithToggle: Story = {
+  args: {
+    placeholder: 'Search...',
+    enableTypeDropdown: true,
+    defaultSearchType: 'all',
+    size: 'md',
+    showClear: true
+  },
+  parameters: {
+    viewport: {
+      defaultViewport: 'mobile1'
+    }
+  }
+};
+
+/**
  * Playground
  */
 export const Playground: Story = {
   args: {
     placeholder: 'Customize this search bar...',
+    enableTypeDropdown: false,
+    defaultSearchType: 'all',
     showClear: true,
     debounceDelay: 300,
     isLoading: false,
     disabled: false,
     autoFocus: false,
     size: 'md'
+  }
+};
+
+/**
+ * Neon theme - Cyberpunk search
+ */
+export const NeonTheme: Story = {
+  render: () => {
+    const [searchQuery, setSearchQuery] = useState('');
+    const [searchType, setSearchType] = useState<'all' | 'games' | 'providers' | 'tags'>('all');
+    
+    return (
+      <div data-theme="neon" className="p-8" style={{ background: 'rgb(3, 7, 18)' }}>
+        <h3 className="text-lg font-semibold text-purple-400 mb-6">Neon Theme Search</h3>
+        <div className="space-y-4">
+          <SearchBar
+            placeholder="Search the matrix..."
+            enableTypeDropdown={true}
+            defaultSearchType={searchType}
+            onSearch={(query, type) => {
+              setSearchQuery(query);
+              setSearchType(type || 'all');
+            }}
+            size="lg"
+          />
+          
+          {searchQuery && (
+            <div className="text-cyan-300 text-sm">
+              Searching {searchType}: <span className="text-purple-400">{searchQuery}</span>
+            </div>
+          )}
+        </div>
+      </div>
+    );
+  },
+  parameters: {
+    backgrounds: { default: 'dark' }
+  }
+};
+
+/**
+ * Gold theme - Premium search
+ */
+export const GoldTheme: Story = {
+  render: () => {
+    const [searchQuery, setSearchQuery] = useState('');
+    const [searchType, setSearchType] = useState<'all' | 'games' | 'providers' | 'tags'>('all');
+    
+    return (
+      <div data-theme="gold" className="p-8" style={{ background: 'linear-gradient(135deg, #78350f, #422006)' }}>
+        <h3 className="text-lg font-semibold text-yellow-400 mb-6">Gold Theme Search</h3>
+        <div className="space-y-4">
+          <SearchBar
+            placeholder="Search VIP games..."
+            enableTypeDropdown={true}
+            defaultSearchType={searchType}
+            onSearch={(query, type) => {
+              setSearchQuery(query);
+              setSearchType(type || 'all');
+            }}
+            size="lg"
+          />
+          
+          {searchQuery && (
+            <div className="text-yellow-200 text-sm">
+              Premium search for {searchType}: <span className="text-yellow-400">{searchQuery}</span>
+            </div>
+          )}
+        </div>
+      </div>
+    );
+  },
+  parameters: {
+    backgrounds: { default: 'dark' }
+  }
+};
+
+/**
+ * All themes comparison
+ */
+export const AllThemes: Story = {
+  render: () => {
+    return (
+      <div className="space-y-6">
+        <div data-theme="light" className="p-6 bg-white rounded-lg">
+          <h3 className="text-lg font-semibold mb-3">Light Theme</h3>
+          <SearchBar placeholder="Search games..." size="md" />
+        </div>
+        
+        <div data-theme="dark" className="p-6 bg-gray-900 rounded-lg">
+          <h3 className="text-lg font-semibold text-white mb-3">Dark Theme</h3>
+          <SearchBar placeholder="Search games..." size="md" />
+        </div>
+        
+        <div data-theme="neon" className="p-6 rounded-lg" style={{ background: 'rgb(3, 7, 18)' }}>
+          <h3 className="text-lg font-semibold text-purple-400 mb-3">Neon Theme</h3>
+          <SearchBar 
+            placeholder="Search the matrix..." 
+            size="md"
+            className="border border-purple-500 border-opacity-20"
+          />
+        </div>
+        
+        <div data-theme="gold" className="p-6 rounded-lg" style={{ background: 'linear-gradient(135deg, #78350f, #422006)' }}>
+          <h3 className="text-lg font-semibold text-yellow-400 mb-3">Gold Theme</h3>
+          <SearchBar 
+            placeholder="Search VIP games..." 
+            size="md"
+            className="border border-yellow-500 border-opacity-20"
+          />
+        </div>
+      </div>
+    );
   }
 };

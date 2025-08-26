@@ -3,7 +3,7 @@
  * @module components/ui/Button/stories
  */
 
-import type { Meta, StoryObj } from '@storybook/react';
+import type { Meta, StoryObj } from '@storybook/nextjs';
 import { Button, ButtonGroup } from './Button';
 import { 
   Play, 
@@ -20,7 +20,11 @@ import {
   Copy,
   ExternalLink,
   Check,
-  X
+  Sparkles,
+  Zap,
+  Trophy,
+  Gift,
+  AlertCircle
 } from 'lucide-react';
 
 const meta: Meta<typeof Button> = {
@@ -269,6 +273,74 @@ export const FullWidth: Story = {
 };
 
 /**
+ * Glow Effect
+ * Buttons with glow effect on hover
+ */
+export const GlowEffect: Story = {
+  render: () => (
+    <div className="space-y-8">
+      <div>
+        <h3 className="text-lg font-semibold text-text mb-6">Glow Effect on All Variants</h3>
+        <div className="flex flex-wrap gap-4">
+          <Button glow variant="primary">Primary Glow</Button>
+          <Button glow variant="secondary">Secondary Glow</Button>
+          <Button glow variant="accent">Accent Glow</Button>
+          <Button glow variant="success">Success Glow</Button>
+          <Button glow variant="error">Error Glow</Button>
+          <Button glow variant="warning">Warning Glow</Button>
+        </div>
+      </div>
+      
+      <div>
+        <h3 className="text-lg font-semibold text-text mb-6">Glow with Icons</h3>
+        <div className="flex flex-wrap gap-4">
+          <Button glow variant="primary" leftIcon={<Sparkles className="w-4 h-4" />}>
+            Magic Action
+          </Button>
+          <Button glow variant="accent" leftIcon={<Zap className="w-4 h-4" />}>
+            Power Up
+          </Button>
+          <Button glow variant="success" leftIcon={<Trophy className="w-4 h-4" />}>
+            Claim Prize
+          </Button>
+        </div>
+      </div>
+      
+      <div>
+        <h3 className="text-lg font-semibold text-text mb-6">Gaming Use Cases with Glow</h3>
+        <div className="flex flex-wrap gap-4">
+          <Button glow variant="primary" size="lg" leftIcon={<Play className="w-5 h-5" />}>
+            Start Epic Quest
+          </Button>
+          <Button glow variant="accent" size="lg" leftIcon={<Gift className="w-5 h-5" />}>
+            Open Loot Box
+          </Button>
+          <Button glow variant="warning" size="lg" leftIcon={<AlertCircle className="w-5 h-5" />}>
+            Boss Battle
+          </Button>
+        </div>
+      </div>
+      
+      <div className="p-4 bg-gray-900 rounded-lg">
+        <h3 className="text-lg font-semibold text-white mb-6">Glow Effect on Dark Background</h3>
+        <div className="flex flex-wrap gap-4">
+          <Button glow variant="primary">Glowing Primary</Button>
+          <Button glow variant="accent">Glowing Accent</Button>
+          <Button glow variant="warning">Glowing Warning</Button>
+        </div>
+      </div>
+    </div>
+  ),
+  parameters: {
+    docs: {
+      description: {
+        story: 'The glow prop adds a special hover effect that creates an expanding glow animation. Perfect for call-to-action buttons, special offers, or premium features in gaming interfaces.'
+      }
+    }
+  }
+};
+
+/**
  * Button groups
  */
 export const Groups: Story = {
@@ -372,7 +444,7 @@ export const DarkMode: Story = {
     backgrounds: { default: 'dark' }
   },
   decorators: [
-    (Story) => (
+    () => (
       <div data-theme="dark" className="p-8 bg-gray-900">
         <div className="flex flex-wrap gap-3">
           <Button variant="primary">Primary</Button>
@@ -394,7 +466,7 @@ export const LightMode: Story = {
     backgrounds: { default: 'light' }
   },
   decorators: [
-    (Story) => (
+    () => (
       <div data-theme="light" className="p-8 bg-white">
         <div className="flex flex-wrap gap-3">
           <Button variant="primary">Primary</Button>
@@ -402,6 +474,189 @@ export const LightMode: Story = {
           <Button variant="accent">Accent</Button>
           <Button variant="ghost">Ghost</Button>
           <Button variant="outline">Outline</Button>
+        </div>
+      </div>
+    )
+  ]
+};
+
+/**
+ * Neon theme - Cyberpunk aesthetic with glowing effects
+ */
+export const NeonTheme: Story = {
+  parameters: {
+    backgrounds: { default: 'dark' }
+  },
+  decorators: [
+    () => (
+      <div data-theme="neon" className="p-8" style={{ background: 'rgb(3, 7, 18)' }}>
+        <div className="space-y-6">
+          <h3 className="text-lg font-semibold text-purple-400 mb-4">Neon Theme Buttons</h3>
+          <div className="flex flex-wrap gap-3">
+            <Button variant="primary">Primary</Button>
+            <Button variant="secondary">Secondary</Button>
+            <Button variant="accent">Accent</Button>
+            <Button variant="success">Success</Button>
+            <Button variant="error">Error</Button>
+            <Button variant="warning">Warning</Button>
+          </div>
+          <div className="flex flex-wrap gap-3">
+            <Button variant="ghost">Ghost</Button>
+            <Button variant="outline">Outline</Button>
+            <Button variant="link">Link</Button>
+          </div>
+          <div className="flex flex-wrap gap-3">
+            <Button variant="primary" leftIcon={<Zap className="w-4 h-4" />}>With Icon</Button>
+            <Button variant="accent" rightIcon={<Sparkles className="w-4 h-4" />}>Icon Right</Button>
+            <Button variant="success" loading>Loading</Button>
+          </div>
+        </div>
+      </div>
+    )
+  ]
+};
+
+/**
+ * Gold theme - Luxurious golden aesthetic
+ */
+export const GoldTheme: Story = {
+  parameters: {
+    backgrounds: { default: 'dark' }
+  },
+  decorators: [
+    () => (
+      <div data-theme="gold" className="p-8" style={{ background: 'linear-gradient(135deg, #78350f, #422006)' }}>
+        <div className="space-y-6">
+          <h3 className="text-lg font-semibold text-yellow-400 mb-4">Gold Theme Buttons</h3>
+          <div className="flex flex-wrap gap-3">
+            <Button variant="primary">Primary</Button>
+            <Button variant="secondary">Secondary</Button>
+            <Button variant="accent">Accent</Button>
+            <Button variant="success">Success</Button>
+            <Button variant="error">Error</Button>
+            <Button variant="warning">Warning</Button>
+          </div>
+          <div className="flex flex-wrap gap-3">
+            <Button variant="ghost">Ghost</Button>
+            <Button variant="outline">Outline</Button>
+            <Button variant="link">Link</Button>
+          </div>
+          <div className="flex flex-wrap gap-3">
+            <Button variant="primary" leftIcon={<Trophy className="w-4 h-4" />}>Premium</Button>
+            <Button variant="accent" rightIcon={<Gift className="w-4 h-4" />}>Rewards</Button>
+            <Button variant="warning" loading>Loading</Button>
+          </div>
+        </div>
+      </div>
+    )
+  ]
+};
+
+/**
+ * All themes comparison - Side by side view
+ */
+export const AllThemes: Story = {
+  decorators: [
+    () => (
+      <div className="space-y-6">
+        <div data-theme="light" className="p-6 bg-white rounded-lg">
+          <h3 className="text-lg font-semibold mb-3">Light Theme</h3>
+          <div className="space-y-3">
+            <div>
+              <p className="text-sm font-medium mb-2">Filled</p>
+              <div className="flex flex-wrap gap-2">
+                <Button variant="primary">Primary</Button>
+                <Button variant="secondary">Secondary</Button>
+                <Button variant="accent">Accent</Button>
+                <Button variant="success">Success</Button>
+                <Button variant="error">Error</Button>
+                <Button variant="warning">Warning</Button>
+              </div>
+            </div>
+            <div>
+              <p className="text-sm font-medium mb-2">Outline & Ghost</p>
+              <div className="flex flex-wrap gap-2">
+                <Button variant="outline">Outline</Button>
+                <Button variant="ghost">Ghost</Button>
+                <Button variant="link">Link</Button>
+              </div>
+            </div>
+          </div>
+        </div>
+        
+        <div data-theme="dark" className="p-6 bg-gray-900 rounded-lg">
+          <h3 className="text-lg font-semibold text-white mb-3">Dark Theme</h3>
+          <div className="space-y-3">
+            <div>
+              <p className="text-sm font-medium text-gray-300 mb-2">Filled</p>
+              <div className="flex flex-wrap gap-2">
+                <Button variant="primary">Primary</Button>
+                <Button variant="secondary">Secondary</Button>
+                <Button variant="accent">Accent</Button>
+                <Button variant="success">Success</Button>
+                <Button variant="error">Error</Button>
+                <Button variant="warning">Warning</Button>
+              </div>
+            </div>
+            <div>
+              <p className="text-sm font-medium text-gray-300 mb-2">Outline & Ghost</p>
+              <div className="flex flex-wrap gap-2">
+                <Button variant="outline">Outline</Button>
+                <Button variant="ghost">Ghost</Button>
+                <Button variant="link">Link</Button>
+              </div>
+            </div>
+          </div>
+        </div>
+        
+        <div data-theme="neon" className="p-6 rounded-lg" style={{ background: 'rgb(3, 7, 18)' }}>
+          <h3 className="text-lg font-semibold text-purple-400 mb-3">Neon Theme</h3>
+          <div className="space-y-3">
+            <div>
+              <p className="text-sm font-medium text-cyan-400 mb-2">Filled</p>
+              <div className="flex flex-wrap gap-2">
+                <Button variant="primary">Primary</Button>
+                <Button variant="secondary">Secondary</Button>
+                <Button variant="accent">Accent</Button>
+                <Button variant="success">Success</Button>
+                <Button variant="error">Error</Button>
+                <Button variant="warning">Warning</Button>
+              </div>
+            </div>
+            <div>
+              <p className="text-sm font-medium text-cyan-400 mb-2">Outline & Ghost</p>
+              <div className="flex flex-wrap gap-2">
+                <Button variant="outline">Outline</Button>
+                <Button variant="ghost">Ghost</Button>
+                <Button variant="link">Link</Button>
+              </div>
+            </div>
+          </div>
+        </div>
+        
+        <div data-theme="gold" className="p-6 rounded-lg" style={{ background: 'linear-gradient(135deg, #78350f, #422006)' }}>
+          <h3 className="text-lg font-semibold text-yellow-400 mb-3">Gold Theme</h3>
+          <div className="space-y-3">
+            <div>
+              <p className="text-sm font-medium text-yellow-300 mb-2">Filled</p>
+              <div className="flex flex-wrap gap-2">
+                <Button variant="primary">Primary</Button>
+                <Button variant="secondary">Secondary</Button>
+                <Button variant="accent">Accent</Button>
+                <Button variant="success">Success</Button>
+                <Button variant="error">Error</Button>
+                <Button variant="warning">Warning</Button>
+              </div>
+            </div>
+            <div>
+              <p className="text-sm font-medium text-yellow-300 mb-2">Outline & Ghost</p>
+              <div className="flex flex-wrap gap-2">
+                <Button variant="outline">Outline</Button>
+                <Button variant="ghost">Ghost</Button>
+                <Button variant="link">Link</Button>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
     )
@@ -474,6 +729,7 @@ export const Playground: Story = {
     loading: false,
     disabled: false,
     fullWidth: false,
-    iconOnly: false
+    iconOnly: false,
+    glow: false
   }
 };

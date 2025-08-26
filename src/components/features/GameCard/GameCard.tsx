@@ -20,6 +20,7 @@ import { Button, type ButtonSize } from '@/components/ui/Button';
 import { Tooltip } from '@/components/ui/Tooltip';
 import { Heart, Play, Info, TrendingUp, Users } from 'lucide-react';
 import type { Game } from '@/lib/types';
+import { UI_DELAYS } from '@/lib/core/config/constants/app.constants';
 import '@/styles/components/features/game-card.css';
 
 /**
@@ -44,6 +45,8 @@ export interface GameCardProps {
   onPlay?: (game: Game) => void;
   /** Callback when info button is clicked */
   onInfo?: (game: Game) => void;
+  /** Callback when the card is clicked */
+  onClick?: (game: Game) => void;
   /** Whether the card is in loading state */
   isLoading?: boolean;
   /** Custom actions to display */
@@ -63,12 +66,13 @@ export interface GameCardProps {
  */
 const getGameTypeBadgeVariant = (type: Game['type']) => {
   const typeMap = {
-    slots: 'warning',
-    table: 'success',
-    live: 'error',
-    instant: 'info'
+    slots: 'solid-warning',
+    table: 'solid-success',
+    live: 'solid-error',
+    instant: 'solid-info',
+    jackpot: 'solid-primary'
   } as const;
-  return typeMap[type] || 'default';
+  return typeMap[type] || 'solid-default';
 };
 
 /**
@@ -121,6 +125,7 @@ export const GameCard = memo<GameCardProps>(({
   onFavoriteToggle,
   onPlay,
   onInfo,
+  onClick,
   isLoading = false,
   actions,
   showDetails = true,
@@ -140,7 +145,7 @@ export const GameCard = memo<GameCardProps>(({
     if (onFavoriteToggle) {
       setIsFavoriteAnimating(true);
       onFavoriteToggle(game.id, !game.isFavorite);
-      setTimeout(() => setIsFavoriteAnimating(false), 300);
+      setTimeout(() => setIsFavoriteAnimating(false), UI_DELAYS.ANIMATION_MEDIUM);
     }
   }, [game.id, game.isFavorite, onFavoriteToggle]);
 
@@ -164,6 +169,15 @@ export const GameCard = memo<GameCardProps>(({
     }
   }, [game, onInfo]);
 
+  /**
+   * Handle card click
+   */
+  const handleCardClick = useCallback(() => {
+    if (onClick) {
+      onClick(game);
+    }
+  }, [game, onClick]);
+
   if (isLoading) {
     return <GameCardSkeleton size={config.cardSize} className={className} testId={`${testId}-skeleton`} />;
   }
@@ -171,18 +185,23 @@ export const GameCard = memo<GameCardProps>(({
   // Build overlay content for the image
   const imageOverlay = (
     <div className="flex gap-1">
-      {game.isNew && (
-        <Badge variant="new" size={config.badgeSize} pulse>
+      {game.isComingSoon && (
+        <Badge variant="info" size={config.badgeSize} className="badge-flashy" gap="sm">
+          🚀 SOON
+        </Badge>
+      )}
+      {game.isNew && !game.isComingSoon && (
+        <Badge variant="new" size={config.badgeSize} pulse gap="sm">
           NEW
         </Badge>
       )}
       {game.isHot && (
-        <Badge variant="hot" size={config.badgeSize}>
+        <Badge variant="hot" size={config.badgeSize} gap="sm">
           HOT
         </Badge>
       )}
       {game.isOnSale && (
-        <Badge variant="sale" size={config.badgeSize}>
+        <Badge variant="sale" size={config.badgeSize} gap="sm">
           SALE
         </Badge>
       )}
@@ -192,7 +211,7 @@ export const GameCard = memo<GameCardProps>(({
   // Build card actions
   const cardActions = actions || (
     <div className="flex items-center gap-1">
-      <Tooltip content={game.isFavorite ? "Remove from favorites" : "Add to favorites"} delay={500}>
+      <Tooltip content={game.isFavorite ? "Remove from favorites" : "Add to favorites"} delay={UI_DELAYS.TOOLTIP_DELAY_LONG}>
         <Button
           variant="ghost"
           size="sm"
@@ -208,7 +227,7 @@ export const GameCard = memo<GameCardProps>(({
       </Tooltip>
       
       {onInfo && (
-        <Tooltip content="Game details" delay={500}>
+        <Tooltip content="Game details" delay={UI_DELAYS.TOOLTIP_DELAY_LONG}>
           <Button
             variant="ghost"
             size="sm"
@@ -230,7 +249,8 @@ export const GameCard = memo<GameCardProps>(({
       interactive
       bordered
       padding="none"
-      className={className}
+      className={`${className} will-animate`}
+      onClick={handleCardClick}
       data-testid={testId}
     >
       {/* Game Image with Badges */}
@@ -242,6 +262,7 @@ export const GameCard = memo<GameCardProps>(({
           overlay={imageOverlay}
           overlayPosition="top"
           rounded={false}
+          className="will-animate"
         />
         
         {/* Game Type Badge at bottom */}
@@ -249,6 +270,7 @@ export const GameCard = memo<GameCardProps>(({
           <Badge 
             variant={getGameTypeBadgeVariant(game.type)}
             size={config.badgeSize}
+            gap="sm"
           >
             {game.type.toUpperCase()}
           </Badge>
@@ -270,32 +292,39 @@ export const GameCard = memo<GameCardProps>(({
       </div>
 
       {/* Card Content */}
-      <div className="game-card-content p-2 space-y-3">
-        <CardHeader
-          title={game.title}
-          subtitle={game.provider.name}
-          actions={cardActions}
-          titleClassName="game-card-title"
-          subtitleClassName="game-card-subtitle"
-        />
-
-        {/* Game Description */}
-        {game.description && config.showDetails && (
-          <CardBody
-            description={game.description}
-            maxLength={80}
-            expandable
-            className="game-card-description"
+      <div className="game-card-content p-2">
+        {/* Header Section */}
+        <div className="game-card-header">
+          <CardHeader
+            title={game.title}
+            subtitle={game.provider.name}
+            actions={cardActions}
+            titleClassName="game-card-title"
+            subtitleClassName="game-card-subtitle"
           />
-        )}
+        </div>
 
-        {/* Additional Details */}
+        {/* Middle Section - Description (grows to fill space) */}
+        <div className="game-card-middle">
+          {game.description && config.showDetails ? (
+            <CardBody
+              description={game.description}
+              maxLength={80}
+              expandable
+              className="game-card-description"
+            />
+          ) : (
+            <div className="game-card-description-placeholder" />
+          )}
+        </div>
+
+        {/* Footer Section - Stats and Tags (always at bottom) */}
         {config.showDetails && showDetails && (
-          <div className="mt-4 space-y-3">
+          <div className="game-card-footer">
             {/* Stats Row */}
-            <div className="flex items-center gap-3 text-xs text-secondary">
+            <div className="flex items-center gap-3 text-xs text-secondary mb-2">
               {game.rtp && (
-                <Tooltip content="Return to Player" delay={500}>
+                <Tooltip content="Return to Player" delay={UI_DELAYS.TOOLTIP_DELAY_LONG}>
                   <div className="flex items-center gap-1">
                     <TrendingUp className="w-3 h-3" />
                     <span>RTP: {formatPercentage(game.rtp)}</span>
@@ -303,7 +332,7 @@ export const GameCard = memo<GameCardProps>(({
                 </Tooltip>
               )}
               {game.playCount && (
-                <Tooltip content="Total plays" delay={500}>
+                <Tooltip content="Total plays" delay={UI_DELAYS.TOOLTIP_DELAY_LONG}>
                   <div className="flex items-center gap-1">
                     <Users className="w-3 h-3" />
                     <span>{formatLargeNumber(game.playCount, true)}</span>
@@ -318,7 +347,7 @@ export const GameCard = memo<GameCardProps>(({
                 {game.tags.slice(0, 3).map((tag) => (
                   <Badge
                     key={tag}
-                    variant="outline"
+                    variant="outline-default"
                     size="sm"
                     rounded="md"
                   >
@@ -326,7 +355,7 @@ export const GameCard = memo<GameCardProps>(({
                   </Badge>
                 ))}
                 {game.tags.length > 3 && (
-                  <Badge variant="outline" size="sm" rounded="md">
+                  <Badge variant="outline-default" size="sm" rounded="md">
                     +{game.tags.length - 3}
                   </Badge>
                 )}

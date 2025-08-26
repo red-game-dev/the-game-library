@@ -3,7 +3,7 @@
  * @module components/ui/Image/stories
  */
 
-import type { Meta, StoryObj } from '@storybook/react';
+import type { Meta, StoryObj } from '@storybook/nextjs';
 import { Image, ImageFallback } from './Image';
 
 const meta: Meta<typeof Image> = {
@@ -493,7 +493,7 @@ export const DarkMode: Story = {
     backgrounds: { default: 'dark' }
   },
   decorators: [
-    (Story) => (
+    () => (
       <div data-theme="dark" className="p-8 bg-gray-900">
         <div className="grid grid-cols-2 gap-6">
           <Image
@@ -525,7 +525,7 @@ export const LightMode: Story = {
     backgrounds: { default: 'light' }
   },
   decorators: [
-    (Story) => (
+    () => (
       <div data-theme="light" className="p-8 bg-white">
         <div className="grid grid-cols-2 gap-6">
           <Image

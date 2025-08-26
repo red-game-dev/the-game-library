@@ -7,6 +7,7 @@
 
 import React, { useState, useRef, useEffect } from 'react';
 import { createPortal } from 'react-dom';
+import { UI_DELAYS } from '@/lib/core/config/constants/app.constants';
 import '@/styles/components/base/tooltip.css';
 
 /**
@@ -63,7 +64,7 @@ export const Tooltip: React.FC<TooltipProps> = ({
   placement = 'top',
   position,
   variant = 'default',
-  delay = 200,
+  delay = UI_DELAYS.TOOLTIP_DELAY,
   disabled = false,
   className = '',
   children,
@@ -182,7 +183,7 @@ export const Tooltip: React.FC<TooltipProps> = ({
           ref={tooltipRef}
           id={`${testId}-content`}
           className={`
-            tooltip-content 
+            tooltip-content will-animate
             tooltip-${actualPlacement}
             tooltip-variant-${variant}
             ${isVisible ? 'tooltip-visible' : ''}

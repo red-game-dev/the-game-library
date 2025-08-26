@@ -3,14 +3,15 @@
  * @module components/ui/Modal/stories
  */
 
-import type { Meta, StoryObj } from '@storybook/react';
+import type { Meta, StoryObj } from '@storybook/nextjs';
 import { Modal, ModalHeader, ModalBody, ModalFooter, type ModalSize, type ModalPosition } from './Modal';
 import { Button } from '../Button';
 import { Input, TextArea } from '../Input';
 import { Badge } from '../Badge';
 import { Alert } from '../Alert';
+import { Link } from '../Link';
 import { useState } from 'react';
-import { AlertCircle, Check, Info, Trash2, Settings, Download, Share2, Loader2 } from 'lucide-react';
+import { Check, Info, Trash2, Settings, Download, Share2, Loader2 } from 'lucide-react';
 import { Card } from '../Card';
 
 const meta: Meta<typeof Modal> = {
@@ -40,26 +41,46 @@ Modal component for dialogs, alerts, and overlays.
   argTypes: {
     size: {
       control: 'select',
-      options: ['xs', 'sm', 'md', 'lg', 'xl', 'full']
+      options: ['xs', 'sm', 'md', 'lg', 'xl', 'full'],
+      description: 'Size of the modal'
     },
     position: {
       control: 'select',
-      options: ['center', 'top', 'bottom']
+      options: ['center', 'top', 'bottom'],
+      description: 'Position of the modal on screen'
     },
     showCloseButton: {
-      control: 'boolean'
+      control: 'boolean',
+      description: 'Show close button in header'
     },
     closeOnOverlayClick: {
-      control: 'boolean'
+      control: 'boolean',
+      description: 'Close modal when clicking overlay'
     },
     closeOnEscape: {
-      control: 'boolean'
+      control: 'boolean',
+      description: 'Close modal when pressing ESC key'
     },
     showOverlay: {
-      control: 'boolean'
+      control: 'boolean',
+      description: 'Show background overlay'
     },
     preventScroll: {
-      control: 'boolean'
+      control: 'boolean',
+      description: 'Prevent body scroll when modal is open'
+    },
+    persistent: {
+      control: 'boolean',
+      description: 'Modal stays open even when close is attempted'
+    },
+    validationType: {
+      control: 'select',
+      options: ['error', 'warning', 'info', 'persistent'],
+      description: 'Type of validation behavior'
+    },
+    classNames: {
+      control: 'object',
+      description: 'Custom CSS classes for nested elements (overlay, container, content, header, body, footer)'
     }
   }
 };
@@ -412,7 +433,7 @@ export const NoOverlay: Story = {
           showOverlay={false}
           closeOnOverlayClick={false}
         >
-          <p>This modal doesn't have a background overlay. You can still interact with the page behind it.</p>
+          <p>This modal doesn&rsquo;t have a background overlay. You can still interact with the page behind it.</p>
         </Modal>
       </>
     );
@@ -563,7 +584,7 @@ export const TermsAcceptanceModal: Story = {
                   className="mt-1"
                 />
                 <span className="text-sm text-text">
-                  I have read and accept the <a href="#" className="text-primary underline">Terms of Service</a>
+                  I have read and accept the <Link href="/terms" variant="underline">Terms of Service</Link>
                 </span>
               </label>
               
@@ -578,7 +599,7 @@ export const TermsAcceptanceModal: Story = {
                   className="mt-1"
                 />
                 <span className="text-sm text-text">
-                  I have read and accept the <a href="#" className="text-primary underline">Privacy Policy</a>
+                  I have read and accept the <Link href="/privacy" variant="underline">Privacy Policy</Link>
                 </span>
               </label>
             </div>
@@ -697,6 +718,160 @@ export const LightMode: Story = {
         >
           <p>This modal looks clean and crisp in light mode.</p>
         </Modal>
+      </div>
+    );
+  }
+};
+
+/**
+ * Neon theme modal
+ */
+export const NeonTheme: Story = {
+  parameters: {
+    backgrounds: { default: 'dark' }
+  },
+  render: () => {
+    const [isOpen, setIsOpen] = useState(false);
+    
+    return (
+      <div data-theme="neon" style={{ padding: '2rem', background: 'rgb(3, 7, 18)' }}>
+        <Button variant="primary" onClick={() => setIsOpen(true)}>Open Neon Modal</Button>
+        <Modal
+          isOpen={isOpen}
+          onClose={() => setIsOpen(false)}
+          title="Cyberpunk Interface"
+          description="Welcome to the neon-lit future"
+          size="lg"
+          footer={
+            <>
+              <Button variant="ghost" onClick={() => setIsOpen(false)}>
+                Disconnect
+              </Button>
+              <Button variant="primary" onClick={() => setIsOpen(false)}>
+                Jack In
+              </Button>
+            </>
+          }
+        >
+          <div className="space-y-4">
+            <p className="text-purple-300">The modal glows with neon energy in this cyberpunk theme.</p>
+            <div className="p-4 bg-purple-900 bg-opacity-20 rounded-lg border border-purple-500">
+              <p className="text-purple-200 text-sm">System Status: Online</p>
+              <p className="text-purple-400 text-xs mt-1">Neural connection established</p>
+            </div>
+          </div>
+        </Modal>
+      </div>
+    );
+  }
+};
+
+/**
+ * Gold theme modal
+ */
+export const GoldTheme: Story = {
+  parameters: {
+    backgrounds: { default: 'dark' }
+  },
+  render: () => {
+    const [isOpen, setIsOpen] = useState(false);
+    
+    return (
+      <div data-theme="gold" style={{ padding: '2rem', background: 'linear-gradient(135deg, #78350f, #422006)' }}>
+        <Button variant="primary" onClick={() => setIsOpen(true)}>Open Premium Modal</Button>
+        <Modal
+          isOpen={isOpen}
+          onClose={() => setIsOpen(false)}
+          title="VIP Experience"
+          description="Exclusive access to premium features"
+          size="lg"
+          footer={
+            <>
+              <Button variant="ghost" onClick={() => setIsOpen(false)}>
+                Decline
+              </Button>
+              <Button variant="primary" onClick={() => setIsOpen(false)}>
+                Accept VIP
+              </Button>
+            </>
+          }
+        >
+          <div className="space-y-4">
+            <p className="text-yellow-200">Experience luxury with our gold-themed modal design.</p>
+            <div className="p-4 bg-yellow-900 bg-opacity-20 rounded-lg border border-yellow-600">
+              <p className="text-yellow-300 font-semibold">VIP Status: Active</p>
+              <p className="text-yellow-400 text-sm mt-1">Enjoy exclusive benefits</p>
+            </div>
+          </div>
+        </Modal>
+      </div>
+    );
+  }
+};
+
+/**
+ * All themes showcase
+ */
+export const AllThemes: Story = {
+  render: () => {
+    const [lightOpen, setLightOpen] = useState(false);
+    const [darkOpen, setDarkOpen] = useState(false);
+    const [neonOpen, setNeonOpen] = useState(false);
+    const [goldOpen, setGoldOpen] = useState(false);
+    
+    return (
+      <div className="space-y-6">
+        <div data-theme="light" className="p-6 bg-white rounded-lg">
+          <h3 className="text-lg font-semibold mb-3">Light Theme</h3>
+          <Button onClick={() => setLightOpen(true)}>Open Modal</Button>
+          <Modal
+            isOpen={lightOpen}
+            onClose={() => setLightOpen(false)}
+            title="Light Theme"
+            size="sm"
+          >
+            <p>Clean and minimal light theme modal.</p>
+          </Modal>
+        </div>
+        
+        <div data-theme="dark" className="p-6 bg-gray-900 rounded-lg">
+          <h3 className="text-lg font-semibold text-white mb-3">Dark Theme</h3>
+          <Button onClick={() => setDarkOpen(true)}>Open Modal</Button>
+          <Modal
+            isOpen={darkOpen}
+            onClose={() => setDarkOpen(false)}
+            title="Dark Theme"
+            size="sm"
+          >
+            <p>Sleek dark theme modal.</p>
+          </Modal>
+        </div>
+        
+        <div data-theme="neon" className="p-6 rounded-lg" style={{ background: 'rgb(3, 7, 18)' }}>
+          <h3 className="text-lg font-semibold text-purple-400 mb-3">Neon Theme</h3>
+          <Button onClick={() => setNeonOpen(true)}>Open Modal</Button>
+          <Modal
+            isOpen={neonOpen}
+            onClose={() => setNeonOpen(false)}
+            title="Neon Theme"
+            size="sm"
+          >
+            <p className="text-purple-200">Cyberpunk neon theme modal.</p>
+          </Modal>
+        </div>
+        
+        <div data-theme="gold" className="p-6 rounded-lg" style={{ background: 'linear-gradient(135deg, #78350f, #422006)' }}>
+          <h3 className="text-lg font-semibold text-yellow-400 mb-3">Gold Theme</h3>
+          <Button onClick={() => setGoldOpen(true)}>Open Modal</Button>
+          <Modal
+            isOpen={goldOpen}
+            onClose={() => setGoldOpen(false)}
+            title="Gold Theme"
+            size="sm"
+          >
+            <p className="text-yellow-200">Luxurious gold theme modal.</p>
+          </Modal>
+        </div>
       </div>
     );
   }
@@ -853,7 +1028,7 @@ export const AllPropsShowcase: Story = {
               <label className="block text-sm font-medium text-text mb-1">Padding</label>
               <select 
                 value={config.padding}
-                onChange={(e) => setConfig({...config, padding: e.target.value as any})}
+                onChange={(e) => setConfig({...config, padding: e.target.value as 'none' | 'sm' | 'md' | 'lg'})}
                 className="w-full px-3 py-2 rounded border"
               >
                 <option value="none">None</option>
@@ -1052,6 +1227,114 @@ export const Mobile: Story = {
 };
 
 /**
+ * Stacked modals with proper z-index handling
+ */
+export const StackedModals: Story = {
+  render: () => {
+    const [isFirstOpen, setIsFirstOpen] = useState(false);
+    const [isSecondOpen, setIsSecondOpen] = useState(false);
+    const [isThirdOpen, setIsThirdOpen] = useState(false);
+    
+    return (
+      <>
+        <Button onClick={() => setIsFirstOpen(true)}>Open First Modal</Button>
+        
+        {/* First Modal */}
+        <Modal
+          isOpen={isFirstOpen}
+          onClose={() => setIsFirstOpen(false)}
+          title="First Modal"
+          size="lg"
+          zIndex={1000}
+          footer={
+            <div className="flex gap-2">
+              <Button variant="ghost" onClick={() => setIsFirstOpen(false)}>
+                Close
+              </Button>
+              <Button variant="primary" onClick={() => setIsSecondOpen(true)}>
+                Open Second Modal
+              </Button>
+            </div>
+          }
+        >
+          <p className="text-secondary mb-4">
+            This is the first modal. Click the button below to open a second modal on top of this one.
+          </p>
+          <Alert variant="info" size="sm">
+            Notice how the second modal appears above this one with proper z-index stacking.
+          </Alert>
+        </Modal>
+        
+        {/* Second Modal */}
+        <Modal
+          isOpen={isSecondOpen}
+          onClose={() => setIsSecondOpen(false)}
+          title="Second Modal"
+          size="md"
+          zIndex={1010}
+          footer={
+            <div className="flex gap-2">
+              <Button variant="ghost" onClick={() => setIsSecondOpen(false)}>
+                Close This
+              </Button>
+              <Button variant="accent" onClick={() => setIsThirdOpen(true)}>
+                Open Third Modal
+              </Button>
+            </div>
+          }
+        >
+          <p className="text-secondary mb-4">
+            This is the second modal, stacked on top of the first one.
+          </p>
+          <Alert variant="warning" size="sm">
+            You can open yet another modal on top of this one!
+          </Alert>
+        </Modal>
+        
+        {/* Third Modal */}
+        <Modal
+          isOpen={isThirdOpen}
+          onClose={() => setIsThirdOpen(false)}
+          title="Third Modal"
+          size="sm"
+          zIndex={1020}
+          footer={
+            <div className="flex gap-2">
+              <Button 
+                variant="ghost" 
+                onClick={() => {
+                  setIsThirdOpen(false);
+                  setIsSecondOpen(false);
+                }}
+              >
+                Close All Above First
+              </Button>
+              <Button 
+                variant="error" 
+                onClick={() => {
+                  setIsThirdOpen(false);
+                  setIsSecondOpen(false);
+                  setIsFirstOpen(false);
+                }}
+              >
+                Close All
+              </Button>
+            </div>
+          }
+        >
+          <p className="text-secondary mb-4">
+            This is the third modal, at the top of the stack!
+          </p>
+          <Alert variant="success" size="sm">
+            Perfect z-index stacking with {`zIndex={1020}`}
+          </Alert>
+        </Modal>
+      </>
+    );
+  },
+};
+
+/**
  * Tablet viewport - medium screen optimization
  */
 export const Tablet: Story = {
@@ -1148,5 +1431,272 @@ export const Tablet: Story = {
     viewport: {
       defaultViewport: 'ipad',
     },
+  }
+};
+
+/**
+ * Persistent modal with validation types
+ */
+export const PersistentModal: Story = {
+  render: () => {
+    const [isOpen, setIsOpen] = useState(false);
+    const [validationType, setValidationType] = useState<'error' | 'warning' | 'info' | 'persistent'>('persistent');
+    
+    return (
+      <>
+        <div className="space-y-4">
+          <Button onClick={() => setIsOpen(true)}>Open Persistent Modal</Button>
+          <div className="flex gap-2">
+            <Button size="sm" variant="ghost" onClick={() => setValidationType('error')}>Error Type</Button>
+            <Button size="sm" variant="ghost" onClick={() => setValidationType('warning')}>Warning Type</Button>
+            <Button size="sm" variant="ghost" onClick={() => setValidationType('info')}>Info Type</Button>
+            <Button size="sm" variant="ghost" onClick={() => setValidationType('persistent')}>Persistent Type</Button>
+          </div>
+        </div>
+        <Modal
+          isOpen={isOpen}
+          onClose={() => setIsOpen(false)}
+          title="Persistent Modal"
+          description="This modal is persistent and won't close easily"
+          persistent={true}
+          validationType={validationType}
+          onValidate={() => {
+            // Example validation - only close if certain condition is met
+            return confirm('Are you sure you want to close this modal?');
+          }}
+          onValidationFail={() => {
+            console.log('Validation failed - modal stays open');
+          }}
+        >
+          <div className="space-y-4">
+            <p>Current validation type: <strong>{validationType}</strong></p>
+            <Alert variant="info" size="sm">
+              This modal has persistent={true} and uses validation. Try closing it to see the behavior.
+            </Alert>
+            <ul className="text-sm space-y-1">
+              <li>• <strong>error</strong>: Shakes on validation fail</li>
+              <li>• <strong>warning</strong>: Pulses on validation fail</li>
+              <li>• <strong>info</strong>: Subtle bounce on validation fail</li>
+              <li>• <strong>persistent</strong>: No animation, just stays open</li>
+            </ul>
+          </div>
+        </Modal>
+      </>
+    );
+  }
+};
+
+/**
+ * Modal with custom validation
+ */
+export const CustomValidation: Story = {
+  render: () => {
+    const [isOpen, setIsOpen] = useState(false);
+    const [email, setEmail] = useState('');
+    const [password, setPassword] = useState('');
+    const [errors, setErrors] = useState<{email?: string; password?: string}>({});
+    
+    const handleClose = async () => {
+      // Clear errors
+      setErrors({});
+      
+      // Validate form
+      const newErrors: {email?: string; password?: string} = {};
+      
+      if (!email || !email.includes('@')) {
+        newErrors.email = 'Please enter a valid email';
+      }
+      
+      if (!password || password.length < 8) {
+        newErrors.password = 'Password must be at least 8 characters';
+      }
+      
+      if (Object.keys(newErrors).length > 0) {
+        setErrors(newErrors);
+        return false; // Validation failed
+      }
+      
+      // Validation passed
+      setEmail('');
+      setPassword('');
+      return true;
+    };
+    
+    return (
+      <>
+        <Button onClick={() => setIsOpen(true)}>Open Login Modal</Button>
+        <Modal
+          isOpen={isOpen}
+          onClose={() => setIsOpen(false)}
+          title="Login Required"
+          size="sm"
+          validationType="error"
+          onValidate={handleClose}
+          onValidationFail={() => {
+            // Modal will shake when validation fails
+          }}
+          footer={
+            <>
+              <Button variant="ghost" onClick={() => {
+                setEmail('');
+                setPassword('');
+                setErrors({});
+                setIsOpen(false);
+              }}>
+                Cancel
+              </Button>
+              <Button variant="primary" onClick={() => setIsOpen(false)}>
+                Login
+              </Button>
+            </>
+          }
+        >
+          <div className="space-y-4">
+            <Input
+              label="Email"
+              type="email"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              error={errors.email}
+              fullWidth
+            />
+            <Input
+              label="Password"
+              type="password"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+              error={errors.password}
+              fullWidth
+            />
+            <p className="text-xs text-secondary">
+              Try closing the modal without filling the form to see validation in action.
+            </p>
+          </div>
+        </Modal>
+      </>
+    );
+  }
+};
+
+/**
+ * Modal with custom classNames
+ */
+export const CustomClassNames: Story = {
+  render: () => {
+    const [isOpen, setIsOpen] = useState(false);
+    
+    return (
+      <>
+        <Button onClick={() => setIsOpen(true)}>Open Custom Styled Modal</Button>
+        <Modal
+          isOpen={isOpen}
+          onClose={() => setIsOpen(false)}
+          title="Custom Classes Modal"
+          description="This modal uses custom CSS classes for styling"
+          classNames={{
+            overlay: 'custom-overlay-class',
+            container: 'custom-container-class',
+            content: 'custom-content-class',
+            header: 'custom-header-class',
+            body: 'custom-body-class',
+            footer: 'custom-footer-class'
+          }}
+          footer={
+            <div className="flex gap-2">
+              <Button variant="secondary" fullWidth>Cancel</Button>
+              <Button variant="primary" fullWidth>Confirm</Button>
+            </div>
+          }
+        >
+          <div className="space-y-4">
+            <p>This modal demonstrates the classNames prop which allows applying custom CSS classes to nested elements:</p>
+            <ul className="text-sm space-y-1">
+              <li>• <code>overlay</code>: "custom-overlay-class"</li>
+              <li>• <code>container</code>: "custom-container-class"</li>
+              <li>• <code>content</code>: "custom-content-class"</li>
+              <li>• <code>header</code>: "custom-header-class"</li>
+              <li>• <code>body</code>: "custom-body-class"</li>
+              <li>• <code>footer</code>: "custom-footer-class"</li>
+            </ul>
+            <Alert variant="info" size="sm">
+              These custom classes can be used to apply specific styles without modifying the component.
+            </Alert>
+          </div>
+        </Modal>
+      </>
+    );
+  }
+};
+
+/**
+ * Modal with async validation
+ */
+export const AsyncValidation: Story = {
+  render: () => {
+    const [isOpen, setIsOpen] = useState(false);
+    const [isValidating, setIsValidating] = useState(false);
+    
+    const handleValidate = async () => {
+      setIsValidating(true);
+      
+      // Simulate async validation (e.g., API call)
+      await new Promise(resolve => setTimeout(resolve, 2000));
+      
+      setIsValidating(false);
+      
+      // Randomly succeed or fail for demo
+      return Math.random() > 0.5;
+    };
+    
+    return (
+      <>
+        <Button onClick={() => setIsOpen(true)}>Open Async Validation Modal</Button>
+        <Modal
+          isOpen={isOpen}
+          onClose={() => setIsOpen(false)}
+          title="Save Changes?"
+          description="Your changes need to be validated before saving"
+          validationType="warning"
+          onValidate={handleValidate}
+          onValidationFail={() => {
+            alert('Validation failed! Please try again.');
+          }}
+          footer={
+            <>
+              <Button variant="ghost" onClick={() => setIsOpen(false)}>
+                Cancel
+              </Button>
+              <Button 
+                variant="primary" 
+                onClick={() => setIsOpen(false)}
+                disabled={isValidating}
+              >
+                {isValidating ? (
+                  <>
+                    <Loader2 className="w-4 h-4 mr-2 animate-spin" />
+                    Validating...
+                  </>
+                ) : (
+                  'Save Changes'
+                )}
+              </Button>
+            </>
+          }
+        >
+          <div className="space-y-4">
+            <p>This modal performs async validation when you try to close it.</p>
+            <Alert variant="warning" size="sm">
+              Validation randomly succeeds or fails for demonstration purposes.
+            </Alert>
+            {isValidating && (
+              <div className="text-center py-4">
+                <Loader2 className="w-8 h-8 mx-auto animate-spin text-primary" />
+                <p className="text-sm text-secondary mt-2">Validating your changes...</p>
+              </div>
+            )}
+          </div>
+        </Modal>
+      </>
+    );
   }
 };

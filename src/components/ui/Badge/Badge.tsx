@@ -6,6 +6,7 @@
 'use client';
 
 import React from 'react';
+import '@/styles/components/base/badge.css';
 
 /**
  * Badge variants for different purposes
@@ -14,6 +15,7 @@ export type BadgeVariant =
   | 'default' 
   | 'primary' 
   | 'secondary'
+  | 'accent'
   | 'success' 
   | 'error' 
   | 'warning' 
@@ -21,7 +23,25 @@ export type BadgeVariant =
   | 'new'
   | 'hot'
   | 'sale'
-  | 'outline';
+  | 'pro'
+  | 'beta'
+  | 'outline'
+  | 'outline-default'
+  | 'outline-primary'
+  | 'outline-secondary'
+  | 'outline-accent'
+  | 'outline-success'
+  | 'outline-error'
+  | 'outline-warning'
+  | 'outline-info'
+  | 'solid-default'
+  | 'solid-primary'
+  | 'solid-secondary'
+  | 'solid-accent'
+  | 'solid-success'
+  | 'solid-error'
+  | 'solid-warning'
+  | 'solid-info';
 
 /**
  * Badge sizes
@@ -34,6 +54,11 @@ export type BadgeSize = 'xs' | 'sm' | 'md' | 'lg' | 'xl';
 export type BadgeRounded = 'sm' | 'md' | 'lg' | 'full';
 
 /**
+ * Badge gap sizes for spacing between icon and text
+ */
+export type BadgeGap = 'none' | 'xs' | 'sm' | 'md' | 'lg';
+
+/**
  * Props for the Badge component
  * @interface BadgeProps
  */
@@ -44,6 +69,8 @@ export interface BadgeProps {
   size?: BadgeSize;
   /** Rounded corner style */
   rounded?: BadgeRounded;
+  /** Gap between icon and text */
+  gap?: BadgeGap;
   /** Whether the badge should pulse/animate */
   pulse?: boolean;
   /** Whether to show a dot indicator */
@@ -67,7 +94,8 @@ const getVariantClasses = (variant: BadgeVariant): string => {
   const variantMap = {
     default: 'badge-default',
     primary: 'badge-primary',
-    secondary: 'badge-default',
+    secondary: 'badge-secondary',
+    accent: 'badge-accent',
     success: 'badge-success',
     error: 'badge-error',
     warning: 'badge-warning',
@@ -75,7 +103,25 @@ const getVariantClasses = (variant: BadgeVariant): string => {
     new: 'badge-new',
     hot: 'badge-hot',
     sale: 'badge-sale',
-    outline: 'badge-default border-2'
+    pro: 'badge-pro',
+    beta: 'badge-beta',
+    outline: 'badge-outline',
+    'outline-default': 'badge-outline-default',
+    'outline-primary': 'badge-outline-primary',
+    'outline-secondary': 'badge-outline-secondary',
+    'outline-accent': 'badge-outline-accent',
+    'outline-success': 'badge-outline-success',
+    'outline-error': 'badge-outline-error',
+    'outline-warning': 'badge-outline-warning',
+    'outline-info': 'badge-outline-info',
+    'solid-default': 'badge-solid-default',
+    'solid-primary': 'badge-solid-primary',
+    'solid-secondary': 'badge-solid-secondary',
+    'solid-accent': 'badge-solid-accent',
+    'solid-success': 'badge-solid-success',
+    'solid-error': 'badge-solid-error',
+    'solid-warning': 'badge-solid-warning',
+    'solid-info': 'badge-solid-info'
   };
   return variantMap[variant] || variantMap.default;
 };
@@ -109,6 +155,20 @@ const getRoundedClasses = (rounded: BadgeRounded): string => {
 };
 
 /**
+ * Get gap classes for icon spacing
+ */
+const getGapClasses = (gap: BadgeGap): string => {
+  const gapMap = {
+    none: 'badge-gap-none',
+    xs: 'badge-gap-xs',
+    sm: 'badge-gap-sm',
+    md: 'badge-gap-md',
+    lg: 'badge-gap-lg'
+  };
+  return gapMap[gap] || gapMap.sm;
+};
+
+/**
  * Badge Component
  * 
  * @description A versatile badge component for labels, status indicators, and tags.
@@ -134,6 +194,7 @@ export const Badge: React.FC<BadgeProps> = ({
   variant = 'default',
   size = 'md',
   rounded = 'md',
+  gap = 'sm',
   pulse = false,
   dot = false,
   icon,
@@ -144,6 +205,7 @@ export const Badge: React.FC<BadgeProps> = ({
 }) => {
   const shouldPulse = pulse && (variant === 'new' || variant === 'hot' || variant === 'sale');
   const isClickable = !!onClick;
+  const hasIcon = !!icon;
 
   const Component = isClickable ? 'button' : 'span';
 
@@ -154,6 +216,7 @@ export const Badge: React.FC<BadgeProps> = ({
         ${getVariantClasses(variant)}
         ${getSizeClasses(size)}
         ${getRoundedClasses(rounded)}
+        ${hasIcon && children ? getGapClasses(gap) : ''}
         ${shouldPulse ? 'animate-pulse' : ''}
         ${isClickable ? 'badge-clickable' : ''}
         ${className}
@@ -165,7 +228,7 @@ export const Badge: React.FC<BadgeProps> = ({
         <span className="badge-dot" />
       )}
       {icon && <span className="badge-icon">{icon}</span>}
-      {children && <span>{children}</span>}
+      {children && <span className="badge-text">{children}</span>}
     </Component>
   );
 };

@@ -5,9 +5,10 @@
 
 'use client';
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import NextImage, { ImageProps as NextImageProps } from 'next/image';
 import { ImageOff } from 'lucide-react';
+import '@/styles/components/base/image.css';
 
 /**
  * Aspect ratio variants
@@ -38,6 +39,8 @@ export interface ImageProps extends Omit<NextImageProps, 'onError' | 'onLoad'> {
   objectFit?: ImageObjectFit;
   /** Fallback content to show when image fails to load */
   fallback?: React.ReactNode;
+  /** Fallback image URL to try when main image fails */
+  fallbackSrc?: string;
   /** Whether to show default fallback */
   showDefaultFallback?: boolean;
   /** Custom className for the container */
@@ -147,6 +150,7 @@ export const Image: React.FC<ImageProps> = ({
   aspectRatio = 'auto',
   objectFit = 'cover',
   fallback,
+  fallbackSrc,
   showDefaultFallback = true,
   containerClassName = '',
   fallbackClassName = '',
@@ -158,8 +162,11 @@ export const Image: React.FC<ImageProps> = ({
   className = '',
   ...props
 }) => {
+  // Use the src as is, or fallback will handle missing images
+  const [currentSrc, setCurrentSrc] = useState(src);
   const [error, setError] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
+  const [triedFallback, setTriedFallback] = useState(false);
 
   const handleLoad = () => {
     setIsLoading(false);
@@ -167,6 +174,15 @@ export const Image: React.FC<ImageProps> = ({
   };
 
   const handleError = () => {
+    // If we have a fallback URL and haven't tried it yet
+    if (fallbackSrc && !triedFallback) {
+      setCurrentSrc(fallbackSrc);
+      setTriedFallback(true);
+      // Don't set error yet, try the fallback
+      return;
+    }
+    
+    // All attempts failed, show error state
     setError(true);
     setIsLoading(false);
     onError?.();
@@ -191,19 +207,39 @@ export const Image: React.FC<ImageProps> = ({
     className
   ].filter(Boolean).join(' ');
 
+  // Reset when src changes
+  useEffect(() => {
+    if (src !== currentSrc && !triedFallback) {
+      setCurrentSrc(src);
+      setError(false);
+      setIsLoading(true);
+      setTriedFallback(false);
+    }
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [src]);
+
   // If there's an error or no src, show fallback
-  if (error || !src) {
-    if (fallback) {
-      return <div className={containerClasses}>{fallback}</div>;
+  if (error || !currentSrc) {
+    // If we have a fallbackSrc and haven't tried it yet, use it
+    if (fallbackSrc && !triedFallback && !error) {
+      setCurrentSrc(fallbackSrc);
+      setTriedFallback(true);
+      setError(false);
+      setIsLoading(true);
+    } else {
+      // Show fallback content
+      if (fallback) {
+        return <div className={containerClasses}>{fallback}</div>;
+      }
+      if (showDefaultFallback) {
+        return (
+          <div className={containerClasses}>
+            <ImageFallback className={fallbackClassName} />
+          </div>
+        );
+      }
+      return null;
     }
-    if (showDefaultFallback) {
-      return (
-        <div className={containerClasses}>
-          <ImageFallback className={fallbackClassName} />
-        </div>
-      );
-    }
-    return null;
   }
 
   return (
@@ -216,7 +252,7 @@ export const Image: React.FC<ImageProps> = ({
       {/* Image */}
       {useNextImage ? (
         <NextImage
-          src={src}
+          src={currentSrc}
           alt={alt}
           className={imageClasses}
           onLoad={handleLoad}
@@ -224,8 +260,9 @@ export const Image: React.FC<ImageProps> = ({
           {...props}
         />
       ) : (
+        // eslint-disable-next-line @next/next/no-img-element
         <img
-          src={src as string}
+          src={currentSrc as string}
           alt={alt}
           className={`${props.fill ? 'absolute inset-0 w-full h-full' : ''} ${imageClasses}`}
           onLoad={handleLoad}

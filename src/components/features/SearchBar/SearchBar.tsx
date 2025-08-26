@@ -6,10 +6,13 @@
 'use client';
 
 import React, { memo, useState, useCallback, useEffect, useRef } from 'react';
-import { Search, X, Loader2 } from 'lucide-react';
+import { Search, X, Loader2, Gamepad2, Building2, Tag, Layers } from 'lucide-react';
 import { Input } from '@/components/ui/Input';
 import { Button } from '@/components/ui/Button';
-import { useDebounce } from '@/hooks/useDebounce';
+import { Dropdown, type DropdownOption } from '@/components/ui/Dropdown';
+import { useDebounce } from '@/lib/core/frontend';
+import { UI_DELAYS } from '@/lib/core/config/constants/app.constants';
+import type { SearchType } from '@/lib/core/domain/models';
 import '@/styles/components/features/search-bar.css';
 
 /**
@@ -22,9 +25,11 @@ export interface SearchBarProps {
   /** Placeholder text */
   placeholder?: string;
   /** Callback when search value changes (debounced) */
-  onSearch?: (query: string) => void;
+  onSearch?: (query: string, searchType?: SearchType) => void;
   /** Callback for immediate value changes (not debounced) */
-  onChange?: (value: string) => void;
+  onChange?: (value: string, searchType?: SearchType) => void;
+  /** Callback when search type changes */
+  onSearchTypeChange?: (searchType: SearchType) => void;
   /** Debounce delay in milliseconds */
   debounceDelay?: number;
   /** Show loading indicator */
@@ -37,6 +42,10 @@ export interface SearchBarProps {
   disabled?: boolean;
   /** Search bar size variant */
   size?: 'sm' | 'md' | 'lg';
+  /** Enable search type dropdown */
+  enableTypeDropdown?: boolean;
+  /** Default search type */
+  defaultSearchType?: SearchType;
   /** Custom className */
   className?: string;
   /** Test ID for testing */
@@ -54,7 +63,7 @@ export interface SearchBarProps {
  * <SearchBar
  *   placeholder="Search games..."
  *   onSearch={handleSearch}
- *   debounceDelay={300}
+ *   debounceDelay={UI_DELAYS.SEARCH_DEBOUNCE}
  *   showClear={true}
  * />
  * ```
@@ -67,16 +76,20 @@ export const SearchBar = memo<SearchBarProps>(({
   placeholder = 'Search...',
   onSearch,
   onChange,
-  debounceDelay = 300,
+  onSearchTypeChange,
+  debounceDelay = UI_DELAYS.SEARCH_DEBOUNCE,
   isLoading = false,
   showClear = true,
   autoFocus = false,
   disabled = false,
   size = 'md',
+  enableTypeDropdown = false,
+  defaultSearchType = 'all',
   className = '',
   testId = 'search-bar'
 }) => {
   const [value, setValue] = useState(initialValue);
+  const [searchType, setSearchType] = useState<SearchType>(defaultSearchType);
   const [isFocused, setIsFocused] = useState(false);
   const inputRef = useRef<HTMLInputElement>(null);
   const debouncedValue = useDebounce(value, debounceDelay);
@@ -86,9 +99,9 @@ export const SearchBar = memo<SearchBarProps>(({
    */
   useEffect(() => {
     if (onSearch && debouncedValue !== initialValue) {
-      onSearch(debouncedValue);
+      onSearch(debouncedValue, searchType);
     }
-  }, [debouncedValue, onSearch, initialValue]);
+  }, [debouncedValue, searchType, onSearch, initialValue]);
 
   /**
    * Handle input value change
@@ -99,9 +112,25 @@ export const SearchBar = memo<SearchBarProps>(({
     
     // Call immediate onChange if provided
     if (onChange) {
-      onChange(newValue);
+      onChange(newValue, searchType);
     }
-  }, [onChange]);
+  }, [onChange, searchType]);
+
+  /**
+   * Handle search type change
+   */
+  const handleSearchTypeChange = useCallback((newType: SearchType) => {
+    setSearchType(newType);
+    
+    if (onSearchTypeChange) {
+      onSearchTypeChange(newType);
+    }
+    
+    // Re-trigger search with new type if value exists
+    if (value && onSearch) {
+      onSearch(value, newType);
+    }
+  }, [value, onSearch, onSearchTypeChange]);
 
   /**
    * Handle clear button click
@@ -111,12 +140,13 @@ export const SearchBar = memo<SearchBarProps>(({
     inputRef.current?.focus();
     
     if (onChange) {
-      onChange('');
+      onChange('', searchType);
     }
     
     if (onSearch) {
-      onSearch('');
+      onSearch('', searchType);
     }
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [onChange, onSearch]);
 
   /**
@@ -133,29 +163,95 @@ export const SearchBar = memo<SearchBarProps>(({
     if (e.key === 'Enter') {
       e.preventDefault();
       if (onSearch) {
-        onSearch(value);
+        onSearch(value, searchType);
       }
     }
-  }, [value, handleClear, onSearch]);
+  }, [value, searchType, handleClear, onSearch]);
+
+  /**
+   * Search type dropdown options
+   */
+  const searchTypeOptions: DropdownOption[] = [
+    {
+      value: 'all',
+      label: 'All',
+      icon: <Layers className="w-3 h-3" />
+    },
+    {
+      value: 'games',
+      label: 'Games',
+      icon: <Gamepad2 className="w-3 h-3" />
+    },
+    {
+      value: 'providers',
+      label: 'Providers',
+      icon: <Building2 className="w-3 h-3" />
+    },
+    {
+      value: 'tags',
+      label: 'Tags',
+      icon: <Tag className="w-3 h-3" />
+    }
+  ];
+
+  /**
+   * Get placeholder based on search type
+   */
+  const getPlaceholder = () => {
+    if (placeholder) return placeholder;
+    
+    switch (searchType) {
+      case 'games':
+        return 'Search games...';
+      case 'providers':
+        return 'Search providers...';
+      case 'tags':
+        return 'Search tags...';
+      default:
+        return 'Search all...';
+    }
+  };
 
   const shouldShowClear = showClear && value && !disabled && !isLoading;
+  // Right icon should be clickable if there's a clear button OR dropdown
+  const isRightIconClickable = !!shouldShowClear || enableTypeDropdown;
 
-  // Build right icon based on state
-  const rightIcon = isLoading ? (
-    <Loader2 className="search-bar-spinner" />
-  ) : shouldShowClear ? (
-    <Button
-      variant="ghost"
-      size="sm"
-      onClick={handleClear}
-      className="search-bar-clear-btn"
-      aria-label="Clear search"
-      data-testid={`${testId}-clear`}
-      iconOnly
-    >
-      <X className="search-bar-clear-icon" />
-    </Button>
-  ) : null;
+  // Build right element for input
+  const rightElement = (
+    <div className="search-bar-right-elements">
+      {/* Type dropdown (inside input on the right) */}
+      {enableTypeDropdown && (
+        <Dropdown
+          options={searchTypeOptions}
+          value={searchType}
+          onChange={(value) => handleSearchTypeChange(value as SearchType)}
+          size={size}
+          variant="ghost"
+          compact
+          disabled={disabled}
+          className="search-bar-type-dropdown"
+          testId={`${testId}-type-dropdown`}
+        />
+      )}
+      
+      {/* Loading or Clear button */}
+      {isLoading ? (
+        <Loader2 className="search-bar-spinner" />
+      ) : shouldShowClear ? (
+        <Button
+          variant="ghost"
+          size="sm"
+          onClick={handleClear}
+          className="search-bar-clear-btn"
+          aria-label="Clear search"
+          data-testid={`${testId}-clear`}
+          iconOnly
+        >
+          <X className="search-bar-clear-icon" />
+        </Button>
+      ) : null}
+    </div>
+  );
 
   return (
     <div
@@ -170,13 +266,13 @@ export const SearchBar = memo<SearchBarProps>(({
         onKeyDown={handleKeyDown}
         onFocus={() => setIsFocused(true)}
         onBlur={() => setIsFocused(false)}
-        placeholder={placeholder}
+        placeholder={getPlaceholder()}
         disabled={disabled}
         autoFocus={autoFocus}
         size={size}
         leftIcon={<Search className="search-bar-search-icon" />}
-        rightIcon={rightIcon}
-        rightIconClickable={!!shouldShowClear}
+        rightIcon={rightElement}
+        rightIconClickable={isRightIconClickable}
         fullWidth
         className={`search-bar-input ${isFocused ? 'search-bar-focused' : ''}`}
         containerClassName="search-bar-container"

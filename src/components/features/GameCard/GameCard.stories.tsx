@@ -3,37 +3,18 @@
  * @module components/features/GameCard/stories
  */
 
-import type { Meta, StoryObj } from '@storybook/react';
-import { GameCard, GameCardSkeleton } from './GameCard';
+import type { Meta, StoryObj } from '@storybook/nextjs';
+import { GameCard } from './GameCard';
 import { GameGrid } from '../GameGrid';
 import type { Game } from '@/lib/types';
 import { Button } from '@/components/ui/Button';
 import { Star, Gamepad2 } from 'lucide-react';
+import { generateMockGame } from '@/lib/core/test';
 
 /**
  * Mock game data for stories
  */
-const mockGame: Game = {
-  id: 'game-1',
-  title: 'Sweet Bonanza',
-  slug: 'sweet-bonanza',
-  thumbnail: 'https://picsum.photos/seed/sweet-bonanza/400/300',
-  description: 'Experience the sweetest wins in this candy-filled adventure with tumbling reels and multipliers up to 100x!',
-  provider: {
-    id: 'pragmatic',
-    name: 'Pragmatic Play',
-    logo: 'https://api.dicebear.com/7.x/shapes/svg?seed=pragmatic'
-  },
-  type: 'slots',
-  isNew: true,
-  isHot: false,
-  isOnSale: false,
-  isFavorite: false,
-  tags: ['bonus buy', 'high volatility', 'free spins'],
-  playCount: 125000,
-  releaseDate: new Date().toISOString(),
-  rtp: 96.5
-};
+const mockGame: Game = generateMockGame();
 
 const meta: Meta<typeof GameCard> = {
   title: 'Features/GameCard',
@@ -623,6 +604,171 @@ export const ResponsiveShowcase: Story = {
               showDetails={false}
               showPlayOnHover={false}
               className="card-sm"
+            />
+          </div>
+        </div>
+      </div>
+    );
+  },
+};
+
+/**
+ * Dark theme
+ */
+export const DarkTheme: Story = {
+  args: {
+    game: { ...mockGame, isNew: true, isHot: true },
+    size: 'grid-md',
+  },
+  parameters: {
+    backgrounds: { default: 'dark' },
+  },
+  decorators: [
+    (Story) => (
+      <div data-theme="dark" className="p-8 bg-gray-900 rounded-lg">
+        <Story />
+      </div>
+    ),
+  ],
+};
+
+/**
+ * Light theme
+ */
+export const LightTheme: Story = {
+  args: {
+    game: { ...mockGame, isNew: true, isHot: true },
+    size: 'grid-md',
+  },
+  parameters: {
+    backgrounds: { default: 'light' },
+  },
+  decorators: [
+    (Story) => (
+      <div data-theme="light" className="p-8 bg-white rounded-lg">
+        <Story />
+      </div>
+    ),
+  ],
+};
+
+/**
+ * Neon theme - Cyberpunk game cards
+ */
+export const NeonTheme: Story = {
+  render: () => {
+    const neonGames = [
+      { ...mockGame, id: 'neon-1', title: 'Cyber Strike 2077', isNew: true, thumbnail: 'https://picsum.photos/seed/neon1/400/300' },
+      { ...mockGame, id: 'neon-2', title: 'Neural Network', isHot: true, thumbnail: 'https://picsum.photos/seed/neon2/400/300' },
+      { ...mockGame, id: 'neon-3', title: 'Matrix Runner', isOnSale: true, thumbnail: 'https://picsum.photos/seed/neon3/400/300' },
+      { ...mockGame, id: 'neon-4', title: 'Digital Dreams', isFavorite: true, thumbnail: 'https://picsum.photos/seed/neon4/400/300' },
+    ];
+    
+    return (
+      <div data-theme="neon" className="p-8" style={{ background: 'rgb(3, 7, 18)' }}>
+        <h3 className="text-lg font-semibold text-purple-400 mb-6">Neon Theme Game Cards</h3>
+        <div className="grid grid-cols-2 gap-4">
+          {neonGames.map((game) => (
+            <GameCard
+              key={game.id}
+              game={game}
+              size="grid-md"
+            />
+          ))}
+        </div>
+      </div>
+    );
+  },
+  parameters: {
+    backgrounds: { default: 'dark' },
+  },
+};
+
+/**
+ * Gold theme - Premium game cards
+ */
+export const GoldTheme: Story = {
+  render: () => {
+    const goldGames = [
+      { ...mockGame, id: 'gold-1', title: 'Royal Slots VIP', isNew: true, thumbnail: 'https://picsum.photos/seed/gold1/400/300' },
+      { ...mockGame, id: 'gold-2', title: 'Diamond Casino', isHot: true, thumbnail: 'https://picsum.photos/seed/gold2/400/300' },
+      { ...mockGame, id: 'gold-3', title: 'Platinum Poker', isOnSale: true, thumbnail: 'https://picsum.photos/seed/gold3/400/300' },
+      { ...mockGame, id: 'gold-4', title: 'Golden Fortune', isFavorite: true, thumbnail: 'https://picsum.photos/seed/gold4/400/300' },
+    ];
+    
+    return (
+      <div data-theme="gold" className="p-8" style={{ background: 'linear-gradient(135deg, #78350f, #422006)' }}>
+        <h3 className="text-lg font-semibold text-yellow-400 mb-6">Gold Theme Game Cards</h3>
+        <div className="grid grid-cols-2 gap-4">
+          {goldGames.map((game) => (
+            <GameCard
+              key={game.id}
+              game={game}
+              size="grid-md"
+            />
+          ))}
+        </div>
+      </div>
+    );
+  },
+  parameters: {
+    backgrounds: { default: 'dark' },
+  },
+};
+
+/**
+ * All themes comparison
+ */
+export const AllThemes: Story = {
+  render: () => {
+    const demoGame = { ...mockGame, title: 'Theme Demo Game', isNew: true, isHot: true };
+    
+    return (
+      <div className="space-y-6">
+        <div data-theme="light" className="p-6 bg-white rounded-lg">
+          <h3 className="text-lg font-semibold mb-3">Light Theme</h3>
+          <div className="grid grid-cols-2 gap-4">
+            <GameCard game={{ ...demoGame, id: 'light-1' }} size="grid-sm" />
+            <GameCard game={{ ...demoGame, id: 'light-2', isNew: false, isOnSale: true }} size="grid-sm" />
+          </div>
+        </div>
+        
+        <div data-theme="dark" className="p-6 bg-gray-900 rounded-lg">
+          <h3 className="text-lg font-semibold text-white mb-3">Dark Theme</h3>
+          <div className="grid grid-cols-2 gap-4">
+            <GameCard game={{ ...demoGame, id: 'dark-1' }} size="grid-sm" />
+            <GameCard game={{ ...demoGame, id: 'dark-2', isNew: false, isOnSale: true }} size="grid-sm" />
+          </div>
+        </div>
+        
+        <div data-theme="neon" className="p-6 rounded-lg" style={{ background: 'rgb(3, 7, 18)' }}>
+          <h3 className="text-lg font-semibold text-purple-400 mb-3">Neon Theme</h3>
+          <div className="grid grid-cols-2 gap-4">
+            <GameCard 
+              game={{ ...demoGame, id: 'neon-1', title: 'Cyber Game' }} 
+              size="grid-sm"
+              className="border border-purple-500 border-opacity-20"
+            />
+            <GameCard 
+              game={{ ...demoGame, id: 'neon-2', title: 'Neural Link', isNew: false, isOnSale: true }} 
+              size="grid-sm"
+              className="border border-cyan-500 border-opacity-20"
+            />
+          </div>
+        </div>
+        
+        <div data-theme="gold" className="p-6 rounded-lg" style={{ background: 'linear-gradient(135deg, #78350f, #422006)' }}>
+          <h3 className="text-lg font-semibold text-yellow-400 mb-3">Gold Theme</h3>
+          <div className="grid grid-cols-2 gap-4">
+            <GameCard 
+              game={{ ...demoGame, id: 'gold-1', title: 'VIP Slots' }} 
+              size="grid-sm"
+              className="border border-yellow-500 border-opacity-20"
+            />
+            <GameCard 
+              game={{ ...demoGame, id: 'gold-2', title: 'Royal Casino', isNew: false, isOnSale: true }} 
+              size="grid-sm"
+              className="border border-amber-500 border-opacity-20"
             />
           </div>
         </div>

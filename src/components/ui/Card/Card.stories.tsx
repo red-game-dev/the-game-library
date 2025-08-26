@@ -3,11 +3,11 @@
  * @module components/ui/Card/stories
  */
 
-import type { Meta, StoryObj } from '@storybook/react';
+import type { Meta, StoryObj } from '@storybook/nextjs';
 import { Card, CardHeader, CardBody, CardFooter, CardMedia } from './Card';
 import { Button } from '../Button';
 import { Badge } from '../Badge';
-import { Heart, Share2, Play } from 'lucide-react';
+import { Heart, Play } from 'lucide-react';
 import Image from 'next/image';
 
 const meta: Meta<typeof Card> = {
@@ -50,7 +50,8 @@ The Card component can be used as a container or composed with CardHeader, CardB
       control: { type: 'boolean' }
     },
     shadow: {
-      control: { type: 'boolean' }
+      control: { type: 'select' },
+      options: [false, true, 'sm', 'md', 'lg', 'xl', '2xl']
     },
     glass: {
       control: { type: 'boolean' }
@@ -167,7 +168,7 @@ export const Glass: Story = {
     )
   },
   decorators: [
-    (Story) => (
+    (Story: React.ComponentType) => (
       <div className="p-8 bg-gradient-to-br from-purple-500 to-pink-500">
         <Story />
       </div>
@@ -224,6 +225,40 @@ export const NoBorder: Story = {
       </div>
     )
   }
+};
+
+/**
+ * Shadow variations
+ */
+export const ShadowVariations: Story = {
+  render: () => (
+    <div className="grid grid-cols-3 gap-4">
+      <Card size="md">
+        <h3 className="text-lg font-semibold mb-2 text-text">No Shadow</h3>
+        <p className="text-secondary">No shadow applied</p>
+      </Card>
+      <Card size="md" shadow="sm">
+        <h3 className="text-lg font-semibold mb-2 text-text">Small Shadow</h3>
+        <p className="text-secondary">shadow=&quot;sm&quot;</p>
+      </Card>
+      <Card size="md" shadow="md">
+        <h3 className="text-lg font-semibold mb-2 text-text">Medium Shadow</h3>
+        <p className="text-secondary">shadow=&quot;md&quot;</p>
+      </Card>
+      <Card size="md" shadow="lg">
+        <h3 className="text-lg font-semibold mb-2 text-text">Large Shadow</h3>
+        <p className="text-secondary">shadow=&quot;lg&quot;</p>
+      </Card>
+      <Card size="md" shadow="xl">
+        <h3 className="text-lg font-semibold mb-2 text-text">XL Shadow</h3>
+        <p className="text-secondary">shadow=&quot;xl&quot;</p>
+      </Card>
+      <Card size="md" shadow="2xl">
+        <h3 className="text-lg font-semibold mb-2 text-text">2XL Shadow</h3>
+        <p className="text-secondary">shadow=&quot;2xl&quot;</p>
+      </Card>
+    </div>
+  )
 };
 
 /**
@@ -329,7 +364,7 @@ export const DarkMode: Story = {
     backgrounds: { default: 'dark' }
   },
   decorators: [
-    (Story) => (
+    (Story: React.ComponentType) => (
       <div data-theme="dark" className="p-4 bg-background">
         <Story />
       </div>
@@ -355,7 +390,7 @@ export const LightMode: Story = {
     backgrounds: { default: 'light' }
   },
   decorators: [
-    (Story) => (
+    (Story: React.ComponentType) => (
       <div data-theme="light" className="p-4 bg-background">
         <Story />
       </div>
@@ -364,7 +399,316 @@ export const LightMode: Story = {
 };
 
 /**
- * Mobile viewport - optimized for small screens
+ * Neon theme card with cyberpunk aesthetics
+ */
+export const NeonTheme: Story = {
+  parameters: {
+    backgrounds: { default: 'dark' }
+  },
+  decorators: [
+    () => (
+      <div data-theme="neon" className="p-8" style={{ background: 'rgb(3, 7, 18)' }}>
+        <div className="space-y-4">
+          <h3 className="text-lg font-semibold text-purple-400 mb-4">Neon Theme Cards</h3>
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <Card interactive glass>
+              <h4 className="text-lg font-semibold text-purple-300">Glass Card</h4>
+              <p className="text-purple-100 mt-2">Neon glass morphism effect</p>
+            </Card>
+            <Card interactive variant="primary">
+              <h4 className="text-lg font-semibold text-white">Primary Card</h4>
+              <p className="text-purple-100 mt-2">Vibrant neon styling</p>
+            </Card>
+            <Card interactive bordered>
+              <h4 className="text-lg font-semibold text-purple-300">Bordered Card</h4>
+              <p className="text-purple-100 mt-2">Glowing border effect</p>
+            </Card>
+            <Card interactive>
+              <h4 className="text-lg font-semibold text-purple-300">Standard Card</h4>
+              <p className="text-purple-100 mt-2">Clean neon styling</p>
+            </Card>
+          </div>
+        </div>
+      </div>
+    )
+  ]
+};
+
+/**
+ * Gold theme card with luxurious styling
+ */
+export const GoldTheme: Story = {
+  parameters: {
+    backgrounds: { default: 'dark' }
+  },
+  decorators: [
+    () => (
+      <div data-theme="gold" className="p-8" style={{ background: 'linear-gradient(135deg, #78350f, #422006)' }}>
+        <div className="space-y-4">
+          <h3 className="text-lg font-semibold text-yellow-400 mb-4">Gold Theme Cards</h3>
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <Card interactive glass>
+              <h4 className="text-lg font-semibold text-yellow-300">Premium Glass</h4>
+              <p className="text-yellow-100 mt-2">Elegant glass effect</p>
+            </Card>
+            <Card interactive variant="warning">
+              <h4 className="text-lg font-semibold text-white">Golden Card</h4>
+              <p className="text-yellow-100 mt-2">Luxurious gold styling</p>
+            </Card>
+            <Card interactive bordered>
+              <h4 className="text-lg font-semibold text-yellow-300">Gold Border</h4>
+              <p className="text-yellow-100 mt-2">Premium bordered style</p>
+            </Card>
+            <Card interactive>
+              <h4 className="text-lg font-semibold text-yellow-300">Classic Gold</h4>
+              <p className="text-yellow-100 mt-2">Timeless elegance</p>
+            </Card>
+          </div>
+        </div>
+      </div>
+    )
+  ]
+};
+
+/**
+ * All themes showcase
+ */
+export const AllThemes: Story = {
+  render: () => (
+    <div className="space-y-6">
+      <div data-theme="light" className="p-6 bg-white rounded-lg">
+        <h3 className="text-lg font-semibold mb-4">Light Theme</h3>
+        <div className="space-y-6">
+          <div>
+            <p className="text-sm font-medium mb-3">Variants</p>
+            <div className="grid grid-cols-2 gap-3">
+              <Card variant="default" size="sm">
+                <h4 className="font-semibold text-sm">Default</h4>
+                <p className="text-xs text-secondary">Standard card</p>
+              </Card>
+              <Card variant="primary" size="sm">
+                <h4 className="font-semibold text-sm text-white">Primary</h4>
+                <p className="text-xs text-white opacity-90">Primary variant</p>
+              </Card>
+              <Card variant="secondary" size="sm">
+                <h4 className="font-semibold text-sm text-white">Secondary</h4>
+                <p className="text-xs text-white opacity-90">Secondary variant</p>
+              </Card>
+              <Card variant="accent" size="sm">
+                <h4 className="font-semibold text-sm text-white">Accent</h4>
+                <p className="text-xs text-white opacity-90">Accent variant</p>
+              </Card>
+            </div>
+          </div>
+          <div>
+            <p className="text-sm font-medium mb-3">Interactive & Glass Effects</p>
+            <div className="grid grid-cols-2 gap-3">
+              <Card interactive size="sm">
+                <h4 className="font-semibold text-sm">Interactive</h4>
+                <p className="text-xs text-secondary">Hover effects</p>
+              </Card>
+              <Card glass size="sm">
+                <h4 className="font-semibold text-sm">Glass</h4>
+                <p className="text-xs text-secondary">Glass morphism</p>
+              </Card>
+            </div>
+          </div>
+          <div>
+            <p className="text-sm font-medium mb-3">Shadow Variants</p>
+            <div className="grid grid-cols-3 gap-3">
+              <Card size="sm" shadow="sm">
+                <h4 className="font-semibold text-sm">Small</h4>
+                <p className="text-xs text-secondary">shadow=&quot;sm&quot;</p>
+              </Card>
+              <Card size="sm" shadow="md">
+                <h4 className="font-semibold text-sm">Medium</h4>
+                <p className="text-xs text-secondary">shadow=&quot;md&quot;</p>
+              </Card>
+              <Card size="sm" shadow="lg">
+                <h4 className="font-semibold text-sm">Large</h4>
+                <p className="text-xs text-secondary">shadow=&quot;lg&quot;</p>
+              </Card>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <div data-theme="dark" className="p-6 bg-gray-900 rounded-lg">
+        <h3 className="text-lg font-semibold text-white mb-4">Dark Theme</h3>
+        <div className="space-y-6">
+          <div>
+            <p className="text-sm font-medium text-gray-300 mb-3">Variants</p>
+            <div className="grid grid-cols-2 gap-3">
+              <Card variant="default" size="sm">
+                <h4 className="font-semibold text-sm">Default</h4>
+                <p className="text-xs text-secondary">Standard card</p>
+              </Card>
+              <Card variant="primary" size="sm">
+                <h4 className="font-semibold text-sm text-white">Primary</h4>
+                <p className="text-xs text-white opacity-90">Primary variant</p>
+              </Card>
+              <Card variant="secondary" size="sm">
+                <h4 className="font-semibold text-sm text-white">Secondary</h4>
+                <p className="text-xs text-white opacity-90">Secondary variant</p>
+              </Card>
+              <Card variant="accent" size="sm">
+                <h4 className="font-semibold text-sm text-white">Accent</h4>
+                <p className="text-xs text-white opacity-90">Accent variant</p>
+              </Card>
+            </div>
+          </div>
+          <div>
+            <p className="text-sm font-medium text-gray-300 mb-3">Interactive & Glass Effects</p>
+            <div className="grid grid-cols-2 gap-3">
+              <Card interactive size="sm">
+                <h4 className="font-semibold text-sm">Interactive</h4>
+                <p className="text-xs text-secondary">Hover effects</p>
+              </Card>
+              <Card glass size="sm">
+                <h4 className="font-semibold text-sm">Glass</h4>
+                <p className="text-xs text-secondary">Glass morphism</p>
+              </Card>
+            </div>
+          </div>
+          <div>
+            <p className="text-sm font-medium text-gray-300 mb-3">Shadow Variants</p>
+            <div className="grid grid-cols-3 gap-3">
+              <Card size="sm" shadow="sm">
+                <h4 className="font-semibold text-sm">Small</h4>
+                <p className="text-xs text-secondary">shadow=&quot;sm&quot;</p>
+              </Card>
+              <Card size="sm" shadow="md">
+                <h4 className="font-semibold text-sm">Medium</h4>
+                <p className="text-xs text-secondary">shadow=&quot;md&quot;</p>
+              </Card>
+              <Card size="sm" shadow="lg">
+                <h4 className="font-semibold text-sm">Large</h4>
+                <p className="text-xs text-secondary">shadow=&quot;lg&quot;</p>
+              </Card>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <div data-theme="neon" className="p-6 rounded-lg" style={{ background: 'rgb(3, 7, 18)' }}>
+        <h3 className="text-lg font-semibold text-purple-400 mb-4">Neon Theme</h3>
+        <div className="space-y-6">
+          <div>
+            <p className="text-sm font-medium text-cyan-400 mb-3">Variants</p>
+            <div className="grid grid-cols-2 gap-3">
+              <Card variant="default" size="sm">
+                <h4 className="font-semibold text-sm text-purple-300">Default</h4>
+                <p className="text-xs text-purple-200">Standard card</p>
+              </Card>
+              <Card variant="primary" size="sm">
+                <h4 className="font-semibold text-sm text-white">Primary</h4>
+                <p className="text-xs text-cyan-200">Primary variant</p>
+              </Card>
+              <Card variant="secondary" size="sm">
+                <h4 className="font-semibold text-sm text-white">Secondary</h4>
+                <p className="text-xs text-purple-200">Secondary variant</p>
+              </Card>
+              <Card variant="accent" size="sm">
+                <h4 className="font-semibold text-sm text-white">Accent</h4>
+                <p className="text-xs text-cyan-200">Accent variant</p>
+              </Card>
+            </div>
+          </div>
+          <div>
+            <p className="text-sm font-medium text-cyan-400 mb-3">Interactive & Glass Effects</p>
+            <div className="grid grid-cols-2 gap-3">
+              <Card interactive size="sm">
+                <h4 className="font-semibold text-sm text-purple-300">Interactive</h4>
+                <p className="text-xs text-purple-200">Neon glow effects</p>
+              </Card>
+              <Card glass size="sm">
+                <h4 className="font-semibold text-sm text-purple-300">Glass</h4>
+                <p className="text-xs text-purple-200">Cyberpunk glass</p>
+              </Card>
+            </div>
+          </div>
+          <div>
+            <p className="text-sm font-medium text-cyan-400 mb-3">Shadow Variants</p>
+            <div className="grid grid-cols-3 gap-3">
+              <Card size="sm" shadow="sm">
+                <h4 className="font-semibold text-sm text-purple-300">Small</h4>
+                <p className="text-xs text-purple-200">Subtle glow</p>
+              </Card>
+              <Card size="sm" shadow="md">
+                <h4 className="font-semibold text-sm text-purple-300">Medium</h4>
+                <p className="text-xs text-purple-200">Moderate glow</p>
+              </Card>
+              <Card size="sm" shadow="lg">
+                <h4 className="font-semibold text-sm text-purple-300">Large</h4>
+                <p className="text-xs text-purple-200">Intense glow</p>
+              </Card>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <div data-theme="gold" className="p-6 rounded-lg" style={{ background: 'linear-gradient(135deg, #78350f, #422006)' }}>
+        <h3 className="text-lg font-semibold text-yellow-400 mb-4">Gold Theme</h3>
+        <div className="space-y-6">
+          <div>
+            <p className="text-sm font-medium text-yellow-300 mb-3">Variants</p>
+            <div className="grid grid-cols-2 gap-3">
+              <Card variant="default" size="sm">
+                <h4 className="font-semibold text-sm text-yellow-300">Default</h4>
+                <p className="text-xs text-yellow-200">Standard card</p>
+              </Card>
+              <Card variant="primary" size="sm">
+                <h4 className="font-semibold text-sm text-white">Primary</h4>
+                <p className="text-xs text-yellow-200">Primary variant</p>
+              </Card>
+              <Card variant="warning" size="sm">
+                <h4 className="font-semibold text-sm text-white">Gold</h4>
+                <p className="text-xs text-yellow-200">Warning/Gold variant</p>
+              </Card>
+              <Card variant="accent" size="sm">
+                <h4 className="font-semibold text-sm text-white">Accent</h4>
+                <p className="text-xs text-yellow-200">Accent variant</p>
+              </Card>
+            </div>
+          </div>
+          <div>
+            <p className="text-sm font-medium text-yellow-300 mb-3">Interactive & Glass Effects</p>
+            <div className="grid grid-cols-2 gap-3">
+              <Card interactive size="sm">
+                <h4 className="font-semibold text-sm text-yellow-300">Interactive</h4>
+                <p className="text-xs text-yellow-200">Golden hover</p>
+              </Card>
+              <Card glass size="sm">
+                <h4 className="font-semibold text-sm text-yellow-300">Glass</h4>
+                <p className="text-xs text-yellow-200">Elegant glass</p>
+              </Card>
+            </div>
+          </div>
+          <div>
+            <p className="text-sm font-medium text-yellow-300 mb-3">Shadow Variants</p>
+            <div className="grid grid-cols-3 gap-3">
+              <Card size="sm" shadow="sm">
+                <h4 className="font-semibold text-sm text-yellow-300">Small</h4>
+                <p className="text-xs text-yellow-200">Soft glow</p>
+              </Card>
+              <Card size="sm" shadow="md">
+                <h4 className="font-semibold text-sm text-yellow-300">Medium</h4>
+                <p className="text-xs text-yellow-200">Golden glow</p>
+              </Card>
+              <Card size="sm" shadow="lg">
+                <h4 className="font-semibold text-sm text-yellow-300">Large</h4>
+                <p className="text-xs text-yellow-200">Premium glow</p>
+              </Card>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  )
+};
+
+/**
+ * Mobile viewport
  */
 export const Mobile: Story = {
   render: () => (
@@ -398,7 +742,7 @@ export const Mobile: Story = {
 };
 
 /**
- * Tablet viewport - medium screen optimization
+ * Tablet viewport
  */
 export const Tablet: Story = {
   render: () => (

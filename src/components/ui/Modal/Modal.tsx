@@ -5,10 +5,11 @@
 
 'use client';
 
-import React, { useEffect, useCallback, useRef } from 'react';
+import React, { useEffect, useCallback, useRef, useState } from 'react';
 import { createPortal } from 'react-dom';
 import { X } from 'lucide-react';
 import { Button } from '../Button';
+import { cn } from '@/lib/utils';
 import '@/styles/components/base/modal.css';
 
 /**
@@ -20,6 +21,11 @@ export type ModalSize = 'xs' | 'sm' | 'md' | 'lg' | 'xl' | 'full';
  * Modal positions
  */
 export type ModalPosition = 'center' | 'top' | 'bottom';
+
+/**
+ * Validation types for modal
+ */
+export type ModalValidationType = 'error' | 'warning' | 'info' | 'persistent';
 
 /**
  * Props for the Modal component
@@ -54,10 +60,29 @@ export interface ModalProps {
   className?: string;
   /** Custom className for overlay */
   overlayClassName?: string;
+  /** Custom classNames for nested elements */
+  classNames?: {
+    overlay?: string;
+    container?: string;
+    content?: string;
+    header?: string;
+    body?: string;
+    footer?: string;
+  };
   /** Children content */
   children?: React.ReactNode;
   /** Footer content */
   footer?: React.ReactNode;
+  /** Custom z-index for stacking modals */
+  zIndex?: number;
+  /** Validation type - controls modal behavior on invalid close attempts */
+  validationType?: ModalValidationType;
+  /** Callback to validate before closing - return false to prevent close */
+  onValidate?: () => boolean | Promise<boolean>;
+  /** Whether modal is persistent (reopens when closed without validation) */
+  persistent?: boolean;
+  /** Callback when validation fails */
+  onValidationFail?: () => void;
   /** Test ID */
   testId?: string;
 }
@@ -115,29 +140,77 @@ export const Modal: React.FC<ModalProps> = ({
   padding = 'md',
   className = '',
   overlayClassName = '',
+  classNames,
   children,
+  zIndex,
   footer,
+  validationType,
+  onValidate,
+  persistent = false,
+  onValidationFail,
   testId = 'modal'
 }) => {
   const modalRef = useRef<HTMLDivElement>(null);
+  const [isShaking, setIsShaking] = useState(false);
+  const [internalOpen, setInternalOpen] = useState(isOpen);
+
+  // Sync internal state with prop
+  useEffect(() => {
+    setInternalOpen(isOpen);
+  }, [isOpen]);
+
+  // Handle validation and close
+  const handleClose = useCallback(async () => {
+    // If there's a validation function, check it first
+    if (onValidate) {
+      const isValid = await onValidate();
+      if (!isValid) {
+        // Handle validation failure based on type
+        if (validationType === 'error') {
+          setIsShaking(true);
+          setTimeout(() => setIsShaking(false), 500);
+        }
+        
+        if (onValidationFail) {
+          onValidationFail();
+        }
+        
+        // For persistent modals, temporarily close then reopen
+        if (persistent || validationType === 'persistent') {
+          setInternalOpen(false);
+          setTimeout(() => {
+            setInternalOpen(true);
+          }, 100);
+          return;
+        }
+        
+        // Don't close if validation fails and not persistent
+        return;
+      }
+    }
+    
+    // Close the modal if validation passes or no validation
+    setInternalOpen(false);
+    onClose();
+  }, [onValidate, onClose, validationType, onValidationFail, persistent]);
 
   // Handle escape key
   const handleEscape = useCallback((event: KeyboardEvent) => {
     if (closeOnEscape && event.key === 'Escape') {
-      onClose();
+      handleClose();
     }
-  }, [closeOnEscape, onClose]);
+  }, [closeOnEscape, handleClose]);
 
   // Handle overlay click
   const handleOverlayClick = useCallback((event: React.MouseEvent) => {
     if (closeOnOverlayClick && event.target === event.currentTarget) {
-      onClose();
+      handleClose();
     }
-  }, [closeOnOverlayClick, onClose]);
+  }, [closeOnOverlayClick, handleClose]);
 
   // Lock body scroll
   useEffect(() => {
-    if (!isOpen) return;
+    if (!internalOpen) return;
 
     if (preventScroll) {
       document.body.classList.add('modal-open');
@@ -145,21 +218,21 @@ export const Modal: React.FC<ModalProps> = ({
         document.body.classList.remove('modal-open');
       };
     }
-  }, [isOpen, preventScroll]);
+  }, [internalOpen, preventScroll]);
 
   // Add escape key listener
   useEffect(() => {
-    if (!isOpen) return;
+    if (!internalOpen) return;
 
     document.addEventListener('keydown', handleEscape);
     return () => {
       document.removeEventListener('keydown', handleEscape);
     };
-  }, [isOpen, handleEscape]);
+  }, [internalOpen, handleEscape]);
 
   // Focus trap
   useEffect(() => {
-    if (!isOpen || !modalRef.current) return;
+    if (!internalOpen || !modalRef.current) return;
 
     const modal = modalRef.current;
     const focusableElements = modal.querySelectorAll(
@@ -191,31 +264,46 @@ export const Modal: React.FC<ModalProps> = ({
     return () => {
       modal.removeEventListener('keydown', handleTab);
     };
-  }, [isOpen]);
+  }, [internalOpen]);
 
-  if (!isOpen) return null;
+  if (!internalOpen) return null;
 
   const modalContent = (
     <>
       {/* Overlay */}
       {showOverlay && (
         <div 
-          className={`modal-overlay ${overlayClassName}`}
-          onClick={closeOnOverlayClick ? onClose : undefined}
+          className={cn('modal-overlay', overlayClassName, classNames?.overlay)}
+          onClick={handleOverlayClick}
           aria-hidden="true"
+          style={zIndex ? { zIndex } : undefined}
         />
       )}
       
       {/* Modal Container */}
       <div
-        className={`modal-container ${getPositionClass(position)} ${size === 'full' ? 'modal-full-container' : ''} ${!showOverlay ? 'pointer-events-none' : ''}`}
+        className={cn(
+          'modal-container',
+          getPositionClass(position),
+          size === 'full' && 'modal-full-container',
+          !showOverlay && 'pointer-events-none',
+          classNames?.container
+        )}
         onClick={handleOverlayClick}
         data-testid={`${testId}-overlay`}
+        style={zIndex ? { zIndex: zIndex + 1 } : undefined}
       >
         {/* Modal */}
         <div
           ref={modalRef}
-          className={`modal-content ${getSizeClass(size)} modal-padding-${padding} ${className}`}
+          className={cn(
+            'modal-content will-animate',
+            getSizeClass(size),
+            `modal-padding-${padding}`,
+            isShaking && 'modal-shake',
+            className,
+            classNames?.content
+          )}
           role="dialog"
           aria-modal="true"
           aria-labelledby={title ? `${testId}-title` : undefined}
@@ -225,7 +313,7 @@ export const Modal: React.FC<ModalProps> = ({
         >
           {/* Header */}
           {(title || description || showCloseButton) && (
-            <div className="modal-header">
+            <div className={cn('modal-header', classNames?.header)}>
               {(title || description) && (
                 <div className="modal-header-content">
                   {title && (
@@ -251,7 +339,7 @@ export const Modal: React.FC<ModalProps> = ({
                   variant="ghost"
                   size="sm"
                   iconOnly
-                  onClick={onClose}
+                  onClick={handleClose}
                   className="modal-close-button"
                   aria-label="Close modal"
                 >
@@ -262,13 +350,13 @@ export const Modal: React.FC<ModalProps> = ({
           )}
 
           {/* Body */}
-          <div className="modal-body">
+          <div className={cn('modal-body', classNames?.body)}>
             {children}
           </div>
 
           {/* Footer */}
           {footer && (
-            <div className="modal-footer">
+            <div className={cn('modal-footer', classNames?.footer)}>
               {footer}
             </div>
           )}

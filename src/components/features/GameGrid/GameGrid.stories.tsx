@@ -3,37 +3,11 @@
  * @module components/features/GameGrid/stories
  */
 
-import type { Meta, StoryObj } from '@storybook/react';
+import type { Meta, StoryObj } from '@storybook/nextjs';
 import { GameGrid } from './GameGrid';
-import type { Game } from '@/lib/types';
+import { generateMockGames } from '@/lib/core/test';
+import { useState } from 'react';
 
-/**
- * Generate mock games for testing
- */
-const generateMockGames = (count: number): Game[] => {
-  const types: Game['type'][] = ['slots', 'table', 'live', 'instant'];
-  const providers = [
-    { id: 'pragmatic', name: 'Pragmatic Play', logo: 'https://api.dicebear.com/7.x/shapes/svg?seed=pragmatic' },
-    { id: 'evolution', name: 'Evolution Gaming', logo: 'https://api.dicebear.com/7.x/shapes/svg?seed=evolution' },
-    { id: 'netent', name: 'NetEnt', logo: 'https://api.dicebear.com/7.x/shapes/svg?seed=netent' },
-    { id: 'playngo', name: "Play'n GO", logo: 'https://api.dicebear.com/7.x/shapes/svg?seed=playngo' }
-  ];
-
-  return Array.from({ length: count }).map((_, i) => ({
-    id: `game-${i + 1}`,
-    title: `Game Title ${i + 1}`,
-    slug: `game-title-${i + 1}`,
-    thumbnail: `https://picsum.photos/seed/game-${i + 1}/400/300`,
-    provider: providers[i % providers.length],
-    type: types[i % types.length],
-    isNew: i < 3,
-    isFavorite: i % 5 === 0,
-    tags: ['tag1', 'tag2', 'tag3'].slice(0, (i % 3) + 1),
-    playCount: Math.floor(Math.random() * 100000),
-    releaseDate: new Date(Date.now() - Math.random() * 365 * 24 * 60 * 60 * 1000).toISOString(),
-    rtp: 94 + Math.random() * 4
-  }));
-};
 
 const meta: Meta<typeof GameGrid> = {
   title: 'Features/GameGrid',
@@ -49,10 +23,12 @@ GameGrid is a responsive container component for displaying game cards in an opt
 - 📱 Fully responsive with customizable breakpoints
 - 🎮 Multiple layout variants
 - ⚡ Performance optimized with React.memo
+- 🚀 Virtualization support for large datasets
 - 🔄 Loading skeletons
 - 📭 Empty state handling
 - ♿ Semantic grid structure for accessibility
 - 🎯 Customizable column configuration
+- ♾️ Infinite scroll support
 
 ## Design Decisions
 - **Responsive First**: Mobile-first approach with progressive enhancement
@@ -315,6 +291,189 @@ export const ResponsiveShowcase: Story = {
         <div>
           <h3 className="text-xl font-bold mb-4">Featured Variant</h3>
           <GameGrid games={games.slice(0, 6)} variant="featured" />
+        </div>
+      </div>
+    );
+  }
+};
+
+/**
+ * Neon theme - Cyberpunk game grid
+ */
+export const NeonTheme: Story = {
+  render: () => {
+    const neonGames = generateMockGames(8).map((game, index) => ({
+      ...game,
+      title: `Cyber ${game.title}`,
+      isNew: index === 0,
+      isHot: index === 1
+    }));
+    
+    return (
+      <div data-theme="neon" className="p-8" style={{ background: 'rgb(3, 7, 18)' }}>
+        <h3 className="text-lg font-semibold text-purple-400 mb-6">Neon Theme Grid</h3>
+        <GameGrid games={neonGames} variant="default" />
+      </div>
+    );
+  },
+  parameters: {
+    backgrounds: { default: 'dark' }
+  }
+};
+
+/**
+ * Gold theme - Premium game grid
+ */
+export const GoldTheme: Story = {
+  render: () => {
+    const goldGames = generateMockGames(8).map((game, index) => ({
+      ...game,
+      title: `VIP ${game.title}`,
+      isNew: index === 0,
+      isHot: index === 1
+    }));
+    
+    return (
+      <div data-theme="gold" className="p-8" style={{ background: 'linear-gradient(135deg, #78350f, #422006)' }}>
+        <h3 className="text-lg font-semibold text-yellow-400 mb-6">Gold Theme Grid</h3>
+        <GameGrid games={goldGames} variant="default" />
+      </div>
+    );
+  },
+  parameters: {
+    backgrounds: { default: 'dark' }
+  }
+};
+
+/**
+ * All themes comparison
+ */
+export const AllThemes: Story = {
+  render: () => {
+    const games = generateMockGames(4);
+    
+    return (
+      <div className="space-y-6">
+        <div data-theme="light" className="p-6 bg-white rounded-lg">
+          <h3 className="text-lg font-semibold mb-3">Light Theme</h3>
+          <GameGrid games={games} variant="compact" />
+        </div>
+        
+        <div data-theme="dark" className="p-6 bg-gray-900 rounded-lg">
+          <h3 className="text-lg font-semibold text-white mb-3">Dark Theme</h3>
+          <GameGrid games={games} variant="compact" />
+        </div>
+        
+        <div data-theme="neon" className="p-6 rounded-lg" style={{ background: 'rgb(3, 7, 18)' }}>
+          <h3 className="text-lg font-semibold text-purple-400 mb-3">Neon Theme</h3>
+          <GameGrid games={games} variant="compact" />
+        </div>
+        
+        <div data-theme="gold" className="p-6 rounded-lg" style={{ background: 'linear-gradient(135deg, #78350f, #422006)' }}>
+          <h3 className="text-lg font-semibold text-yellow-400 mb-3">Gold Theme</h3>
+          <GameGrid games={games} variant="compact" />
+        </div>
+      </div>
+    );
+  }
+};
+
+/**
+ * Virtualized grid with large dataset
+ */
+export const VirtualizedGrid: Story = {
+  args: {
+    games: generateMockGames(1000),
+    enableVirtualization: true,
+    variant: 'default'
+  },
+  render: (args) => (
+    <div className="h-screen p-6">
+      <div className="mb-4">
+        <h2 className="text-2xl font-bold">Virtualized Grid with 1,000 Games</h2>
+        <p className="text-gray-600">Only visible items are rendered for optimal performance</p>
+      </div>
+      <GameGrid {...args} />
+    </div>
+  )
+};
+
+/**
+ * Virtualized grid with infinite scroll
+ */
+export const VirtualizedInfiniteScroll: Story = {
+  render: () => {
+    const [games, setGames] = useState(generateMockGames(100));
+    const [loading, setLoading] = useState(false);
+
+    const handleEndReached = () => {
+      if (loading) return;
+      
+      setLoading(true);
+      setTimeout(() => {
+        setGames(prev => [...prev, ...generateMockGames(50)]);
+        setLoading(false);
+      }, 1000);
+    };
+
+    return (
+      <div className="h-screen p-6">
+        <div className="mb-4">
+          <h2 className="text-xl font-bold">Virtualized Infinite Scroll</h2>
+          <p className="text-gray-600">Games loaded: {games.length}</p>
+        </div>
+        <GameGrid
+          games={games}
+          enableVirtualization={true}
+          onEndReached={handleEndReached}
+          variant="default"
+        />
+        {loading && (
+          <div className="text-center py-4">
+            <span className="text-gray-600">Loading more games...</span>
+          </div>
+        )}
+      </div>
+    );
+  }
+};
+
+/**
+ * Performance comparison
+ */
+export const PerformanceComparison: Story = {
+  render: () => {
+    const games = generateMockGames(500);
+    
+    return (
+      <div className="space-y-8 p-6">
+        <div>
+          <h2 className="text-2xl font-bold mb-2">Performance Comparison</h2>
+          <p className="text-gray-600 mb-6">Compare regular vs virtualized rendering with 500 games</p>
+        </div>
+        
+        <div className="grid grid-cols-2 gap-8">
+          <div>
+            <h3 className="text-lg font-semibold mb-4">Regular Grid (All 500 rendered)</h3>
+            <div className="h-96 overflow-auto border rounded">
+              <GameGrid 
+                games={games} 
+                enableVirtualization={false}
+                variant="compact"
+              />
+            </div>
+          </div>
+          
+          <div>
+            <h3 className="text-lg font-semibold mb-4">Virtualized Grid (Only visible rendered)</h3>
+            <div className="h-96">
+              <GameGrid 
+                games={games} 
+                enableVirtualization={true}
+                variant="compact"
+              />
+            </div>
+          </div>
         </div>
       </div>
     );

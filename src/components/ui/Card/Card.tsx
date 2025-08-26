@@ -7,6 +7,7 @@
 
 import React, { forwardRef } from 'react';
 import Image from 'next/image';
+import '@/styles/components/base/card.css';
 
 /**
  * Card size variants
@@ -39,12 +40,14 @@ export interface CardProps extends React.HTMLAttributes<HTMLDivElement> {
   interactive?: boolean;
   /** Whether to show a border */
   bordered?: boolean;
-  /** Whether to add shadow */
-  shadow?: boolean;
+  /** Whether to add shadow - can be boolean or shadow size */
+  shadow?: boolean | 'sm' | 'md' | 'lg' | 'xl' | '2xl';
   /** Whether to use glass morphism effect */
   glass?: boolean;
   /** Padding variant */
   padding?: 'none' | 'sm' | 'md' | 'lg';
+  /** Allow overflow for tooltips/dropdowns */
+  allowOverflow?: boolean;
   /** Custom className */
   className?: string;
   /** Children elements */
@@ -110,6 +113,7 @@ export const Card = forwardRef<HTMLDivElement, CardProps>(({
   shadow = false,
   glass = false,
   padding = 'md',
+  allowOverflow = false,
   className = '',
   children,
   testId = 'card',
@@ -117,15 +121,25 @@ export const Card = forwardRef<HTMLDivElement, CardProps>(({
 }, ref) => {
   const baseClasses = [
     'card',
-    'relative'
+    'relative',
+    'rounded-lg',
+    allowOverflow ? 'overflow-visible' : 'overflow-hidden'
   ];
+
+  // Map shadow prop to shadow utility classes
+  const getShadowClass = () => {
+    if (typeof shadow === 'string') {
+      return `shadow-${shadow}`;
+    }
+    return shadow ? 'shadow-lg' : '';
+  };
 
   const conditionalClasses = [
     getSizeClasses(size),
     getPaddingClasses(padding),
     variant !== 'default' ? `variant-${variant}` : '',
-    bordered ? 'bordered' : '',
-    shadow ? 'shadow' : '',
+    bordered ? 'border border-border' : '',
+    getShadowClass(),
     glass ? 'glass' : (!variant || variant === 'default') ? 'bg-surface' : '',
     interactive ? 'interactive' : ''
   ];
@@ -179,14 +193,14 @@ export const CardHeader: React.FC<CardHeaderProps> = ({
 }) => {
   if (children) {
     return (
-      <div className={`card-header ${className}`}>
+      <div className={`card-header flex items-start justify-between gap-3 min-h-14 ${className}`}>
         {children}
       </div>
     );
   }
 
   return (
-    <div className={`card-header flex justify-between items-start gap-4 ${className}`}>
+    <div className={`card-header flex items-start justify-between gap-3 min-h-14 ${className}`}>
       <div className="flex-1">
         {title && (
           <h3 className="text-lg font-semibold text-text line-clamp" style={{ '--line-clamp': 1 } as React.CSSProperties}>
@@ -260,7 +274,7 @@ export const CardBody: React.FC<CardBodyProps> = ({
               e.stopPropagation();
               setIsExpanded(!isExpanded);
             }}
-            className="ml-1 text-accent font-medium see-more-link"
+            className="ml-1 text-accent font-medium see-more-link bg-transparent border-none p-0"
           >
             {isExpanded ? 'See less' : 'See more'}
           </button>
@@ -357,16 +371,21 @@ export const CardImage: React.FC<CardImageProps> = ({
   }
 
   if (!src || imageError) {
-    return fallback ? (
+    return (
       <div className={`
         relative ${aspectClasses[aspectRatio]}
-        bg-surface-elevated
+        bg-surface-elevated flex items-center justify-center
         ${rounded ? 'rounded-lg' : ''}
         ${className}
       `}>
-        {fallback}
+        {fallback || (
+          <div className="text-center p-4">
+            <div className="text-4xl mb-2">🎮</div>
+            <div className="text-sm text-secondary">Image not available</div>
+          </div>
+        )}
       </div>
-    ) : null;
+    );
   }
 
   return (
@@ -395,6 +414,7 @@ export const CardImage: React.FC<CardImageProps> = ({
           onError={() => setImageError(true)}
         />
       ) : (
+        // eslint-disable-next-line @next/next/no-img-element
         <img
           src={src}
           alt={alt}

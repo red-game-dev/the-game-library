@@ -1,15 +1,17 @@
 /**
- * @fileoverview GameGrid component for responsive game card layout
+ * @fileoverview GameGrid component for responsive game card layout with virtualization support
  * @module components/features/GameGrid
  */
 
 'use client';
 
-import React, { memo, useMemo } from 'react';
+import React, { memo, useMemo, useCallback } from 'react';
 import { GameCard, GameCardSkeleton } from '../GameCard';
 import { Carousel } from '@/components/ui/Carousel';
+import { VirtualGrid } from '@/components/ui/VirtualGrid';
 import { Inbox } from 'lucide-react';
 import type { Game } from '@/lib/types';
+import '@/styles/components/features/game-grid.css';
 
 /**
  * Props for the GameGrid component
@@ -41,18 +43,21 @@ export interface GameGridProps {
   className?: string;
   /** Enable virtualization for large lists */
   enableVirtualization?: boolean;
+  /** Virtualization overscan amount */
+  virtualOverscan?: number;
+  /** Callback when scrolling reaches the end (for infinite scroll) */
+  onEndReached?: () => void;
   /** Test ID for testing */
   testId?: string;
 }
 
 /**
  * Default column configuration based on variant
- * Mobile-first approach: Always 1 column on small mobile
  */
 const defaultColumns = {
   default: { mobile: 1, tablet: 1, desktop: 3, wide: 4 },
-  compact: { mobile: 1, tablet: 1, desktop: 4, wide: 5 },  // Changed mobile from 2 to 1
-  featured: { mobile: 1, tablet: 1, desktop: 2, wide: 3 }  // Featured stays 1 on tablet too
+  compact: { mobile: 1, tablet: 1, desktop: 4, wide: 5 },
+  featured: { mobile: 1, tablet: 1, desktop: 2, wide: 3 }
 };
 
 /**
@@ -85,6 +90,8 @@ export const GameGrid = memo<GameGridProps>(({
   columns,
   className = '',
   enableVirtualization = false,
+  virtualOverscan = 3,
+  onEndReached,
   testId = 'game-grid'
 }) => {
   /**
@@ -146,6 +153,33 @@ export const GameGrid = memo<GameGridProps>(({
     }
   };
 
+  /**
+   * Render a game card (used for both regular and virtual grids)
+   */
+  const renderGameCard = useCallback((game: Game) => (
+    <GameCard
+      key={game.id}
+      game={game}
+      onClick={onGameClick}
+      onPlay={onGameClick}
+      onFavoriteToggle={onFavoriteToggle}
+      size={getCardVariant()}
+      showPlayOnHover={true}
+      testId={`${testId}-card-${game.id}`}
+    />
+  ), [onGameClick, onFavoriteToggle, testId, variant]);
+
+  /**
+   * Get grid columns based on variant
+   */
+  const getGridColumns = () => {
+    const cols = columns || defaultColumns[variant];
+    if (!cols) return 3; // Default fallback
+    
+    // Return desktop columns as the base (VirtualGrid handles responsive internally)
+    return cols.desktop || 3;
+  };
+
   // Show loading skeleton
   if (isLoading) {
     const skeletonLayout = layout === 'carousel' ? 'flex gap-4' : layoutClasses;
@@ -182,6 +216,7 @@ export const GameGrid = memo<GameGridProps>(({
     <GameCard
       key={game.id}
       game={game}
+      onClick={onGameClick}
       onPlay={onGameClick}
       onFavoriteToggle={onFavoriteToggle}
       size={getCardVariant()}
@@ -197,9 +232,9 @@ export const GameGrid = memo<GameGridProps>(({
         className={className}
         showArrows={true}
         showDots={false}
-        gap="md"
+        slideSpacing={1}
         snap={true}
-        snapAlign="start"
+        options={{ align: 'start' }}
         testId={testId}
       >
         {gameCards}
@@ -226,6 +261,28 @@ export const GameGrid = memo<GameGridProps>(({
             {card}
           </div>
         ))}
+      </div>
+    );
+  }
+
+  // Use VirtualGrid for large datasets when enabled
+  if (enableVirtualization && games.length > 50) {
+    return (
+      <div className={`h-[calc(100vh-200px)] ${className}`}>
+        <VirtualGrid
+          items={games}
+          columns={getGridColumns()}
+          gap={16}
+          estimateSize={variant === 'compact' ? 250 : variant === 'featured' ? 400 : 300}
+          overscan={virtualOverscan}
+          renderItem={renderGameCard}
+          getItemKey={(game) => game.id}
+          onEndReached={onEndReached}
+          containerClassName="scrollbar-thin"
+          emptyComponent={
+            <EmptyState testId={`${testId}-empty`} />
+          }
+        />
       </div>
     );
   }
@@ -264,7 +321,7 @@ const EmptyState: React.FC<{
   return (
     <div
       className={`
-        flex flex-col items-center justify-center 
+        w-full flex flex-col items-center justify-center 
         min-h-[400px] p-8 text-center
         ${className}
       `}
@@ -276,8 +333,8 @@ const EmptyState: React.FC<{
       <h3 className="text-xl font-semibold text-text mb-2">
         No games found
       </h3>
-      <p className="text-secondary max-w-md">
-        Try adjusting your filters or search terms to find what you're looking for.
+      <p className="text-secondary max-w-md mx-auto">
+        Try adjusting your filters or search terms to find what you&rsquo;re looking for.
       </p>
     </div>
   );

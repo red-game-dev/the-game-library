@@ -5,8 +5,9 @@
 
 'use client';
 
-import React, { forwardRef } from 'react';
+import React, { forwardRef, useId } from 'react';
 import { AlertCircle, Check, X } from 'lucide-react';
+import '@/styles/components/base/input.css';
 
 /**
  * Input sizes
@@ -22,6 +23,19 @@ export type InputVariant = 'default' | 'filled' | 'ghost' | 'outline';
  * Input states
  */
 export type InputState = 'default' | 'success' | 'error' | 'warning';
+
+/**
+ * Range configuration for range inputs
+ */
+export interface RangeConfig {
+  showValue?: boolean;
+  showTicks?: boolean;
+  showMinMax?: boolean;
+  suffix?: string;
+  prefix?: string;
+  trackColor?: string;
+  thumbColor?: string;
+}
 
 /**
  * Props for the Input component
@@ -48,6 +62,8 @@ export interface InputProps extends Omit<React.InputHTMLAttributes<HTMLInputElem
   rightIconClickable?: boolean;
   /** Whether input takes full width */
   fullWidth?: boolean;
+  /** Range configuration for type="range" */
+  rangeConfig?: RangeConfig;
   /** Custom className */
   className?: string;
   /** Container className */
@@ -140,16 +156,28 @@ export const Input = forwardRef<HTMLInputElement, InputProps>(({
   rightIcon,
   rightIconClickable = false,
   fullWidth = false,
+  rangeConfig,
   className = '',
   containerClassName = '',
   disabled,
   testId = 'input',
   id,
+  type,
+  min,
+  max,
+  value,
   ...props
 }, ref) => {
-  const inputId = id || `input-${Math.random().toString(36).substr(2, 9)}`;
+  const generatedId = useId();
+  const inputId = id || generatedId;
   const actualState = error ? 'error' : state;
-  const stateIcon = !rightIcon && actualState !== 'default' ? getStateIcon(actualState) : null;
+  const stateIcon = !rightIcon && actualState !== 'default' && type !== 'checkbox' ? getStateIcon(actualState) : null;
+  const isRange = type === 'range';
+  
+  // Calculate percentage for range styling
+  const percentage = isRange && min !== undefined && max !== undefined && value !== undefined
+    ? ((Number(value) - Number(min)) / (Number(max) - Number(min))) * 100
+    : 0;
 
   return (
     <div className={`${fullWidth ? 'w-full' : ''} ${containerClassName}`}>
@@ -162,38 +190,87 @@ export const Input = forwardRef<HTMLInputElement, InputProps>(({
         </label>
       )}
       
-      <div className="relative">
-        {leftIcon && (
-          <div className="absolute left-3 top-1-2 -translate-y-1-2 pointer-events-none text-secondary">
-            {leftIcon}
+      {isRange ? (
+        <div className="input-range-wrapper">
+          <div className="input-range-container">
+            <input
+              ref={ref}
+              id={inputId}
+              type="range"
+              className={`
+                input-range
+                ${getSizeClasses(size)}
+                ${className}
+              `}
+              disabled={disabled}
+              data-testid={testId}
+              aria-invalid={actualState === 'error'}
+              aria-describedby={error ? `${inputId}-error` : helperText ? `${inputId}-helper` : undefined}
+              min={min}
+              max={max}
+              value={value}
+              style={{
+                '--range-progress': `${percentage}%`
+              } as React.CSSProperties}
+              {...props}
+            />
+            {rangeConfig?.showTicks && (
+              <div className="input-range-ticks">
+                {rangeConfig.showMinMax && (
+                  <>
+                    <span className="input-range-tick">{min}</span>
+                    <span className="input-range-tick">{max}</span>
+                  </>
+                )}
+              </div>
+            )}
           </div>
-        )}
-        
-        <input
-          ref={ref}
-          id={inputId}
-          className={`
-            input
-            ${getSizeClasses(size)}
-            ${getVariantClasses(variant)}
-            ${getStateClasses(actualState)}
-            ${leftIcon ? 'pl-10' : ''}
-            ${rightIcon || stateIcon ? 'pr-10' : ''}
-            ${className}
-          `}
-          disabled={disabled}
-          data-testid={testId}
-          aria-invalid={actualState === 'error'}
-          aria-describedby={error ? `${inputId}-error` : helperText ? `${inputId}-helper` : undefined}
-          {...props}
-        />
-        
-        {(rightIcon || stateIcon) && (
-          <div className={`absolute right-3 top-1-2 -translate-y-1-2 text-secondary ${rightIconClickable ? '' : 'pointer-events-none'}`}>
-            {rightIcon || stateIcon}
-          </div>
-        )}
-      </div>
+          {rangeConfig?.showValue && (
+            <div className="input-range-value">
+              {rangeConfig.prefix}
+              <span className="input-range-value-number">{value}</span>
+              {rangeConfig.suffix}
+            </div>
+          )}
+        </div>
+      ) : (
+        <div className="relative">
+          {leftIcon && (
+            <div className="absolute left-3 top-1-2 -translate-y-1-2 pointer-events-none text-secondary">
+              {leftIcon}
+            </div>
+          )}
+          
+          <input
+            ref={ref}
+            id={inputId}
+            type={type}
+            className={`
+              input
+              ${getSizeClasses(size)}
+              ${getVariantClasses(variant)}
+              ${getStateClasses(actualState)}
+              ${leftIcon ? 'input-with-icon-left' : ''}
+              ${rightIcon || stateIcon ? 'input-with-icon-right' : ''}
+              ${className}
+            `}
+            disabled={disabled}
+            data-testid={testId}
+            aria-invalid={actualState === 'error'}
+            aria-describedby={error ? `${inputId}-error` : helperText ? `${inputId}-helper` : undefined}
+            min={min}
+            max={max}
+            value={value}
+            {...props}
+          />
+          
+          {(rightIcon || stateIcon) && (
+            <div className={`absolute right-3 top-1-2 -translate-y-1-2 text-secondary ${rightIconClickable ? '' : 'pointer-events-none'}`}>
+              {rightIcon || stateIcon}
+            </div>
+          )}
+        </div>
+      )}
       
       {error && (
         <p id={`${inputId}-error`} className="mt-1-5 text-sm text-error">
@@ -326,7 +403,8 @@ export const TextArea = forwardRef<HTMLTextAreaElement, TextAreaProps>(({
   id,
   ...props
 }, ref) => {
-  const textareaId = id || `textarea-${Math.random().toString(36).substr(2, 9)}`;
+  const generatedId = useId();
+  const textareaId = id || generatedId;
   const actualState = error ? 'error' : state;
 
   return (

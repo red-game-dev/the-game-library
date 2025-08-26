@@ -7,6 +7,7 @@
 
 import React, { forwardRef } from 'react';
 import { Loader2 } from 'lucide-react';
+import '@/styles/components/base/button.css';
 
 /**
  * Button variants
@@ -48,6 +49,8 @@ export interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElemen
   fullWidth?: boolean;
   /** Whether button is icon-only */
   iconOnly?: boolean;
+  /** Whether button has glow effect */
+  glow?: boolean;
   /** Custom className */
   className?: string;
   /** Children elements */
@@ -57,7 +60,7 @@ export interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElemen
 }
 
 /**
- * Get variant-specific classes
+ * Get variant-specific classes including utility classes
  */
 const getVariantClasses = (variant: ButtonVariant, outlineColor?: string): string => {
   // Handle custom outline color
@@ -65,16 +68,17 @@ const getVariantClasses = (variant: ButtonVariant, outlineColor?: string): strin
     return `btn-outline btn-outline-${outlineColor}`;
   }
 
+  // Include utility classes for static properties
   const variantMap = {
-    primary: 'btn-primary',
-    secondary: 'btn-secondary',
-    accent: 'btn-accent',
-    success: 'btn-success',
-    error: 'btn-error',
-    warning: 'btn-warning',
+    primary: 'btn-primary text-white shadow-lg',
+    secondary: 'btn-secondary bg-gray-600 text-white shadow-md',
+    accent: 'btn-accent text-white shadow-lg',
+    success: 'btn-success text-white shadow-md',
+    error: 'btn-error text-white shadow-md',
+    warning: 'btn-warning text-white shadow-md',
     ghost: 'btn-ghost',
-    outline: 'btn-outline btn-outline-purple',
-    link: 'btn-link'
+    outline: 'btn-outline btn-outline-purple bg-transparent shadow-sm border-2 border-solid',
+    link: 'btn-link bg-transparent text-purple-400 no-underline border-none shadow-none p-0'
   };
   return variantMap[variant] || variantMap.primary;
 };
@@ -119,6 +123,7 @@ export const Button = forwardRef<HTMLButtonElement, ButtonProps>(({
   rightIcon,
   fullWidth = false,
   iconOnly = false,
+  glow = false,
   className = '',
   children,
   disabled,
@@ -127,14 +132,20 @@ export const Button = forwardRef<HTMLButtonElement, ButtonProps>(({
 }, ref) => {
   const isDisabled = disabled || loading;
 
+  // Base utility classes that replace CSS properties
+  const baseUtilityClasses = 'relative inline-flex items-center justify-center font-medium rounded-lg cursor-pointer transition-all transition-200';
+
   return (
     <button
       ref={ref}
       className={`
         btn
+        ${baseUtilityClasses}
         ${getVariantClasses(variant, outlineColor)}
         ${iconOnly ? `btn-icon btn-size-${size}` : getSizeClasses(size)}
-        ${fullWidth ? 'w-full' : ''}
+        ${fullWidth ? 'w-full' : 'w-auto'}
+        ${glow ? 'btn-glow overflow-hidden' : ''}
+        ${isDisabled ? 'opacity-50 cursor-not-allowed' : ''}
         ${className}
       `}
       disabled={isDisabled}

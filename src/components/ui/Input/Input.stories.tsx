@@ -3,8 +3,8 @@
  * @module components/ui/Input/stories
  */
 
-import React, { useState } from 'react';
-import type { Meta, StoryObj } from '@storybook/react';
+import React from 'react';
+import type { Meta, StoryObj } from '@storybook/nextjs';
 import { Input, InputGroup, TextArea } from './Input';
 import { ToggleableInput } from './ToggleableInput';
 import { Button } from '../Button';
@@ -13,17 +13,13 @@ import {
   Mail, 
   Lock, 
   User, 
-  Eye, 
-  EyeOff,
   CreditCard,
-  Calendar,
   Phone,
   Globe,
   AlertCircle,
   Check,
   X,
   DollarSign,
-  Hash,
   AtSign
 } from 'lucide-react';
 
@@ -513,7 +509,7 @@ export const DarkMode: Story = {
     backgrounds: { default: 'dark' }
   },
   decorators: [
-    (Story) => (
+    () => (
       <div data-theme="dark" className="p-8 bg-gray-900 w-96">
         <div className="space-y-4">
           <Input placeholder="Default input" />
@@ -537,7 +533,7 @@ export const LightMode: Story = {
     backgrounds: { default: 'light' }
   },
   decorators: [
-    (Story) => (
+    () => (
       <div data-theme="light" className="p-8 bg-white w-96">
         <div className="space-y-4">
           <Input placeholder="Default input" />
@@ -547,6 +543,185 @@ export const LightMode: Story = {
             leftIcon={<Search className="w-4 h-4" />}
             placeholder="Search..."
           />
+        </div>
+      </div>
+    )
+  ]
+};
+
+/**
+ * Neon theme - Cyberpunk input fields
+ */
+export const NeonTheme: Story = {
+  parameters: {
+    backgrounds: { default: 'dark' }
+  },
+  decorators: [
+    () => (
+      <div data-theme="neon" className="p-8" style={{ background: 'rgb(3, 7, 18)' }}>
+        <div className="space-y-6">
+          <h3 className="text-lg font-semibold text-purple-400 mb-4">Neon Theme Inputs</h3>
+          <div className="space-y-4 w-96">
+            <Input placeholder="Default neon input" />
+            <Input variant="filled" placeholder="Filled neon input" />
+            <Input variant="outline" placeholder="Outline neon input" />
+            <Input 
+              leftIcon={<Search className="w-4 h-4" />}
+              placeholder="Search the matrix..."
+            />
+            <Input 
+              label="Username"
+              placeholder="Enter username"
+              helperText="Choose your hacker alias"
+            />
+            <Input 
+              type="password"
+              label="Access Code"
+              placeholder="Enter access code"
+              rightIcon={<Lock className="w-4 h-4" />}
+            />
+          </div>
+        </div>
+      </div>
+    )
+  ]
+};
+
+/**
+ * Gold theme - Luxurious input fields
+ */
+export const GoldTheme: Story = {
+  parameters: {
+    backgrounds: { default: 'dark' }
+  },
+  decorators: [
+    () => (
+      <div data-theme="gold" className="p-8" style={{ background: 'linear-gradient(135deg, #78350f, #422006)' }}>
+        <div className="space-y-6">
+          <h3 className="text-lg font-semibold text-yellow-400 mb-4">Gold Theme Inputs</h3>
+          <div className="space-y-4 w-96">
+            <Input placeholder="Default gold input" />
+            <Input variant="filled" placeholder="Filled gold input" />
+            <Input variant="outline" placeholder="Outline gold input" />
+            <Input 
+              leftIcon={<Search className="w-4 h-4" />}
+              placeholder="Search premium games..."
+            />
+            <Input 
+              label="VIP Name"
+              placeholder="Enter your name"
+              helperText="As shown on VIP card"
+            />
+            <Input 
+              type="number"
+              label="Bet Amount"
+              placeholder="0.00"
+              leftIcon={<DollarSign className="w-4 h-4" />}
+            />
+          </div>
+        </div>
+      </div>
+    )
+  ]
+};
+
+/**
+ * All themes comparison
+ */
+export const AllThemes: Story = {
+  decorators: [
+    () => (
+      <div className="space-y-6">
+        <div data-theme="light" className="p-6 bg-white rounded-lg">
+          <h3 className="text-lg font-semibold mb-3">Light Theme</h3>
+          <div className="space-y-4 w-80">
+            <div>
+              <p className="text-sm font-medium mb-2">Variants</p>
+              <div className="space-y-2">
+                <Input placeholder="Default variant" />
+                <Input variant="filled" placeholder="Filled variant" />
+                <Input variant="outline" placeholder="Outline variant" />
+                <Input variant="ghost" placeholder="Ghost variant" />
+              </div>
+            </div>
+            <div>
+              <p className="text-sm font-medium mb-2">Validation States</p>
+              <div className="space-y-2">
+                <Input state="success" placeholder="Success state" value="Valid input" readOnly />
+                <Input state="error" placeholder="Error state" value="Invalid input" readOnly />
+                <Input state="warning" placeholder="Warning state" value="Warning input" readOnly />
+              </div>
+            </div>
+          </div>
+        </div>
+        
+        <div data-theme="dark" className="p-6 bg-gray-900 rounded-lg">
+          <h3 className="text-lg font-semibold text-white mb-3">Dark Theme</h3>
+          <div className="space-y-4 w-80">
+            <div>
+              <p className="text-sm font-medium text-gray-300 mb-2">Variants</p>
+              <div className="space-y-2">
+                <Input placeholder="Default variant" />
+                <Input variant="filled" placeholder="Filled variant" />
+                <Input variant="outline" placeholder="Outline variant" />
+                <Input variant="ghost" placeholder="Ghost variant" />
+              </div>
+            </div>
+            <div>
+              <p className="text-sm font-medium text-gray-300 mb-2">Validation States</p>
+              <div className="space-y-2">
+                <Input state="success" placeholder="Success state" value="Valid input" readOnly />
+                <Input state="error" placeholder="Error state" value="Invalid input" readOnly />
+                <Input state="warning" placeholder="Warning state" value="Warning input" readOnly />
+              </div>
+            </div>
+          </div>
+        </div>
+        
+        <div data-theme="neon" className="p-6 rounded-lg" style={{ background: 'rgb(3, 7, 18)' }}>
+          <h3 className="text-lg font-semibold text-purple-400 mb-3">Neon Theme</h3>
+          <div className="space-y-4 w-80">
+            <div>
+              <p className="text-sm font-medium text-cyan-400 mb-2">Variants</p>
+              <div className="space-y-2">
+                <Input placeholder="Default variant" />
+                <Input variant="filled" placeholder="Filled variant" />
+                <Input variant="outline" placeholder="Outline variant" />
+                <Input variant="ghost" placeholder="Ghost variant" />
+              </div>
+            </div>
+            <div>
+              <p className="text-sm font-medium text-cyan-400 mb-2">Validation States</p>
+              <div className="space-y-2">
+                <Input state="success" placeholder="Success state" value="Valid input" readOnly />
+                <Input state="error" placeholder="Error state" value="Invalid input" readOnly />
+                <Input state="warning" placeholder="Warning state" value="Warning input" readOnly />
+              </div>
+            </div>
+          </div>
+        </div>
+        
+        <div data-theme="gold" className="p-6 rounded-lg" style={{ background: 'linear-gradient(135deg, #78350f, #422006)' }}>
+          <h3 className="text-lg font-semibold text-yellow-400 mb-3">Gold Theme</h3>
+          <div className="space-y-4 w-80">
+            <div>
+              <p className="text-sm font-medium text-yellow-300 mb-2">Variants</p>
+              <div className="space-y-2">
+                <Input placeholder="Default variant" />
+                <Input variant="filled" placeholder="Filled variant" />
+                <Input variant="outline" placeholder="Outline variant" />
+                <Input variant="ghost" placeholder="Ghost variant" />
+              </div>
+            </div>
+            <div>
+              <p className="text-sm font-medium text-yellow-300 mb-2">Validation States</p>
+              <div className="space-y-2">
+                <Input state="success" placeholder="Success state" value="Valid input" readOnly />
+                <Input state="error" placeholder="Error state" value="Invalid input" readOnly />
+                <Input state="warning" placeholder="Warning state" value="Warning input" readOnly />
+              </div>
+            </div>
+          </div>
         </div>
       </div>
     )

@@ -3,7 +3,7 @@
  * @module components/ui/Tooltip/stories
  */
 
-import type { Meta, StoryObj } from '@storybook/react';
+import type { Meta, StoryObj } from '@storybook/nextjs';
 import { Tooltip } from './Tooltip';
 import { Button } from '../Button';
 import { Badge } from '../Badge';
@@ -531,7 +531,7 @@ export const PositionVsPlacement: Story = {
   render: () => (
     <div className="space-y-8">
       <div>
-        <h3 className="text-lg font-semibold mb-4">Using 'position' prop (alias)</h3>
+        <h3 className="text-lg font-semibold mb-4">Using &lsquo;position&lsquo; prop (alias)</h3>
         <div className="flex gap-4 items-center justify-center">
           <Tooltip content="Using position='top'" position="top">
             <Button variant="ghost">Top</Button>
@@ -542,7 +542,7 @@ export const PositionVsPlacement: Story = {
         </div>
       </div>
       <div>
-        <h3 className="text-lg font-semibold mb-4">Using 'placement' prop</h3>
+        <h3 className="text-lg font-semibold mb-4">Using &lsquo;placement&lsquo; prop</h3>
         <div className="flex gap-4 items-center justify-center">
           <Tooltip content="Using placement='bottom'" placement="bottom">
             <Button variant="ghost">Bottom</Button>
@@ -604,6 +604,268 @@ export const LightMode: Story = {
   parameters: {
     backgrounds: { default: 'light' }
   }
+};
+
+/**
+ * Neon theme - Cyberpunk tooltips
+ */
+export const NeonTheme: Story = {
+  render: () => (
+    <div data-theme="neon" className="p-8" style={{ background: 'rgb(3, 7, 18)' }}>
+      <h3 className="text-lg font-semibold text-purple-400 mb-6">Neon Theme Tooltips</h3>
+      <div className="flex gap-4 items-center justify-center min-h-32">
+        <Tooltip content="Neural link established" variant="default">
+          <Button variant="primary">Hover Me</Button>
+        </Tooltip>
+        <Tooltip content="System scan complete" variant="info">
+          <Button variant="accent">Info</Button>
+        </Tooltip>
+        <Tooltip content="Low bandwidth detected" variant="warning">
+          <Button variant="warning">Warning</Button>
+        </Tooltip>
+        <Tooltip content="Connection terminated" variant="error">
+          <Button variant="error">Error</Button>
+        </Tooltip>
+      </div>
+      <div className="flex gap-4 items-center justify-center mt-6">
+        <Tooltip 
+          content={
+            <div>
+              <div className="font-semibold text-purple-300">Multi-line Tooltip</div>
+              <div className="text-purple-200">Enhanced with neon glow effects</div>
+            </div>
+          }
+          variant="default"
+        >
+          <Button variant="ghost">Complex Content</Button>
+        </Tooltip>
+      </div>
+    </div>
+  ),
+  parameters: {
+    backgrounds: { default: 'dark' }
+  }
+};
+
+/**
+ * Gold theme - Premium tooltips
+ */
+export const GoldTheme: Story = {
+  render: () => (
+    <div data-theme="gold" className="p-8" style={{ background: 'linear-gradient(135deg, #78350f, #422006)' }}>
+      <h3 className="text-lg font-semibold text-yellow-400 mb-6">Gold Theme Tooltips</h3>
+      <div className="flex gap-4 items-center justify-center min-h-32">
+        <Tooltip content="VIP member exclusive" variant="default">
+          <Button variant="primary">Premium</Button>
+        </Tooltip>
+        <Tooltip content="Bonus activated" variant="info">
+          <Button variant="accent">Rewards</Button>
+        </Tooltip>
+        <Tooltip content="Limited time offer" variant="warning">
+          <Button variant="warning">Special</Button>
+        </Tooltip>
+        <Tooltip content="Access restricted" variant="error">
+          <Button variant="error">Locked</Button>
+        </Tooltip>
+      </div>
+      <div className="flex gap-4 items-center justify-center mt-6">
+        <Tooltip 
+          content={
+            <div>
+              <div className="font-semibold text-yellow-300">VIP Benefits</div>
+              <div className="text-yellow-200">Unlock exclusive features</div>
+            </div>
+          }
+          variant="default"
+        >
+          <Button variant="ghost">View Details</Button>
+        </Tooltip>
+      </div>
+    </div>
+  ),
+  parameters: {
+    backgrounds: { default: 'dark' }
+  }
+};
+
+/**
+ * All themes comparison
+ */
+export const AllThemes: Story = {
+  render: () => (
+    <div className="space-y-6">
+      <div data-theme="light" className="p-6 bg-white rounded-lg">
+        <h3 className="text-lg font-semibold mb-3">Light Theme</h3>
+        <div className="space-y-8">
+          <div>
+            <p className="text-sm font-medium mb-4">Variants</p>
+            <div className="flex gap-3 justify-center">
+              <Tooltip content="Default tooltip">
+                <Button size="sm">Default</Button>
+              </Tooltip>
+              <Tooltip content="Information tooltip" variant="info">
+                <Button size="sm" variant="secondary">Info</Button>
+              </Tooltip>
+              <Tooltip content="Warning tooltip" variant="warning">
+                <Button size="sm" variant="warning">Warning</Button>
+              </Tooltip>
+              <Tooltip content="Error tooltip" variant="error">
+                <Button size="sm" variant="error">Error</Button>
+              </Tooltip>
+            </div>
+          </div>
+          <div>
+            <p className="text-sm font-medium mb-4">Placements</p>
+            <div className="flex gap-3 justify-center">
+              <Tooltip content="Top placement" placement="top">
+                <Button size="sm" variant="outline">Top</Button>
+              </Tooltip>
+              <Tooltip content="Right placement" placement="right">
+                <Button size="sm" variant="outline">Right</Button>
+              </Tooltip>
+              <Tooltip content="Bottom placement" placement="bottom">
+                <Button size="sm" variant="outline">Bottom</Button>
+              </Tooltip>
+              <Tooltip content="Left placement" placement="left">
+                <Button size="sm" variant="outline">Left</Button>
+              </Tooltip>
+            </div>
+          </div>
+          <div>
+            <p className="text-sm font-medium mb-4">Multiline</p>
+            <div className="flex justify-center">
+              <Tooltip 
+                content="This is a multiline tooltip that can contain longer text and wrap to multiple lines for better readability"
+                multiline
+              >
+                <Button size="sm" variant="ghost">Multiline</Button>
+              </Tooltip>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <div data-theme="dark" className="p-6 bg-gray-900 rounded-lg">
+        <h3 className="text-lg font-semibold text-white mb-3">Dark Theme</h3>
+        <div className="space-y-8">
+          <div>
+            <p className="text-sm font-medium text-gray-300 mb-4">Variants</p>
+            <div className="flex gap-3 justify-center">
+              <Tooltip content="Default tooltip">
+                <Button size="sm">Default</Button>
+              </Tooltip>
+              <Tooltip content="Information tooltip" variant="info">
+                <Button size="sm" variant="secondary">Info</Button>
+              </Tooltip>
+              <Tooltip content="Warning tooltip" variant="warning">
+                <Button size="sm" variant="warning">Warning</Button>
+              </Tooltip>
+              <Tooltip content="Error tooltip" variant="error">
+                <Button size="sm" variant="error">Error</Button>
+              </Tooltip>
+            </div>
+          </div>
+          <div>
+            <p className="text-sm font-medium text-gray-300 mb-4">Placements</p>
+            <div className="flex gap-3 justify-center">
+              <Tooltip content="Top placement" placement="top">
+                <Button size="sm" variant="outline">Top</Button>
+              </Tooltip>
+              <Tooltip content="Right placement" placement="right">
+                <Button size="sm" variant="outline">Right</Button>
+              </Tooltip>
+              <Tooltip content="Bottom placement" placement="bottom">
+                <Button size="sm" variant="outline">Bottom</Button>
+              </Tooltip>
+              <Tooltip content="Left placement" placement="left">
+                <Button size="sm" variant="outline">Left</Button>
+              </Tooltip>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <div data-theme="neon" className="p-6 rounded-lg" style={{ background: 'rgb(3, 7, 18)' }}>
+        <h3 className="text-lg font-semibold text-purple-400 mb-3">Neon Theme</h3>
+        <div className="space-y-8">
+          <div>
+            <p className="text-sm font-medium text-cyan-400 mb-4">Variants</p>
+            <div className="flex gap-3 justify-center">
+              <Tooltip content="Default tooltip">
+                <Button size="sm">Default</Button>
+              </Tooltip>
+              <Tooltip content="Information tooltip" variant="info">
+                <Button size="sm" variant="secondary">Info</Button>
+              </Tooltip>
+              <Tooltip content="Warning tooltip" variant="warning">
+                <Button size="sm" variant="warning">Warning</Button>
+              </Tooltip>
+              <Tooltip content="Error tooltip" variant="error">
+                <Button size="sm" variant="error">Error</Button>
+              </Tooltip>
+            </div>
+          </div>
+          <div>
+            <p className="text-sm font-medium text-cyan-400 mb-4">Placements</p>
+            <div className="flex gap-3 justify-center">
+              <Tooltip content="Top placement" placement="top">
+                <Button size="sm" variant="outline">Top</Button>
+              </Tooltip>
+              <Tooltip content="Right placement" placement="right">
+                <Button size="sm" variant="outline">Right</Button>
+              </Tooltip>
+              <Tooltip content="Bottom placement" placement="bottom">
+                <Button size="sm" variant="outline">Bottom</Button>
+              </Tooltip>
+              <Tooltip content="Left placement" placement="left">
+                <Button size="sm" variant="outline">Left</Button>
+              </Tooltip>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <div data-theme="gold" className="p-6 rounded-lg" style={{ background: 'linear-gradient(135deg, #78350f, #422006)' }}>
+        <h3 className="text-lg font-semibold text-yellow-400 mb-3">Gold Theme</h3>
+        <div className="space-y-8">
+          <div>
+            <p className="text-sm font-medium text-yellow-300 mb-4">Variants</p>
+            <div className="flex gap-3 justify-center">
+              <Tooltip content="Default tooltip">
+                <Button size="sm">Default</Button>
+              </Tooltip>
+              <Tooltip content="Information tooltip" variant="info">
+                <Button size="sm" variant="secondary">Info</Button>
+              </Tooltip>
+              <Tooltip content="Warning tooltip" variant="warning">
+                <Button size="sm" variant="warning">Warning</Button>
+              </Tooltip>
+              <Tooltip content="Error tooltip" variant="error">
+                <Button size="sm" variant="error">Error</Button>
+              </Tooltip>
+            </div>
+          </div>
+          <div>
+            <p className="text-sm font-medium text-yellow-300 mb-4">Placements</p>
+            <div className="flex gap-3 justify-center">
+              <Tooltip content="Top placement" placement="top">
+                <Button size="sm" variant="outline">Top</Button>
+              </Tooltip>
+              <Tooltip content="Right placement" placement="right">
+                <Button size="sm" variant="outline">Right</Button>
+              </Tooltip>
+              <Tooltip content="Bottom placement" placement="bottom">
+                <Button size="sm" variant="outline">Bottom</Button>
+              </Tooltip>
+              <Tooltip content="Left placement" placement="left">
+                <Button size="sm" variant="outline">Left</Button>
+              </Tooltip>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  )
 };
 
 /**

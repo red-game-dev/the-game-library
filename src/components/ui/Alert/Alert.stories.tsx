@@ -3,7 +3,7 @@
  * @module components/ui/Alert/stories
  */
 
-import type { Meta, StoryObj } from '@storybook/react';
+import type { Meta, StoryObj } from '@storybook/nextjs';
 import { Alert } from './Alert';
 import { Button } from '../Button';
 import { useState } from 'react';
@@ -319,7 +319,7 @@ export const GameAlerts: Story = {
   render: () => (
     <div className="space-y-4">
       <Alert variant="success" title="New Game Added!">
-        "Sweet Bonanza" has been added to your favorites.
+        &quot;Sweet Bonanza&quot; has been added to your favorites.
       </Alert>
       
       <Alert variant="info" title="Jackpot Alert!">
@@ -327,7 +327,7 @@ export const GameAlerts: Story = {
       </Alert>
       
       <Alert variant="warning" title="Session Reminder">
-        You've been playing for 2 hours. Remember to take a break!
+        You&apos;ve been playing for 2 hours. Remember to take a break!
       </Alert>
       
       <Alert variant="error" title="Game Unavailable">
@@ -463,6 +463,114 @@ export const LightMode: Story = {
 };
 
 /**
+ * Neon theme - Cyberpunk alerts
+ */
+export const NeonTheme: Story = {
+  args: {
+    children: ''
+  },
+  parameters: {
+    backgrounds: { default: 'dark' }
+  },
+  render: () => (
+    <div className="space-y-4 p-8" data-theme="neon" style={{ background: 'rgb(3, 7, 18)' }}>
+      <h3 className="text-lg font-semibold text-purple-400 mb-4">Neon Theme Alerts</h3>
+      <Alert variant="info" title="System Update">
+        Neural interface update available. Jack in to download.
+      </Alert>
+      <Alert variant="success" title="Connection Established">
+        Successfully connected to the matrix. Bandwidth optimal.
+      </Alert>
+      <Alert variant="warning" title="Security Warning">
+        Firewall breach detected. Initiating countermeasures.
+      </Alert>
+      <Alert variant="error" title="Critical Error" dismissible onDismiss={() => {}}>
+        System overload imminent. Disconnect recommended.
+      </Alert>
+      <Alert variant="default" icon>
+        Welcome to the neon-lit digital frontier.
+      </Alert>
+    </div>
+  )
+};
+
+/**
+ * Gold theme - Premium alerts
+ */
+export const GoldTheme: Story = {
+  args: {
+    children: ''
+  },
+  parameters: {
+    backgrounds: { default: 'dark' }
+  },
+  render: () => (
+    <div className="space-y-4 p-8" data-theme="gold" style={{ background: 'linear-gradient(135deg, #78350f, #422006)' }}>
+      <h3 className="text-lg font-semibold text-yellow-400 mb-4">Gold Theme Alerts</h3>
+      <Alert variant="info" title="VIP Notice">
+        Exclusive content available for premium members.
+      </Alert>
+      <Alert variant="success" title="Reward Earned">
+        Congratulations! You&apos;ve unlocked a golden achievement.
+      </Alert>
+      <Alert variant="warning" title="Limited Time">
+        Premium offer expires in 24 hours. Act now!
+      </Alert>
+      <Alert variant="error" title="Access Denied" dismissible onDismiss={() => {}}>
+        VIP membership required for this feature.
+      </Alert>
+      <Alert variant="default" icon>
+        Experience luxury gaming at its finest.
+      </Alert>
+    </div>
+  )
+};
+
+/**
+ * All themes comparison
+ */
+export const AllThemes: Story = {
+  args: {
+    children: ''
+  },
+  render: () => (
+    <div className="space-y-6">
+      <div data-theme="light" className="p-6 bg-white rounded-lg">
+        <h3 className="text-lg font-semibold mb-3">Light Theme</h3>
+        <div className="space-y-2">
+          <Alert variant="info">Information alert in light theme</Alert>
+          <Alert variant="success">Success alert in light theme</Alert>
+        </div>
+      </div>
+      
+      <div data-theme="dark" className="p-6 bg-gray-900 rounded-lg">
+        <h3 className="text-lg font-semibold text-white mb-3">Dark Theme</h3>
+        <div className="space-y-2">
+          <Alert variant="info">Information alert in dark theme</Alert>
+          <Alert variant="success">Success alert in dark theme</Alert>
+        </div>
+      </div>
+      
+      <div data-theme="neon" className="p-6 rounded-lg" style={{ background: 'rgb(3, 7, 18)' }}>
+        <h3 className="text-lg font-semibold text-purple-400 mb-3">Neon Theme</h3>
+        <div className="space-y-2">
+          <Alert variant="info">Information alert in neon theme</Alert>
+          <Alert variant="success">Success alert in neon theme</Alert>
+        </div>
+      </div>
+      
+      <div data-theme="gold" className="p-6 rounded-lg" style={{ background: 'linear-gradient(135deg, #78350f, #422006)' }}>
+        <h3 className="text-lg font-semibold text-yellow-400 mb-3">Gold Theme</h3>
+        <div className="space-y-2">
+          <Alert variant="info">Information alert in gold theme</Alert>
+          <Alert variant="success">Success alert in gold theme</Alert>
+        </div>
+      </div>
+    </div>
+  )
+};
+
+/**
  * Expandable details
  */
 export const ExpandableDetails: Story = {
@@ -581,7 +689,7 @@ export const WithActions: Story = {
           </>
         }
       >
-        We've added a new tournament mode! Join now to compete.
+        We&apos;ve added a new tournament mode! Join now to compete.
       </Alert>
       
       <Alert 
@@ -626,7 +734,7 @@ export const CombinedFeatures: Story = {
             <li>IP Address: 192.168.1.1</li>
             <li>Time: {new Date().toLocaleString()}</li>
           </ul>
-          <p className="mt-3">If this wasn't you, please secure your account immediately.</p>
+          <p className="mt-3">If this wasn&apos;t you, please secure your account immediately.</p>
         </div>
       }
       actions={
@@ -774,7 +882,7 @@ export const Playground: Story = {
   }
 };
 /**
- * Mobile viewport - optimized for small screens
+ * Mobile viewport
  */
 export const Mobile: Story = {
   args: {
@@ -875,7 +983,7 @@ export const Mobile: Story = {
 };
 
 /**
- * Tablet viewport - medium screen optimization
+ * Tablet viewport
  */
 export const Tablet: Story = {
   args: {
@@ -960,7 +1068,7 @@ export const Tablet: Story = {
 };
 
 /**
- * Responsive showcase - shows how alerts adapt across breakpoints
+ * Responsive showcase
  */
 export const ResponsiveShowcase: Story = {
   args: {
