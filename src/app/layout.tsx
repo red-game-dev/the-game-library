@@ -1,5 +1,7 @@
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
+import { DefaultLayout } from "@/components/layout/DefaultLayout";
+import { defaultMetadata } from "@/lib/core/config/seo.config";
 import "./globals.css";
 
 const inter = Inter({
@@ -7,10 +9,7 @@ const inter = Inter({
   variable: "--font-inter",
 });
 
-export const metadata: Metadata = {
-  title: "The Game Library - Crypto Gaming Platform",
-  description: "Your ultimate crypto gaming destination. Discover thousands of games from top providers.",
-};
+export const metadata: Metadata = defaultMetadata;
 
 export default function RootLayout({
   children,
@@ -18,9 +17,11 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" className="dark">
+    <html lang="en" suppressHydrationWarning>
       <body className={inter.variable}>
-        {children}
+        <DefaultLayout includeStructuredData>
+          {children}
+        </DefaultLayout>
       </body>
     </html>
   );
