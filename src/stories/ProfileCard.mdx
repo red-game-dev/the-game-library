@@ -1,0 +1,279 @@
+import { Meta, Story, Canvas, ArgsTable, Source } from '@storybook/addon-docs';
+import { ProfileCard } from '../components/features/ProfileCard/ProfileCard';
+import * as ProfileCardStories from '../components/features/ProfileCard/ProfileCard.stories';
+
+<Meta title="Features/ProfileCard/Documentation" />
+
+# ProfileCard
+
+An attractive profile display component that showcases user information with balance tracking and visual enhancements. Perfect for gaming platforms, e-commerce sites, or any application requiring user profile displays.
+
+## Overview
+
+The ProfileCard component provides a polished, professional way to display user profiles with:
+- **Avatar support** with fallback to user icon
+- **Balance display** with currency formatting
+- **Change indicators** showing balance trends
+- **VIP badges** for high-value users
+- **Multiple variants** for different contexts
+- **Full theme support** with custom styling per theme
+
+## Usage
+
+<Source
+  language="tsx"
+  code={`
+import { ProfileCard } from '@/components/features/ProfileCard';
+
+// Basic usage
+<ProfileCard
+  name="Guest Player"
+  balance={1003.57}
+/>
+
+// With avatar
+<ProfileCard
+  name="John Doe"
+  avatar="https://example.com/avatar.jpg"
+  balance={5432.10}
+  showBalanceChange={true}
+  previousBalance={5000.00}
+/>
+
+// Compact variant for headers
+<ProfileCard
+  name="User"
+  balance={1000.00}
+  variant="compact"
+  showBalanceChange={false}
+/>
+
+// Drawer variant with decorations
+<ProfileCard
+  name="Premium User"
+  balance={10000.00}
+  variant="drawer"
+  showBalanceChange={true}
+  onClick={() => console.log('Profile clicked')}
+/>
+  `}
+/>
+
+## Variants
+
+### Default
+The standard profile card with full information display.
+
+<Canvas>
+  <Story of={ProfileCardStories.Default} />
+</Canvas>
+
+### Compact
+A smaller variant ideal for navigation headers where space is limited.
+
+<Canvas>
+  <Story of={ProfileCardStories.Compact} />
+</Canvas>
+
+### Drawer
+An enhanced variant with decorative elements, perfect for mobile navigation drawers or sidebars.
+
+<Canvas>
+  <Story of={ProfileCardStories.Drawer} />
+</Canvas>
+
+## Balance Tracking
+
+The component can display balance changes with visual indicators:
+
+### Balance Increase
+Shows a green upward trend with percentage change.
+
+<Canvas>
+  <Story of={ProfileCardStories.BalanceIncrease} />
+</Canvas>
+
+### Balance Decrease
+Shows a red downward trend with percentage change.
+
+<Canvas>
+  <Story of={ProfileCardStories.BalanceDecrease} />
+</Canvas>
+
+## VIP Status
+
+Users with high balances (≥$10,000) automatically receive a VIP badge:
+
+<Canvas>
+  <Story of={ProfileCardStories.VIPPlayer} />
+</Canvas>
+
+## Props
+
+<ArgsTable of={ProfileCard} />
+
+## Styling
+
+The ProfileCard component uses CSS variables for theming, making it easy to customize per theme:
+
+### CSS Variables
+
+```css
+/* Colors and backgrounds */
+--profile-card-bg: /* Background color */
+--profile-card-border: /* Border color */
+--profile-card-bg-hover: /* Hover background */
+--profile-card-border-hover: /* Hover border */
+
+/* Avatar styling */
+--profile-card-avatar-bg: /* Avatar gradient background */
+--profile-card-avatar-border: /* Avatar border color */
+--profile-card-avatar-shadow: /* Avatar shadow effect */
+
+/* Balance display */
+--profile-card-balance-color: /* Balance text color */
+--profile-card-balance-shadow: /* Text shadow for balance */
+--profile-card-currency-color: /* Currency symbol color */
+
+/* Drawer variant specific */
+--profile-card-drawer-bg: /* Drawer background gradient */
+--profile-card-drawer-border: /* Drawer border color */
+--profile-card-decoration-glow: /* Decorative glow effect */
+```
+
+### Theme Support
+
+The component automatically adapts to different themes:
+
+#### Light Theme
+Clean and professional appearance with subtle shadows.
+
+#### Dark Theme
+Rich contrasts with muted backgrounds for comfortable viewing.
+
+#### Neon Theme
+Cyberpunk-inspired with glowing effects and vibrant colors.
+
+<Canvas>
+  <Story of={ProfileCardStories.NeonTheme} />
+</Canvas>
+
+#### Gold Theme
+Luxurious golden accents perfect for premium experiences.
+
+<Canvas>
+  <Story of={ProfileCardStories.GoldTheme} />
+</Canvas>
+
+## Responsive Design
+
+The ProfileCard component is fully responsive:
+
+- **Mobile**: Reduced padding and font sizes
+- **Tablet**: Optimized spacing
+- **Desktop**: Full-featured display
+- **Text truncation**: Long names are truncated with ellipsis
+
+<Canvas>
+  <Story of={ProfileCardStories.LongName} />
+</Canvas>
+
+## Accessibility
+
+The component follows accessibility best practices:
+
+- **Semantic HTML**: Uses proper heading and text elements
+- **Keyboard navigation**: Clickable variants are keyboard accessible
+- **ARIA attributes**: Includes role and tabindex for interactive elements
+- **Color contrast**: Meets WCAG AA standards in all themes
+- **Screen reader friendly**: Alternative text for avatars and icons
+
+## Integration Examples
+
+### In Header Navigation
+
+```tsx
+<Header>
+  <ProfileCard
+    name={user.name}
+    avatar={user.avatar}
+    balance={user.balance}
+    variant="compact"
+    onClick={() => router.push('/profile')}
+  />
+</Header>
+```
+
+### In Mobile Drawer
+
+```tsx
+<Drawer>
+  <ProfileCard
+    name={user.name}
+    avatar={user.avatar}
+    balance={user.balance}
+    variant="drawer"
+    showBalanceChange={true}
+    previousBalance={user.previousBalance}
+  />
+  {/* Other drawer content */}
+</Drawer>
+```
+
+### In User Dashboard
+
+```tsx
+<Dashboard>
+  <ProfileCard
+    name={user.name}
+    avatar={user.avatar}
+    balance={user.balance}
+    showBalanceChange={true}
+    previousBalance={user.yesterdayBalance}
+    onClick={handleProfileClick}
+  />
+</Dashboard>
+```
+
+## Currency Support
+
+The component supports different currency symbols:
+
+```tsx
+// US Dollars (default)
+<ProfileCard currencySymbol="$" />
+
+// Euros
+<ProfileCard currencySymbol="€" />
+
+// British Pounds
+<ProfileCard currencySymbol="£" />
+
+// Japanese Yen
+<ProfileCard currencySymbol="¥" />
+
+// No currency
+<ProfileCard showCurrency={false} />
+```
+
+## Best Practices
+
+1. **Use appropriate variants**: Choose `compact` for headers, `drawer` for sidebars, and `default` for main content
+2. **Provide previousBalance**: When showing balance changes, always provide the previous balance for accurate calculations
+3. **Handle onClick properly**: Ensure click handlers navigate to appropriate profile pages
+4. **Update balance regularly**: Keep balance information current for the best user experience
+5. **Consider loading states**: Show skeleton or placeholder while user data is loading
+
+## Performance Considerations
+
+- **Image optimization**: Use optimized avatar images with appropriate sizes
+- **Memoization**: The component uses React.memo internally for performance
+- **CSS animations**: All animations use CSS transforms for hardware acceleration
+- **Lazy loading**: Avatar images are lazy-loaded when off-screen
+
+## Related Components
+
+- [Header](/?path=/docs/layout-header--docs) - Main navigation component that uses ProfileCard
+- [Drawer](/?path=/docs/ui-drawer--docs) - Mobile navigation drawer component
+- [Badge](/?path=/docs/ui-badge--docs) - Used for VIP status indicator
+- [Image](/?path=/docs/ui-image--docs) - Optimized image component for avatars

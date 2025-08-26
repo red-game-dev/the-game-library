@@ -1,0 +1,263 @@
+import { Meta, Canvas, Story, Controls } from '@storybook/addon-docs/blocks';
+import * as FooterStories from '../components/layout/Footer/Footer.stories';
+
+<Meta title="Documentation/Layout/Footer" />
+
+# Footer
+
+A comprehensive site footer with theme switcher, navigation links, social media, and company information. The Footer provides essential site navigation and information while maintaining a clean, organized layout.
+
+<Canvas of={FooterStories.Default} />
+
+## Features
+
+- **Theme Switcher**: Quick access to switch between light, dark, neon, and gold themes
+- **Navigation Links**: Organized sections for Games, Features, Support, and Company
+- **Social Media Links**: Connect with social platforms
+- **Newsletter Signup**: Optional email subscription form (can be toggled)
+- **Responsive Design**: Mobile-first approach with optimized layouts
+- **Coming Soon Badges**: Automatic detection and display of upcoming features
+- **Legal Links**: Terms, Privacy, and Cookie policies
+- **Play Safe Notice**: Gaming responsibility reminder
+
+## Usage
+
+```tsx
+import { Footer } from '@/components/layout/Footer';
+
+// Basic usage
+<Footer />
+
+// Without newsletter
+<Footer showNewsletter={false} />
+
+// Compact version
+<Footer compact={true} />
+
+// Custom configuration
+<Footer 
+  showThemeSwitcher={true}
+  showSocials={true}
+  showNewsletter={false}
+  compact={false}
+/>
+```
+
+## Props
+
+<Controls />
+
+## Variants
+
+### Default Footer
+The full-featured footer with all sections enabled:
+
+<Canvas of={FooterStories.Default} />
+
+### Without Newsletter
+Footer without the newsletter signup section:
+
+<Canvas of={FooterStories.WithoutNewsletter} />
+
+### Compact Footer
+Minimal footer for pages that need less space:
+
+<Canvas of={FooterStories.Compact} />
+
+### Without Social Links
+Footer without social media icons:
+
+<Canvas of={FooterStories.WithoutSocials} />
+
+### Without Theme Switcher
+Footer without theme switching buttons:
+
+<Canvas of={FooterStories.WithoutThemeSwitcher} />
+
+### Minimal Links Only
+Most minimal configuration with only navigation links:
+
+<Canvas of={FooterStories.MinimalLinks} />
+
+## Theme Support
+
+The Footer adapts seamlessly to all theme variations:
+
+### Dark Theme
+<Canvas of={FooterStories.DarkTheme} />
+
+### Neon Theme
+<Canvas of={FooterStories.NeonTheme} />
+
+### Gold Theme
+<Canvas of={FooterStories.GoldTheme} />
+
+### All Themes Comparison
+<Canvas of={FooterStories.AllThemes} />
+
+## Responsive Design
+
+The Footer is mobile-first and adapts to different screen sizes:
+
+### Mobile View
+<Canvas of={FooterStories.MobileView} />
+
+### Tablet View
+<Canvas of={FooterStories.TabletView} />
+
+## Integration Examples
+
+### With Page Content
+How the footer looks at the bottom of a page:
+
+<Canvas of={FooterStories.WithPageContent} />
+
+### Compact with Page Content
+Compact footer variant with page content:
+
+<Canvas of={FooterStories.CompactWithPageContent} />
+
+## Navigation Structure
+
+The Footer organizes links into logical sections:
+
+### Games Section
+- All Games
+- New Releases (with NEW badge)
+- Popular
+- Slots
+- Table Games
+- Live Casino
+
+### Features Section
+All feature links automatically show "SOON" badges when routes are marked as coming soon:
+- VIP Program
+- Promotions
+- Tournaments
+- Trending
+- Community
+
+### Support Section
+- Help Center
+- Contact Us
+- FAQs
+- Terms of Service
+- Privacy Policy
+- Play Safe
+
+### Company Section
+- About Us
+- Careers
+- Press
+- Partners
+- Affiliates
+
+## Badge System
+
+The Footer uses a smart badge system that:
+- Automatically detects "coming soon" routes and adds "SOON" badges
+- Supports custom badges like "NEW" for special items
+- Uses consistent styling with the Header component
+- Badges are fully configurable with text and variant
+
+## Social Media Integration
+
+Social links are configured in a centralized location:
+- Twitter
+- Facebook
+- Instagram
+- YouTube
+- GitHub
+
+## Theme Switcher
+
+The Footer includes an integrated theme switcher that:
+- Shows the currently active theme
+- Provides instant theme switching
+- Supports light, dark, neon, and gold themes
+- Maintains consistency with the Header theme switcher
+
+## Accessibility
+
+The Footer is built with accessibility in mind:
+- Semantic HTML structure with proper footer element
+- ARIA labels for all interactive elements
+- Keyboard navigation support
+- Screen reader friendly
+- Proper heading hierarchy
+- Color contrast compliance
+
+## Best Practices
+
+1. **Newsletter Control**: Enable newsletter only when the feature is ready
+2. **Social Links**: Keep social media links updated and valid
+3. **Route Configuration**: Use centralized route constants for consistency
+4. **Theme Persistence**: Theme selection should be saved to localStorage
+5. **Responsive Testing**: Always test footer on mobile devices
+6. **Legal Compliance**: Ensure all legal links are present and functional
+
+## Layout Integration
+
+When integrating the Footer in your layout:
+
+```tsx
+// In your layout component
+<div className="app-layout">
+  <Header />
+  <main className="app-layout-main">
+    {children}
+  </main>
+  <Footer 
+    showNewsletter={false}  // Enable when ready
+    showThemeSwitcher={true}
+    showSocials={true}
+  />
+</div>
+```
+
+The layout uses flexbox to ensure the footer stays at the bottom:
+
+```css
+.app-layout {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+.app-layout-main {
+  flex: 1;
+}
+```
+
+## Configuration
+
+Footer links and badges are managed through centralized configuration:
+
+```tsx
+// Routes are defined in routes.constants.tsx
+const config = getRouteConfig(path);
+if (config?.comingSoon) {
+  // Automatically shows "SOON" badge
+}
+
+// Social links from constants
+SOCIAL_LINKS.TWITTER
+SOCIAL_LINKS.FACEBOOK
+// etc.
+```
+
+## Mobile Optimization
+
+On mobile devices:
+- Navigation sections stack vertically
+- Theme buttons are icon-only to save space
+- Social links are displayed in a compact row
+- Legal links are centered
+- Newsletter form stacks vertically
+
+## Performance Considerations
+
+- Theme switcher updates are optimized using Zustand store
+- Route configurations are memoized
+- Social links use external link attributes
+- Lazy loading for non-critical sections when needed

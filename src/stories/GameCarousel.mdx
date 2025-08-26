@@ -1,0 +1,514 @@
+import { Meta, Canvas, Controls, Story, ArgTypes } from '@storybook/addon-docs/blocks';
+import GameCarouselMeta, * as GameCarouselStories from '../components/features/GameCarousel/GameCarousel.stories';
+import { GameCarousel } from '../components/features/GameCarousel';
+
+<Meta title="Documentation/Features/GameCarousel" />
+
+# GameCarousel Component
+
+The GameCarousel component is a specialized carousel designed specifically for showcasing game cards. It extends the base Carousel component with game-specific features and optimizations.
+
+## Overview
+
+Built specifically for game library applications, the GameCarousel provides an optimized carousel experience for browsing games with smooth transitions, hover effects, and responsive layouts that adapt to different screen sizes.
+
+<Canvas of={GameCarouselStories.Default} />
+
+## Props
+
+<ArgTypes of={GameCarousel} />
+
+## Detailed Props Documentation
+
+### `games`
+**Type:** `Game[]`  
+**Required**
+
+Array of game objects to display in the carousel:
+
+```tsx
+const games = [
+  {
+    id: '1',
+    title: 'Cosmic Quest',
+    thumbnail: '/games/cosmic-quest.jpg',
+    provider: { id: 'p1', name: 'GameStudio' },
+    type: 'slots'
+  },
+  // ... more games
+];
+
+<GameCarousel games={games} />
+```
+
+### `title`
+**Type:** `string`  
+**Default:** `undefined`
+
+Optional title to display above the carousel:
+
+```tsx
+<GameCarousel 
+  games={games}
+  title="Featured Games"
+/>
+```
+
+### `showViewAll`
+**Type:** `boolean`  
+**Default:** `false`
+
+Show a "View All" link next to the title:
+
+```tsx
+<GameCarousel 
+  games={games}
+  title="New Releases"
+  showViewAll
+  onViewAll={() => navigate('/games/new')}
+/>
+```
+
+### `onViewAll`
+**Type:** `() => void`  
+**Default:** `undefined`
+
+Callback when "View All" is clicked:
+
+```tsx
+<GameCarousel 
+  games={games}
+  showViewAll
+  onViewAll={() => console.log('View all clicked')}
+/>
+```
+
+### `onGameClick`
+**Type:** `(game: Game) => void`  
+**Default:** `undefined`
+
+Callback when a game card is clicked:
+
+```tsx
+<GameCarousel 
+  games={games}
+  onGameClick={(game) => navigate(`/games/${game.slug}`)}
+/>
+```
+
+### `onFavoriteToggle`
+**Type:** `(gameId: string) => void`  
+**Default:** `undefined`
+
+Callback when favorite button is toggled:
+
+```tsx
+<GameCarousel 
+  games={games}
+  onFavoriteToggle={async (gameId) => {
+    await toggleFavorite(gameId);
+  }}
+/>
+```
+
+### `slidesPerView`
+**Type:** `number | { mobile: number; tablet: number; desktop: number }`  
+**Default:** `{ mobile: 1, tablet: 2, desktop: 4 }`
+
+Number of games visible at once:
+
+```tsx
+// Fixed number
+<GameCarousel games={games} slidesPerView={3} />
+
+// Responsive
+<GameCarousel 
+  games={games}
+  slidesPerView={{
+    mobile: 1,
+    tablet: 3,
+    desktop: 5
+  }}
+/>
+```
+
+### `autoScroll`
+**Type:** `boolean`  
+**Default:** `false`
+
+Enable automatic scrolling:
+
+```tsx
+<GameCarousel 
+  games={games}
+  autoScroll
+  autoScrollInterval={5000}
+/>
+```
+
+### `featured`
+**Type:** `boolean`  
+**Default:** `false`
+
+Enable featured mode with larger cards and enhanced effects:
+
+```tsx
+<GameCarousel 
+  games={featuredGames}
+  featured
+  title="Featured This Week"
+/>
+```
+
+### `theme`
+**Type:** `'default' | 'dark' | 'neon' | 'gold'`  
+**Default:** `'default'`
+
+Theme variant for the carousel:
+
+```tsx
+<GameCarousel 
+  games={games}
+  theme="neon"
+/>
+```
+
+## Usage Examples
+
+### Basic Game Carousel
+
+```tsx
+import { GameCarousel } from '@/components/ui/Carousel/GameCarousel';
+import { useGames } from '@/hooks/useGames';
+
+function NewGamesSection() {
+  const { data: games } = useGames({ isNew: true });
+  
+  return (
+    <GameCarousel 
+      games={games}
+      title="New Games"
+      showViewAll
+      onViewAll={() => navigate('/games?new=true')}
+    />
+  );
+}
+```
+
+### Featured Games Carousel
+
+```tsx
+function FeaturedGamesCarousel() {
+  const { data: games } = useGames({ featured: true });
+  
+  return (
+    <GameCarousel 
+      games={games}
+      featured
+      title="Featured Games"
+      autoScroll
+      autoScrollInterval={6000}
+      slidesPerView={{
+        mobile: 1,
+        tablet: 2,
+        desktop: 3
+      }}
+    />
+  );
+}
+```
+
+### Provider-Specific Carousel
+
+```tsx
+function ProviderGames({ providerId, providerName }) {
+  const { data: games } = useGames({ providerId });
+  
+  return (
+    <GameCarousel 
+      games={games}
+      title={`Games by ${providerName}`}
+      showViewAll
+      onViewAll={() => navigate(`/providers/${providerId}`)}
+      onGameClick={(game) => {
+        trackEvent('game_click', { 
+          game: game.id, 
+          provider: providerId 
+        });
+        navigate(`/games/${game.slug}`);
+      }}
+    />
+  );
+}
+```
+
+### Favorites Carousel
+
+```tsx
+function FavoriteGamesCarousel() {
+  const { data: games } = useFavoriteGames();
+  const { mutate: toggleFavorite } = useFavoriteMutation();
+  
+  if (games.length === 0) {
+    return <EmptyState message="No favorite games yet" />;
+  }
+  
+  return (
+    <GameCarousel 
+      games={games}
+      title="Your Favorites"
+      onFavoriteToggle={(gameId) => toggleFavorite(gameId)}
+      slidesPerView={{
+        mobile: 2,
+        tablet: 4,
+        desktop: 6
+      }}
+    />
+  );
+}
+```
+
+### Category-Based Carousels
+
+```tsx
+function GamesByCategory() {
+  const categories = ['slots', 'table', 'live', 'instant'];
+  
+  return (
+    <div className="space-y-8">
+      {categories.map(category => (
+        <GameCarousel 
+          key={category}
+          games={gamesByCategory[category]}
+          title={getCategoryTitle(category)}
+          showViewAll
+          onViewAll={() => navigate(`/games?types=${category}`)}
+        />
+      ))}
+    </div>
+  );
+}
+```
+
+### Infinite Scroll Games
+
+```tsx
+function InfiniteGameCarousel() {
+  const { data: games, fetchNextPage } = useInfiniteGames();
+  
+  return (
+    <GameCarousel 
+      games={games}
+      title="All Games"
+      loop
+      onReachEnd={fetchNextPage}
+    />
+  );
+}
+```
+
+## Game Card Features
+
+The GameCarousel automatically renders GameCard components with:
+
+- **Hover Effects**: Scale and shadow on hover
+- **Quick Actions**: Play and favorite buttons
+- **Badges**: New, Hot, Sale indicators
+- **Provider Info**: Provider name and logo
+- **Loading States**: Skeleton cards while loading
+- **Error Handling**: Fallback images for broken thumbnails
+
+## Responsive Behavior
+
+The GameCarousel adapts to different screen sizes:
+
+### Mobile (< 640px)
+- Single game per view
+- Touch/swipe navigation
+- Compact card layout
+- Hidden provider logos
+
+### Tablet (640px - 1024px)
+- 2-3 games per view
+- Touch and arrow navigation
+- Medium card size
+- Visible badges
+
+### Desktop (> 1024px)
+- 4-5 games per view
+- Hover effects enabled
+- Full card details
+- All interactive elements
+
+## Performance Optimizations
+
+### Image Loading
+```tsx
+<GameCarousel 
+  games={games}
+  lazyLoadImages
+  preloadCount={2}
+/>
+```
+
+### Virtual Scrolling
+For large game lists:
+
+```tsx
+<GameCarousel 
+  games={games}
+  virtual
+  height="400px"
+/>
+```
+
+### Caching
+The component implements smart caching:
+
+- Thumbnail images cached
+- Provider logos cached
+- Game data memoized
+- Scroll position preserved
+
+## Accessibility
+
+The GameCarousel is fully accessible:
+
+- **Keyboard Navigation**: Arrow keys to browse games
+- **Screen Reader**: Game titles and descriptions announced
+- **Focus Management**: Focus moves with active game
+- **ARIA Labels**: Proper labels for all interactive elements
+
+## Visual Variants
+
+The GameCarousel supports different visual variants that work with all themes. Colors automatically adapt to the current theme.
+
+### Default Variant
+```tsx
+// Transparent background, minimal styling
+<GameCarousel games={games} variant="default" />
+```
+
+### Dark Variant
+```tsx
+// Elevated dark background with padding
+<GameCarousel games={games} variant="dark" />
+```
+
+### Neon Variant
+```tsx
+// Special effects with glow (enhanced in neon theme)
+<GameCarousel 
+  games={games} 
+  variant="neon"
+  featured
+/>
+```
+
+### Minimal Variant
+```tsx
+// Clean and simple, smaller dots
+<GameCarousel 
+  games={games} 
+  variant="minimal"
+/>
+```
+
+## Integration with Filters
+
+```tsx
+function FilteredGameCarousel() {
+  const [filters, setFilters] = useState({});
+  const { data: games } = useGames(filters);
+  
+  return (
+    <>
+      <FilterBar onFilterChange={setFilters} />
+      <GameCarousel 
+        games={games}
+        title={getFilterTitle(filters)}
+        key={JSON.stringify(filters)} // Reset carousel on filter change
+      />
+    </>
+  );
+}
+```
+
+## Best Practices
+
+### Do's ✅
+
+- Limit games to 20-30 per carousel for performance
+- Use meaningful titles for carousel sections
+- Provide loading states for async data
+- Test touch gestures on mobile devices
+- Include keyboard navigation support
+- Cache game thumbnails for performance
+
+### Don'ts ❌
+
+- Don't autoplay without user preference
+- Don't load all games at once
+- Don't hide important game information
+- Don't use excessive animation
+- Don't forget error states
+- Don't ignore accessibility
+
+## Related Components
+
+- [Carousel](/?path=/docs/documentation-base-ui-carousel--docs) - Base carousel component
+- [GameCard](/?path=/docs/documentation-features-gamecard--docs) - Individual game card
+- [GameGrid](/?path=/docs/documentation-features-gamegrid--docs) - Grid layout for games
+
+## API Integration
+
+```tsx
+// With React Query
+function ApiGameCarousel() {
+  const { data: games, isLoading } = useQuery({
+    queryKey: ['games', 'featured'],
+    queryFn: fetchFeaturedGames
+  });
+  
+  if (isLoading) {
+    return <GameCarouselSkeleton />;
+  }
+  
+  return <GameCarousel games={games} featured />;
+}
+```
+
+## Custom Styling
+
+```css
+/* Custom carousel styles */
+.game-carousel-custom {
+  --carousel-height: 450px;
+  --card-gap: 1.5rem;
+  --arrow-size: 3rem;
+}
+
+.game-carousel-custom .game-card {
+  transform: scale(0.95);
+  transition: transform 0.3s ease;
+}
+
+.game-carousel-custom .is-selected .game-card {
+  transform: scale(1);
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+}
+```
+
+## Troubleshooting
+
+**Q: Games not showing?**  
+Check that game objects have required fields (id, title, thumbnail).
+
+**Q: Carousel not scrolling?**  
+Ensure container has defined width and overflow is not hidden.
+
+**Q: Touch not working on mobile?**  
+Verify touch events are not prevented by parent elements.
+
+**Q: Performance issues?**  
+Reduce slidesPerView, enable virtual scrolling, optimize images.

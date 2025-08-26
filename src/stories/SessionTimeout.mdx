@@ -1,0 +1,284 @@
+import { Meta, Canvas, Controls, Story, ArgTypes } from '@storybook/addon-docs/blocks';
+import SessionTimeoutMeta, * as SessionTimeoutStories from '../components/features/SessionTimeout/SessionTimeout.stories';
+import { SessionTimeout } from '../components/features/SessionTimeout';
+
+<Meta of={SessionTimeoutStories} title="Documentation/Features/SessionTimeout" />
+
+# Session Timeout
+
+The Session Timeout component provides accessibility-compliant session management by warning users before their session expires and allowing them to extend it. This is a critical requirement for EU Accessibility Act compliance.
+
+## Overview
+
+Session timeout warnings are essential for accessibility because they:
+- Give users time to save their work before being logged out
+- Allow users with disabilities who may need more time to complete tasks
+- Provide clear communication about session status
+- Meet WCAG 2.1 Success Criterion 2.2.1 (Timing Adjustable)
+
+<Canvas of={SessionTimeoutStories.QuickDemo} />
+
+## Features
+
+### ✅ Accessibility Compliance
+- **ARIA Live Regions**: Announcements for screen readers
+- **Keyboard Navigation**: Full keyboard support for extending session
+- **Visual Warnings**: Clear countdown timer with high contrast
+- **User Control**: Ability to extend or dismiss the warning
+
+### 🔄 Activity Tracking
+- Monitors mouse movements
+- Tracks keyboard input
+- Detects scroll events
+- Responds to touch interactions
+- Automatically resets timer on activity
+
+### ⚙️ Configuration
+- Customizable session timeout duration
+- Adjustable warning time
+- Environment variable control
+- Per-instance configuration
+
+## Props
+
+<ArgTypes of={SessionTimeout} />
+
+## Configuration
+
+### Environment Variable
+
+The component is controlled by an environment variable for production use:
+
+```bash
+# .env.local
+NEXT_PUBLIC_ENABLE_SESSION_TIMEOUT=true
+```
+
+By default, this is set to `false` to prevent unexpected behavior during development.
+
+### Component Integration
+
+```tsx
+import { SessionTimeout } from '@/components/features/SessionTimeout';
+
+// In your layout component
+<SessionTimeout 
+  enabled={process.env.NEXT_PUBLIC_ENABLE_SESSION_TIMEOUT === 'true'}
+  sessionTimeout={30 * 60 * 1000} // 30 minutes
+  warningTime={5 * 60 * 1000}     // 5 minute warning
+/>
+```
+
+## Usage Examples
+
+### Basic Implementation
+
+```tsx
+// Simple usage with defaults
+<SessionTimeout enabled={true} />
+```
+
+### Custom Timing
+
+```tsx
+// 1 hour session with 10 minute warning
+<SessionTimeout 
+  enabled={true}
+  sessionTimeout={60 * 60 * 1000}  // 1 hour
+  warningTime={10 * 60 * 1000}     // 10 minutes
+/>
+```
+
+### Development Testing
+
+```tsx
+// Quick timeout for testing
+<SessionTimeout 
+  enabled={true}
+  sessionTimeout={30000}  // 30 seconds
+  warningTime={15000}     // 15 second warning
+/>
+```
+
+## Behavior
+
+### Activity Detection
+
+The component tracks the following user activities:
+- **Mouse Events**: `mousedown`
+- **Keyboard Events**: `keydown`
+- **Scroll Events**: `scroll`
+- **Touch Events**: `touchstart`
+
+Any of these activities will reset the session timer.
+
+### Warning Display
+
+When the warning appears:
+1. Shows remaining time in MM:SS format
+2. Provides "Extend Session" button
+3. Allows dismissing the warning
+4. Announces to screen readers
+
+### Session Extension
+
+When users extend their session:
+- Timer resets to full duration
+- Warning disappears
+- Screen reader announcement confirms extension
+- `refreshSession` method called in auth store
+
+## Accessibility
+
+### WCAG Compliance
+
+The component meets WCAG 2.1 Level AA requirements:
+
+- **2.2.1 Timing Adjustable**: Users can extend the time limit
+- **2.2.6 Timeouts**: Warning provided before timeout
+- **4.1.3 Status Messages**: Uses ARIA live regions
+
+### Screen Reader Support
+
+```tsx
+// Automatic announcements
+"Your session will expire in 4:30. Please save your work."
+"Session extended successfully"
+```
+
+### Keyboard Navigation
+
+- `Tab`: Navigate to buttons
+- `Enter/Space`: Activate focused button
+- `Escape`: Dismiss warning (optional)
+
+## Styling
+
+The component uses Alert component styling with warning variant:
+
+```css
+/* Positioning */
+position: fixed;
+top: 20px;
+right: 4px;
+z-index: 50;
+
+/* Responsive */
+max-width: 28rem; /* max-w-md */
+```
+
+## Best Practices
+
+### Do's ✅
+
+1. **Set appropriate timeouts** based on your application's security needs
+2. **Provide adequate warning time** (minimum 20% of session time)
+3. **Test with assistive technologies** to ensure announcements work
+4. **Consider user preferences** - some users may need longer sessions
+5. **Save user work** automatically before timeout when possible
+
+### Don'ts ❌
+
+1. **Don't set timeouts too short** - frustrates users
+2. **Don't logout without warning** - users may lose work
+3. **Don't ignore activity** - active users shouldn't be logged out
+4. **Don't block critical actions** - warning shouldn't prevent saving
+5. **Don't forget mobile users** - ensure touch events are tracked
+
+## Examples
+
+### Quick Demo
+<Canvas of={SessionTimeoutStories.QuickDemo} />
+
+### With User Interaction
+<Canvas of={SessionTimeoutStories.WithInteraction} />
+
+### Mobile View
+<Canvas of={SessionTimeoutStories.Mobile} />
+
+### Dark Mode
+<Canvas of={SessionTimeoutStories.DarkMode} />
+
+## Integration with Auth Store
+
+The component integrates with the authentication store:
+
+```typescript
+// In useAuthStore
+refreshSession: () => {
+  // Refresh the session token
+  // Reset any server-side timers
+  console.log('Session refreshed at', new Date().toISOString());
+}
+```
+
+## Testing
+
+### Manual Testing
+
+1. Enable the component with short timeouts
+2. Wait for the warning to appear
+3. Test extending the session
+4. Test dismissing the warning
+5. Verify activity tracking resets timer
+
+### Automated Testing
+
+```tsx
+// Example test
+it('should show warning before timeout', async () => {
+  render(
+    <SessionTimeout 
+      enabled={true}
+      sessionTimeout={10000}
+      warningTime={5000}
+    />
+  );
+  
+  // Wait for warning
+  await waitFor(() => {
+    expect(screen.getByText(/session will expire/i)).toBeInTheDocument();
+  }, { timeout: 6000 });
+  
+  // Test extend button
+  fireEvent.click(screen.getByText('Extend Session'));
+  expect(screen.queryByText(/session will expire/i)).not.toBeInTheDocument();
+});
+```
+
+## Migration Guide
+
+If migrating from another session management solution:
+
+1. **Remove old timeout logic** from your auth flow
+2. **Add environment variable** to control feature
+3. **Integrate with layout** component
+4. **Update auth store** with refreshSession method
+5. **Test with your session duration** requirements
+
+## Performance Considerations
+
+- Event listeners are cleaned up on unmount
+- Activity tracking is debounced internally
+- Minimal re-renders using React hooks
+- Countdown only updates once per second
+
+## Related Components
+
+- [Alert](/?path=/docs/documentation-base-ui-alert--docs) - Used for warning display
+- [Button](/?path=/docs/documentation-base-ui-button--docs) - Action buttons
+- Auth Store - Session management integration
+
+## FAQ
+
+**Q: Can I customize the warning message?**
+A: Currently uses a standard message. Can be extended with props if needed.
+
+**Q: Does it work with SSR?**
+A: Yes, the component is client-side only and handles SSR gracefully.
+
+**Q: Can I style the warning differently?**
+A: The component uses the Alert component which accepts className props.
+
+**Q: How does it handle multiple tabs?**
+A: Each tab tracks its own activity. Consider using broadcast channel API for sync.

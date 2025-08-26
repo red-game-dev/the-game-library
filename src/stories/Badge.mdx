@@ -2,7 +2,7 @@ import { Meta, Canvas, Controls, Story, ArgTypes } from '@storybook/addon-docs/b
 import BadgeMeta, * as BadgeStories from '../components/ui/Badge/Badge.stories';
 import { Badge, BadgeGroup } from '../components/ui/Badge';
 
-<Meta title="Documentation/Base UI/Badge" />
+<Meta of={BadgeStories} title="Documentation/Base UI/Badge" />
 
 # Badge Component
 
@@ -21,11 +21,12 @@ Badges are versatile UI elements used throughout the application to convey statu
 ## Detailed Props Documentation
 
 ### `variant`
-**Type:** `'default' | 'primary' | 'secondary' | 'success' | 'warning' | 'error' | 'info' | 'new' | 'hot'`  
+**Type:** `'default' | 'primary' | 'secondary' | 'success' | 'warning' | 'error' | 'info' | 'new' | 'hot' | 'sale' | 'outline' | 'solid-*' | 'outline-*'`  
 **Default:** `'default'`
 
-Controls the badge color and style:
+Controls the badge color and style with three main categories:
 
+#### Standard Variants
 - **default**: Neutral gray for general use
 - **primary**: Main brand color for emphasis
 - **secondary**: Secondary actions or information
@@ -33,8 +34,30 @@ Controls the badge color and style:
 - **warning**: Cautions or pending states
 - **error**: Errors or critical issues
 - **info**: Informational content
-- **new**: Highlight new items (green)
-- **hot**: Trending or popular items (red)
+
+#### Special Variants
+- **new**: Highlight new items with pulse animation
+- **hot**: Trending or popular items (red gradient)
+- **sale**: Sale items (green gradient)
+- **outline**: Basic outline style (legacy)
+
+#### Solid Variants (High Contrast)
+- **solid-default**: Opaque gray background - best for game cards
+- **solid-primary**: Opaque primary color background
+- **solid-secondary**: Opaque secondary color background
+- **solid-success**: Opaque success color background
+- **solid-error**: Opaque error color background
+- **solid-warning**: Opaque warning color background
+- **solid-info**: Opaque info color background
+
+#### Outline Variants (Subtle)
+- **outline-default**: Transparent with gray border
+- **outline-primary**: Transparent with primary color border
+- **outline-secondary**: Transparent with secondary color border
+- **outline-success**: Transparent with success color border
+- **outline-error**: Transparent with error color border
+- **outline-warning**: Transparent with warning color border
+- **outline-info**: Transparent with info color border
 
 <Canvas of={BadgeStories.Variants} />
 
@@ -59,6 +82,24 @@ Optional icon to display before the text:
 
 ```tsx
 <Badge icon={<Star className="w-3 h-3" />}>
+  Featured
+</Badge>
+```
+
+### `gap`
+**Type:** `'none' | 'xs' | 'sm' | 'md' | 'lg'`  
+**Default:** `'sm'`
+
+Controls the spacing between icon and text:
+
+- **none**: No gap between icon and text
+- **xs**: Extra small gap (4px)
+- **sm**: Small gap - Default (8px)
+- **md**: Medium gap (12px)
+- **lg**: Large gap (16px)
+
+```tsx
+<Badge icon={<Star className="w-3 h-3" />} gap="md">
   Featured
 </Badge>
 ```
@@ -168,33 +209,124 @@ function IconBadges() {
 }
 ```
 
-### Game Badges
+### Icon Gap Control
+
+<Canvas of={BadgeStories.IconGapVariations} />
 
 ```tsx
-function GameBadges({ game }) {
+// Control spacing between icon and text
+<Badge icon={<Star />} gap="none">No Gap</Badge>
+<Badge icon={<Star />} gap="xs">Extra Small</Badge>
+<Badge icon={<Star />} gap="sm">Small (Default)</Badge>
+<Badge icon={<Star />} gap="md">Medium</Badge>
+<Badge icon={<Star />} gap="lg">Large</Badge>
+```
+
+### Game Card Badges (New Solid Variants)
+
+<Canvas of={BadgeStories.GameCardBadges} />
+
+```tsx
+function GameCardBadges({ game }) {
   return (
-    <div className="flex gap-1">
-      {game.isNew && (
-        <Badge variant="new" pulse size="sm">
-          NEW
+    <div className="relative">
+      {/* Game Type Badge - Using solid variant for high visibility */}
+      <div className="absolute bottom-2 left-2">
+        <Badge 
+          variant={getGameTypeBadgeVariant(game.type)}
+          size="sm"
+        >
+          {game.type.toUpperCase()}
         </Badge>
-      )}
+      </div>
       
-      {game.isHot && (
-        <Badge variant="hot" size="sm">
-          HOT
-        </Badge>
-      )}
+      {/* Status Badges - Special variants */}
+      <div className="absolute top-2 left-2 flex gap-1">
+        {game.isNew && (
+          <Badge variant="new" pulse size="sm">
+            NEW
+          </Badge>
+        )}
+        
+        {game.isHot && (
+          <Badge variant="hot" size="sm">
+            HOT
+          </Badge>
+        )}
+        
+        {game.isOnSale && (
+          <Badge variant="sale" size="sm">
+            SALE
+          </Badge>
+        )}
+      </div>
       
-      <Badge variant="info" size="sm">
-        {game.type}
-      </Badge>
-      
-      {game.rtp && (
-        <Badge variant="secondary" size="sm">
-          {game.rtp}% RTP
-        </Badge>
+      {/* Game Tags - Using outline variants for subtlety */}
+      {game.tags && (
+        <BadgeGroup gap="sm">
+          {game.tags.slice(0, 3).map((tag) => (
+            <Badge
+              key={tag}
+              variant="outline-default"
+              size="sm"
+              rounded="md"
+            >
+              {tag}
+            </Badge>
+          ))}
+          {game.tags.length > 3 && (
+            <Badge variant="outline-default" size="sm" rounded="md">
+              +{game.tags.length - 3}
+            </Badge>
+          )}
+        </BadgeGroup>
       )}
+    </div>
+  );
+}
+
+// Helper function for game type badge variants
+function getGameTypeBadgeVariant(type) {
+  const typeMap = {
+    slots: 'solid-warning',
+    table: 'solid-success', 
+    live: 'solid-error',
+    instant: 'solid-info',
+    jackpot: 'solid-primary'
+  };
+  return typeMap[type] || 'solid-default';
+}
+```
+
+### Variant Comparison Examples
+
+<Canvas of={BadgeStories.VariantComparison} />
+
+```tsx
+// Compare different variant styles
+function VariantShowcase() {
+  return (
+    <div className="space-y-4">
+      {/* Standard - Semi-transparent backgrounds */}
+      <div className="flex gap-2">
+        <Badge variant="primary">Primary</Badge>
+        <Badge variant="success">Success</Badge>
+        <Badge variant="error">Error</Badge>
+      </div>
+      
+      {/* Solid - Full opacity, high contrast (best for game cards) */}
+      <div className="flex gap-2">
+        <Badge variant="solid-primary">Solid Primary</Badge>
+        <Badge variant="solid-success">Solid Success</Badge>
+        <Badge variant="solid-error">Solid Error</Badge>
+      </div>
+      
+      {/* Outline - Subtle, transparent backgrounds */}
+      <div className="flex gap-2">
+        <Badge variant="outline-primary">Outline Primary</Badge>
+        <Badge variant="outline-success">Outline Success</Badge>
+        <Badge variant="outline-error">Outline Error</Badge>
+      </div>
     </div>
   );
 }
@@ -362,10 +494,24 @@ Badges adapt to different screen sizes:
 
 ## Theme Support
 
-Full dark and light theme support:
+Full support for all four themes - automatically adapts colors and styles:
 
+### Light & Dark Themes
 <Canvas of={BadgeStories.DarkMode} />
 <Canvas of={BadgeStories.LightMode} />
+
+### Neon & Gold Themes
+<Canvas of={BadgeStories.NeonTheme} />
+<Canvas of={BadgeStories.GoldTheme} />
+
+### All Themes Comparison
+<Canvas of={BadgeStories.AllThemes} />
+
+The Badge component automatically adapts to the active theme:
+- **Light**: High contrast with subtle backgrounds
+- **Dark**: Inverted colors maintaining readability
+- **Neon**: Glowing effects with cyberpunk aesthetics
+- **Gold**: Luxurious golden tones for premium feel
 
 ## Common Patterns
 

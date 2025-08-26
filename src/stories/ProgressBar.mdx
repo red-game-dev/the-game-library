@@ -1,0 +1,201 @@
+import { Meta, Canvas, Story, Controls } from '@storybook/addon-docs/blocks';
+import * as ProgressBarStories from '../components/ui/ProgressBar/ProgressBar.stories';
+
+<Meta of={ProgressBarStories} title="Documentation/Base UI/ProgressBar" />
+
+# ProgressBar
+
+A versatile progress indicator component with multiple variants, animations, and customization options. Perfect for showing loading states, file uploads, downloads, or any process completion.
+
+<Canvas of={ProgressBarStories.Default} />
+
+## Features
+
+- **Multiple Variants**: Default, primary, secondary, success, warning, error, and gradient
+- **Responsive Sizes**: Extra small to extra large with mobile-first design
+- **Animations**: Striped, animated stripes, shine, pulse, and loading effects
+- **Customizable**: Labels, colors, rounded corners, and glow effects
+- **Theme Support**: Works perfectly with all themes (light, dark, neon, gold)
+- **Accessibility**: ARIA attributes and keyboard navigation support
+
+## Usage
+
+```tsx
+import { ProgressBar } from '@/components/ui/ProgressBar';
+
+// Basic usage
+<ProgressBar value={60} />
+
+// With label
+<ProgressBar value={75} showLabel />
+
+// Custom variant and size
+<ProgressBar value={80} variant="success" size="lg" showLabel />
+
+// Animated with effects
+<ProgressBar 
+  value={70} 
+  variant="gradient"
+  striped
+  animated
+  glow
+  shine
+/>
+```
+
+## Props
+
+<Controls />
+
+## Variants
+
+The ProgressBar component supports multiple visual variants:
+
+### Default
+<Canvas of={ProgressBarStories.Default} />
+
+### Primary
+<Canvas of={ProgressBarStories.Primary} />
+
+### Success
+<Canvas of={ProgressBarStories.Success} />
+
+### Warning
+<Canvas of={ProgressBarStories.Warning} />
+
+### Error
+<Canvas of={ProgressBarStories.Error} />
+
+### Gradient
+<Canvas of={ProgressBarStories.Gradient} />
+
+## Sizes
+
+Progress bars come in 5 sizes, from extra small to extra large:
+
+<Canvas of={ProgressBarStories.LabelSizes} />
+
+## Animation Effects
+
+### Striped
+Add diagonal stripes to the progress bar:
+
+<Canvas of={ProgressBarStories.Striped} />
+
+### Animated Stripes
+Make the stripes move for an active loading effect:
+
+<Canvas of={ProgressBarStories.AnimatedStripes} />
+
+### Shine Effect
+Add a shine animation that sweeps across the bar:
+
+<Canvas of={ProgressBarStories.WithShine} />
+
+### Pulse Effect
+Make the progress bar pulse for attention:
+
+<Canvas of={ProgressBarStories.WithPulse} />
+
+### Loading Animation
+Continuous loading animation from 0% to 100%:
+
+<Canvas of={ProgressBarStories.LoadingAnimation} />
+
+## Indeterminate State
+
+Use when the progress amount is unknown:
+
+<Canvas of={ProgressBarStories.Indeterminate} />
+
+## Labels
+
+### Percentage Label
+Show the current percentage:
+
+<Canvas of={ProgressBarStories.WithLabel} />
+
+### Custom Label
+Display custom text instead of percentage:
+
+<Canvas of={ProgressBarStories.CustomLabel} />
+
+### Label Sizes
+Control the size of the label text:
+
+<Canvas of={ProgressBarStories.LabelSizes} />
+
+## Rounded Corners
+
+Customize the border radius:
+
+<Canvas of={ProgressBarStories.RoundedFull} />
+
+## Theme Support
+
+The ProgressBar adapts to all themes automatically:
+
+### Dark Theme
+<Canvas of={ProgressBarStories.DarkTheme} />
+
+### Neon Theme
+<Canvas of={ProgressBarStories.NeonTheme} />
+
+### Gold Theme
+<Canvas of={ProgressBarStories.GoldTheme} />
+
+## Interactive Examples
+
+### Progress Simulation
+<Canvas of={ProgressBarStories.Interactive} />
+
+### Download Simulation
+<Canvas of={ProgressBarStories.DownloadSimulation} />
+
+### Multiple Progress Bars
+<Canvas of={ProgressBarStories.Multiple} />
+
+## Responsive Design
+
+The ProgressBar is mobile-first and adapts to different screen sizes:
+
+<Canvas of={ProgressBarStories.MobileResponsive} />
+
+## Accessibility
+
+The ProgressBar component includes:
+
+- Proper ARIA attributes (`role="progressbar"`, `aria-valuenow`, `aria-valuemin`, `aria-valuemax`)
+- Semantic HTML structure
+- Color contrast compliance
+- Support for reduced motion preferences
+
+## Best Practices
+
+1. **Use appropriate variants**: Match the variant to the context (success for completion, error for failures)
+2. **Show labels for clarity**: Include percentage or status text when the exact progress matters
+3. **Choose the right size**: Use smaller sizes in compact spaces, larger sizes for emphasis
+4. **Consider animation**: Use animated stripes for active processes, static for paused states
+5. **Provide context**: Always include descriptive text near the progress bar explaining what's happening
+6. **Handle edge cases**: Account for 0% and 100% states appropriately
+
+## Coming Soon Style
+
+The special combination used in Coming Soon pages:
+
+<Canvas of={ProgressBarStories.ComingSoonStyle} />
+
+```tsx
+<ProgressBar 
+  variant="gradient"
+  loading
+  shine
+  rounded="full"
+  glow
+  gradientColors={{
+    from: '#667eea',
+    via: '#a855f7', 
+    to: '#764ba2'
+  }}
+/>
+```

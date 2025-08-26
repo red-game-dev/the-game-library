@@ -1,0 +1,259 @@
+import { Meta, Canvas, Story, Controls, ArgTypes } from '@storybook/addon-docs/blocks';
+import * as LinkStories from '../components/ui/Link/Link.stories';
+
+<Meta of={LinkStories} title="Documentation/Base UI/Link" />
+
+# Link Component
+
+The Link component is a versatile navigation element that seamlessly integrates with Next.js routing while providing multiple visual variants and extensive customization options. It automatically handles internal and external links with proper security attributes and accessibility features.
+
+## Features
+
+- 🔗 **Next.js Integration** - Automatic routing for internal links
+- 🎨 **10+ Variants** - Multiple visual styles for different contexts
+- 📱 **Responsive** - Mobile-optimized with proper touch targets
+- ♿ **Accessible** - WCAG compliant with proper ARIA attributes
+- 🎯 **Icon Support** - Left and right icon slots with loading states
+- 🌐 **External Links** - Automatic security attributes and indicators
+- 🎮 **Gaming Themed** - Special neon and gold theme support
+- 📏 **Flexible Sizing** - Multiple size and padding options
+
+## Basic Usage
+
+```tsx
+import { Link } from '@/components/ui/Link';
+
+// Internal navigation
+<Link href="/games">Browse Games</Link>
+
+// External link
+<Link href="https://example.com" external>
+  Visit External Site
+</Link>
+
+// With icons
+<Link 
+  href="/dashboard" 
+  leftIcon={<Home />}
+  variant="primary"
+>
+  Dashboard
+</Link>
+```
+
+## Variants
+
+The Link component offers multiple variants for different use cases:
+
+<Canvas>
+  <Story of={LinkStories.AllVariants} />
+</Canvas>
+
+### Variant Guidelines
+
+- **Default** - Standard links in body text
+- **Primary** - Main CTAs and important navigation
+- **Secondary** - Alternative actions and secondary navigation
+- **Accent** - Highlight links and special features
+- **Success** - Positive actions and confirmations
+- **Error** - Destructive actions and warnings
+- **Warning** - Caution and alert links
+- **Ghost** - Subtle navigation and menu items
+- **Outline** - Bordered links with color options
+- **Underline** - Traditional underlined text links
+
+## Sizes and Padding
+
+Control the link size and padding independently:
+
+<Canvas>
+  <Story of={LinkStories.Sizes} />
+</Canvas>
+
+<Canvas>
+  <Story of={LinkStories.PaddingOptions} />
+</Canvas>
+
+## Icons
+
+Links support both left and right icons with automatic sizing:
+
+<Canvas>
+  <Story of={LinkStories.WithLeftIcon} />
+  <Story of={LinkStories.WithRightIcon} />
+  <Story of={LinkStories.IconOnly} />
+</Canvas>
+
+### Icon Guidelines
+
+- Use **16px** icons for small/medium links
+- Use **20px** icons for large/xl links
+- Icon-only links should include `aria-label`
+- External links auto-add indicator unless custom `rightIcon` is provided
+
+## External Links
+
+External links automatically receive security attributes:
+
+<Canvas>
+  <Story of={LinkStories.ExternalLinkShowcase} />
+</Canvas>
+
+```tsx
+// Automatic attributes for external links
+<Link href="https://example.com" external>
+  External Site
+</Link>
+// Renders with: target="_blank" rel="noopener noreferrer"
+```
+
+## States
+
+Links support loading and disabled states:
+
+<Canvas>
+  <Story of={LinkStories.Loading} />
+  <Story of={LinkStories.Disabled} />
+</Canvas>
+
+## Navigation Patterns
+
+### Menu Navigation
+
+<Canvas>
+  <Story of={LinkStories.NavigationMenu} />
+</Canvas>
+
+### Breadcrumbs
+
+<Canvas>
+  <Story of={LinkStories.BreadcrumbLinks} />
+</Canvas>
+
+### Footer Links
+
+<Canvas>
+  <Story of={LinkStories.FooterLinks} />
+</Canvas>
+
+## Accessibility
+
+The Link component follows WCAG guidelines:
+
+- **Keyboard Navigation** - Full keyboard support with focus indicators
+- **Screen Readers** - Proper ARIA labels and announcements
+- **Touch Targets** - Minimum 44x44px touch targets on mobile
+- **Color Contrast** - AAA compliant contrast ratios
+- **Focus Indicators** - Clear visible focus states
+
+```tsx
+// Accessible icon-only link
+<Link 
+  href="/settings"
+  iconOnly
+  aria-label="Open settings"
+>
+  <Settings />
+</Link>
+
+// Accessible external link
+<Link 
+  href="https://example.com"
+  external
+  aria-describedby="external-site-info"
+>
+  Visit Partner Site
+</Link>
+```
+
+## Theme Support
+
+Links adapt to all theme variants:
+
+- **Light Theme** - High contrast with subtle hover states
+- **Dark Theme** - Vibrant colors optimized for dark backgrounds
+- **Neon Theme** - Cyberpunk styling with glowing effects
+- **Gold Theme** - Premium gold accents for VIP sections
+
+## Props
+
+<ArgTypes of={LinkStories.default} />
+
+## Best Practices
+
+### Do's ✅
+
+- Use semantic variants that match the link purpose
+- Include descriptive text or aria-labels
+- Use `external` prop for external links
+- Choose appropriate sizes for context
+- Test keyboard navigation
+
+### Don'ts ❌
+
+- Don't use vague text like "Click here"
+- Don't override Next.js routing unnecessarily
+- Don't use buttons for navigation (use Link)
+- Don't forget aria-labels on icon-only links
+- Don't disable links without clear indication
+
+## Migration Guide
+
+### From HTML Anchor
+
+```tsx
+// Before
+<a href="/games" className="custom-link">Games</a>
+
+// After
+<Link href="/games" variant="primary">Games</Link>
+```
+
+### From Next.js Link
+
+```tsx
+// Before
+import Link from 'next/link';
+<Link href="/games">
+  <a className="link-styles">Games</a>
+</Link>
+
+// After
+import { Link } from '@/components/ui/Link';
+<Link href="/games" variant="primary">Games</Link>
+```
+
+### From Button with onClick Navigation
+
+```tsx
+// Before
+<Button onClick={() => router.push('/games')}>
+  Browse Games
+</Button>
+
+// After
+<Link href="/games" variant="primary">
+  Browse Games
+</Link>
+```
+
+## Examples
+
+### Card with Action Links
+
+<Canvas>
+  <Story of={LinkStories.CardWithLinks} />
+</Canvas>
+
+### Contact Links
+
+<Canvas>
+  <Story of={LinkStories.ContactLinks} />
+</Canvas>
+
+## Related Components
+
+- **Button** - For actions that don't navigate
+- **Breadcrumb** - For hierarchical navigation
+- **NavMenu** - For complex navigation structures
+- **Footer** - Contains multiple link groups

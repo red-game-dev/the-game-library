@@ -17,7 +17,7 @@ We chose to build a custom design system instead of using Tailwind CSS v4:
 2. **Tailwind v4 Alpha Issues** - Avoided 4+ hours of debugging unstable APIs
 3. **Complete Control** - Full ownership of design tokens and utilities
 4. **Future-Proof** - Can add Tailwind later without breaking changes
-5. **Performance** - Lighter bundle without unused utilities
+5. **Performance** - Lighter bundle without unused utilities, optimized animations
 
 ### Core Principles
 
@@ -456,6 +456,66 @@ src/styles/
 │   ├── text.css
 │   └── typography.css
 └── _animations.css        # Keyframes
+```
+
+## ⚡ Performance Optimizations
+
+### Mobile/Tablet Performance (< 1024px)
+
+To maintain 60fps on mobile and tablet devices, expensive animations are automatically disabled:
+
+```css
+@media (max-width: 1023.98px) {
+  /* Disable expensive background animations */
+  .animate-gradient {
+    animation: none !important;
+    background: linear-gradient(135deg, var(--purple-500), var(--purple-700)) !important;
+  }
+  
+  /* Reduce animation frequency */
+  .animate-pulse {
+    animation-duration: 3s !important;
+  }
+  
+  /* Disable non-essential animations */
+  .animate-shimmer,
+  .animate-ticker {
+    animation: none !important;
+  }
+}
+```
+
+### iPad-Specific Optimizations (768px - 1024px)
+
+```css
+@media (min-width: 768px) and (max-width: 1024px) {
+  /* Disable complex glow effects */
+  .animate-glow-pulse {
+    animation: none !important;
+  }
+}
+```
+
+### Animation Priority Levels
+
+1. **Essential (All Devices)** - Button hovers, focus states, loading spinners
+2. **Nice-to-Have (Desktop Only)** - Background gradients, floating decorations
+3. **Decorative (Mobile Disabled)** - Auto-scroll carousels, complex shimmer effects
+
+### Overflow Containment
+
+Decorative elements are contained to prevent horizontal scrolling:
+
+```css
+body, section {
+  overflow-x: hidden !important;
+  position: relative;
+  width: 100%;
+}
+
+.glow-orb, .decoration-circle {
+  pointer-events: none; /* Prevent interaction issues */
+}
 ```
 
 ## 🔄 Migration Path

@@ -1,0 +1,235 @@
+import { Meta, Story, Canvas, ArgTypes } from '@storybook/addon-docs/blocks';
+import { Dropdown } from '../components/ui/Dropdown';
+import * as DropdownStories from '../components/ui/Dropdown/Dropdown.stories';
+
+<Meta of={DropdownStories} title="Documentation/Base UI/Dropdown" />
+
+# Dropdown Component
+
+The Dropdown component provides a flexible and accessible way to select from a list of options. It supports icons, search functionality, keyboard navigation, and various visual styles.
+
+## Features
+
+- 🎨 **Multiple Variants** - Default, subtle, and ghost styles
+- 📏 **Size Options** - Small, medium, and large sizes
+- 🔍 **Search Support** - Filter through large option lists
+- 🎯 **Icon Support** - Add icons to options for better visual hierarchy
+- ⌨️ **Keyboard Navigation** - Full keyboard support with arrow keys
+- ♿ **Accessible** - ARIA compliant with screen reader support
+- 🎭 **Theme Support** - Works with all theme modes
+- 📱 **Responsive** - Mobile-optimized with touch support
+
+## Usage
+
+```tsx
+import { Dropdown } from '@/components/ui/Dropdown';
+import { Gamepad2, Building2, Tag } from 'lucide-react';
+
+const options = [
+  { value: 'games', label: 'Games', icon: <Gamepad2 className="w-4 h-4" /> },
+  { value: 'providers', label: 'Providers', icon: <Building2 className="w-4 h-4" /> },
+  { value: 'tags', label: 'Tags', icon: <Tag className="w-4 h-4" /> }
+];
+
+function MyComponent() {
+  const [value, setValue] = useState('');
+  
+  return (
+    <Dropdown
+      options={options}
+      value={value}
+      onChange={setValue}
+      placeholder="Select category"
+    />
+  );
+}
+```
+
+## Examples
+
+### Basic Dropdown
+
+<Canvas>
+  <Story of={DropdownStories.Default} />
+</Canvas>
+
+### With Icons
+
+Icons help users quickly identify options:
+
+<Canvas>
+  <Story of={DropdownStories.WithIcons} />
+</Canvas>
+
+### Searchable
+
+Enable search for dropdowns with many options:
+
+<Canvas>
+  <Story of={DropdownStories.Searchable} />
+</Canvas>
+
+### Size Variants
+
+<Canvas>
+  <Story of={DropdownStories.SmallSize} />
+  <Story of={DropdownStories.Default} />
+  <Story of={DropdownStories.LargeSize} />
+</Canvas>
+
+### Visual Variants
+
+<Canvas>
+  <Story of={DropdownStories.Default} />
+  <Story of={DropdownStories.SubtleVariant} />
+  <Story of={DropdownStories.GhostVariant} />
+</Canvas>
+
+### Compact Mode
+
+Perfect for inline usage within other components:
+
+<Canvas>
+  <Story of={DropdownStories.CompactMode} />
+</Canvas>
+
+## API Reference
+
+### DropdownOption Interface
+
+```typescript
+interface DropdownOption {
+  value: string;
+  label: string;
+  icon?: React.ReactNode;
+  disabled?: boolean;
+}
+```
+
+### Dropdown Props
+
+<ArgTypes of={Dropdown} />
+
+## Keyboard Navigation
+
+The Dropdown component supports full keyboard navigation:
+
+- **Tab** - Focus the dropdown
+- **Enter/Space** - Open dropdown menu
+- **Arrow Up/Down** - Navigate through options
+- **Home/End** - Jump to first/last option
+- **Type to search** - When searchable, type to filter options
+- **Escape** - Close dropdown menu
+- **Enter** - Select highlighted option
+
+## Accessibility
+
+The Dropdown component follows WAI-ARIA best practices:
+
+- Proper ARIA roles (`combobox`, `listbox`, `option`)
+- ARIA states (`aria-expanded`, `aria-selected`, `aria-disabled`)
+- Keyboard navigation support
+- Screen reader announcements
+- Focus management
+
+## Use Cases
+
+### Search Type Selector
+
+Used in the SearchBar component to select search scope:
+
+```tsx
+<Dropdown
+  options={searchTypeOptions}
+  value={searchType}
+  onChange={handleSearchTypeChange}
+  compact
+  variant="ghost"
+/>
+```
+
+### Filter Dropdown
+
+For filtering game lists:
+
+```tsx
+<Dropdown
+  options={filterOptions}
+  value={filter}
+  onChange={setFilter}
+  searchable
+  clearable
+  placeholder="Filter games..."
+/>
+```
+
+### Settings Selector
+
+For user preferences:
+
+```tsx
+<Dropdown
+  options={themeOptions}
+  value={theme}
+  onChange={setTheme}
+  size="sm"
+  variant="subtle"
+/>
+```
+
+## Best Practices
+
+1. **Use Icons Consistently** - If using icons, use them for all options or none
+2. **Limit Option Count** - For more than 10 options, enable search
+3. **Provide Clear Labels** - Use descriptive, concise option labels
+4. **Group Related Options** - Consider using option groups for complex lists
+5. **Handle Empty States** - Provide helpful text when no options match search
+6. **Consider Mobile** - Test touch interactions on mobile devices
+
+## Styling
+
+The Dropdown component uses CSS classes that can be customized:
+
+```css
+.dropdown - Main container
+.dropdown-trigger - The button that opens the menu
+.dropdown-menu - The options container
+.dropdown-option - Individual option
+.dropdown-option-selected - Selected option style
+.dropdown-search-input - Search input field
+```
+
+## Performance Considerations
+
+- Options are only rendered when the dropdown is open
+- Search filtering is debounced for large lists
+- Keyboard navigation uses event delegation
+- Menu positioning is calculated once per open
+
+## Migration Guide
+
+If migrating from a native `<select>` element:
+
+```tsx
+// Before
+<select value={value} onChange={e => setValue(e.target.value)}>
+  <option value="1">Option 1</option>
+  <option value="2">Option 2</option>
+</select>
+
+// After
+<Dropdown
+  options={[
+    { value: '1', label: 'Option 1' },
+    { value: '2', label: 'Option 2' }
+  ]}
+  value={value}
+  onChange={setValue}
+/>
+```
+
+## Related Components
+
+- [Input](/?path=/docs/ui-input--docs) - For text input
+- [Button](/?path=/docs/ui-button--docs) - Trigger element base
+- [SearchBar](/?path=/docs/features-searchbar--docs) - Uses Dropdown for search type

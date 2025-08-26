@@ -368,7 +368,6 @@ function ResponsiveGrid() {
   const [viewMode, setViewMode] = useState('grid');
   
   const columns = {
-    list: { mobile: 1, tablet: 1, desktop: 1 },
     grid: { mobile: 2, tablet: 3, desktop: 4 },
     compact: { mobile: 3, tablet: 4, desktop: 6 }
   };
@@ -376,12 +375,6 @@ function ResponsiveGrid() {
   return (
     <div>
       <div className="mb-4 flex gap-2">
-        <Button 
-          variant={viewMode === 'list' ? 'primary' : 'ghost'}
-          onClick={() => setViewMode('list')}
-        >
-          <List className="w-4 h-4" />
-        </Button>
         <Button 
           variant={viewMode === 'grid' ? 'primary' : 'ghost'}
           onClick={() => setViewMode('grid')}

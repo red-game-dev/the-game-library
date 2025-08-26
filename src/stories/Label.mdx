@@ -1,0 +1,298 @@
+import { Meta, Story, Canvas, ArgTypes, Description } from '@storybook/addon-docs/blocks';
+import { Label } from '../components/ui/Label/Label';
+import * as LabelStories from '../components/ui/Label/Label.stories';
+
+<Meta of={LabelStories} title="Documentation/Base UI/Label" />
+
+# Label Component
+
+<Description of={Label} />
+
+The **Label** component is a flexible, accessible form label element that provides consistent styling, multiple sizes and variants, and full accessibility support across all themes. It's designed to work seamlessly with form elements and follows WCAG guidelines for accessibility.
+
+## Features
+
+- **Multiple sizes**: xs, sm, md, lg, xl for different contexts
+- **Visual variants**: default, primary, secondary, muted for different emphasis levels
+- **State indicators**: required (*), error, and disabled states
+- **Theme-aware**: Works with light, dark, neon, and gold themes
+- **Accessible**: Proper HTML semantics and ARIA support
+- **Form integration**: Works with htmlFor attribute for proper form association
+
+## Basic Usage
+
+```tsx
+import { Label } from '@/components/ui/Label';
+
+// Basic label
+<Label>Email Address</Label>
+
+// Required field
+<Label htmlFor="email" required>
+  Email Address
+</Label>
+
+// With different sizes and variants
+<Label size="lg" variant="primary">
+  Important Field
+</Label>
+```
+
+## Examples
+
+### Basic Label
+
+<Canvas>
+  <Story id="ui-label--default" />
+</Canvas>
+
+### Size Variations
+
+Labels come in 5 different sizes to match various UI contexts:
+
+<Canvas>
+  <Story id="ui-label--sizes" />
+</Canvas>
+
+**Size Guidelines:**
+- `xs` (12px): Small captions, metadata labels
+- `sm` (14px): Compact forms, secondary labels  
+- `md` (16px): Standard form labels (default)
+- `lg` (18px): Section headers, important fields
+- `xl` (20px): Form section titles, prominent labels
+
+### Visual Variants
+
+Different variants provide visual hierarchy and semantic meaning:
+
+<Canvas>
+  <Story id="ui-label--variants" />
+</Canvas>
+
+**Variant Usage:**
+- `default`: Standard form labels
+- `primary`: Important or primary fields
+- `secondary`: Less important or secondary information
+- `muted`: Subtle labels, helper text, optional fields
+
+### Label States
+
+Labels support various states to communicate field requirements and validation:
+
+<Canvas>
+  <Story id="ui-label--states" />
+</Canvas>
+
+**State Indicators:**
+- **Required (`*`)**: Shows red asterisk for mandatory fields
+- **Error**: Red styling for validation errors
+- **Disabled**: Muted appearance for inactive fields
+- **Combinations**: States can be combined (e.g., required + error)
+
+### Form Integration
+
+Proper form association using `htmlFor` attribute:
+
+<Canvas>
+  <Story id="ui-label--with-form-elements" />
+</Canvas>
+
+### Theme Support
+
+Labels automatically adapt to all theme variants:
+
+<Canvas>
+  <Story id="ui-label--all-themes-default" />
+</Canvas>
+
+## Component API
+
+<ArgTypes of={Label} />
+
+### Props Details
+
+#### size
+Controls the font size and spacing of the label:
+- `xs`: Extra small (12px) for compact interfaces
+- `sm`: Small (14px) for secondary information
+- `md`: Medium (16px) - default standard size
+- `lg`: Large (18px) for section headers
+- `xl`: Extra large (20px) for prominent labels
+
+#### variant
+Provides semantic styling options:
+- `default`: Standard label appearance
+- `primary`: Emphasized important fields
+- `secondary`: Less prominent styling
+- `muted`: Subtle, de-emphasized appearance
+
+#### required
+Adds a red asterisk (*) indicator and `aria-required` semantics for mandatory fields.
+
+#### disabled
+Applies muted styling to indicate the associated form element is disabled.
+
+#### error
+Applies error styling (typically red) to indicate validation issues.
+
+#### htmlFor
+Associates the label with a form element by ID - essential for accessibility.
+
+## Accessibility Features
+
+### Screen Reader Support
+- Uses semantic `<label>` element
+- Supports `htmlFor` attribute for proper form association
+- Required fields include `aria-label="required"` on asterisk
+
+### Keyboard Navigation
+- Clicking label focuses associated form element
+- Works with keyboard navigation patterns
+- Supports form validation states
+
+### Color Contrast
+- All variants meet WCAG AA contrast requirements
+- Error states maintain readability
+- Theme variants are tested for accessibility
+
+### ARIA Support
+```tsx
+// Required field
+<Label htmlFor="email" required>
+  Email Address
+</Label>
+// Renders: <span className="label-required" aria-label="required">*</span>
+
+// Error state
+<Label htmlFor="password" error>
+  Password
+</Label>
+// Associated input should have aria-invalid="true"
+```
+
+## Best Practices
+
+### Do's ✅
+- Use `htmlFor` to associate labels with form elements
+- Use `required` prop for mandatory fields
+- Choose appropriate size for context (md for most forms)
+- Use semantic variants (primary for important fields)
+- Combine with form validation patterns
+
+### Don'ts ❌
+- Don't use labels without associated form elements
+- Avoid mixing multiple variants in the same form section
+- Don't rely only on color to indicate required/error states
+- Avoid using extra large sizes for standard form labels
+
+### Form Association Example
+```tsx
+// ✅ Good - Proper association
+<Label htmlFor="email" required>
+  Email Address
+</Label>
+<Input id="email" type="email" />
+
+// ❌ Bad - No association
+<Label>Email Address</Label>
+<Input type="email" />
+```
+
+## Advanced Usage
+
+### Custom Styling
+```tsx
+// Custom classes
+<Label className="custom-label-class" size="lg">
+  Custom Label
+</Label>
+
+// Multiple states
+<Label size="md" variant="primary" required error>
+  Important Required Field with Error
+</Label>
+```
+
+### With Form Libraries
+```tsx
+import { useForm } from 'react-hook-form';
+
+const MyForm = () => {
+  const { register, formState: { errors } } = useForm();
+  
+  return (
+    <div>
+      <Label 
+        htmlFor="email" 
+        required 
+        error={!!errors.email}
+      >
+        Email Address
+      </Label>
+      <input
+        id="email"
+        {...register('email', { required: true })}
+        aria-invalid={!!errors.email}
+      />
+    </div>
+  );
+};
+```
+
+## Design Tokens
+
+Labels use the following CSS custom properties that can be customized:
+
+```css
+/* Typography */
+--label-font-family: var(--font-family-base);
+--label-font-weight-normal: var(--font-weight-medium);
+--label-font-weight-emphasis: var(--font-weight-semibold);
+--label-line-height: var(--line-height-normal);
+
+/* Colors (theme-aware) */
+--label-color-default: var(--color-foreground);
+--label-color-primary: var(--color-primary);
+--label-color-secondary: var(--color-secondary);
+--label-color-muted: var(--color-muted);
+--label-color-error: var(--color-danger);
+--label-color-disabled: var(--color-disabled);
+
+/* Required indicator */
+--label-required-color: var(--color-danger);
+```
+
+## Related Components
+
+- **[Input](/docs/ui-input--docs)** - Form input elements that work with labels
+- **[FormField](/docs/ui-formfield--docs)** - Wrapper component that includes labels
+- **[FormFieldCheckbox](/docs/ui-formfieldcheckbox--docs)** - Checkbox with integrated label
+- **[FormFieldRadio](/docs/ui-formfieldradio--docs)** - Radio button with integrated label
+
+## Migration Guide
+
+### From Raw HTML Labels
+```tsx
+// Before
+<label htmlFor="email" className="text-sm font-medium">
+  Email Address *
+</label>
+
+// After
+<Label htmlFor="email" size="sm" required>
+  Email Address
+</Label>
+```
+
+### From Custom Label Components
+```tsx
+// Before (custom component)
+<CustomLabel required variant="primary">
+  Field Name
+</CustomLabel>
+
+// After (standardized)
+<Label variant="primary" required>
+  Field Name
+</Label>
+```

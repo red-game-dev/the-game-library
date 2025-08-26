@@ -1,0 +1,178 @@
+import { Meta, Canvas, Story, Controls, ArgTypes } from '@storybook/addon-docs/blocks';
+import  GameDetailsMeta, * as GameDetailsModalStories from '../components/features/GameDetailsModal/GameDetailsModal.stories';
+import { GameDetailsModal } from '../components/features/GameDetailsModal';
+
+<Meta title="Documentation/Features/GameDetailsModal" />
+
+# Game Details Modal
+
+The `GameDetailsModal` component displays comprehensive information about a game in a modal overlay. It provides an immersive preview experience with game statistics, descriptions, and interactive actions.
+
+## Overview
+
+The Game Details Modal is designed to give users a quick but comprehensive view of a game without leaving the current page. It includes:
+
+- **Hero image** with status badges
+- **Game metadata** (RTP, play count, release date)
+- **Provider information** with logo
+- **Interactive actions** (Play, Demo, Favorite, Share)
+- **Tag system** for game features
+- **Responsive design** for all devices
+
+## Usage
+
+```tsx
+import { GameDetailsModal } from '@/components/features/GameDetailsModal';
+
+function GameLibrary() {
+  const [selectedGame, setSelectedGame] = useState(null);
+  const [isModalOpen, setIsModalOpen] = useState(false);
+
+  const handleGameClick = (game) => {
+    setSelectedGame(game);
+    setIsModalOpen(true);
+  };
+
+  return (
+    <>
+      {/* Your game grid */}
+      <GameDetailsModal
+        game={selectedGame}
+        isOpen={isModalOpen}
+        onClose={() => {
+          setIsModalOpen(false);
+          setSelectedGame(null);
+        }}
+        onPlay={(game) => console.log('Playing:', game.title)}
+        onFavorite={(game) => console.log('Toggling favorite:', game.id)}
+        onShare={(game) => console.log('Sharing:', game.title)}
+      />
+    </>
+  );
+}
+```
+
+## Examples
+
+### Default Modal
+
+The standard modal with all game information displayed:
+
+<Canvas of={GameDetailsModalStories.Default} />
+
+### Minimal Data
+
+How the modal handles games with minimal information:
+
+<Canvas of={GameDetailsModalStories.MinimalData} />
+
+### Live Casino Game
+
+Special presentation for live dealer games:
+
+<Canvas of={GameDetailsModalStories.LiveGame} />
+
+### Jackpot Game
+
+Enhanced display for progressive jackpot games:
+
+<Canvas of={GameDetailsModalStories.JackpotGame} />
+
+### Upcoming Game
+
+Display for games that haven't been released yet:
+
+<Canvas of={GameDetailsModalStories.UpcomingGame} />
+
+## Component API
+
+<ArgTypes of={GameDetailsModalStories} />
+
+## Features
+
+### Status Badges
+
+Games can display multiple status indicators:
+- **NEW** - Recently added games
+- **HOT** - Trending or popular games
+- **SALE** - Games with special promotions
+- **COMING SOON** - Unreleased games
+
+### Game Statistics
+
+The modal displays key metrics in an easy-to-scan grid:
+- **RTP (Return to Player)** - Theoretical payout percentage
+- **Play Count** - Number of times played (formatted as 1.2M, 500K, etc.)
+- **Release Date** - When the game was launched
+- **Rating** - User rating (if available)
+
+### Action Buttons
+
+Primary actions are prominently displayed:
+- **Play Now** - Launch the game in real money mode
+- **Demo** - Try the game for free
+- **Favorite** - Add/remove from favorites
+- **Share** - Share game link
+
+### Responsive Design
+
+The modal adapts to different screen sizes:
+- **Desktop**: Full-width hero image with side-by-side content
+- **Tablet**: Slightly condensed layout with maintained readability
+- **Mobile**: Stacked layout with full-width elements
+
+## Theming
+
+The modal automatically adapts to the current theme:
+
+```css
+/* Light Theme */
+[data-theme="light"] .game-details-modal {
+  background: var(--color-white);
+  color: var(--color-gray-900);
+}
+
+/* Dark Theme */
+[data-theme="dark"] .game-details-modal {
+  background: var(--color-gray-900);
+  color: var(--color-gray-100);
+}
+
+/* Neon Theme */
+[data-theme="neon"] .game-details-modal {
+  background: var(--color-gray-950);
+  color: var(--color-neon-text);
+  border: 1px solid var(--color-neon-primary);
+}
+```
+
+## Accessibility
+
+The modal includes several accessibility features:
+- Proper ARIA labels and roles
+- Focus management when opening/closing
+- Keyboard navigation support (ESC to close)
+- Screen reader announcements
+- High contrast mode support
+
+## Performance Considerations
+
+- **Image Loading**: Uses lazy loading for thumbnails
+- **Animation**: Hardware-accelerated CSS transitions
+- **Bundle Size**: ~8KB minified and gzipped
+- **Render Optimization**: Memoized with React.memo
+
+## Best Practices
+
+1. **Always provide a game object** - The modal handles null gracefully but won't display
+2. **Implement all callbacks** - Especially onClose for proper UX
+3. **Handle loading states** - Show a spinner while fetching game details
+4. **Preload images** - For better perceived performance
+5. **Track analytics** - Log modal opens, plays, and shares
+
+## Related Components
+
+- [GameCard](/?path=/docs/features-gamecard--docs) - Card component for game grid
+- [Modal](/?path=/docs/ui-modal--docs) - Base modal component
+- [Badge](/?path=/docs/ui-badge--docs) - Status indicator badges
+- [Button](/?path=/docs/ui-button--docs) - Action buttons

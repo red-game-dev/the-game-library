@@ -138,6 +138,39 @@ Show active filter count badge:
 />
 ```
 
+### `disabled`
+**Type:** `boolean | { providers?: boolean; types?: boolean; tags?: boolean; special?: boolean; sort?: boolean; viewMode?: boolean }`  
+**Default:** `false`
+
+Disable the entire panel or specific sections:
+
+```tsx
+// Disable entire panel
+<FilterPanel 
+  disabled={true}
+  filters={filters}
+/>
+
+// Disable specific sections
+<FilterPanel 
+  disabled={{
+    providers: true,  // Disable provider selection
+    types: false,     // Keep types enabled
+    tags: true,       // Disable tag selection
+    special: false,   // Keep special filters enabled
+    sort: false,      // Keep sort enabled
+    viewMode: true    // Disable view mode selection
+  }}
+  filters={filters}
+/>
+```
+
+Use cases:
+- During data loading
+- Based on user permissions
+- Progressive disclosure
+- Contextual availability
+
 ### `mobileMode`
 **Type:** `'drawer' | 'dropdown' | 'inline'`  
 **Default:** `'inline'`
@@ -245,6 +278,57 @@ function GameLibraryWithFilters() {
         />
       </main>
     </div>
+  );
+}
+```
+
+### With Loading State
+
+```tsx
+function FilterPanelWithLoading() {
+  const [filters, setFilters] = useState(initialFilters);
+  const { data: providers, isLoading: providersLoading } = useProviders();
+  const { data: tags, isLoading: tagsLoading } = useTags();
+  const isLoading = providersLoading || tagsLoading;
+  
+  return (
+    <FilterPanel 
+      providers={providers || []}
+      tags={tags || []}
+      filters={filters}
+      onFilterChange={setFilters}
+      disabled={isLoading}
+      showCount={!isLoading}
+    />
+  );
+}
+```
+
+### Conditional Section Disabling
+
+```tsx
+function ConditionalFilters() {
+  const [filters, setFilters] = useState(initialFilters);
+  const userRole = useUserRole();
+  
+  // Disable certain sections based on user role or context
+  const disabledSections = {
+    providers: userRole === 'guest',  // Guests can't filter by provider
+    types: false,                      // Always enabled
+    tags: filters.types.length === 0,  // Enable tags only when type selected
+    special: userRole === 'guest',     // Guests can't use special filters
+    sort: false,                       // Always enabled
+    viewMode: false                    // Always enabled
+  };
+  
+  return (
+    <FilterPanel 
+      providers={providers}
+      tags={tags}
+      filters={filters}
+      onFilterChange={setFilters}
+      disabled={disabledSections}
+    />
   );
 }
 ```
@@ -653,7 +737,7 @@ Adapts to all screen sizes:
 - **Tablet**: Collapsible sidebar
 - **Desktop**: Full sidebar display
 
-<Canvas of={FilterPanelStories.Mobile} />
+<Canvas of={FilterPanelStories.MobileDrawer} />
 
 ## Theme Support
 

@@ -1,0 +1,227 @@
+import { Meta, Canvas, Story, Controls, ArgTypes } from '@storybook/addon-docs/blocks';
+import * as CookieConsentStories from '../components/features/CookieConsent/CookieConsent.stories';
+
+<Meta title="Documentation/Features/CookieConsent" />
+
+# Cookie Consent
+
+A GDPR-compliant cookie consent banner that provides users with transparent control over their cookie preferences. The component uses responsive design with Modal on mobile and Drawer on desktop for optimal user experience.
+
+<Canvas of={CookieConsentStories.Default} />
+
+## Features
+
+- 🍪 **GDPR Compliant** - Full compliance with EU cookie regulations
+- 📱 **Responsive Design** - Modal on mobile, Drawer on desktop
+- 🎨 **Customizable Size** - Multiple banner sizes for desktop display
+- 🔒 **Persistent Storage** - Saves user preferences in localStorage
+- ⚙️ **Granular Control** - Separate toggles for different cookie categories
+- 🎯 **Smart Positioning** - Bottom drawer for minimal intrusion
+- ♿ **Accessible** - Full keyboard navigation and ARIA support
+- 🌐 **Multi-theme Support** - Adapts to all theme variants
+
+## Usage
+
+```tsx
+import { CookieConsent } from '@/components/features/CookieConsent';
+
+// Basic usage
+<CookieConsent />
+
+// With custom configuration
+<CookieConsent 
+  bannerSize="md"
+  lockScroll={true}
+  persistent={true}
+  mobileBreakpoint={768}
+/>
+```
+
+## Cookie Categories
+
+The component manages four distinct cookie categories:
+
+### 1. Necessary Cookies (Always Enabled)
+Essential cookies required for the website to function properly. These enable basic functions like page navigation and access to secure areas.
+
+### 2. Analytics Cookies
+Help understand how visitors interact with the website by collecting and reporting information anonymously. Used for improving site performance and user experience.
+
+### 3. Marketing Cookies
+Used to track visitors across websites to display ads that are relevant and engaging for individual users. Essential for targeted advertising campaigns.
+
+### 4. Personalization Cookies
+Allow the website to remember choices users make to provide enhanced, personalized features like language preferences and customized content.
+
+## Banner Sizes
+
+<Canvas of={CookieConsentStories.SmallBanner} />
+<Canvas of={CookieConsentStories.MediumBanner} />
+<Canvas of={CookieConsentStories.LargeBanner} />
+<Canvas of={CookieConsentStories.ExtraLargeBanner} />
+
+### Size Guidelines
+
+- **sm** - Minimal height, ideal for unobtrusive notifications
+- **md** - Balanced visibility and content (default)
+- **lg** - More prominent with better readability
+- **xl** - Maximum visibility and impact
+
+## Responsive Behavior
+
+The component automatically adapts based on viewport width:
+
+### Desktop (greater than 768px)
+Uses a Drawer component that slides up from the bottom of the screen. The drawer can be configured with different sizes and maintains its position even when preferences modal is opened (if persistent is true).
+
+<Canvas of={CookieConsentStories.Default} />
+
+### Mobile (lower than 768px)
+Uses a Modal component for better touch interaction and full-screen experience. The modal centers on screen and provides touch-optimized buttons.
+
+<Canvas of={CookieConsentStories.MobileView} />
+
+## Preferences Modal
+
+Users can access detailed cookie preferences through the preferences button. This opens a secondary modal with granular controls for each cookie category.
+
+<Canvas of={CookieConsentStories.PreferencesModal} />
+
+## Configuration Options
+
+### Scroll Lock
+Control whether page scrolling is disabled when the banner is open:
+
+<Canvas of={CookieConsentStories.WithoutScrollLock} />
+
+### Persistent Mode
+Keep the drawer visible when opening the preferences modal on desktop:
+
+<Canvas of={CookieConsentStories.NonPersistent} />
+
+### Custom Breakpoint
+Adjust the mobile/desktop breakpoint to suit your design:
+
+<Canvas of={CookieConsentStories.CustomBreakpoint} />
+
+## Implementation Details
+
+### Data Storage
+User preferences are stored in localStorage with two keys:
+- `cookie-consent` - JSON object with consent preferences
+- `cookie-consent-date` - ISO timestamp of when consent was given
+
+### Consent Callback
+When users make their choice, the component triggers appropriate initialization:
+
+```javascript
+// Example consent handling
+if (consentData.analytics) {
+  // Initialize Google Analytics
+  gtag('config', 'GA_MEASUREMENT_ID');
+}
+
+if (consentData.marketing) {
+  // Initialize marketing pixels
+  fbq('init', 'PIXEL_ID');
+}
+```
+
+### Auto-display Logic
+The banner automatically appears after a 1-second delay if no previous consent is found in localStorage. This prevents interfering with initial page load and provides a smoother user experience.
+
+## Theme Support
+
+The component adapts to all theme variants with appropriate styling:
+
+<Canvas of={CookieConsentStories.DarkTheme} />
+
+### Theme-specific Styling
+- **Light Theme** - Clean, professional appearance with subtle shadows
+- **Dark Theme** - Muted colors with proper contrast ratios
+- **Neon Theme** - Cyberpunk styling with glowing accents
+- **Gold Theme** - Premium feel with golden highlights
+
+## Props
+
+<ArgTypes of={CookieConsentStories.default} />
+
+## Accessibility
+
+The component follows WCAG 2.1 Level AA guidelines:
+
+- **Keyboard Navigation** - Full keyboard support with Tab, Enter, and Escape keys
+- **Focus Management** - Proper focus trapping and restoration
+- **ARIA Labels** - Descriptive labels for all interactive elements
+- **Screen Readers** - Semantic HTML and proper announcements
+- **Color Contrast** - AAA compliant contrast ratios
+
+## Best Practices
+
+### Do's ✅
+- Display the banner on first visit
+- Provide clear descriptions of each cookie category
+- Make it easy to accept or reject cookies
+- Save preferences immediately
+- Respect user choices across sessions
+
+### Don'ts ❌
+- Don't set non-essential cookies before consent
+- Don't make the banner overly intrusive
+- Don't use dark patterns to force acceptance
+- Don't forget to implement the actual cookie logic
+- Don't ignore accessibility requirements
+
+## Compliance Checklist
+
+To ensure GDPR compliance:
+
+1. ✅ **Clear Information** - Explain what cookies are used for
+2. ✅ **Genuine Choice** - Equal prominence for accept/reject options
+3. ✅ **Granular Control** - Separate toggles for cookie categories
+4. ✅ **Easy Withdrawal** - Users can change preferences anytime
+5. ✅ **Prior Consent** - No cookies set before user consent
+6. ✅ **Record Keeping** - Store consent date and preferences
+7. ✅ **Privacy Policy Link** - Direct link to detailed policy
+
+## Integration Example
+
+```tsx
+// app/layout.tsx
+import { CookieConsent } from '@/components/features/CookieConsent';
+
+export default function RootLayout({ children }) {
+  return (
+    <html>
+      <body>
+        {children}
+        <CookieConsent 
+          bannerSize="md"
+          persistent={true}
+          mobileBreakpoint={768}
+        />
+      </body>
+    </html>
+  );
+}
+```
+
+## Testing
+
+When testing the cookie consent:
+
+1. Clear localStorage to reset consent
+2. Test both mobile and desktop views
+3. Verify all cookie categories can be toggled
+4. Ensure preferences persist across sessions
+5. Test keyboard navigation
+6. Verify focus management
+7. Test with screen readers
+
+## Related Components
+
+- **Modal** - Used for mobile display and preferences
+- **Drawer** - Used for desktop banner display
+- **Button** - Action buttons for consent choices
+- **Link** - Privacy policy link
+- **FormFieldCheckbox** - Cookie category toggles

@@ -1,0 +1,333 @@
+import { Meta, Canvas, Controls, Story } from '@storybook/addon-docs/blocks';
+import * as DrawerStories from '../components/ui/Drawer/Drawer.stories';
+
+<Meta of={DrawerStories} title="Documentation/Base UI/Drawer" />
+
+# Drawer
+
+A versatile drawer/sidebar component that slides in from any edge of the screen. Perfect for navigation menus, settings panels, filters, and mobile action sheets.
+
+## Overview
+
+The Drawer component provides a flexible overlay panel that can slide in from any direction. It includes built-in accessibility features, focus management, and smooth animations.
+
+<Canvas of={DrawerStories.Default} />
+
+## Features
+
+- 🎯 **Multiple Positions** - Slide in from left, right, top, or bottom
+- 📏 **Flexible Sizing** - Five size variants from small to full screen
+- ♿ **Accessible** - Full keyboard navigation, focus trap, and ARIA attributes
+- 🎨 **Theme Support** - Adapts to light, dark, neon, and gold themes
+- 🚀 **Performance** - Optimized animations with customizable duration
+- 📱 **Mobile Ready** - Touch-friendly with swipe gesture support
+- 🔒 **Scroll Lock** - Prevents body scroll when drawer is open
+- ⌨️ **Keyboard Support** - ESC to close, Tab to navigate
+
+## Positions
+
+The drawer can slide in from any edge of the viewport:
+
+### Right Position (Default)
+<Canvas of={DrawerStories.Default} />
+
+### Left Position
+<Canvas of={DrawerStories.LeftPosition} />
+
+### Top Position
+<Canvas of={DrawerStories.TopPosition} />
+
+### Bottom Position
+<Canvas of={DrawerStories.BottomPosition} />
+
+## Sizes
+
+Choose from five size variants to fit your content:
+
+### Small (sm)
+Ideal for simple menus or quick actions
+<Canvas of={DrawerStories.SmallSize} />
+
+### Medium (md)
+Default size, suitable for most use cases
+<Canvas of={DrawerStories.Default} />
+
+### Large (lg)
+More space for complex forms or content
+<Canvas of={DrawerStories.LargeSize} />
+
+### Extra Large (xl)
+Maximum space while maintaining margins
+<Canvas of={DrawerStories.ExtraLargeSize} />
+
+### Full
+Takes up the entire viewport dimension
+<Canvas of={DrawerStories.FullSize} />
+
+## Anatomy
+
+The drawer consists of three main sections:
+
+### Header, Content, and Footer
+<Canvas of={DrawerStories.WithHeaderFooter} />
+
+```tsx
+<Drawer
+  header={<h2>Settings</h2>}
+  footer={<Button>Save Changes</Button>}
+>
+  {/* Main content */}
+</Drawer>
+```
+
+### Footer Variants
+
+Control the footer appearance with three variants:
+
+#### Default Footer
+Inherits the drawer's background with transparent styling
+<Canvas of={DrawerStories.FooterVariantDefault} />
+
+#### Elevated Footer  
+Creates visual separation with a shadow and different background
+<Canvas of={DrawerStories.FooterVariantElevated} />
+
+#### Bordered Footer
+Emphasizes the footer with a prominent colored border
+<Canvas of={DrawerStories.FooterVariantBordered} />
+
+### Footer Colors
+
+Apply semantic colors to the footer for different states:
+
+#### Primary Color
+<Canvas of={DrawerStories.FooterColorPrimary} />
+
+#### Success Color
+<Canvas of={DrawerStories.FooterColorSuccess} />
+
+#### Warning Color
+<Canvas of={DrawerStories.FooterColorWarning} />
+
+#### Error Color
+<Canvas of={DrawerStories.FooterColorError} />
+
+#### Dark Color
+<Canvas of={DrawerStories.FooterColorDark} />
+
+## Common Use Cases
+
+### Navigation Menu
+Perfect for mobile navigation with user info and menu items
+<Canvas of={DrawerStories.NavigationDrawer} />
+
+### Filter Panel
+Ideal for product filters and search refinements
+<Canvas of={DrawerStories.FilterDrawer} />
+
+### Mobile Action Sheet
+Bottom drawer for mobile-friendly action menus
+<Canvas of={DrawerStories.Mobile} />
+
+## Behavior Options
+
+### Overlay Control
+Control the backdrop overlay visibility and interaction
+<Canvas of={DrawerStories.NoOverlay} />
+
+### Close Button
+Optional close button in the top corner
+<Canvas of={DrawerStories.NoCloseButton} />
+
+### Controlled Closing
+Disable automatic close interactions for controlled behavior
+<Canvas of={DrawerStories.NoCloseInteractions} />
+
+## Animation
+
+Customize the animation duration for different experiences:
+
+### Fast Animation (150ms)
+<Canvas of={DrawerStories.FastAnimation} />
+
+### Slow Animation (600ms)
+<Canvas of={DrawerStories.SlowAnimation} />
+
+## Interactive Demo
+
+Try different configurations with our interactive demo:
+<Canvas of={DrawerStories.Interactive} />
+
+## Theme Support
+
+The drawer automatically adapts to your theme:
+
+### Dark Mode
+<Canvas of={DrawerStories.DarkMode} />
+
+### Neon Theme
+<Canvas of={DrawerStories.NeonTheme} />
+
+### Gold Theme
+<Canvas of={DrawerStories.GoldTheme} />
+
+## API Reference
+
+<Controls />
+
+## Props
+
+| Prop | Type | Default | Description |
+|------|------|---------|-------------|
+| `isOpen` | `boolean` | `false` | Whether the drawer is open |
+| `onClose` | `() => void` | - | Callback when drawer should close |
+| `position` | `'left' \| 'right' \| 'top' \| 'bottom'` | `'right'` | Position of the drawer |
+| `size` | `'sm' \| 'md' \| 'lg' \| 'xl' \| 'full'` | `'md'` | Size of the drawer |
+| `showOverlay` | `boolean` | `true` | Show overlay behind drawer |
+| `closeOnOverlay` | `boolean` | `true` | Close drawer when overlay is clicked |
+| `closeOnEsc` | `boolean` | `true` | Close drawer when ESC key is pressed |
+| `showCloseButton` | `boolean` | `true` | Show close button in drawer |
+| `header` | `ReactNode` | - | Header content |
+| `footer` | `ReactNode` | - | Footer content |
+| `footerVariant` | `'default' \| 'elevated' \| 'bordered'` | `'default'` | Footer background style variant |
+| `footerColor` | `'default' \| 'primary' \| 'secondary' \| 'success' \| 'warning' \| 'error' \| 'dark'` | `'default'` | Footer color scheme |
+| `children` | `ReactNode` | - | Main content |
+| `lockScroll` | `boolean` | `true` | Lock body scroll when open |
+| `animationDuration` | `number` | `300` | Animation duration in ms |
+| `className` | `string` | - | Additional CSS classes |
+| `testId` | `string` | `'drawer'` | Test ID for testing |
+
+## Usage Guidelines
+
+### When to Use
+- **Navigation menus** on mobile devices
+- **Settings panels** that need temporary access
+- **Filter panels** for search and browsing
+- **Action sheets** for mobile interactions
+- **Forms** that overlay the main content
+- **Information panels** that supplement the main view
+
+### When Not to Use
+- For permanent UI elements (use a sidebar instead)
+- For critical alerts (use a modal dialog)
+- For small amounts of content (use a tooltip or popover)
+- When the content needs to be visible alongside the main content
+
+## Best Practices
+
+1. **Choose the right position**
+   - Left: Navigation menus
+   - Right: Settings, filters
+   - Top: Notifications, alerts
+   - Bottom: Mobile action sheets
+
+2. **Size appropriately**
+   - Don't use full size unless necessary
+   - Consider mobile viewport constraints
+   - Leave room for interaction with the page behind
+
+3. **Provide clear close affordances**
+   - Always include at least one way to close
+   - Use close button for clarity
+   - Support ESC key for power users
+
+4. **Manage focus properly**
+   - Focus the drawer when it opens
+   - Trap focus within the drawer
+   - Return focus to trigger element on close
+
+5. **Consider mobile experience**
+   - Use bottom position for mobile action sheets
+   - Ensure touch targets are 44x44px minimum
+   - Support swipe gestures where appropriate
+
+## Accessibility
+
+The Drawer component is built with accessibility in mind:
+
+- **ARIA attributes**: Proper `role="dialog"` and `aria-modal="true"`
+- **Focus management**: Focus trap and restoration
+- **Keyboard navigation**: Tab through focusable elements
+- **ESC key support**: Close drawer with Escape key
+- **Screen reader support**: Proper labeling and announcements
+- **Reduced motion**: Respects `prefers-reduced-motion`
+
+## Examples
+
+### Basic Usage
+```tsx
+import { Drawer } from '@/components/ui/Drawer';
+
+function MyComponent() {
+  const [isOpen, setIsOpen] = useState(false);
+  
+  return (
+    <>
+      <Button onClick={() => setIsOpen(true)}>
+        Open Drawer
+      </Button>
+      
+      <Drawer
+        isOpen={isOpen}
+        onClose={() => setIsOpen(false)}
+      >
+        <p>Drawer content</p>
+      </Drawer>
+    </>
+  );
+}
+```
+
+### With Header and Footer
+```tsx
+<Drawer
+  isOpen={isOpen}
+  onClose={handleClose}
+  header={
+    <div className="flex justify-between items-center">
+      <h2>Settings</h2>
+      <Badge>Pro</Badge>
+    </div>
+  }
+  footer={
+    <div className="flex gap-2">
+      <Button variant="secondary" onClick={handleCancel}>
+        Cancel
+      </Button>
+      <Button variant="primary" onClick={handleSave}>
+        Save
+      </Button>
+    </div>
+  }
+>
+  {/* Form fields */}
+</Drawer>
+```
+
+### Mobile Action Sheet
+```tsx
+<Drawer
+  isOpen={isOpen}
+  onClose={handleClose}
+  position="bottom"
+  size="md"
+>
+  <div className="space-y-2">
+    <Button variant="ghost" fullWidth onClick={handleShare}>
+      Share
+    </Button>
+    <Button variant="ghost" fullWidth onClick={handleCopy}>
+      Copy Link
+    </Button>
+    <Button variant="ghost" fullWidth onClick={handleReport}>
+      Report
+    </Button>
+  </div>
+</Drawer>
+```
+
+## Related Components
+
+- [Modal](/docs/ui-modal--docs) - For critical dialogs and forms
+- [Dropdown](/docs/ui-dropdown--docs) - For contextual menus
+- [Tooltip](/docs/ui-tooltip--docs) - For small hints and information

@@ -1,0 +1,273 @@
+import { Meta, Canvas, Story, Controls, ArgTypes } from '@storybook/addon-docs/blocks';
+import PaginationMeta, * as PaginationStories from '../components/ui/Pagination/Pagination.stories';
+import { Pagination } from '../components/ui/Pagination';
+
+<Meta of={PaginationStories} title="Documentation/Base UI/Pagination" />
+
+# Pagination
+
+The `Pagination` component provides navigation controls for paginated content, with support for various display modes and configurations.
+
+## Overview
+
+A flexible pagination component that handles page navigation with:
+
+- **Multiple navigation options** (first, previous, next, last, direct page selection)
+- **Configurable display modes** (show/hide different elements)
+- **Responsive design** that adapts to screen size
+- **Accessibility features** for keyboard and screen reader users
+- **Theme support** for all design system themes
+
+## Usage
+
+```tsx
+import { Pagination } from '@/components/ui/Pagination';
+
+function GameList() {
+  const [currentPage, setCurrentPage] = useState(1);
+  const totalPages = 10;
+  const totalItems = 120;
+  const itemsPerPage = 12;
+
+  return (
+    <div>
+      {/* Your content here */}
+      
+      <Pagination
+        currentPage={currentPage}
+        totalPages={totalPages}
+        totalItems={totalItems}
+        itemsPerPage={itemsPerPage}
+        onPageChange={setCurrentPage}
+        showItemsInfo
+        showPageInfo
+      />
+    </div>
+  );
+}
+```
+
+## Examples
+
+### Default Pagination
+
+Standard pagination with all elements visible:
+
+<Canvas of={PaginationStories.Default} />
+
+### Minimal Pagination
+
+Simplified version with only essential controls:
+
+<Canvas of={PaginationStories.Minimal} />
+
+### With Items Info
+
+Shows the range of items being displayed:
+
+<Canvas of={PaginationStories.WithItemsInfo} />
+
+### Many Pages
+
+How the component handles a large number of pages:
+
+<Canvas of={PaginationStories.ManyPages} />
+
+### Single Page
+
+Behavior when there's only one page:
+
+<Canvas of={PaginationStories.SinglePage} />
+
+## Component API
+
+<ArgTypes of={PaginationStories} />
+
+## Props
+
+### Required Props
+
+- `currentPage` - The currently active page (1-indexed)
+- `totalPages` - Total number of pages available
+- `onPageChange` - Callback function when page changes
+
+### Optional Props
+
+- `totalItems` - Total number of items (for displaying count)
+- `itemsPerPage` - Items shown per page (for calculating ranges)
+- `showFirstLast` - Show first/last page buttons (default: true)
+- `showPrevNext` - Show previous/next buttons (default: true)
+- `showPageNumbers` - Show clickable page numbers (default: true)
+- `showItemsInfo` - Show "X-Y of Z items" text (default: false)
+- `showPageInfo` - Show "Page X of Y" text (default: false)
+- `maxButtons` - Maximum number of page buttons to show (default: 7)
+- `size` - Component size: 'sm' | 'md' | 'lg' (default: 'md')
+- `variant` - Visual variant: 'default' | 'rounded' | 'minimal' (default: 'default')
+- `className` - Additional CSS classes
+- `disabled` - Disable all pagination controls
+
+## Features
+
+### Smart Page Button Display
+
+The component intelligently displays page numbers based on the current page and total pages:
+
+```
+When on page 1 of 10:  [1] 2 3 ... 10
+When on page 5 of 10:  1 ... 4 [5] 6 ... 10
+When on page 10 of 10: 1 ... 8 9 [10]
+```
+
+### Item Range Display
+
+When `showItemsInfo` is true, displays the current range:
+- "Showing 1 - 12 of 120 games"
+- "Showing 13 - 24 of 120 games"
+
+### Keyboard Navigation
+
+Full keyboard support for accessibility:
+- `Tab` - Navigate between buttons
+- `Enter/Space` - Activate focused button
+- `Arrow Keys` - Navigate between page numbers (when focused)
+
+### URL Integration
+
+Can be integrated with URL query parameters:
+
+```tsx
+function PaginatedPage() {
+  const router = useRouter();
+  const searchParams = useSearchParams();
+  const currentPage = parseInt(searchParams.get('page') || '1');
+
+  const handlePageChange = (page) => {
+    const params = new URLSearchParams(searchParams);
+    params.set('page', page.toString());
+    router.push(`?${params.toString()}`);
+  };
+
+  return (
+    <Pagination
+      currentPage={currentPage}
+      totalPages={10}
+      onPageChange={handlePageChange}
+    />
+  );
+}
+```
+
+## Styling
+
+### Size Variants
+
+```tsx
+// Small - Compact for tight spaces
+<Pagination size="sm" />
+
+// Medium - Default size
+<Pagination size="md" />
+
+// Large - More prominent controls
+<Pagination size="lg" />
+```
+
+### Visual Variants
+
+```tsx
+// Default - Standard button style
+<Pagination variant="default" />
+
+// Rounded - Circular buttons
+<Pagination variant="rounded" />
+
+// Minimal - Text-only style
+<Pagination variant="minimal" />
+```
+
+### Theme Support
+
+The pagination component adapts to all theme variants:
+
+```css
+/* Automatically adjusts colors based on theme */
+[data-theme="dark"] .pagination { }
+[data-theme="light"] .pagination { }
+[data-theme="neon"] .pagination { }
+[data-theme="gold"] .pagination { }
+```
+
+## Accessibility
+
+The component follows WAI-ARIA guidelines:
+
+- Proper ARIA labels for all controls
+- Semantic HTML structure with `<nav>` element
+- Clear focus indicators
+- Screen reader announcements for page changes
+- Disabled state for inactive buttons
+
+## Performance
+
+### Optimizations
+
+- Memoized callbacks to prevent unnecessary re-renders
+- Efficient page number calculation algorithm
+- Minimal DOM updates on page change
+- CSS-based animations for smooth transitions
+
+### Bundle Size
+
+- Component: ~4KB minified
+- CSS: ~2KB minified
+- Total: ~6KB minified and gzipped
+
+## Best Practices
+
+1. **Always provide total pages** - Required for proper navigation
+2. **Include items info for clarity** - Helps users understand the data range
+3. **Consider URL integration** - For bookmarkable pages
+4. **Handle edge cases** - Single page, no results, loading states
+5. **Test with keyboard** - Ensure full keyboard accessibility
+
+## Common Patterns
+
+### With Loading State
+
+```tsx
+<Pagination
+  currentPage={currentPage}
+  totalPages={totalPages}
+  onPageChange={handlePageChange}
+  disabled={isLoading}
+/>
+```
+
+### With Custom Labels
+
+```tsx
+<Pagination
+  currentPage={currentPage}
+  totalPages={totalPages}
+  onPageChange={handlePageChange}
+  itemLabel="products" // Shows "X products" instead of "X items"
+/>
+```
+
+### Infinite Scroll Fallback
+
+```tsx
+{!supportInfiniteScroll && (
+  <Pagination
+    currentPage={currentPage}
+    totalPages={totalPages}
+    onPageChange={handlePageChange}
+  />
+)}
+```
+
+## Related Components
+
+- [Button](/?path=/docs/ui-button--docs) - Base button component
+- [GameGrid](/?path=/docs/features-gamegrid--docs) - Often used with pagination
+- [FilterPanel](/?path=/docs/features-filterpanel--docs) - Works alongside pagination

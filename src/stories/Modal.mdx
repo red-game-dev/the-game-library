@@ -2,7 +2,7 @@ import { Meta, Canvas, Controls, Story, ArgTypes } from '@storybook/addon-docs/b
 import ModalMeta, * as ModalStories from '../components/ui/Modal/Modal.stories';
 import { Modal } from '../components/ui/Modal';
 
-<Meta title="Documentation/Base UI/Modal" />
+<Meta of={ModalStories} title="Documentation/Base UI/Modal" />
 
 # Modal Component
 
@@ -168,6 +168,31 @@ Additional CSS classes for the overlay.
 **Default:** `true`
 
 Prevent body scroll when modal is open.
+
+### `zIndex`
+**Type:** `number`  
+**Default:** `undefined`
+
+Custom z-index for stacking multiple modals:
+
+```tsx
+// First modal
+<Modal zIndex={1000}>
+  First modal content
+</Modal>
+
+// Second modal (on top of first)
+<Modal zIndex={1010}>
+  Second modal content
+</Modal>
+
+// Third modal (on top of second)
+<Modal zIndex={1020}>
+  Third modal content
+</Modal>
+```
+
+This prop is particularly useful when you need to display multiple modals at once, ensuring proper stacking order. Each modal should have a higher z-index than the one below it.
 
 ### `animate`
 **Type:** `boolean`  

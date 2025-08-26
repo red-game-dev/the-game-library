@@ -2,15 +2,15 @@ import { Meta, Canvas, Controls, Story, ArgTypes } from '@storybook/addon-docs/b
 import CarouselMeta, * as CarouselStories from '../components/ui/Carousel/Carousel.stories';
 import { Carousel } from '../components/ui/Carousel';
 
-<Meta title="Documentation/Base UI/Carousel" />
+<Meta of={CarouselStories} title="Documentation/Base UI/Carousel" />
 
 # Carousel Component
 
-The Carousel component provides a responsive, touch-enabled slider for displaying multiple items. Perfect for image galleries, featured content, testimonials, and product showcases.
+The Carousel component provides a responsive, touch-enabled slider for displaying multiple items using Embla Carousel. Perfect for image galleries, featured content, testimonials, and product showcases.
 
 ## Overview
 
-The Carousel component offers smooth transitions, touch/swipe support, keyboard navigation, and various customization options. It's fully accessible and responsive across all devices.
+Built on top of Embla Carousel, this component offers smooth transitions, touch/swipe support, keyboard navigation, and various customization options. It's fully accessible, responsive across all devices, and includes features like infinite scroll, auto-play, and customizable navigation controls.
 
 <Canvas of={CarouselStories.Default} />
 
@@ -20,23 +20,21 @@ The Carousel component offers smooth transitions, touch/swipe support, keyboard 
 
 ## Detailed Props Documentation
 
-### `items`
-**Type:** `Array<{ id: string; content: React.ReactNode; alt?: string }>`  
+### `children`
+**Type:** `React.ReactNode`  
 **Required**
 
-Array of items to display in the carousel:
+The content to display in the carousel slides. Each child element becomes a slide:
 
 ```tsx
-const items = [
-  { id: '1', content: <img src="/slide1.jpg" alt="Slide 1" /> },
-  { id: '2', content: <div>Custom Content</div> },
-  { id: '3', content: <GameCard game={game} /> }
-];
-
-<Carousel items={items} />
+<Carousel>
+  <img src="/slide1.jpg" alt="Slide 1" />
+  <div>Custom Content</div>
+  <GameCard game={game} />
+</Carousel>
 ```
 
-### `autoPlay`
+### `autoScroll`
 **Type:** `boolean`  
 **Default:** `false`
 
@@ -44,17 +42,18 @@ Enable automatic slide advancement:
 
 ```tsx
 <Carousel 
-  items={items}
-  autoPlay
+  autoScroll
   autoScrollInterval={5000}
-/>
+>
+  {slides}
+</Carousel>
 ```
 
 ### `autoScrollInterval`
 **Type:** `number`  
-**Default:** `3000`
+**Default:** `4000`
 
-Time between slides in milliseconds when autoPlay is enabled.
+Time between slides in milliseconds when autoScroll is enabled.
 
 ### `showArrows`
 **Type:** `boolean`  
@@ -63,23 +62,34 @@ Time between slides in milliseconds when autoPlay is enabled.
 Show/hide navigation arrows:
 
 ```tsx
-<Carousel 
-  items={items}
-  showArrows={false} // Touch/swipe only
-/>
+<Carousel showArrows={false}>
+  {/* Touch/swipe only navigation */}
+  {slides}
+</Carousel>
 ```
 
-### `showIndicators`
+### `showDots`
 **Type:** `boolean`  
 **Default:** `true`
 
 Show/hide slide indicators (dots):
 
 ```tsx
-<Carousel 
-  items={items}
-  showIndicators={false}
-/>
+<Carousel showDots={false}>
+  {slides}
+</Carousel>
+```
+
+### `dotTheme`
+**Type:** `'default' | 'primary' | 'dark' | 'light' | 'neon'`  
+**Default:** `'default'`
+
+Theme for the dot indicators:
+
+```tsx
+<Carousel dotTheme="neon">
+  {slides}
+</Carousel>
 ```
 
 ### `loop`
@@ -95,65 +105,52 @@ Enable infinite loop navigation:
 />
 ```
 
-### `slidesPerView`
-**Type:** `number | { mobile: number; tablet: number; desktop: number }`  
+### `slidesToScroll`
+**Type:** `number`  
 **Default:** `1`
 
-Number of slides visible at once:
+Number of slides to scroll at once:
 
 ```tsx
-// Fixed number
-<Carousel items={items} slidesPerView={3} />
-
-// Responsive
-<Carousel 
-  items={items}
-  slidesPerView={{
-    mobile: 1,
-    tablet: 2,
-    desktop: 3
-  }}
-/>
+<Carousel slidesToScroll={2}>
+  {slides}
+</Carousel>
 ```
 
-### `gap`
-**Type:** `number`  
-**Default:** `16`
+### `align`
+**Type:** `'start' | 'center' | 'end'`  
+**Default:** `'center'`
 
-Gap between slides in pixels:
+Alignment of slides within the viewport:
 
 ```tsx
-<Carousel 
-  items={items}
-  slidesPerView={3}
-  gap={24}
-/>
+<Carousel align="start">
+  {slides}
+</Carousel>
 ```
 
-### `transition`
-**Type:** `'slide' | 'fade' | 'cube'`  
-**Default:** `'slide'`
-
-Transition effect between slides:
-
-```tsx
-<Carousel 
-  items={items}
-  transition="fade"
-/>
-```
-
-### `onSlideChange`
-**Type:** `(index: number) => void`  
+### `className`
+**Type:** `string`  
 **Default:** `undefined`
 
-Callback when active slide changes:
+Custom CSS class for the carousel container:
 
 ```tsx
-<Carousel 
-  items={items}
-  onSlideChange={(index) => console.log(`Slide ${index}`)}
-/>
+<Carousel className="my-custom-carousel">
+  {slides}
+</Carousel>
+```
+
+### `height`
+**Type:** `string`  
+**Default:** `'auto'`
+
+Height of the carousel:
+
+```tsx
+<Carousel height="400px">
+  {slides}
+</Carousel>
 ```
 
 ## Usage Examples
@@ -164,18 +161,12 @@ Callback when active slide changes:
 import { Carousel } from '@/components/ui/Carousel';
 
 function ImageGallery() {
-  const images = [
-    { id: '1', content: <img src="/img1.jpg" alt="Image 1" /> },
-    { id: '2', content: <img src="/img2.jpg" alt="Image 2" /> },
-    { id: '3', content: <img src="/img3.jpg" alt="Image 3" /> }
-  ];
-  
   return (
-    <Carousel 
-      items={images}
-      autoPlay
-      showIndicators
-    />
+    <Carousel autoScroll showDots>
+      <img src="/img1.jpg" alt="Image 1" className="w-full h-96 object-cover" />
+      <img src="/img2.jpg" alt="Image 2" className="w-full h-96 object-cover" />
+      <img src="/img3.jpg" alt="Image 3" className="w-full h-96 object-cover" />
+    </Carousel>
   );
 }
 ```
@@ -444,13 +435,11 @@ The Carousel adapts to different screen sizes:
 - **Tablet**: Smaller arrows, multiple items
 - **Desktop**: Hover states, keyboard focus
 
-<Canvas of={CarouselStories.Mobile} />
+<Canvas of={CarouselStories.MobileFriendly} />
 
 ## Theme Support
 
-Full dark and light theme support:
-
-<Canvas of={CarouselStories.DarkMode} />
+The carousel automatically adapts to your application's theme (dark, light, neon, gold) through CSS variables.
 
 ## Common Patterns
 

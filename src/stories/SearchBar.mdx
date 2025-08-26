@@ -6,11 +6,11 @@ import { SearchBar } from '../components/features/SearchBar';
 
 # SearchBar Component
 
-The SearchBar component provides advanced search functionality with debouncing, loading states, and keyboard shortcuts. It's optimized for searching through large game libraries with instant feedback.
+The SearchBar component provides advanced search functionality with debouncing, loading states, search type toggle, and keyboard shortcuts. It's optimized for searching through large game libraries with instant feedback across multiple content types.
 
 ## Overview
 
-The SearchBar is a feature-rich search component built on top of the base Input component. It includes debounced search, clear functionality, loading indicators, and keyboard shortcuts for enhanced user experience.
+The SearchBar is a feature-rich search component built on top of the base Input component. It includes debounced search, clear functionality, loading indicators, search type toggle for multi-context searching (games, providers, tags), and keyboard shortcuts for enhanced user experience.
 
 <Canvas of={SearchBarStories.Default} />
 
@@ -46,17 +46,22 @@ Placeholder text for the search input:
 ```
 
 ### `onSearch`
-**Type:** `(query: string) => void`  
+**Type:** `(query: string, searchType?: SearchType) => void`  
 **Default:** `undefined`
 
-Callback fired after debounce delay:
+Callback fired after debounce delay with optional search type:
 
 ```tsx
 <SearchBar 
-  onSearch={(query) => {
-    // Perform search with debounced query
-    searchGames(query);
+  onSearch={(query, searchType) => {
+    // Perform search with debounced query and type
+    if (searchType === 'games') {
+      searchGames(query);
+    } else if (searchType === 'providers') {
+      searchProviders(query);
+    }
   }}
+  enableTypeToggle
   debounceDelay={300}
 />
 ```
@@ -143,6 +148,80 @@ Search bar size variant:
   size="lg"
   placeholder="Search our game library..."
 />
+```
+
+### `enableTypeToggle`
+**Type:** `boolean`  
+**Default:** `false`
+
+Enable search type toggle for multi-context searching:
+
+```tsx
+<SearchBar 
+  enableTypeToggle
+  defaultSearchType="all"
+  onSearch={(query, type) => {
+    console.log(`Searching ${type}: ${query}`);
+  }}
+/>
+```
+
+### `defaultSearchType`
+**Type:** `'all' | 'games' | 'providers' | 'tags'`  
+**Default:** `'all'`
+
+Default search type when toggle is enabled:
+
+```tsx
+<SearchBar 
+  enableTypeToggle
+  defaultSearchType="games"
+  placeholder="Search games..."
+/>
+```
+
+## Search Type Toggle
+
+The SearchBar supports multi-context searching with a visual toggle:
+
+<Canvas of={SearchBarStories.WithTypeDropdown} />
+
+### Available Search Types
+
+- **All** - Search across all content types
+- **Games** - Search game titles, descriptions, and metadata
+- **Providers** - Search game developers and publishers
+- **Tags** - Search game categories and tags
+
+### Implementation Example
+
+```tsx
+function MultiContextSearch() {
+  const handleSearch = (query: string, searchType?: SearchType) => {
+    switch(searchType) {
+      case 'games':
+        searchGamesAPI(query);
+        break;
+      case 'providers':
+        searchProvidersAPI(query);
+        break;
+      case 'tags':
+        searchTagsAPI(query);
+        break;
+      default:
+        searchAllAPI(query);
+    }
+  };
+
+  return (
+    <SearchBar 
+      placeholder="Search everything..."
+      enableTypeToggle
+      defaultSearchType="all"
+      onSearch={handleSearch}
+    />
+  );
+}
 ```
 
 ## Usage Examples

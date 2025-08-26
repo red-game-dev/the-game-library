@@ -1,0 +1,297 @@
+import { Meta, Canvas, Controls, Story } from '@storybook/addon-docs/blocks';
+import * as HeaderStories from '../components/layout/Header/Header.stories';
+
+<Meta title="Documentation/Layout/Header" />
+
+# Header
+
+Main navigation header with responsive design, user authentication, theme switching, and mobile drawer support.
+
+## Overview
+
+The Header component serves as the primary navigation for the application. It features a responsive design that adapts from a traditional navigation bar on desktop to a mobile drawer on smaller screens.
+
+<Canvas of={HeaderStories.Default} />
+
+## Features
+
+- 🎯 **Responsive Navigation** - Desktop nav bar transforms to mobile drawer
+- 👤 **User Authentication** - Login/signup or user profile display
+- 🎨 **Theme Switching** - Support for light, dark, neon, and gold themes
+- 📱 **Mobile Optimized** - Touch-friendly drawer navigation
+- 🔍 **Search Integration** - Quick access to search functionality
+- ⭐ **Favorites Counter** - Display count of favorite items
+- 📌 **Sticky Header** - Optional fixed positioning with scroll effects
+- 🌊 **Transparent Mode** - Header with background that appears on scroll
+- 📊 **Multi-level Navigation** - Support for dropdown submenus
+- ♿ **Accessible** - Full keyboard navigation and ARIA support
+
+## Authentication States
+
+### Guest User
+Default state with login and signup buttons
+<Canvas of={HeaderStories.Default} />
+
+### Authenticated User
+Shows user profile with name, avatar, and balance
+<Canvas of={HeaderStories.Authenticated} />
+
+## Configuration Options
+
+### Without User Section
+Hide the entire user authentication area
+<Canvas of={HeaderStories.NoUserSection} />
+
+### Without Search
+Remove the search button for simpler navigation
+<Canvas of={HeaderStories.NoSearch} />
+
+### Without Theme Switcher
+Hide theme switching controls
+<Canvas of={HeaderStories.NoThemeSwitcher} />
+
+### Minimal Header
+Simplified header with only essential navigation
+<Canvas of={HeaderStories.Minimal} />
+
+## Visual Modes
+
+### Transparent Header
+Header with transparent background that becomes solid on scroll
+<Canvas of={HeaderStories.Transparent} />
+
+### Non-Fixed Header
+Header that scrolls with the page content
+<Canvas of={HeaderStories.NonFixed} />
+
+## Navigation Examples
+
+### Custom Navigation Items
+Configure your own navigation structure
+<Canvas of={HeaderStories.CustomNavigation} />
+
+### With Badges and Indicators
+Add badges, "NEW", and "HOT" indicators to navigation items
+<Canvas of={HeaderStories.WithBadges} />
+
+### Long Navigation
+Handles many navigation items gracefully
+<Canvas of={HeaderStories.LongNavigation} />
+
+## Branding
+
+### Custom Logo
+Replace the default logo with your own branding
+<Canvas of={HeaderStories.CustomLogo} />
+
+## Responsive Design
+
+### Mobile View
+Optimized mobile experience with drawer navigation
+<Canvas of={HeaderStories.Mobile} />
+
+### Tablet View
+Balanced layout for medium-sized screens with special iPad Mini optimizations
+<Canvas of={HeaderStories.Tablet} />
+
+### iPad Mini Layout Fixes
+The Header component includes specific fixes for iPad Mini (768px) viewport:
+- Logo text remains on single line with `white-space: nowrap`
+- Reduced gap spacing to prevent content overflow
+- Fixed container width to prevent horizontal scroll
+- Optimized breakpoint handling at exactly 768px
+
+## Theme Support
+
+### Dark Mode
+Automatic adaptation to dark theme
+<Canvas of={HeaderStories.DarkMode} />
+
+### Neon Theme
+Futuristic neon styling
+<Canvas of={HeaderStories.NeonTheme} />
+
+### Gold Theme
+Luxurious gold accent theme
+<Canvas of={HeaderStories.GoldTheme} />
+
+## Interactive Example
+
+### With Scroll Content
+See how the transparent header gains background on scroll
+<Canvas of={HeaderStories.WithScrollContent} />
+
+## API Reference
+
+<Controls />
+
+## Props
+
+| Prop | Type | Default | Description |
+|------|------|---------|-------------|
+| `showUser` | `boolean` | `true` | Show user section in header |
+| `user` | `object` | - | User data (name, avatar, balance) |
+| `navigationItems` | `NavigationItem[]` | Default items | Custom navigation structure |
+| `showSearch` | `boolean` | `true` | Show search button |
+| `showThemeSwitcher` | `boolean` | `true` | Show theme switcher button |
+| `fixed` | `boolean` | `true` | Fixed header at top of viewport |
+| `transparent` | `boolean` | `false` | Transparent header with scroll effect |
+| `logo` | `ReactNode` | - | Custom logo component |
+| `className` | `string` | - | Additional CSS classes |
+| `testId` | `string` | `'header'` | Test ID for testing |
+
+## NavigationItem Interface
+
+```typescript
+interface NavigationItem {
+  id: string;
+  label: string;
+  href: string;
+  icon?: ReactNode;
+  badge?: string | number;
+  isNew?: boolean;
+  isHot?: boolean;
+  children?: NavigationItem[];
+}
+```
+
+## User Object Interface
+
+```typescript
+interface User {
+  name: string;
+  avatar?: string;
+  balance?: number;
+}
+```
+
+## Usage Guidelines
+
+### When to Use
+- **Main Navigation** - Primary navigation for your application
+- **User Management** - When you need authentication UI
+- **Theme Control** - When users can switch between themes
+- **Mobile Apps** - Responsive navigation for all screen sizes
+
+### Best Practices
+
+1. **Keep Navigation Simple**
+   - Limit top-level items to 5-7
+   - Use dropdowns for secondary items
+   - Group related items together
+
+2. **User Experience**
+   - Always show current location
+   - Make touch targets 44x44px minimum
+   - Provide visual feedback on interactions
+
+3. **Mobile Considerations**
+   - Test drawer on actual devices
+   - Ensure smooth animations
+   - Consider thumb reach zones
+
+4. **Accessibility**
+   - Use semantic HTML navigation
+   - Provide keyboard navigation
+   - Include skip navigation links
+   - Test with screen readers
+
+5. **Performance**
+   - Lazy load user data
+   - Debounce scroll events
+   - Use CSS transforms for animations
+
+## Examples
+
+### Basic Usage
+```tsx
+import { Header } from '@/components/layout/Header';
+
+function App() {
+  return (
+    <Header />
+  );
+}
+```
+
+### With Custom User
+```tsx
+<Header
+  user={{
+    name: 'John Doe',
+    avatar: '/avatar.jpg',
+    balance: 1000
+  }}
+/>
+```
+
+### Custom Navigation
+```tsx
+const customNav = [
+  {
+    id: 'home',
+    label: 'Home',
+    href: '/',
+    icon: <HomeIcon />
+  },
+  {
+    id: 'products',
+    label: 'Products',
+    href: '/products',
+    icon: <ShopIcon />,
+    children: [
+      { id: 'new', label: 'New Arrivals', href: '/products/new' },
+      { id: 'sale', label: 'On Sale', href: '/products/sale' }
+    ]
+  }
+];
+
+<Header navigationItems={customNav} />
+```
+
+### Transparent with Custom Logo
+```tsx
+<Header
+  transparent
+  logo={<MyLogo />}
+  fixed
+/>
+```
+
+## Mobile Drawer
+
+The mobile drawer automatically activates on screens smaller than 1024px. It provides:
+
+- Full-height navigation panel
+- Touch-friendly navigation items
+- User profile section
+- Theme switcher
+- Settings access
+- Smooth slide animation
+- Focus management
+- ESC key support
+
+## Theme Integration
+
+The Header automatically adapts to the current theme:
+
+- **Light Mode**: Clean, bright appearance
+- **Dark Mode**: High contrast for low light
+- **Neon Mode**: Cyberpunk-inspired glow effects
+- **Gold Mode**: Luxury gaming aesthetic
+
+## Accessibility Features
+
+- **ARIA Labels**: All interactive elements have proper labels
+- **Keyboard Navigation**: Full keyboard support with Tab/Shift+Tab
+- **Focus Management**: Focus trap in mobile drawer
+- **Screen Reader Support**: Semantic HTML and ARIA attributes
+- **Skip Navigation**: Hidden skip links for keyboard users
+- **Reduced Motion**: Respects prefers-reduced-motion
+
+## Related Components
+
+- [Drawer](/docs/documentation-base-ui-drawer--docs) - Reusable drawer component
+- [Button](/docs/ui-button--docs) - Action buttons
+- [Badge](/docs/ui-badge--docs) - Notification badges
+- [Dropdown](/docs/ui-dropdown--docs) - Dropdown menus

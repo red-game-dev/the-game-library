@@ -1,0 +1,393 @@
+import { Meta, Story, Canvas, ArgsTable, Source } from '@storybook/addon-docs';
+import { ErrorPage, ERROR_CONFIGS } from '../components/features/ErrorPage';
+import * as ErrorPageStories from '../components/features/ErrorPage/ErrorPage.stories';
+
+<Meta title="Features/ErrorPage/Documentation" />
+
+# ErrorPage
+
+A comprehensive error page component for displaying various error states with appropriate actions. Perfect for 404 pages, server errors, authentication issues, and custom error scenarios.
+
+## Overview
+
+The ErrorPage component provides:
+- **11 predefined error types** with appropriate icons and messages
+- **Customizable actions** (Retry, Go Back, Go Home)
+- **Beautiful animations** specific to each error type
+- **Security badges** for authentication-related errors
+- **Full theme support** with custom styling per theme
+- **Responsive design** with mobile-optimized layouts
+- **Accessibility features** for screen readers
+
+## Usage
+
+<Source
+  language="tsx"
+  code={`
+import { ErrorPage, ERROR_CONFIGS } from '@/components/features/ErrorPage';
+
+// Basic 404 page
+<ErrorPage errorType="404" />
+
+// 500 error with custom message
+<ErrorPage 
+  errorType="500"
+  description="We're working on fixing this issue. Please try again later."
+/>
+
+// Custom error with specific actions
+<ErrorPage
+  errorType="custom"
+  title="Payment Failed"
+  description="Your payment could not be processed."
+  showRetry={true}
+  showGoHome={true}
+  onRetry={() => retryPayment()}
+/>
+
+// Using custom error config
+const customConfig = {
+  icon: <CustomIcon />,
+  title: 'Custom Error',
+  description: 'This is a custom error message',
+  showRetry: true,
+  showGoBack: false,
+  showGoHome: true,
+  badgeText: 'CUSTOM',
+  badgeVariant: 'warning'
+};
+
+<ErrorPage errorConfig={customConfig} />
+  `}
+/>
+
+## Error Types
+
+### Client Errors (4xx)
+
+#### 400 - Bad Request
+Invalid request that the server cannot process.
+
+<Canvas>
+  <Story of={ErrorPageStories.BadRequest} />
+</Canvas>
+
+#### 401 - Unauthorized
+Authentication is required to access this resource.
+
+<Canvas>
+  <Story of={ErrorPageStories.Unauthorized} />
+</Canvas>
+
+#### 403 - Forbidden
+Access denied due to insufficient permissions.
+
+<Canvas>
+  <Story of={ErrorPageStories.Forbidden} />
+</Canvas>
+
+#### 404 - Not Found
+The requested page or resource doesn't exist.
+
+<Canvas>
+  <Story of={ErrorPageStories.NotFound} />
+</Canvas>
+
+#### 408 - Request Timeout
+The request took too long to process.
+
+<Canvas>
+  <Story of={ErrorPageStories.Timeout} />
+</Canvas>
+
+#### 429 - Too Many Requests
+Rate limit exceeded, please slow down.
+
+<Canvas>
+  <Story of={ErrorPageStories.TooManyRequests} />
+</Canvas>
+
+### Server Errors (5xx)
+
+#### 500 - Internal Server Error
+Something went wrong on the server.
+
+<Canvas>
+  <Story of={ErrorPageStories.ServerError} />
+</Canvas>
+
+#### 502 - Bad Gateway
+Unable to connect to upstream servers.
+
+<Canvas>
+  <Story of={ErrorPageStories.BadGateway} />
+</Canvas>
+
+#### 503 - Service Unavailable
+Service temporarily unavailable (maintenance).
+
+<Canvas>
+  <Story of={ErrorPageStories.ServiceUnavailable} />
+</Canvas>
+
+### Other Error Types
+
+#### Network Error
+No internet connection or network issues.
+
+<Canvas>
+  <Story of={ErrorPageStories.NetworkError} />
+</Canvas>
+
+#### Custom Error
+Flexible error type for custom scenarios.
+
+<Canvas>
+  <Story of={ErrorPageStories.CustomError} />
+</Canvas>
+
+## Props
+
+<ArgsTable of={ErrorPage} />
+
+## Error Configuration
+
+Each error type has a predefined configuration that can be overridden:
+
+```typescript
+interface ErrorConfig {
+  icon: React.ReactNode;      // Icon to display
+  title: string;               // Error title
+  description: string;         // Error description
+  showRetry: boolean;          // Show retry button
+  showGoBack: boolean;         // Show go back button
+  showGoHome: boolean;         // Show go home button
+  badgeText?: string;          // Badge text (e.g., "404")
+  badgeVariant?: BadgeVariant; // Badge styling variant
+}
+```
+
+### Default Configurations
+
+```typescript
+// Access default configurations
+import { ERROR_CONFIGS } from '@/components/features/ErrorPage';
+
+// Example: 404 config
+const notFoundConfig = ERROR_CONFIGS['404'];
+// {
+//   icon: <Search className="error-page-icon" />,
+//   title: 'Page Not Found',
+//   description: "We couldn't find the page you're looking for.",
+//   showRetry: false,
+//   showGoBack: true,
+//   showGoHome: true,
+//   badgeText: '404',
+//   badgeVariant: 'info'
+// }
+```
+
+## Actions
+
+### Retry Action
+Used for transient errors that might succeed on retry.
+
+```tsx
+<ErrorPage
+  errorType="500"
+  onRetry={() => {
+    // Custom retry logic
+    window.location.reload();
+  }}
+/>
+```
+
+### Go Back Action
+Navigate to the previous page.
+
+```tsx
+<ErrorPage
+  errorType="404"
+  onGoBack={() => {
+    // Custom navigation logic
+    router.back();
+  }}
+/>
+```
+
+### Go Home Action
+Navigate to the homepage.
+
+```tsx
+<ErrorPage
+  errorType="403"
+  onGoHome={() => {
+    // Custom navigation logic
+    router.push('/');
+  }}
+/>
+```
+
+## Customization
+
+### Custom Content
+Add additional content below the description:
+
+<Canvas>
+  <Story of={ErrorPageStories.WithAdditionalContent} />
+</Canvas>
+
+### Security Badge
+Show a security shield for authentication-related errors:
+
+<Canvas>
+  <Story of={ErrorPageStories.SecurityError} />
+</Canvas>
+
+### Maintenance Mode
+Custom configuration for maintenance scenarios:
+
+<Canvas>
+  <Story of={ErrorPageStories.Maintenance} />
+</Canvas>
+
+## Styling
+
+### CSS Variables
+
+The ErrorPage component uses theme-specific CSS variables:
+
+```css
+/* Background and layout */
+--error-page-bg: /* Page background gradient */
+--error-page-content-bg: /* Content box background */
+--error-page-content-border: /* Content border color */
+--error-page-content-shadow: /* Content box shadow */
+
+/* Typography */
+--error-page-title-color: /* Title text color */
+--error-page-title-gradient: /* Title gradient effect */
+--error-page-description-color: /* Description text color */
+
+/* Icon and decorations */
+--error-page-icon-color: /* Icon color */
+--error-page-security-color: /* Security badge color */
+--error-page-glow: /* Decorative glow effect */
+--error-page-pattern: /* Background pattern */
+--error-page-circle-bg: /* Animated circles color */
+
+/* Help section */
+--error-page-help-border: /* Help section border */
+--error-page-help-color: /* Help text color */
+--error-page-help-link-color: /* Link color */
+--error-page-help-link-hover: /* Link hover color */
+```
+
+### Animations
+
+Each error type has specific animations:
+
+- **404**: Swing animation (searching motion)
+- **500/502/503**: Shake animation (error indication)
+- **401/403**: Pulse animation (attention-grabbing)
+- **429**: Flash animation (rate limit warning)
+- **Network**: Fade animation (connection issues)
+
+## Theme Support
+
+### Dark Mode
+<Canvas>
+  <Story of={ErrorPageStories.DarkMode} />
+</Canvas>
+
+### Neon Theme
+<Canvas>
+  <Story of={ErrorPageStories.NeonTheme} />
+</Canvas>
+
+### Gold Theme
+<Canvas>
+  <Story of={ErrorPageStories.GoldTheme} />
+</Canvas>
+
+## Next.js Integration
+
+### Custom Error Pages
+
+Create custom error pages in your Next.js app:
+
+#### pages/404.tsx
+```tsx
+import { ErrorPage } from '@/components/features/ErrorPage';
+
+export default function Custom404() {
+  return <ErrorPage errorType="404" />;
+}
+```
+
+#### pages/500.tsx
+```tsx
+import { ErrorPage } from '@/components/features/ErrorPage';
+
+export default function Custom500() {
+  return <ErrorPage errorType="500" />;
+}
+```
+
+#### pages/_error.tsx
+```tsx
+import { ErrorPage } from '@/components/features/ErrorPage';
+import type { ErrorType } from '@/components/features/ErrorPage';
+
+function Error({ statusCode }: { statusCode: number }) {
+  const errorType = statusCode.toString() as ErrorType;
+  
+  return (
+    <ErrorPage 
+      errorType={ERROR_CONFIGS[errorType] ? errorType : 'custom'}
+      title={`Error ${statusCode}`}
+    />
+  );
+}
+
+Error.getInitialProps = ({ res, err }) => {
+  const statusCode = res ? res.statusCode : err ? err.statusCode : 404;
+  return { statusCode };
+};
+
+export default Error;
+```
+
+## Accessibility
+
+The component follows accessibility best practices:
+
+- **Semantic HTML**: Uses proper heading hierarchy
+- **ARIA labels**: Includes appropriate ARIA attributes
+- **Keyboard navigation**: All actions are keyboard accessible
+- **Screen reader support**: Descriptive text for all elements
+- **Focus management**: Proper focus states for interactive elements
+- **Reduced motion**: Respects `prefers-reduced-motion` setting
+
+## Best Practices
+
+1. **Choose appropriate error types**: Use specific error codes when possible
+2. **Provide helpful descriptions**: Make error messages user-friendly
+3. **Offer clear actions**: Guide users on what to do next
+4. **Handle errors gracefully**: Always provide fallback options
+5. **Log errors properly**: Track errors for debugging
+6. **Test error scenarios**: Ensure error pages work correctly
+7. **Consider user experience**: Make errors less frustrating
+
+## Performance
+
+- **Optimized animations**: GPU-accelerated transforms
+- **Lazy loading**: Icons loaded on demand
+- **Minimal re-renders**: Component is memoized internally
+- **Efficient styling**: CSS variables for theming
+
+## Related Components
+
+- [ComingSoon](/?path=/docs/features-comingsoon--docs) - For features under development
+- [Button](/?path=/docs/ui-button--docs) - Action buttons used in error pages
+- [Badge](/?path=/docs/ui-badge--docs) - Error code badges
