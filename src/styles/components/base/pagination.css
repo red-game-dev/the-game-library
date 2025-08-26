@@ -1,0 +1,225 @@
+/**
+ * Pagination Component Styles
+ */
+
+/* Container */
+.pagination {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  user-select: none;
+}
+
+.pagination-container {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+}
+
+/* Controls */
+.pagination-controls {
+  display: flex;
+  align-items: center;
+}
+
+.pagination-numbers {
+  display: flex;
+  align-items: center;
+}
+
+/* Buttons */
+.pagination-btn {
+  transition: all var(--duration-200) var(--ease-in-out);
+}
+
+.pagination-btn-number {
+  font-weight: var(--font-medium);
+}
+
+.pagination-btn-active {
+  pointer-events: none;
+}
+
+.pagination-btn:not(:disabled):hover {
+  transform: translateY(-1px);
+}
+
+/* Ellipsis */
+.pagination-ellipsis {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: var(--space-9);
+  height: var(--space-9);
+  color: var(--color-text-secondary);
+  opacity: var(--opacity-50);
+}
+
+/* Info */
+.pagination-info {
+  color: var(--color-text-secondary);
+  font-size: var(--text-sm);
+  white-space: nowrap;
+}
+
+.pagination-page-info {
+  padding: 0 var(--space-3);
+  color: var(--color-text-secondary);
+  font-weight: var(--font-medium);
+}
+
+/* Size Variants */
+.pagination-sm {
+  .pagination-btn {
+    min-width: var(--space-8);
+    height: var(--space-8);
+    padding: 0 var(--space-2);
+    font-size: var(--text-sm);
+  }
+  
+  .pagination-ellipsis {
+    width: var(--space-8);
+    height: var(--space-8);
+  }
+  
+  .pagination-info {
+    font-size: var(--text-xs);
+  }
+}
+
+.pagination-lg {
+  .pagination-btn {
+    min-width: var(--space-11);
+    height: var(--space-11);
+    padding: 0 var(--space-4);
+    font-size: var(--text-base);
+  }
+  
+  .pagination-ellipsis {
+    width: var(--space-11);
+    height: var(--space-11);
+  }
+  
+  .pagination-info {
+    font-size: var(--text-base);
+  }
+}
+
+/* Variant Styles */
+.pagination-minimal {
+  .pagination-controls {
+    gap: var(--space-3);
+  }
+  
+  .pagination-btn {
+    min-width: auto;
+  }
+}
+
+.pagination-dots {
+  .pagination-btn-number {
+    width: var(--space-2);
+    height: var(--space-2);
+    min-width: var(--space-2);
+    padding: 0;
+    border-radius: var(--radius-full);
+    background: var(--color-border);
+    
+    &:hover:not(:disabled) {
+      background: var(--color-primary);
+      transform: scale(1.2);
+    }
+  }
+  
+  .pagination-btn-active {
+    background: var(--color-primary);
+    width: var(--space-6);
+    border-radius: var(--radius-full);
+  }
+}
+
+/* Theme Variations using CSS variables */
+.pagination-btn:hover:not(:disabled) {
+  background: var(--pagination-btn-hover-bg);
+  box-shadow: var(--pagination-btn-hover-shadow, none);
+}
+
+.pagination-btn-active {
+  background: var(--pagination-btn-active-bg);
+  color: var(--pagination-btn-active-text);
+  box-shadow: var(--pagination-btn-active-shadow, none);
+}
+
+.pagination-dots .pagination-btn-number {
+  background: var(--pagination-dots-bg);
+}
+
+.pagination-dots .pagination-btn-number:hover:not(:disabled) {
+  background: var(--pagination-dots-hover-bg);
+  color: var(--pagination-btn-active-text);
+}
+
+.pagination-dots .pagination-btn-active {
+  background: var(--pagination-dots-active-bg);
+  color: var(--pagination-btn-active-text);
+}
+
+/* Mobile-first: Compact pagination layout */
+.pagination-container {
+  gap: var(--space-2);
+}
+
+.pagination-controls {
+  gap: var(--space-1);
+}
+
+.pagination-btn {
+  min-width: var(--space-8);
+  padding: 0 var(--space-2);
+}
+
+.pagination-numbers {
+  gap: 0;
+}
+
+/* Hide some buttons on mobile */
+.pagination-btn-first,
+.pagination-btn-last {
+  display: none;
+}
+
+/* Only show 3 page numbers on mobile */
+.pagination-numbers .pagination-btn-number:nth-child(n+4):not(.pagination-btn-active) {
+  display: none;
+}
+
+/* Tablet and up: More spacious layout */
+@media (min-width: 768px) {
+  .pagination-container {
+    gap: var(--space-4);
+  }
+  
+  .pagination-controls {
+    gap: var(--space-2);
+  }
+  
+  .pagination-btn {
+    min-width: var(--space-9);
+    padding: 0 var(--space-3);
+  }
+  
+  .pagination-numbers {
+    gap: var(--space-1);
+  }
+  
+  /* Show first/last buttons on larger screens */
+  .pagination-btn-first,
+  .pagination-btn-last {
+    display: inline-flex;
+  }
+  
+  /* Show all page numbers on larger screens */
+  .pagination-numbers .pagination-btn-number {
+    display: inline-flex;
+  }
+}

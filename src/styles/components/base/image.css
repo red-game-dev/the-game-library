@@ -11,49 +11,31 @@
   justify-content: center;
   height: 100%;
   width: 100%;
-  background-color: var(--gray-100);
+  background-color: var(--image-fallback-bg);
   padding: var(--space-2);
   text-align: center;
   overflow: hidden;
-}
-
-/* Dark mode fallback background */
-[data-theme="dark"] .image-fallback {
-  background-color: var(--gray-800);
 }
 
 /* Fallback icon - scales based on container size */
 .image-fallback-icon {
   width: 30%;
   height: 30%;
-  max-width: 3rem;
-  max-height: 3rem;
-  min-width: 1.5rem;
-  min-height: 1.5rem;
-  color: var(--gray-400);
+  max-width: var(--w-12);
+  max-height: var(--h-12);
+  min-width: var(--w-6);
+  min-height: var(--h-6);
+  color: var(--image-fallback-icon);
   margin-bottom: var(--space-1);
-}
-
-[data-theme="dark"] .image-fallback-icon {
-  color: var(--gray-600);
 }
 
 /* Fallback text - responsive sizing */
 .image-fallback-text {
-  font-size: clamp(0.625rem, 2vw, 0.875rem); /* Min 10px, preferred 2vw, max 14px */
-  color: var(--gray-500);
-  line-height: 1.2;
+  font-size: clamp(var(--text-xxs), 2vw, var(--text-sm)); /* Min 10px, preferred 2vw, max 14px */
+  color: var(--image-fallback-text);
+  line-height: var(--leading-tight);
   word-wrap: break-word;
   max-width: 90%;
-  
-  /* Hide text if container is too small */
-  @media (max-width: 100px) {
-    display: none;
-  }
-}
-
-[data-theme="dark"] .image-fallback-text {
-  color: var(--gray-400);
 }
 
 /* For circular/small containers, adjust layout */
@@ -62,7 +44,7 @@
 }
 
 .rounded-full .image-fallback-text {
-  font-size: clamp(0.5rem, 1.5vw, 0.75rem);
+  font-size: clamp(var(--text-2xs), 1.5vw, var(--text-xs));
 }
 
 /* For very small images (like avatars), only show icon */
@@ -82,21 +64,7 @@
 
 /* Loading skeleton for images */
 .image-loading {
-  background: linear-gradient(
-    90deg,
-    var(--gray-200) 0%,
-    var(--gray-100) 50%,
-    var(--gray-200) 100%
-  );
+  background: var(--image-loading-bg);
   background-size: 200% 100%;
-  animation: shimmer 1.5s ease-in-out infinite; /* Uses shimmer from _animations.css */
-}
-
-[data-theme="dark"] .image-loading {
-  background: linear-gradient(
-    90deg,
-    var(--gray-700) 0%,
-    var(--gray-600) 50%,
-    var(--gray-700) 100%
-  );
+  animation: shimmer var(--duration-1500) ease-in-out infinite; /* Uses shimmer from _animations.css */
 }

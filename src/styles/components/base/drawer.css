@@ -1,0 +1,356 @@
+/**
+ * Drawer Component Styles
+ * Versatile drawer/sidebar component
+ */
+
+/* Overlay */
+.drawer-overlay {
+  position: fixed;
+  inset: 0;
+  background: var(--drawer-overlay-bg);
+  z-index: var(--z-1000) !important;
+  animation: fadeIn var(--duration-300) var(--ease-out);
+}
+
+/* Base drawer */
+.drawer {
+  position: fixed;
+  background: var(--color-surface-elevated);
+  backdrop-filter: blur(var(--blur-xl));
+  box-shadow: var(--shadow-2xl);
+  z-index: var(--z-1010) !important;
+  display: flex;
+  flex-direction: column;
+  outline: none;
+}
+
+/* Persistent drawer - lower z-index so modals appear on top */
+.drawer-persistent {
+  z-index: var(--z-40) !important;
+}
+
+/* Persistent overlay - lower z-index to go behind the persistent drawer */
+.drawer-overlay-persistent {
+  z-index: var(--z-30) !important;
+}
+
+/* Position variants */
+.drawer-left {
+  top: 0;
+  left: 0;
+  bottom: 0;
+  animation: slideInLeft var(--duration-300) var(--ease-out);
+}
+
+.drawer-right {
+  top: 0;
+  right: 0;
+  bottom: 0;
+  animation: slideInRight var(--duration-300) var(--ease-out);
+}
+
+.drawer-top {
+  top: 0;
+  left: 0;
+  right: 0;
+  animation: slideInTop var(--duration-300) var(--ease-out);
+}
+
+.drawer-bottom {
+  bottom: 0;
+  left: 0;
+  right: 0;
+  animation: slideInBottom var(--duration-300) var(--ease-out);
+}
+
+/* Size variants */
+.drawer-left.drawer-sm,
+.drawer-right.drawer-sm,
+.drawer-left.drawer-md,
+.drawer-right.drawer-md,
+.drawer-left.drawer-lg,
+.drawer-right.drawer-lg,
+.drawer-left.drawer-xl,
+.drawer-right.drawer-xl {
+  width: 100vw;
+}
+
+.drawer-left.drawer-full,
+.drawer-right.drawer-full {
+  width: 100vw;
+}
+
+/* Size variants - Vertical (top/bottom) */
+.drawer-top.drawer-sm,
+.drawer-bottom.drawer-sm {
+  height: var(--h-32);
+  max-height: 50vh;
+}
+
+.drawer-top.drawer-md,
+.drawer-bottom.drawer-md {
+  height: var(--h-64);
+  max-height: 60vh;
+}
+
+.drawer-top.drawer-lg,
+.drawer-bottom.drawer-lg {
+  height: 24rem;
+  max-height: 70vh;
+}
+
+.drawer-top.drawer-xl,
+.drawer-bottom.drawer-xl {
+  height: 32rem;
+  max-height: 80vh;
+}
+
+.drawer-top.drawer-full,
+.drawer-bottom.drawer-full {
+  height: 100vh;
+}
+
+/* Close button - positioned relative in header */
+.drawer-close {
+  flex-shrink: 0;
+  margin-left: auto;
+}
+
+/* Header - Always present */
+.drawer-header {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: var(--space-3) var(--space-4);
+  border-bottom: 1px solid var(--color-border);
+  flex-shrink: 0;
+  min-height: var(--space-14); /* Consistent height */
+}
+
+/* Header content wrapper */
+.drawer-header-content {
+  flex: 1;
+}
+
+/* Drawer title when present */
+.drawer-title {
+  font-size: var(--text-lg);
+  font-weight: var(--font-semibold);
+  color: var(--color-text-primary);
+  margin: 0;
+  line-height: 1.5;
+}
+
+/* When no title, header only has close button */
+.drawer-header-content:empty {
+  display: none;
+}
+
+.drawer-header-content:empty + .drawer-close {
+  margin-left: auto; /* Push close button to the right */
+}
+
+/* Content/Body - Main scrollable area */
+.drawer-content {
+  flex: 1;
+  padding: var(--space-4);
+  overflow-y: auto;
+  overflow-x: hidden;
+  overscroll-behavior: contain;
+}
+
+/* Content padding variants */
+.drawer-content-padding-none {
+  padding: 0;
+}
+
+.drawer-content-padding-sm {
+  padding: var(--space-2);
+}
+
+.drawer-content-padding-md {
+  padding: var(--space-4);
+}
+
+.drawer-content-padding-lg {
+  padding: var(--space-6);
+}
+
+.drawer-content-padding-xl {
+  padding: var(--space-8);
+}
+
+/* Footer - Always present for actions */
+.drawer-footer {
+  padding: var(--space-4);
+  border-top: 1px solid var(--color-border);
+  flex-shrink: 0;
+  min-height: var(--space-14);
+}
+
+/* Footer variants */
+.drawer-footer-default {
+  /* Default: inherit drawer background, subtle separation */
+  background: transparent;
+  border-top: 1px solid var(--color-border);
+}
+
+.drawer-footer-elevated {
+  /* Elevated: different background with shadow for depth */
+  background: var(--color-surface-elevated);
+  border-top: 1px solid var(--color-border);
+  box-shadow: var(--drawer-footer-elevated-shadow);
+}
+
+.drawer-footer-bordered {
+  /* Bordered: prominent border with accent color */
+  background: var(--color-surface);
+  border-top: 3px solid var(--color-primary);
+  position: relative;
+}
+
+.drawer-footer-bordered::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 1px;
+  background: linear-gradient(90deg, 
+    transparent, 
+    var(--color-primary), 
+    transparent
+  );
+  opacity: var(--opacity-50);
+}
+
+/* Footer color variants */
+.drawer-footer-color-default {
+  /* Default colors, no override */
+}
+
+.drawer-footer-color-primary {
+  background: var(--color-primary-soft);
+  border-top-color: var(--color-primary);
+}
+
+.drawer-footer-color-primary.drawer-footer-elevated {
+  background: var(--color-primary);
+  color: var(--drawer-footer-elevated-text);
+}
+
+.drawer-footer-color-secondary {
+  background: var(--color-secondary-soft);
+  border-top-color: var(--color-secondary);
+}
+
+.drawer-footer-color-secondary.drawer-footer-elevated {
+  background: var(--color-secondary);
+  color: var(--drawer-footer-elevated-text);
+}
+
+.drawer-footer-color-success {
+  background: var(--drawer-footer-success-bg);
+  border-top-color: var(--drawer-footer-success-border);
+}
+
+.drawer-footer-color-success.drawer-footer-elevated {
+  background: var(--drawer-footer-success-elevated-bg);
+  color: var(--drawer-footer-elevated-text);
+}
+
+.drawer-footer-color-warning {
+  background: var(--drawer-footer-warning-bg);
+  border-top-color: var(--drawer-footer-warning-border);
+}
+
+.drawer-footer-color-warning.drawer-footer-elevated {
+  background: var(--drawer-footer-warning-elevated-bg);
+  color: var(--drawer-footer-warning-elevated-text);
+}
+
+.drawer-footer-color-error {
+  background: var(--drawer-footer-error-bg);
+  border-top-color: var(--drawer-footer-error-border);
+}
+
+.drawer-footer-color-error.drawer-footer-elevated {
+  background: var(--drawer-footer-error-elevated-bg);
+  color: var(--drawer-footer-elevated-text);
+}
+
+.drawer-footer-color-dark {
+  background: var(--drawer-footer-dark-bg);
+  border-top-color: var(--drawer-footer-dark-border);
+  color: var(--drawer-footer-dark-text);
+}
+
+.drawer-footer-color-dark.drawer-footer-elevated {
+  background: var(--drawer-footer-dark-elevated-bg);
+  border-top-color: var(--drawer-footer-dark-elevated-border);
+}
+
+.drawer-header {
+  padding: var(--space-3);
+}
+
+.drawer-content {
+  padding: var(--space-3);
+}
+
+.drawer-footer {
+  padding: var(--space-3);
+}
+
+@media (min-width: 1024px) {
+  .drawer-left.drawer-sm,
+  .drawer-right.drawer-sm {
+    width: var(--w-64);
+    max-width: 80vw;
+  }
+
+  .drawer-left.drawer-md,
+  .drawer-right.drawer-md {
+    width: var(--w-80);
+    max-width: 85vw;
+  }
+
+  .drawer-left.drawer-lg,
+  .drawer-right.drawer-lg {
+    width: var(--w-96);
+    max-width: 90vw;
+  }
+
+  .drawer-left.drawer-xl,
+  .drawer-right.drawer-xl {
+    width: 30rem;
+    max-width: 95vw;
+  }
+  
+  .drawer-header {
+    padding: var(--space-4);
+  }
+  
+  .drawer-content {
+    padding: var(--space-4);
+  }
+  
+  .drawer-footer {
+    padding: var(--space-4);
+  }
+}
+
+.drawer {
+  background: var(--drawer-bg);
+}
+
+.drawer-header,
+.drawer-footer {
+  border-color: var(--drawer-header-border);
+}
+
+.drawer-footer-elevated {
+  background: var(--drawer-header-bg);
+}
+

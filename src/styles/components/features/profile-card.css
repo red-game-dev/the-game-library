@@ -1,0 +1,316 @@
+/**
+ * ProfileCard Component Styles
+ * Attractive profile display with balance and avatar
+ */
+
+.profile-card {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  padding: var(--space-2) var(--space-3);
+  border-radius: var(--radius-lg);
+  background: var(--profile-card-bg);
+  border: 1px solid var(--profile-card-border);
+  position: relative;
+  overflow: hidden;
+  transition: all var(--duration-200) var(--ease-in-out);
+}
+
+/* Clickable variant */
+.profile-card-clickable {
+  cursor: pointer;
+  
+  &:hover {
+    background: var(--profile-card-bg-hover);
+    border-color: var(--profile-card-border-hover);
+    transform: translateY(-1px);
+    box-shadow: var(--shadow-md);
+  }
+  
+  &:active {
+    transform: translateY(0);
+  }
+}
+
+/* Avatar Section */
+.profile-card-avatar {
+  position: relative;
+  width: var(--w-10);
+  height: var(--h-10);
+  flex-shrink: 0;
+}
+
+.profile-card-avatar-image {
+  width: 100%;
+  height: 100%;
+  border-radius: var(--radius-full);
+  object-fit: cover;
+  border: 2px solid var(--color-primary);
+  box-shadow: 0 0 0 2px var(--color-background);
+}
+
+.profile-card-avatar-placeholder {
+  width: 100%;
+  height: 100%;
+  border-radius: var(--radius-full);
+  background: var(--profile-card-avatar-bg);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 2px solid var(--profile-card-avatar-border);
+  box-shadow: var(--profile-card-avatar-shadow);
+}
+
+.profile-card-avatar-icon {
+  width: var(--w-6);
+  height: var(--h-6);
+  color: white;
+}
+
+.profile-card-avatar-badge {
+  position: absolute;
+  bottom: -2px;
+  right: -2px;
+  z-index: 1;
+}
+
+/* Info Section */
+.profile-card-info {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-1);
+}
+
+.profile-card-name {
+  font-size: var(--text-sm);
+  font-weight: var(--font-semibold);
+  color: var(--color-text);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 200px; /* Ensure truncation works */
+}
+
+/* Balance Container */
+.profile-card-balance-container {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-0-5);
+}
+
+.profile-card-balance {
+  display: flex;
+  align-items: baseline;
+  gap: var(--space-1);
+  font-size: var(--text-sm);
+}
+
+.profile-card-balance-label {
+  color: var(--color-text-secondary);
+  font-size: var(--text-xs);
+}
+
+.profile-card-currency {
+  color: var(--profile-card-currency-color);
+  font-weight: var(--font-medium);
+  font-size: var(--text-xs);
+}
+
+.profile-card-balance-value {
+  color: var(--profile-card-balance-color);
+  font-weight: var(--font-bold);
+  font-variant-numeric: tabular-nums;
+  letter-spacing: -0.025em;
+  text-shadow: var(--profile-card-balance-shadow);
+}
+
+/* Balance Change Indicator */
+.profile-card-change {
+  display: flex;
+  align-items: center;
+  gap: var(--space-1);
+  font-size: var(--text-xs);
+  padding: var(--space-0-5) var(--space-1-5);
+  border-radius: var(--radius-md);
+  width: fit-content;
+}
+
+.profile-card-change-up {
+  color: var(--color-success);
+  background: rgba(34, 197, 94, var(--opacity-10));
+}
+
+.profile-card-change-down {
+  color: var(--color-error);
+  background: rgba(239, 68, 68, var(--opacity-10));
+}
+
+.profile-card-change-icon {
+  width: var(--w-3);
+  height: var(--h-3);
+}
+
+.profile-card-change-value {
+  font-weight: var(--font-semibold);
+  font-variant-numeric: tabular-nums;
+}
+
+.profile-card-change-percent {
+  opacity: var(--opacity-70);
+}
+
+/* Wallet Icon */
+.profile-card-wallet {
+  position: absolute;
+  right: var(--space-3);
+  top: 50%;
+  transform: translateY(-50%);
+  opacity: var(--opacity-10);
+}
+
+.profile-card-wallet-icon {
+  width: var(--w-8);
+  height: var(--h-8);
+  color: var(--color-primary);
+}
+
+/* Variants */
+
+/* Compact Variant */
+.profile-card-compact {
+  padding: var(--space-1-5) var(--space-2);
+  background: transparent;
+  border: none;
+  
+  .profile-card-avatar {
+    width: var(--w-8);
+    height: var(--h-8);
+  }
+  
+  .profile-card-name {
+    font-size: var(--text-xs);
+    max-width: 120px; /* Smaller max-width for compact variant */
+  }
+  
+  .profile-card-balance {
+    font-size: var(--text-xs);
+    
+    .profile-card-balance-value {
+      color: var(--color-success);
+    }
+  }
+  
+  &:hover {
+    background: var(--color-surface);
+    transform: none;
+    box-shadow: none;
+  }
+}
+
+/* Drawer Variant */
+.profile-card-drawer {
+  padding: var(--space-4);
+  background: var(--profile-card-drawer-bg);
+  border: 1px solid var(--profile-card-drawer-border);
+  margin-bottom: var(--space-4);
+  
+  .profile-card-avatar {
+    width: var(--w-12);
+    height: var(--h-12);
+  }
+  
+  .profile-card-avatar-icon {
+    width: var(--w-8);
+    height: var(--h-8);
+  }
+  
+  .profile-card-name {
+    font-size: var(--text-base);
+    margin-bottom: var(--space-1);
+    max-width: 250px; /* Larger max-width for drawer variant */
+  }
+  
+  .profile-card-balance {
+    font-size: var(--text-base);
+    
+    .profile-card-balance-label {
+      font-size: var(--text-sm);
+    }
+    
+    .profile-card-currency {
+      font-size: var(--text-sm);
+    }
+    
+    .profile-card-balance-value {
+      font-size: var(--text-lg);
+    }
+  }
+}
+
+/* Decorative Elements */
+.profile-card-decoration {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  overflow: hidden;
+}
+
+.profile-card-decoration-glow {
+  position: absolute;
+  top: -50%;
+  right: -50%;
+  width: 200%;
+  height: 200%;
+  background: var(--profile-card-decoration-glow);
+  animation: pulse 3s ease-in-out infinite;
+}
+
+.profile-card-decoration-pattern {
+  position: absolute;
+  inset: 0;
+  background-image: repeating-linear-gradient(
+    45deg,
+    transparent,
+    transparent 10px,
+    rgba(var(--color-primary-rgb), 0.03) 10px,
+    rgba(var(--color-primary-rgb), 0.03) 20px
+  );
+}
+
+/* Responsive */
+@media (max-width: 767px) {
+  .profile-card {
+    gap: var(--space-2);
+    padding: var(--space-1-5) var(--space-2);
+  }
+  
+  .profile-card-avatar {
+    width: var(--w-8);
+    height: var(--h-8);
+  }
+  
+  .profile-card-avatar-icon {
+    width: var(--w-5);
+    height: var(--h-5);
+  }
+  
+  .profile-card-name {
+    font-size: var(--text-xs);
+  }
+  
+  .profile-card-balance {
+    font-size: var(--text-xs);
+  }
+  
+  .profile-card-compact {
+    padding: var(--space-1);
+    
+    .profile-card-avatar {
+      width: var(--w-7);
+      height: var(--h-7);
+    }
+  }
+}
+

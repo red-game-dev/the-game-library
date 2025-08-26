@@ -1,0 +1,176 @@
+/**
+ * Game Details Modal Styles
+ */
+
+.game-details-modal {
+  /* Container */
+  position: relative;
+  
+  /* Stats Grid */
+  .stats-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: var(--space-4);
+  }
+  
+  /* Hero Image Animations */
+  .hero-image {
+    position: relative;
+    overflow: hidden;
+    
+    img {
+      transition: transform var(--duration-500) var(--ease-out);
+      
+      &:hover {
+        transform: scale(1.05);
+      }
+    }
+  }
+  
+  /* Status Badges Animation */
+  .status-badge {
+    animation: slideInLeft var(--duration-500) var(--ease-out);
+    animation-fill-mode: both;
+    
+    &:nth-child(1) { animation-delay: 100ms; }
+    &:nth-child(2) { animation-delay: 200ms; }
+    &:nth-child(3) { animation-delay: 300ms; }
+  }
+  
+  /* Provider Logo */
+  .provider-logo {
+    backdrop-filter: blur(var(--blur-md));
+    background: var(--game-details-provider-bg);
+  }
+  
+  /* Action Buttons */
+  .action-buttons {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-3);
+    
+    .btn,
+    .btn-play,
+    .btn-demo {
+      width: 100%;
+      position: relative;
+      overflow: hidden;
+      
+      &::before {
+        content: '';
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        width: 0;
+        height: 0;
+        border-radius: var(--radius-full);
+        background: var(--game-details-play-ripple);
+        transform: translate(-50%, -50%);
+        transition: width var(--duration-500), height var(--duration-500);
+      }
+      
+      &:hover::before {
+        width: 300%;
+        height: 300%;
+      }
+    }
+  }
+  
+  /* Tags Container */
+  .tags-container {
+    .tag-badge {
+      transition: all var(--duration-200) var(--ease-in-out);
+      
+      &:hover {
+        transform: translateY(-2px);
+        box-shadow: var(--shadow-md);
+      }
+    }
+  }
+  
+  /* Favorite Button Animation */
+  .btn-favorite {
+    transition: all var(--duration-300) var(--ease-spring);
+    
+    &:hover {
+      transform: scale(1.2);
+    }
+    
+    &:active {
+      transform: scale(0.95);
+    }
+    
+    &.is-favorite {
+      animation: heartbeat 1s var(--ease-in-out);
+    }
+  }
+  
+  /* Share Button */
+  .btn-share {
+    position: relative;
+    
+    &::after {
+      content: '📋 Copied!';
+      position: absolute;
+      top: -2rem;
+      left: 50%;
+      transform: translateX(-50%);
+      background: var(--game-details-tooltip-bg);
+      color: var(--game-details-tooltip-text);
+      padding: var(--space-1) var(--space-2);
+      border-radius: var(--radius-md);
+      font-size: var(--text-xs);
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity var(--duration-200) var(--ease-in-out);
+    }
+    
+    &.copied::after {
+      opacity: 1;
+    }
+  }
+  
+  /* Loading State */
+  .loading-overlay {
+    position: absolute;
+    inset: 0;
+    background: var(--game-details-loading-bg);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    backdrop-filter: blur(var(--blur-sm));
+    
+    .spinner {
+      width: 3rem;
+      height: 3rem;
+      border: 3px solid var(--game-details-spinner-border);
+      border-top-color: var(--game-details-spinner-border-top);
+      border-radius: var(--radius-full);
+      animation: spin 1s linear infinite;
+    }
+  }
+  
+  
+  @media (min-width: 1024px) {
+    .stats-grid {
+      grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
+    }
+    
+    .action-buttons {
+      flex-direction: row;
+      
+      .btn,
+      .btn-play,
+      .btn-demo {
+        width: auto;
+        flex: 1;
+      }
+      
+      .secondary-buttons {
+        display: flex;
+        gap: var(--space-2);
+        justify-content: center;
+      }
+    }
+  }
+}

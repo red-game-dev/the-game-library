@@ -1,0 +1,132 @@
+/**
+ * GameCarousel Component Styles
+ * Specialized carousel styles for game cards
+ */
+
+.game-carousel {
+  --slide-height: auto;
+  position: relative;
+  border-radius: var(--radius-xl);
+}
+
+.game-carousel .embla__slide {
+  display: flex;
+  flex-direction: column;
+  height: auto;
+}
+
+.game-carousel .embla__viewport {
+  padding: var(--space-2) 0;
+}
+
+.game-carousel .game-card {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  transition: transform var(--duration-200) var(--ease-in-out);
+}
+
+/* Ensure card content takes full height and spaces properly */
+.game-carousel .game-card .card {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+
+/* Make game-card-content grow to fill available space */
+.game-carousel .game-card-content {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  min-height: 0; /* Allow content to shrink */
+}
+
+.game-carousel .embla__slide.is-selected .game-card {
+  transform: scale(1.05);
+  z-index: 2;
+}
+
+/* Variant: Default - standard padding with subtle background */
+.game-carousel--default {
+  background: var(--game-carousel-bg);
+  border: none;
+  padding: var(--space-4);
+  border-radius: var(--radius-lg);
+}
+
+/* Variant: Elevated - raised surface with padding */
+.game-carousel--elevated {
+  background: var(--game-carousel-bg);
+  border: 1px solid var(--game-carousel-border);
+  padding: var(--space-4);
+  box-shadow: var(--shadow-lg);
+}
+
+/* Variant: Glowing - special effects with glow animations */
+.game-carousel--glowing {
+  background: var(--game-carousel-bg);
+  border: 1px solid var(--game-carousel-border);
+  padding: var(--space-4);
+  box-shadow: var(--game-carousel-glow-shadow, 0 0 30px rgba(139, 92, 246, 0.4), var(--shadow-xl));
+  animation: glow-breathe 3s ease-in-out infinite;
+}
+
+/* Glowing variant effect - enhanced in certain themes */
+.game-carousel--glowing::before {
+  content: '';
+  position: absolute;
+  inset: -2px;
+  background: var(--game-carousel-glow-bg, transparent);
+  border-radius: var(--radius-xl);
+  opacity: 0.3;
+  filter: blur(10px);
+  z-index: -1;
+  pointer-events: none;
+}
+
+/* Variant: Minimal - clean and simple */
+.game-carousel--minimal {
+  background: transparent;
+  border: none;
+  padding: 0;
+}
+
+.game-carousel--minimal .embla__dot__indicator {
+  width: var(--space-2);
+  height: var(--space-2);
+}
+
+/* Variant: Bordered - simple border with padding */
+.game-carousel--bordered {
+  background: transparent;
+  border: 2px solid var(--game-carousel-border);
+  padding: var(--space-4);
+  border-radius: var(--radius-xl);
+}
+
+/* Featured mode - works with any variant */
+.game-carousel--featured {
+  background: var(--game-carousel-featured-bg, var(--game-carousel-bg, transparent));
+  border-color: var(--game-carousel-featured-border, var(--game-carousel-border, transparent));
+}
+
+.game-carousel--featured .embla__viewport {
+  padding: var(--space-4) 0;
+}
+
+.game-carousel--featured .embla__slide.is-selected .game-card {
+  transform: scale(1.08);
+  box-shadow: var(--shadow-2xl);
+}
+
+/* Dots/Pagination */
+.game-carousel .embla__dot__indicator {
+  background: var(--game-carousel-dot-bg);
+  box-shadow: var(--game-carousel-dot-shadow, none);
+  transition: all var(--duration-200) var(--ease-in-out);
+}
+
+.game-carousel .embla__dot--selected .embla__dot__indicator {
+  background: var(--game-carousel-dot-bg-selected);
+  box-shadow: var(--game-carousel-dot-shadow-selected);
+}

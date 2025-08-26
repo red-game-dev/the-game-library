@@ -1,0 +1,222 @@
+/**
+ * FormField Base Component Styles
+ * Core form field wrapper and common elements
+ */
+
+/* Base FormField wrapper */
+.form-field {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+  width: 100%;
+  max-width: 100%;
+}
+
+/* Ensure all FormField variants take full width */
+.form-field-input,
+.form-field-textarea,
+.form-field-select,
+.form-field-checkbox,
+.form-field-radio,
+.form-field-range,
+.form-field-dual-range {
+  width: 100%;
+}
+
+/* Header with label and tooltip */
+.form-field-header {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+}
+
+.form-field-info {
+  width: var(--w-4);
+  height: var(--h-4);
+  color: var(--form-field-info-color);
+  cursor: help;
+}
+
+/* Content area */
+.form-field-content {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+  width: 100%;
+}
+
+/* Footer with messages and count */
+.form-field-footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: var(--space-2);
+}
+
+/* Message styles */
+.form-field-message {
+  display: flex;
+  align-items: center;
+  gap: var(--space-1-5);
+  font-size: var(--text-xs);
+  flex: 1;
+  min-height: var(--h-4); /* Ensure minimum height for icon */
+}
+
+.form-field-message-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: var(--w-3);
+  height: var(--h-3);
+  flex-shrink: 0;
+}
+
+.form-field-message-text {
+  line-height: var(--leading-normal);
+  flex: 1;
+  display: flex;
+  align-items: center;
+}
+
+.form-field-message-helper {
+  color: var(--form-field-helper-text);
+}
+
+.form-field-message-success {
+  color: var(--form-field-success-text);
+}
+
+.form-field-message-warning {
+  color: var(--form-field-warning-text);
+}
+
+.form-field-message-error {
+  color: var(--form-field-error-text);
+}
+
+/* Character count */
+.form-field-count {
+  display: flex;
+  align-items: center;
+  gap: var(--space-0-5);
+  font-size: var(--text-xs);
+  color: var(--form-field-count-text);
+}
+
+/* Suggestions styles */
+.form-field-suggestions {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+  margin-bottom: var(--space-3);
+  width: 100%;
+  min-width: 0; /* Critical: Allow container to shrink */
+  overflow: hidden; /* Critical: Contain the overflow */
+}
+
+.form-field-suggestions-carousel {
+  position: relative;
+  width: 100%;
+  min-width: 0;
+  overflow: hidden; /* Critical: Create scroll container */
+}
+
+.form-field-suggestions-list {
+  display: flex;
+  gap: var(--space-2);
+  flex-wrap: nowrap !important;
+  overflow-x: auto;
+  overflow-y: hidden;
+  scroll-behavior: smooth;
+  -webkit-overflow-scrolling: touch;
+  width: 100%;
+  min-width: 0;
+  padding-bottom: 8px; /* Space for scrollbar */
+}
+
+.form-field-suggestion {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-1-5);
+  white-space: nowrap;
+  flex-shrink: 0; /* Critical: Prevent buttons from shrinking */
+  min-width: fit-content; /* Critical: Maintain full button width */
+  width: auto;
+}
+
+.form-field-suggestion-icon {
+  display: flex;
+  font-size: var(--text-base);
+}
+
+.form-field-suggestion-label {
+  font-size: var(--text-sm);
+}
+
+.form-field-suggestion-check {
+  width: var(--w-3);
+  height: var(--h-3);
+  margin-left: var(--space-1);
+}
+
+.form-field-carousel-prev,
+.form-field-carousel-next {
+  flex-shrink: 0;
+}
+
+/* Tags styles */
+.form-field-tags {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+}
+
+.form-field-tags-container {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-2);
+  padding: var(--space-3);
+  background: var(--form-field-tags-bg);
+  border: 1px solid var(--form-field-tags-border);
+  border-radius: var(--radius-md);
+  min-height: var(--h-11);
+}
+
+.form-field-tag {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-1);
+}
+
+.form-field-tag-remove {
+  padding: 0;
+  width: var(--w-4);
+  height: var(--h-4);
+  margin-left: var(--space-1);
+}
+
+.form-field-tag-input {
+  flex: 1;
+  min-width: var(--w-32);
+  background: transparent;
+  border: none;
+  outline: none;
+  font-size: var(--text-sm);
+  color: var(--form-field-tag-input-text);
+}
+
+.form-field-tag-input::placeholder {
+  color: var(--form-field-tag-placeholder);
+}
+
+.form-field-tag-input:disabled {
+  cursor: not-allowed;
+  opacity: var(--opacity-50);
+}
+
+.form-field-tags-count {
+  font-size: var(--text-xs);
+  color: var(--form-field-tags-count-text);
+  text-align: right;
+}

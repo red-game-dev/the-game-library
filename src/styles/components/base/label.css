@@ -1,0 +1,79 @@
+/**
+ * Label Component Styles
+ * Form label element with variants and states
+ */
+
+/* Base label styles */
+.label {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-1);
+  font-weight: var(--font-medium);
+  color: var(--label-text);
+  cursor: pointer;
+  transition: color var(--duration-200) var(--ease-in-out);
+  user-select: none;
+}
+
+/* Size variants */
+.label-xs {
+  font-size: var(--text-xs);
+  line-height: var(--leading-4);
+}
+
+.label-sm {
+  font-size: var(--text-sm);
+  line-height: var(--leading-5);
+}
+
+.label-md {
+  font-size: var(--text-base);
+  line-height: var(--leading-6);
+}
+
+.label-lg {
+  font-size: var(--text-lg);
+  line-height: var(--leading-7);
+}
+
+.label-xl {
+  font-size: var(--text-xl);
+  line-height: var(--leading-8);
+}
+
+/* Variant styles */
+.label-default {
+  color: var(--label-text);
+}
+
+.label-primary {
+  color: var(--label-primary);
+  font-weight: var(--font-semibold);
+}
+
+.label-secondary {
+  color: var(--label-secondary);
+}
+
+.label-muted {
+  color: var(--label-muted);
+  font-weight: var(--font-normal);
+}
+
+/* State styles */
+.label-disabled {
+  color: var(--label-disabled);
+  cursor: not-allowed;
+  opacity: var(--opacity-60);
+}
+
+.label-error {
+  color: var(--label-error);
+}
+
+/* Required indicator */
+.label-required {
+  color: var(--label-required);
+  margin-left: var(--space-0-5);
+  font-weight: var(--font-bold);
+}

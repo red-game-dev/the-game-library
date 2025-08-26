@@ -1,232 +1,207 @@
-/**
- * Carousel Component Styles
- */
-
-/* Base carousel container */
-.carousel-container {
+.embla {
+  max-width: 100%;
+  margin: auto;
+  --slide-height: var(--h-76); /* 19rem */
+  --slide-spacing: var(--space-4); /* 1rem */
+  --slide-size: 100%;
+}
+.embla__viewport {
+  overflow: hidden;
+  border-radius: var(--radius-lg);
+}
+.embla__container {
+  display: flex;
+  touch-action: pan-y pinch-zoom;
+  margin-left: calc(var(--slide-spacing) * -1);
+}
+.embla__slide {
+  transform: translate3d(0, 0, 0);
+  flex: 0 0 var(--slide-size);
+  min-width: 0;
+  padding-left: var(--slide-spacing);
+}
+.embla__slide__number {
+  background: var(--carousel-slide-bg);
+  border-radius: var(--radius-lg);
+  font-size: var(--text-4xl); /* 4rem */
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: var(--slide-height);
+  user-select: none;
+  color: var(--carousel-slide-text);
+  box-shadow: var(--shadow-lg);
+  transition: transform var(--duration-200) var(--ease-in-out);
+}
+.embla__slide__number:hover {
+  transform: scale(1.02);
+}
+.embla__controls {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  justify-content: space-between;
+  gap: var(--space-3);
+  margin-top: var(--space-5);
+}
+.embla__buttons {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: var(--space-2);
+  align-items: center;
+}
+/* Button positioning - works with base Button component */
+.embla__button {
   position: relative;
-  width: 100%;
+  z-index: 1;
 }
 
-/* Scroll container */
-.carousel-scroll {
-  scrollbar-width: none; /* Firefox */
-  -ms-overflow-style: none; /* IE and Edge */
+.embla__button--prev {
+  margin-right: var(--space-2);
+}
+
+.embla__button--next {
+  margin-left: var(--space-2);
+}
+.embla__dots {
   display: flex;
-  align-items: stretch;
-  
-  &::-webkit-scrollbar {
-    display: none; /* Chrome, Safari, Opera */
-  }
-  
-  /* Smooth scrolling */
-  scroll-behavior: smooth;
-  
-  /* Prevent vertical overflow */
-  overflow-y: hidden;
-  overflow-x: auto;
-  
-  /* Touch scrolling optimization */
-  -webkit-overflow-scrolling: touch;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+  align-items: center;
+  gap: var(--space-1);
 }
 
-/* Scroll snap utilities */
-.scroll-snap-type-x-mandatory {
-  scroll-snap-type: x mandatory;
+/* Dot button extends Button component */
+.embla__dot {
+  transition: all var(--duration-200) var(--ease-in-out);
 }
 
-.scroll-snap-type-x-proximity {
-  scroll-snap-type: x proximity;
+.embla__dot:hover {
+  transform: scale(1.2);
 }
 
-.scroll-snap-align-start {
-  scroll-snap-align: start;
+/* Circle icon styling */
+.embla__dot__icon {
+  width: var(--w-2);
+  height: var(--h-2);
+  fill: currentColor;
+  opacity: var(--opacity-30);
+  transition: all var(--duration-200) var(--ease-in-out);
 }
 
-.scroll-snap-align-center {
-  scroll-snap-align: center;
+.embla__dot--selected .embla__dot__icon {
+  opacity: 1;
+  width: var(--w-3);
+  height: var(--h-3);
 }
 
-.scroll-snap-align-end {
-  scroll-snap-align: end;
+/* Size variations for dots */
+.embla__dot.btn-xs .embla__dot__icon {
+  width: var(--w-1-5);
+  height: var(--h-1-5);
 }
 
-/* Carousel items */
-.carousel-item {
-  flex-shrink: 0;
-  display: flex;
-  align-items: stretch;
-  /* Width is handled dynamically via inline styles or auto */
+.embla__dot.btn-sm .embla__dot__icon {
+  width: var(--w-2);
+  height: var(--h-2);
 }
 
-/* Ensure carousel item children take full height */
-.carousel-item > * {
-  width: 100%;
+.embla__dot.btn-md .embla__dot__icon {
+  width: var(--w-2-4);
+  height: var(--h-2-4);
+}
+
+.embla__dot.btn-lg .embla__dot__icon {
+  width: var(--w-2-8);
+  height: var(--h-2-8);
+}
+
+.embla__dot--selected.btn-xs .embla__dot__icon {
+  width: var(--w-2-4);
+  height: var(--h-2-4);
+}
+
+.embla__dot--selected.btn-sm .embla__dot__icon {
+  width: var(--w-3);
+  height: var(--h-3);
+}
+
+.embla__dot--selected.btn-md .embla__dot__icon {
+  width: var(--w-3-6);
+  height: var(--h-3-6);
+}
+
+.embla__dot--selected.btn-lg .embla__dot__icon {
+  width: var(--w-4);
+  height: var(--h-4);
+}
+
+/* Vertical carousel styles */
+.embla--vertical {
+  height: var(--carousel-height);
+}
+
+.embla--vertical .embla__viewport {
   height: 100%;
-  display: flex;
+}
+
+.embla--vertical .embla__container {
   flex-direction: column;
+  margin-left: 0;
+  margin-top: calc(var(--slide-spacing) * -1);
+  height: 100%;
 }
 
-/* Navigation arrows */
-.carousel-arrow {
-  position: absolute;
-  top: 50%;
-  transform: translateY(-50%) !important; /* Prevent button hover from overriding */
-  z-index: 10;
-  background: rgba(0, 0, 0, 0.5);
-  backdrop-filter: blur(8px);
-  border-radius: var(--radius-full);
-  opacity: 0;
-  transition: opacity 0.3s ease, background-color 0.3s ease;
-  
-  &:hover {
-    background: rgba(0, 0, 0, 0.7);
-    transform: translateY(-50%) !important; /* Maintain position on hover */
-  }
-  
-  &:active {
-    transform: translateY(-50%) !important; /* Maintain position on active */
-  }
+.embla--vertical .embla__slide {
+  flex: 0 0 auto;
+  height: var(--slide-height);
+  padding-left: 0;
+  padding-top: var(--slide-spacing);
 }
 
-.carousel-container:hover .carousel-arrow {
+/* RTL Support */
+.embla--rtl .embla__container {
+  direction: rtl;
+}
+
+.embla--rtl .embla__slide {
+  padding-left: 0;
+  padding-right: var(--slide-spacing);
+}
+
+.embla--rtl .embla__container {
+  margin-left: 0;
+  margin-right: calc(var(--slide-spacing) * -1);
+}
+
+/* ClassNames plugin classes */
+.is-draggable {
+  cursor: grab;
+}
+
+.is-dragging {
+  cursor: grabbing;
+}
+
+.is-selected {
   opacity: 1;
 }
 
-.carousel-arrow-left {
-  left: var(--space-2);
+.is-prev,
+.is-next {
+  opacity: var(--opacity-70);
 }
 
-.carousel-arrow-right {
-  right: var(--space-2);
+.is-in-view {
+  opacity: 1;
 }
 
-/* Touch devices - always show arrows */
-@media (hover: none) {
-  .carousel-arrow {
-    opacity: 1;
-  }
+
+/* Fixed height mode */
+.embla--fixed-height {
+  --slide-height: var(--h-96);
 }
 
-/* Dot indicators */
-.carousel-dots {
-  display: flex;
-  justify-content: center;
-  gap: var(--space-1);
-  margin-top: var(--space-4);
-}
-
-.carousel-dot {
-  width: var(--space-2);
-  height: var(--space-2);
-  border-radius: var(--radius-full);
-  border: none;
-  background: var(--gray-400);
-  cursor: pointer;
-  transition: all 0.3s ease;
-  padding: 0;
-  
-  &:hover {
-    background: var(--gray-500);
-  }
-  
-  &.active {
-    width: var(--space-6);
-    background: var(--color-primary);
-  }
-}
-
-/* Fade edges effect */
-.carousel-fade-edges {
-  &::before,
-  &::after {
-    content: '';
-    position: absolute;
-    top: 0;
-    bottom: 0;
-    width: 60px;
-    pointer-events: none;
-    z-index: 5;
-  }
-  
-  &::before {
-    left: 0;
-    background: linear-gradient(to right, 
-      var(--color-background) 0%, 
-      transparent 100%);
-  }
-  
-  &::after {
-    right: 0;
-    background: linear-gradient(to left, 
-      var(--color-background) 0%, 
-      transparent 100%);
-  }
-}
-
-/* Carousel variants */
-.carousel-cards {
-  .carousel-item {
-    transition: transform 0.3s ease, opacity 0.3s ease;
-    
-    &:hover {
-      transform: scale(1.02);
-    }
-  }
-}
-
-.carousel-thumbnails {
-  .carousel-item {
-    cursor: pointer;
-    opacity: 0.6;
-    transition: opacity 0.3s ease;
-    
-    &:hover,
-    &.active {
-      opacity: 1;
-    }
-  }
-}
-
-/* Full width carousel */
-.carousel-fullwidth {
-  .carousel-scroll {
-    gap: 0;
-  }
-  
-  .carousel-item {
-    width: 100vw;
-  }
-}
-
-/* Centered carousel */
-.carousel-centered {
-  .carousel-scroll {
-    padding: 0 20%;
-  }
-  
-  .carousel-item {
-    width: 60%;
-  }
-  
-  @media (max-width: 768px) {
-    .carousel-scroll {
-      padding: 0 10%;
-    }
-    
-    .carousel-item {
-      width: 80%;
-    }
-  }
-}
-
-/* Peek carousel - shows partial next/prev items */
-.carousel-peek {
-  .carousel-scroll {
-    padding: 0 var(--space-4);
-  }
-  
-  .carousel-item {
-    width: calc(100% - var(--space-8));
-  }
+.embla--fixed-height .embla__slide > * {
+  height: 100%;
 }

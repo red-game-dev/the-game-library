@@ -1,0 +1,271 @@
+/**
+ * Coming Soon Component Styles
+ * Beautiful coming soon page with animations
+ */
+
+.coming-soon-container {
+  min-height: calc(100vh - 64px); /* Full height minus header */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: var(--space-8) var(--space-8) calc(var(--space-8) * 2); /* Extra bottom padding to compensate */
+  margin-bottom: calc(var(--space-8) * -1); /* Negative margin to extend to footer */
+  position: relative;
+  overflow: hidden;
+}
+
+.coming-soon-content {
+  position: relative;
+  width: 100%;
+  max-width: var(--max-w-2xl);
+  z-index: 1;
+}
+
+/* Animated background */
+.coming-soon-bg {
+  position: absolute;
+  inset: -50%;
+  z-index: -1;
+}
+
+.coming-soon-gradient {
+  position: absolute;
+  inset: 0;
+  opacity: var(--opacity-20);
+  filter: blur(100px);
+  animation: gradient-shift var(--duration-10000) ease infinite;
+}
+
+/* Animated orbs */
+.coming-soon-orbs {
+  position: absolute;
+  inset: 0;
+}
+
+.orb {
+  position: absolute;
+  border-radius: var(--radius-full);
+  background: var(--coming-soon-orb-primary-bg);
+  opacity: var(--opacity-30);
+  filter: blur(60px);
+}
+
+.orb-1 {
+  width: var(--w-75);
+  height: var(--h-75);
+  top: -100px;
+  left: -100px;
+  animation: float-1 var(--duration-20000) ease-in-out infinite;
+}
+
+.orb-2 {
+  width: var(--w-50);
+  height: var(--h-50);
+  bottom: -50px;
+  right: -50px;
+  background: var(--coming-soon-orb-secondary-bg);
+  animation: float-2 var(--duration-15000) ease-in-out infinite;
+}
+
+.orb-3 {
+  width: var(--w-62-5);
+  height: var(--h-62-5);
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background: var(--coming-soon-orb-accent-bg);
+  animation: float-3 var(--duration-25000) ease-in-out infinite;
+}
+
+/* Animations defined in _animations.css */
+
+/* Content card - inherits styles from Card component */
+.card.coming-soon-card {
+  padding: var(--space-12);
+  text-align: center;
+  position: relative;
+  overflow: hidden;
+  background: var(--coming-soon-card-bg);
+  border-color: var(--coming-soon-card-border);
+  box-shadow: var(--coming-soon-card-shadow);
+}
+
+.coming-soon-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: var(--h-0-5);
+  background: linear-gradient(90deg, 
+    transparent, 
+    var(--coming-soon-shimmer-bg), 
+    transparent
+  );
+  animation: shimmer var(--duration-3000) linear infinite;
+}
+
+/* Icon */
+.coming-soon-icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: var(--w-32);
+  height: var(--w-32);
+  border-radius: var(--radius-full);
+  background: var(--coming-soon-icon-bg);
+  color: var(--coming-soon-icon-text);
+  margin-bottom: var(--space-6);
+  animation: pulse-scale var(--duration-2000) ease-in-out infinite;
+  box-shadow: var(--coming-soon-icon-shadow);
+}
+
+/* Title */
+.coming-soon-title {
+  font-size: var(--text-4xl);
+  font-weight: var(--font-bold);
+  margin-bottom: var(--space-4);
+  color: var(--coming-soon-title-text);
+  text-shadow: var(--coming-soon-title-shadow);
+}
+
+/* Badge */
+.coming-soon-badge {
+  display: inline-flex !important;
+  align-items: center;
+  gap: var(--space-2);
+  margin-bottom: var(--space-6);
+  animation: badge-glow var(--duration-2000) ease-in-out infinite;
+}
+
+/* Description */
+.coming-soon-description {
+  font-size: var(--text-lg);
+  color: var(--coming-soon-description-text);
+  margin-bottom: var(--space-8);
+  max-width: var(--max-w-md);
+  margin-left: auto;
+  margin-right: auto;
+  line-height: 1.6;
+}
+
+/* Progress bar */
+.coming-soon-progress {
+  margin-bottom: var(--space-8);
+}
+
+
+.progress-text {
+  display: block;
+  margin-top: var(--space-2);
+  font-size: var(--text-sm);
+  color: var(--coming-soon-progress-text);
+  opacity: var(--opacity-80);
+}
+
+/* Actions */
+.coming-soon-actions {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-4);
+  width: 100%;
+}
+
+.back-button,
+.games-button,
+.coming-soon-actions .btn {
+  width: 100%;
+  min-width: var(--w-40);
+}
+
+/* Decorative elements */
+.coming-soon-decoration {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  z-index: -1;
+}
+
+.decoration-circle {
+  position: absolute;
+  border: 2px solid var(--coming-soon-decoration-border);
+  border-radius: var(--radius-full);
+  opacity: var(--opacity-30);
+}
+
+.decoration-circle-1 {
+  width: var(--w-25);
+  height: var(--h-25);
+  top: var(--space-8);
+  right: var(--space-8);
+  animation: rotate-slow var(--duration-20000) linear infinite;
+}
+
+.decoration-circle-2 {
+  width: var(--w-15);
+  height: var(--h-15);
+  bottom: var(--space-8);
+  left: var(--space-8);
+  animation: rotate-slow var(--duration-15000) linear infinite reverse;
+}
+
+.decoration-circle-3 {
+  width: var(--w-20);
+  height: var(--h-20);
+  top: 50%;
+  right: var(--space-16);
+  animation: rotate-slow var(--duration-25000) linear infinite;
+}
+
+/* Animation defined in _animations.css */
+
+.coming-soon-container {
+  padding: var(--space-4);
+}
+
+.coming-soon-card {
+  padding: var(--space-8);
+}
+
+.coming-soon-title {
+  font-size: var(--text-3xl);
+}
+
+@media (min-width: 768px) {
+  .coming-soon-container {
+    padding: var(--space-6);
+  }
+  
+  .coming-soon-card {
+    padding: var(--space-12);
+  }
+  
+  .coming-soon-title {
+    font-size: var(--text-5xl);
+  }
+  
+  .coming-soon-description {
+    font-size: var(--text-base);
+  }
+  
+  .orb-1,
+  .orb-2,
+  .orb-3 {
+    width: var(--w-37-5);
+    height: var(--h-37-5);
+  }
+}
+
+@media (min-width: 1024px) {
+  .coming-soon-actions {
+    flex-direction: row;
+    justify-content: center;
+  }
+  
+  .back-button,
+  .games-button,
+  .coming-soon-actions .btn {
+    width: auto;
+    min-width: var(--w-40);
+  }
+}

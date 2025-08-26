@@ -1,0 +1,167 @@
+/**
+ * FormFieldCheckbox Component Styles
+ * Checkbox input field styles
+ */
+
+/* Wrapper for checkbox container and right content */
+.form-field-checkbox-wrapper {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+}
+
+/* Main container for checkbox and label */
+.form-field-checkbox-container {
+  display: flex;
+  align-items: center;
+  gap: var(--space-1-5);
+  cursor: pointer;
+  user-select: none;
+  flex: 1;
+  line-height: 1.5;
+}
+
+/* Override FormField content's column layout for checkboxes */
+.form-field-content .form-field-checkbox-wrapper {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  width: 100%;
+  align-self: flex-start;
+}
+
+.form-field-content .form-field-checkbox-container {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  flex: 1;
+  align-self: flex-start;
+}
+
+/* Right content styling */
+.form-field-checkbox-right-content {
+  display: flex;
+  align-items: center;
+  margin-left: var(--space-2);
+  color: var(--form-field-checkbox-right-content-color, var(--color-muted));
+  font-size: var(--text-sm);
+  font-weight: var(--font-medium);
+}
+
+/* Align FormField footer content with checkbox for FormFieldCheckbox */
+.form-field-checkbox .form-field-footer {
+  margin-left: 0; /* Reset any default margins */
+  padding-left: 0; /* Reset any default padding */
+}
+
+/* Ensure footer messages align with checkbox position */
+.form-field-checkbox .form-field-message {
+  margin-left: 0;
+  padding-left: 0;
+}
+
+/* Disabled state for wrapper */
+.form-field-checkbox-wrapper.form-field-checkbox-disabled .form-field-checkbox-right-content {
+  opacity: var(--opacity-50);
+}
+
+/* Gap variations */
+.form-field-checkbox-gap-sm {
+  gap: var(--space-1);
+}
+
+.form-field-checkbox-gap-md {
+  gap: var(--space-1-5);
+}
+
+.form-field-checkbox-gap-lg {
+  gap: var(--space-2);
+}
+
+/* Legacy classes for backwards compatibility */
+.form-field-checkbox-label {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--space-2);
+  cursor: pointer;
+  user-select: none;
+  width: 100%;
+}
+
+.form-field-checkbox-wrapper {
+  position: relative;
+  display: inline-flex;
+  align-items: flex-start;
+  gap: var(--space-2);
+  width: 100%;
+}
+
+.form-field-checkbox-input {
+  position: absolute;
+  opacity: var(--opacity-0);
+  cursor: pointer;
+  height: 0;
+  width: 0;
+}
+
+
+.form-field-checkbox-custom {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 1rem;
+  height: 1rem;
+  min-width: 1rem;
+  min-height: 1rem;
+  background: var(--form-field-checkbox-bg);
+  border: var(--border-2) solid var(--form-field-checkbox-border);
+  border-radius: var(--radius-sm);
+  transition: all var(--duration-200) var(--ease-in-out);
+  flex-shrink: 0;
+}
+
+.form-field-checkbox-custom:hover:not(.form-field-checkbox-disabled) {
+  border-color: var(--form-field-checkbox-border-hover);
+  background: var(--form-field-checkbox-bg-hover);
+}
+
+.form-field-checkbox-checked {
+  background: var(--form-field-checkbox-checked-bg);
+  border-color: var(--form-field-checkbox-checked-border);
+}
+
+.form-field-checkbox-indeterminate {
+  background: var(--form-field-checkbox-indeterminate-bg);
+  border-color: var(--form-field-checkbox-indeterminate-border);
+}
+
+.form-field-checkbox-error {
+  border-color: var(--form-field-checkbox-error-border);
+}
+
+.form-field-checkbox-disabled {
+  opacity: var(--opacity-50);
+  cursor: not-allowed;
+}
+
+.form-field-checkbox-disabled .form-field-checkbox-text {
+  cursor: not-allowed;
+}
+
+.form-field-checkbox-icon {
+  width: 0.65rem;
+  height: 0.65rem;
+  color: var(--form-field-checkbox-icon-color);
+  stroke-width: 2;
+}
+
+.form-field-checkbox-text {
+  font-size: var(--text-sm);
+  color: var(--form-field-checkbox-text);
+  user-select: none;
+  flex: 1;
+  line-height: 1;
+  display: flex;
+  align-items: center;
+}

@@ -6,51 +6,57 @@
 .modal-overlay {
   position: fixed;
   inset: 0;
-  background: rgba(0, 0, 0, 0.75); /* Darker overlay for better modal focus */
-  backdrop-filter: blur(8px); /* More blur to obscure background */
-  z-index: 50;
-  animation: fadeIn 200ms ease-out;
-  -webkit-backdrop-filter: blur(8px); /* Safari support */
+  background: var(--modal-overlay-bg);
+  backdrop-filter: blur(8px);
+  z-index: var(--z-1020);
+  animation: fadeIn var(--duration-200) ease-out;
+  -webkit-backdrop-filter: blur(8px);
 }
 
 /* Modal container */
 .modal-container {
   position: fixed;
   inset: 0;
-  z-index: 50;
+  z-index: var(--z-1020);
   overflow-y: auto;
   display: flex;
-  padding: 1rem;
+  padding: var(--space-2); /* Mobile base: smaller padding */
   min-height: 100vh;
   min-height: 100dvh; /* Use dynamic viewport height on mobile */
 }
 
 /* Position variants */
-.modal-center {
+.modal-container.modal-center {
   align-items: center;
   justify-content: center;
 }
 
-.modal-top {
+.modal-container.modal-top {
   align-items: flex-start;
   justify-content: center;
-  padding-top: 4rem;
+  padding-top: var(--space-8); /* Mobile base: smaller top padding */
 }
 
-.modal-bottom {
+.modal-container.modal-bottom {
   align-items: flex-end;
   justify-content: center;
-  padding-bottom: 4rem;
+  padding-bottom: var(--space-8); /* Mobile base: smaller bottom padding */
 }
 
-/* Tablet adjustments */
-@media (max-width: 768px) {
-  .modal-top {
-    padding-top: 2rem;
+/* Mobile-first responsive breakpoints */
+@media (min-width: 768px) {
+  .modal-container {
+    padding: var(--space-4); /* Tablet: larger padding */
+  }
+}
+
+@media (min-width: 820px) {
+  .modal-container.modal-top {
+    padding-top: var(--space-16); /* Tablet+: larger top padding */
   }
   
-  .modal-bottom {
-    padding-bottom: 2rem;
+  .modal-container.modal-bottom {
+    padding-bottom: var(--space-16); /* Tablet+: larger bottom padding */
   }
 }
 
@@ -58,38 +64,48 @@
 .modal-content {
   position: relative;
   width: 100%;
-  background: var(--color-surface-elevated);
-  border-radius: var(--radius-xl);
+  background: var(--modal-bg);
+  border-radius: var(--radius-lg); /* Mobile base: smaller radius */
   box-shadow: var(--shadow-xl);
-  animation: zoomIn 200ms ease-out;
+  animation: zoomIn var(--duration-200) ease-out;
   pointer-events: auto;
   display: flex;
   flex-direction: column;
-  max-height: calc(100vh - 2rem); /* Account for container padding */
-  max-height: calc(100dvh - 2rem); /* Dynamic viewport height */
-  margin: auto 0; /* Center vertically when content is smaller than viewport */
-  overflow: hidden; /* Prevent content from bleeding out */
+  max-height: calc(100vh - var(--space-4)); /* Mobile base: smaller spacing */
+  max-height: calc(100dvh - var(--space-4));
+  overflow: hidden;
+}
+
+/* Mobile-first bottom modal - remove bottom radius on mobile */
+.modal-container.modal-bottom .modal-content {
+  border-bottom-left-radius: 0;
+  border-bottom-right-radius: 0;
+}
+
+.modal-container.modal-bottom .modal-footer {
+  border-bottom-left-radius: 0;
+  border-bottom-right-radius: 0;
 }
 
 /* Size variants */
 .modal-xs {
-  max-width: 20rem; /* 320px */
+  max-width: var(--max-w-xs); /* 320px */
 }
 
 .modal-sm {
-  max-width: 24rem; /* 384px */
+  max-width: var(--max-w-sm); /* 384px */
 }
 
 .modal-md {
-  max-width: 28rem; /* 448px */
+  max-width: var(--max-w-md); /* 448px */
 }
 
 .modal-lg {
-  max-width: 32rem; /* 512px */
+  max-width: var(--max-w-lg); /* 512px */
 }
 
 .modal-xl {
-  max-width: 48rem; /* 768px */
+  max-width: var(--max-w-3xl); /* 768px */
 }
 
 .modal-full {
@@ -111,8 +127,8 @@
   align-items: flex-start;
   justify-content: space-between;
   padding: var(--space-4);
-  border-bottom: 1px solid var(--color-border);
-  flex-shrink: 0; /* Prevent header from shrinking */
+  border-bottom: 1px solid var(--modal-border);
+  flex-shrink: 0;
   gap: var(--space-3);
 }
 
@@ -134,10 +150,10 @@
 .modal-body {
   padding: var(--space-4);
   overflow-y: auto;
-  flex: 1 1 auto; /* Allow body to grow and shrink */
-  min-height: 0; /* Allow shrinking below content height */
-  overscroll-behavior: contain; /* Prevent scroll chaining */
-  background: var(--color-surface-elevated); /* Ensure background covers content */
+  flex: 1 1 auto;
+  min-height: 0;
+  overscroll-behavior: contain;
+  background: var(--modal-body-bg);
 }
 
 /* Full screen modal body */
@@ -158,13 +174,13 @@
   justify-content: flex-end;
   gap: var(--space-2);
   padding: var(--space-4);
-  border-top: 1px solid var(--color-border);
-  flex-shrink: 0; /* Prevent footer from shrinking */
-  background: var(--color-surface-elevated);
+  border-top: 1px solid var(--modal-border);
+  flex-shrink: 0;
+  background: var(--modal-footer-bg);
   border-bottom-left-radius: var(--radius-xl);
   border-bottom-right-radius: var(--radius-xl);
-  z-index: 1; /* Ensure footer stays above scrolling content */
-  margin-top: auto; /* Push footer to bottom */
+  z-index: 1;
+  margin-top: auto;
 }
 
 /* Modal content responsive grid */
@@ -174,7 +190,7 @@
   grid-template-columns: 1fr;
 }
 
-@media (min-width: 640px) {
+@media (min-width: 390px) {
   .modal-content-grid {
     grid-template-columns: repeat(3, 1fr);
   }
@@ -217,6 +233,7 @@
   top: var(--space-2);
   right: var(--space-2);
   margin: 0;
+  z-index: var(--z-20);
 }
 
 /* Animation classes - animations defined in _animations.css */
@@ -232,51 +249,38 @@ body.modal-open {
   height: 100%;
 }
 
-/* Mobile-specific adjustments */
-@media (max-width: 640px) {
-  .modal-container {
-    padding: 0.5rem;
-  }
-  
-  .modal-content {
-    max-height: calc(100vh - 1rem);
-    max-height: calc(100dvh - 1rem);
-    border-radius: var(--radius-lg); /* Slightly smaller radius on mobile */
-  }
-  
-  /* Keep position variants working on mobile */
-  .modal-top .modal-content {
-    margin-top: 2rem;
-    margin-bottom: auto;
-  }
-  
-  .modal-center .modal-content {
-    margin: auto;
-  }
-  
-  .modal-bottom .modal-content {
-    margin-top: auto;
-    margin-bottom: 0;
-    border-bottom-left-radius: 0;
-    border-bottom-right-radius: 0;
-  }
-  
-  .modal-bottom .modal-footer {
-    border-bottom-left-radius: 0;
-    border-bottom-right-radius: 0;
-  }
-  
-  /* Ensure modal footer buttons stack on very small screens */
-  @media (max-width: 360px) {
-    .modal-footer {
-      flex-direction: column-reverse;
-      gap: 0.75rem;
-      
-      & button,
-      & .btn {
-        width: 100%;
-      }
+/* Mobile-first base styles (already set above) - now add enhancements for larger screens */
+
+/* Small mobile screens - stack buttons */
+@media (max-width: 360px) {
+  .modal-footer {
+    flex-direction: column-reverse;
+    gap: var(--space-3);
+    
+    & button,
+    & .btn {
+      width: 100%;
     }
+  }
+}
+
+/* Tablet and up - enhanced modal styling */
+@media (min-width: 768px) {
+  .modal-content {
+    max-height: calc(100vh - var(--space-8));
+    max-height: calc(100dvh - var(--space-8));
+    border-radius: var(--radius-xl); /* Larger radius on desktop */
+  }
+  
+  /* Reset modal bottom radius for larger screens */
+  .modal-container.modal-bottom .modal-content {
+    border-bottom-left-radius: var(--radius-xl);
+    border-bottom-right-radius: var(--radius-xl);
+  }
+  
+  .modal-container.modal-bottom .modal-footer {
+    border-bottom-left-radius: var(--radius-xl);
+    border-bottom-right-radius: var(--radius-xl);
   }
 }
 

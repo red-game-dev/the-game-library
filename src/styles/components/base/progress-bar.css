@@ -1,0 +1,306 @@
+/**
+ * ProgressBar Component Styles
+ * Progress indicators with multiple variants
+ * Mobile-first responsive design
+ */
+
+/* Base progress bar track - mobile first */
+.progress-bar {
+  position: relative;
+  overflow: hidden;
+  background: var(--progress-bar-bg);
+  border: 1px solid var(--progress-bar-border);
+  transition: background-color var(--duration-200) var(--ease-in-out);
+  width: 100%;
+}
+
+/* Size variants - mobile first (height only, no min-height) */
+.progress-size-xs {
+  height: var(--space-2); /* 8px - slim */
+}
+
+.progress-size-sm {
+  height: var(--space-3); /* 12px */
+}
+
+.progress-size-md {
+  height: var(--space-4); /* 16px */
+}
+
+.progress-size-lg {
+  height: var(--space-5); /* 20px */
+}
+
+.progress-size-xl {
+  height: var(--space-6); /* 24px */
+}
+
+/* Size variants WITH labels - needs min-height for text */
+.progress-with-label.progress-size-xs {
+  min-height: var(--space-3); /* 12px minimum for text */
+}
+
+.progress-with-label.progress-size-sm {
+  min-height: var(--space-4); /* 16px minimum for text */
+}
+
+.progress-with-label.progress-size-md {
+  min-height: var(--space-5); /* 20px minimum for text */
+}
+
+.progress-with-label.progress-size-lg {
+  min-height: var(--space-6); /* 24px minimum for text */
+}
+
+.progress-with-label.progress-size-xl {
+  min-height: var(--space-8); /* 32px minimum for text */
+}
+
+/* Progress bar fill */
+.progress-bar-fill {
+  height: 100%;
+  transition: width var(--duration-300) var(--ease-out),
+              background-color var(--duration-200) var(--ease-in-out);
+  position: relative;
+  overflow: hidden;
+  box-shadow: var(--progress-bar-fill-shadow);
+}
+
+/* Dedicated variant classes for fill colors */
+.progress-variant-default {
+  background: var(--progress-default-bg);
+  box-shadow: var(--progress-default-shadow);
+}
+
+.progress-variant-primary {
+  background: var(--progress-primary-bg);
+  box-shadow: var(--progress-primary-shadow);
+}
+
+.progress-variant-secondary {
+  background: var(--progress-secondary-bg);
+  box-shadow: var(--progress-secondary-shadow);
+}
+
+.progress-variant-success {
+  background: var(--progress-success-bg);
+  box-shadow: var(--progress-success-shadow);
+}
+
+.progress-variant-warning {
+  background: var(--progress-warning-bg);
+  box-shadow: var(--progress-warning-shadow);
+}
+
+.progress-variant-error {
+  background: var(--progress-error-bg);
+  box-shadow: var(--progress-error-shadow);
+}
+
+.progress-variant-gradient {
+  /* Gradient handled via inline styles */
+}
+
+/* Striped pattern */
+.progress-striped {
+  background-image: var(--progress-stripes);
+  background-size: var(--space-10) var(--space-10);
+}
+
+/* Animated stripes */
+.progress-animated {
+  animation: progress-stripes 1s linear infinite;
+}
+
+/* Shine effect variant (like in coming-soon) */
+.progress-shine {
+  position: relative;
+  overflow: hidden;
+}
+
+.progress-shine::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: calc(-1 * var(--w-25));
+  bottom: 0;
+  width: var(--w-25);
+  background: var(--progress-shine);
+  animation: progress-shine 3s linear infinite;
+}
+
+/* Pulse variant (like in coming-soon) */
+.progress-pulse {
+  animation: progress-pulse 2s ease-in-out infinite;
+}
+
+/* Indeterminate state */
+.progress-indeterminate {
+  position: relative;
+  overflow: hidden;
+}
+
+.progress-indeterminate::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  height: 100%;
+  width: 100%;
+  background: var(--progress-indeterminate);
+  animation: progress-indeterminate 1.5s linear infinite;
+}
+
+/* Pulse animation for completion */
+.progress-complete {
+  animation: progress-complete-pulse 0.5s ease-out;
+}
+
+/* Loading/scanning animation - simulates progress from 0-100% */
+.progress-loading {
+  position: relative;
+  animation: progress-loading 3s ease-in-out infinite;
+  transform-origin: left center;
+}
+
+/* Label text - no padding by default, only positioning */
+.progress-label {
+  position: absolute;
+  inset: 0; /* Fill entire progress bar */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: var(--font-medium);
+  color: var(--progress-label-text);
+  pointer-events: none;
+}
+
+/* When progress is > 50%, use filled text color for better contrast */
+.progress-bar-fill[style*="width"] ~ .progress-label {
+  color: var(--progress-label-text-filled);
+  mix-blend-mode: normal;
+}
+
+/* Label text sizes */
+.progress-label-xs {
+  font-size: var(--text-xxs); /* Using design system variable */
+  padding: 0 var(--space-1); /* Only horizontal padding to prevent text touching sides */
+}
+
+.progress-label-sm {
+  font-size: var(--text-xs); /* Using design system variable */
+  padding: 0 var(--space-1);
+}
+
+.progress-label-md {
+  font-size: var(--text-sm); /* Using design system variable */
+  padding: 0 var(--space-2);
+}
+
+.progress-label-lg {
+  font-size: var(--text-base); /* Using design system variable */
+  padding: 0 var(--space-3);
+}
+
+/* Adjust label size based on progress bar size for better proportions */
+.progress-size-xs .progress-label {
+  font-size: var(--text-xxs);
+  padding: 0 var(--space-0-5);
+}
+
+.progress-size-sm .progress-label-md,
+.progress-size-sm .progress-label-lg {
+  font-size: var(--text-xs); /* Max size for small bars */
+}
+
+.progress-size-xl .progress-label-xs {
+  font-size: var(--text-xs); /* Min size for xl bars */
+}
+
+/* Mobile-first responsive adjustments */
+/* Mobile: default styles above */
+
+/* Tablet and up */
+@media (min-width: 820px) {
+  .progress-bar {
+    max-width: 100%; /* Can be constrained by parent */
+  }
+  
+  /* Larger sizes on desktop - slim without labels */
+  .progress-size-xs {
+    height: var(--space-2); /* 8px - keep slim */
+  }
+  
+  .progress-size-sm {
+    height: var(--space-3); /* 12px on desktop */
+  }
+  
+  .progress-size-md {
+    height: var(--space-4); /* 16px on desktop */
+  }
+  
+  .progress-size-lg {
+    height: var(--space-6); /* 24px on desktop */
+  }
+  
+  .progress-size-xl {
+    height: var(--space-8); /* 32px on desktop */
+  }
+  
+  /* With labels - ensure min-height for text */
+  .progress-with-label.progress-size-xs {
+    min-height: var(--space-3);
+  }
+  
+  .progress-with-label.progress-size-sm {
+    min-height: var(--space-4);
+  }
+  
+  .progress-with-label.progress-size-md {
+    min-height: var(--space-6);
+  }
+  
+  .progress-with-label.progress-size-lg {
+    min-height: var(--space-8);
+  }
+  
+  .progress-with-label.progress-size-xl {
+    min-height: var(--space-10);
+  }
+}
+
+
+/* Accessibility - Focus states */
+.progress-bar:focus-visible {
+  outline: var(--border-2) solid var(--color-primary);
+  outline-offset: var(--space-0-5);
+}
+
+/* High contrast mode support */
+@media (prefers-contrast: high) {
+  .progress-bar {
+    border: 1px solid currentColor;
+  }
+  
+  .progress-bar-fill {
+    border: 1px solid currentColor;
+  }
+}
+
+/* Reduced motion support */
+@media (prefers-reduced-motion: reduce) {
+  .progress-animated {
+    animation: none;
+  }
+  
+  .progress-indeterminate::before {
+    animation: none;
+    opacity: var(--opacity-50);
+    left: 0;
+    width: 100%;
+  }
+  
+  .progress-bar-fill {
+    transition-duration: 0.01ms;
+  }
+}

@@ -1,0 +1,65 @@
+/**
+ * FormFieldDualRange Component Styles
+ * Dual range input field styles
+ */
+
+/* Dual range styles */
+.form-field-dual-range {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+  width: 100%;
+}
+
+.form-field-dual-range-inputs {
+  display: flex;
+  gap: var(--space-2);
+  width: 100%;
+}
+
+.form-field-dual-range-input {
+  flex: 1;
+}
+
+/* Separator container that matches Input structure */
+.form-field-dual-range-separator-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+}
+
+/* Invisible label to match Input label height */
+.form-field-dual-range-separator-label {
+  font-size: var(--text-sm);
+  line-height: var(--leading-normal);
+  margin-bottom: var(--space-1);
+  visibility: hidden;
+}
+
+.form-field-dual-range-separator {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--form-field-dual-range-separator);
+  font-size: var(--text-sm);
+  padding: 0 var(--space-1);
+  height: var(--h-10);
+}
+.form-field-dual-range-inputs {
+  flex-direction: column;
+}
+
+.form-field-dual-range-separator-container {
+  display: none;
+}
+
+@media (min-width: 768px) {
+  .form-field-dual-range-inputs {
+    flex-direction: row;
+    align-items: stretch;
+  }
+  
+  .form-field-dual-range-separator-container {
+    display: flex;
+  }
+}

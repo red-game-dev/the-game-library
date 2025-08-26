@@ -3,18 +3,16 @@
  * Notification and message display styling
  */
 
-/* Base alert styles */
 .alert {
   display: flex;
   flex-direction: column;
   border-radius: var(--radius-lg);
-  border: 1px solid;
+  border: var(--border-1) solid;
   position: relative;
   width: 100%;
   overflow: hidden;
 }
 
-/* Simple alert - single line layout */
 .alert-simple {
   flex-direction: row;
   align-items: center;
@@ -33,23 +31,22 @@
   }
 }
 
-/* Simple inline alerts should have minimal padding */
 .alert-simple.alert-type-inline {
-  padding: 0.25rem 0.375rem;
-  gap: 0.375rem;
+  padding: var(--space-1) var(--space-1-5);
+  gap: var(--space-1-5);
 }
 
-@media (min-width: 40em) { /* Tablet */
+@media (min-width: 390px) { /* sm - Large phones and up */
   .alert-simple.alert-type-inline {
-    padding: 0.25rem 0.5rem;
-    gap: 0.5rem;
+    padding: var(--space-1) var(--space-2);
+    gap: var(--space-2);
   }
 }
 
-@media (min-width: 64em) { /* Desktop */
+@media (min-width: 1024px) { /* xl - Tablets landscape and up */
   .alert-simple.alert-type-inline {
-    padding: 0.375rem 0.625rem;
-    gap: 0.625rem;
+    padding: var(--space-1-5) var(--space-2-5);
+    gap: var(--space-2-5);
   }
 }
 
@@ -69,27 +66,27 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 0.125rem 0.25rem;
-  gap: 0.25rem;
+  padding: var(--space-0-5) var(--space-1);
+  gap: var(--space-1);
 }
 
 .alert-header-left {
   display: flex;
   align-items: center;
-  gap: 0.375rem;
+  gap: var(--space-1-5);
   flex: 1;
-  min-height: 1.25rem; /* Ensure minimum height for alignment */
+  min-height: var(--h-5); /* Ensure minimum height for alignment */
 }
 
 /* Alert body - main content area */
 .alert-body {
-  padding: 0 0.25rem 0.125rem 0.25rem;
+  padding: 0 var(--space-1) var(--space-0-5) var(--space-1);
 }
 
 /* Inline type has minimal internal padding */
 .alert-type-inline .alert-header {
   padding: 0;
-  gap: 0.375rem; /* Consistent gap on mobile */
+  gap: var(--space-1-5); /* Consistent gap on mobile */
 }
 
 .alert-type-inline .alert-body {
@@ -102,28 +99,28 @@
 .alert-type-inline.alert-md,
 .alert-type-inline.alert-lg,
 .alert-type-inline.alert-xl {
-  padding: 0.25rem 0.375rem;
-  gap: 0.25rem;
+  padding: var(--space-1) var(--space-1-5);
+  gap: var(--space-1);
 }
 
 /* Responsive adjustments for header and body */
 @media (min-width: 40em) { /* Tablet and up */
   .alert-header {
-    padding: 0.25rem 0.375rem;
-    gap: 0.375rem;
+    padding: var(--space-1) var(--space-1-5);
+    gap: var(--space-1-5);
   }
   
   .alert-header-left {
-    gap: 0.5rem;
+    gap: var(--space-2);
   }
   
   .alert-body {
-    padding: 0 0.375rem 0.25rem 0.375rem;
+    padding: 0 var(--space-1-5) var(--space-1) var(--space-1-5);
   }
   
   .alert-type-inline .alert-header {
     padding: 0;
-    gap: 0.5rem; /* More gap on tablet */
+    gap: var(--space-2); /* More gap on tablet */
   }
   
   .alert-type-inline .alert-body {
@@ -136,28 +133,28 @@
   .alert-type-inline.alert-md,
   .alert-type-inline.alert-lg,
   .alert-type-inline.alert-xl {
-    padding: 0.25rem 0.5rem;
-    gap: 0.375rem;
+    padding: var(--space-1) var(--space-2);
+    gap: var(--space-1-5);
   }
 }
 
-@media (min-width: 64em) { /* Desktop */
+@media (min-width: 1024px) { /* xl - Tablets landscape and up */
   .alert-header {
-    padding: 0.25rem 0.5rem;
-    gap: 0.5rem;
+    padding: var(--space-1) var(--space-2);
+    gap: var(--space-2);
   }
   
   .alert-header-left {
-    gap: 0.625rem;
+    gap: var(--space-2-5);
   }
   
   .alert-body {
-    padding: 0 0.5rem 0.25rem 0.5rem;
+    padding: 0 var(--space-2) var(--space-1) var(--space-2);
   }
   
   .alert-type-inline .alert-header {
     padding: 0;
-    gap: 0.625rem; /* More gap on desktop */
+    gap: var(--space-2-5); /* More gap on desktop */
   }
   
   .alert-type-inline .alert-body {
@@ -170,8 +167,8 @@
   .alert-type-inline.alert-md,
   .alert-type-inline.alert-lg,
   .alert-type-inline.alert-xl {
-    padding: 0.375rem 0.625rem;
-    gap: 0.5rem;
+    padding: var(--space-1-5) var(--space-2-5);
+    gap: var(--space-2);
   }
 }
 
@@ -189,50 +186,50 @@
 
 /* Size variants - mobile first with responsive scaling */
 .alert-xs {
-  padding: 0.125rem 0.25rem;
-  gap: 0.125rem;
+  padding: var(--space-0-5) var(--space-1);
+  gap: var(--space-0-5);
   font-size: var(--text-xs);
   
   & .alert-icon {
-    width: 0.875rem;
-    height: 0.875rem;
+    width: var(--w-0-875);
+    height: var(--h-0-875);
   }
   
   & .alert-dismiss-icon {
-    width: 0.875rem;
-    height: 0.875rem;
+    width: var(--w-0-875);
+    height: var(--h-0-875);
   }
 }
 
 .alert-sm {
-  padding: 0.25rem 0.375rem;
-  gap: 0.25rem;
+  padding: var(--space-1) var(--space-1-5);
+  gap: var(--space-1);
   font-size: var(--text-sm);
   
   & .alert-icon {
-    width: 1rem;
-    height: 1rem;
+    width: var(--w-4);
+    height: var(--h-4);
   }
   
   & .alert-dismiss-icon {
-    width: 1rem;
-    height: 1rem;
+    width: var(--w-4);
+    height: var(--h-4);
   }
 }
 
 .alert-md {
-  padding: 0.375rem 0.5rem;
-  gap: 0.375rem;
+  padding: var(--space-1-5) var(--space-2);
+  gap: var(--space-1-5);
   font-size: var(--text-base);
   
   & .alert-icon {
-    width: 1.25rem;
-    height: 1.25rem;
+    width: var(--w-5);
+    height: var(--h-5);
   }
   
   & .alert-dismiss-icon {
-    width: 1.125rem;
-    height: 1.125rem;
+    width: var(--w-1-125);
+    height: var(--h-1-125);
   }
 }
 
@@ -242,13 +239,13 @@
   font-size: var(--text-lg);
   
   & .alert-icon {
-    width: 1.5rem;
-    height: 1.5rem;
+    width: var(--w-6);
+    height: var(--h-6);
   }
   
   & .alert-dismiss-icon {
-    width: 1.25rem;
-    height: 1.25rem;
+    width: var(--w-5);
+    height: var(--h-5);
   }
 }
 
@@ -258,18 +255,18 @@
   font-size: var(--text-xl);
   
   & .alert-icon {
-    width: 1.75rem;
-    height: 1.75rem;
+    width: var(--w-7);
+    height: var(--h-7);
   }
   
   & .alert-dismiss-icon {
-    width: 1.5rem;
-    height: 1.5rem;
+    width: var(--w-6);
+    height: var(--h-6);
   }
 }
 
 /* Responsive padding adjustments */
-@media (min-width: 40em) { /* Tablet */
+@media (min-width: 390px) { /* sm - Large phones and up */
   .alert-xs {
     padding: var(--space-1) var(--space-1-5);
   }
@@ -294,7 +291,7 @@
   }
 }
 
-@media (min-width: 64em) { /* Desktop */
+@media (min-width: 1024px) { /* xl - Tablets landscape and up */
   .alert-xs {
     padding: var(--space-1) var(--space-1-5);
   }
@@ -366,7 +363,7 @@
   flex-shrink: 0;
   margin-left: var(--space-2);
   opacity: 0.7;
-  transition: opacity 0.2s ease;
+  transition: opacity var(--duration-200) var(--ease-in-out);
   color: currentColor;
   
   &:hover {
@@ -387,19 +384,25 @@
   align-items: center;
 }
 
-/* Make details toggle button full width on mobile/tablet */
-@media (max-width: 768px) {
+/* Details toggle button - mobile first */
+.alert-details-toggle {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+}
+
+/* Make details toggle inline on larger screens */
+@media (min-width: 820px) {
   .alert-details-toggle {
-    width: 100%;
-    display: flex;
-    justify-content: center;
+    width: auto;
+    display: inline-flex;
   }
 }
 
 .alert-details {
   margin-top: var(--space-2);
   padding-top: var(--space-2);
-  border-top: 1px solid rgba(255, 255, 255, 0.1);
+  border-top: 1px solid var(--alert-details-border);
   animation: slideDown 0.2s ease-out;
   word-wrap: break-word;
   overflow-wrap: break-word;
@@ -417,7 +420,7 @@
     word-break: break-all;
     display: inline-block;
     padding: var(--space-1) var(--space-2);
-    background: rgba(0, 0, 0, 0.2);
+    background: var(--alert-details-code-bg);
     border-radius: var(--radius-sm);
     margin: var(--space-1) 0;
   }
@@ -429,8 +432,8 @@
   gap: var(--space-1);
   padding: var(--space-1) var(--space-1-5);
   width: 100%;
-  border-top: 1px solid rgba(255, 255, 255, 0.1);
-  margin-top: 0.25rem;
+  border-top: 1px solid var(--alert-actions-border);
+  margin-top: var(--space-1);
 }
 
 /* Force all buttons in actions to fill available space */
@@ -440,21 +443,34 @@
   min-width: 0;
 }
 
-/* Responsive: Stack actions vertically on mobile and make buttons full width */
-@media (max-width: 768px) {
+/* Mobile-first: Stack actions vertically and make buttons full width */
+.alert-actions:not(.alert-actions-inline) {
+  flex-direction: column;
+  width: 100%;
+}
+
+/* Force all buttons in alert actions to be full width on mobile */
+.alert-actions:not(.alert-actions-inline) button,
+.alert-actions:not(.alert-actions-inline) .btn,
+.alert-actions:not(.alert-actions-inline) > * {
+  width: 100% !important;
+  flex: 1 1 100% !important;
+  display: flex !important;
+  justify-content: center !important;
+}
+
+/* Side-by-side actions on larger screens */
+@media (min-width: 820px) {
   .alert-actions:not(.alert-actions-inline) {
-    flex-direction: column;
-    width: 100%;
+    flex-direction: row;
+    width: auto;
   }
   
-  /* Force all buttons in alert actions to be full width on mobile */
   .alert-actions:not(.alert-actions-inline) button,
   .alert-actions:not(.alert-actions-inline) .btn,
   .alert-actions:not(.alert-actions-inline) > * {
-    width: 100% !important;
-    flex: 1 1 100% !important;
-    display: flex !important;
-    justify-content: center !important;
+    width: auto !important;
+    flex: 1 1 0 !important;
   }
 }
 
@@ -471,209 +487,91 @@
 
 /* Variant: Default */
 .alert-default {
-  background-color: var(--color-surface);
-  border-color: var(--color-border);
-  color: var(--color-text);
+  background-color: var(--alert-default-bg);
+  border-color: var(--alert-default-border);
+  color: var(--alert-default-text);
   
   & .alert-icon {
-    color: var(--gray-500);
+    color: var(--alert-default-icon);
   }
 }
 
 /* Variant: Info */
 .alert-info {
-  background: linear-gradient(135deg, 
-    rgba(59, 130, 246, 0.1) 0%, 
-    rgba(37, 99, 235, 0.1) 100%);
-  border-color: rgba(59, 130, 246, 0.3);
-  color: var(--blue-400);
+  background: var(--alert-info-bg);
+  border-color: var(--alert-info-border);
+  color: var(--alert-info-text);
   
   & .alert-icon {
-    color: var(--blue-400);
+    color: var(--alert-info-icon);
   }
   
   & .alert-title {
-    color: var(--blue-300);
+    color: var(--alert-info-title);
   }
   
   & .alert-message {
-    color: var(--blue-200);
+    color: var(--alert-info-message);
   }
 }
 
 /* Variant: Success */
 .alert-success {
-  background: linear-gradient(135deg, 
-    rgba(34, 197, 94, 0.1) 0%, 
-    rgba(16, 185, 129, 0.1) 100%);
-  border-color: rgba(34, 197, 94, 0.3);
-  color: var(--green-400);
+  background: var(--alert-success-bg);
+  border-color: var(--alert-success-border);
+  color: var(--alert-success-text);
   
   & .alert-icon {
-    color: var(--green-400);
+    color: var(--alert-success-icon);
   }
   
   & .alert-title {
-    color: var(--green-300);
+    color: var(--alert-success-title);
   }
   
   & .alert-message {
-    color: var(--green-200);
+    color: var(--alert-success-message);
   }
 }
 
 /* Variant: Warning */
 .alert-warning {
-  background: linear-gradient(135deg, 
-    rgba(249, 115, 22, 0.1) 0%, 
-    rgba(245, 158, 11, 0.1) 100%);
-  border-color: rgba(249, 115, 22, 0.3);
-  color: var(--orange-400);
+  background: var(--alert-warning-bg);
+  border-color: var(--alert-warning-border);
+  color: var(--alert-warning-text);
   
   & .alert-icon {
-    color: var(--orange-400);
+    color: var(--alert-warning-icon);
   }
   
   & .alert-title {
-    color: var(--orange-300);
+    color: var(--alert-warning-title);
   }
   
   & .alert-message {
-    color: var(--orange-200);
+    color: var(--alert-warning-message);
   }
 }
 
 /* Variant: Error */
 .alert-error {
-  background: linear-gradient(135deg, 
-    rgba(239, 68, 68, 0.1) 0%, 
-    rgba(220, 38, 38, 0.1) 100%);
-  border-color: rgba(239, 68, 68, 0.3);
-  color: var(--red-400);
+  background: var(--alert-error-bg);
+  border-color: var(--alert-error-border);
+  color: var(--alert-error-text);
   
   & .alert-icon {
-    color: var(--red-400);
+    color: var(--alert-error-icon);
   }
   
   & .alert-title {
-    color: var(--red-300);
+    color: var(--alert-error-title);
   }
   
   & .alert-message {
-    color: var(--red-200);
+    color: var(--alert-error-message);
   }
 }
 
-/* Light mode adjustments - WCAG AAA compliant */
-[data-theme="light"] .alert-default {
-  background-color: var(--gray-200);
-  border-color: var(--gray-400);
-  color: var(--gray-900);
-  
-  & .alert-icon {
-    color: var(--gray-700);
-  }
-  
-  & .alert-dismiss {
-    color: var(--gray-700);
-  }
-}
-
-[data-theme="light"] .alert-info {
-  background: var(--blue-100);
-  border-color: var(--blue-500);
-  border-width: 2px;
-  color: var(--blue-900);
-  
-  & .alert-icon {
-    color: var(--blue-700);
-  }
-  
-  & .alert-title {
-    color: var(--blue-900);
-    font-weight: 600;
-  }
-  
-  & .alert-message {
-    color: var(--blue-800);
-  }
-  
-  & .alert-dismiss {
-    color: var(--blue-700);
-  }
-}
-
-[data-theme="light"] .alert-success {
-  background: var(--green-100);
-  border-color: var(--green-500);
-  border-width: 2px;
-  color: var(--green-900);
-  
-  & .alert-icon {
-    color: var(--green-700);
-  }
-  
-  & .alert-title {
-    color: var(--green-900);
-    font-weight: 600;
-  }
-  
-  & .alert-message {
-    color: var(--green-800);
-  }
-  
-  & .alert-dismiss {
-    color: var(--green-700);
-  }
-}
-
-[data-theme="light"] .alert-warning {
-  background: var(--orange-100);
-  border-color: var(--orange-500);
-  border-width: 2px;
-  color: var(--orange-900);
-  
-  & .alert-icon {
-    color: var(--orange-700);
-  }
-  
-  & .alert-title {
-    color: var(--orange-900);
-    font-weight: 600;
-  }
-  
-  & .alert-message {
-    color: var(--orange-800);
-  }
-  
-  & .alert-dismiss {
-    color: var(--orange-700);
-  }
-}
-
-[data-theme="light"] .alert-error {
-  background: var(--red-100);
-  border-color: var(--red-500);
-  border-width: 2px;
-  color: var(--red-900);
-  
-  & .alert-icon {
-    color: var(--red-700);
-  }
-  
-  & .alert-title {
-    color: var(--red-900);
-    font-weight: 600;
-  }
-  
-  & .alert-message {
-    color: var(--red-800);
-  }
-  
-  & .alert-dismiss {
-    color: var(--red-700);
-  }
-}
 
 /* Type variants */
 .alert-type-inline {
@@ -686,9 +584,9 @@
 }
 
 /* On larger screens, toasts can have a min-width */
-@media (min-width: 769px) {
+@media (min-width: 820px) {
   .alert-type-toast {
-    min-width: 300px;
+    min-width: var(--min-w-75);
   }
 }
 
@@ -708,23 +606,40 @@
   }
 }
 
-/* On mobile, ensure banner alerts display properly */
-@media (max-width: 768px) {
+/* Mobile-first: Banner alerts - stack header elements */
+.alert-type-banner {
+  & .alert-header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: var(--space-2);
+  }
+  
+  & .alert-header-left {
+    width: 100%;
+  }
+  
+  & .alert-dismiss {
+    position: absolute;
+    top: var(--space-3);
+    right: var(--space-3);
+  }
+}
+
+/* Side-by-side header on larger screens for banners */
+@media (min-width: 820px) {
   .alert-type-banner {
     & .alert-header {
-      flex-direction: column;
-      align-items: flex-start;
-      gap: var(--space-2);
+      flex-direction: row;
+      align-items: center;
+      gap: var(--space-3);
     }
     
     & .alert-header-left {
-      width: 100%;
+      width: auto;
     }
     
     & .alert-dismiss {
-      position: absolute;
-      top: var(--space-3);
-      right: var(--space-3);
+      position: static;
     }
   }
 }
@@ -753,9 +668,9 @@
   }
   
   & .alert-icon-wrapper {
-    width: 3rem;
-    height: 3rem;
-    background: rgba(255, 255, 255, 0.05);
+    width: var(--w-12);
+    height: var(--h-12);
+    background: var(--alert-icon-wrapper-bg);
     border-radius: var(--radius-md);
     display: flex;
     align-items: center;
@@ -773,16 +688,16 @@
 
 @media (min-width: 40em) {
   .alert-icon-square .alert-icon-wrapper {
-    width: 3.5rem;
-    height: 3.5rem;
+    width: var(--w-14);
+    height: var(--h-14);
     margin-right: var(--space-4);
   }
 }
 
 @media (min-width: 64em) {
   .alert-icon-square .alert-icon-wrapper {
-    width: 4rem;
-    height: 4rem;
+    width: var(--w-16);
+    height: var(--h-16);
     margin-right: var(--space-5);
   }
 }
@@ -790,18 +705,18 @@
 /* Fix list alignment in alert messages */
 .alert-message {
   & ul, & ol {
-    margin-left: 1.25rem; /* Reduced from default to align better */
+    margin-left: var(--w-5); /* Reduced from default to align better */
     padding-left: 0;
   }
   
   & li {
-    margin-bottom: 0.25rem;
+    margin-bottom: var(--space-1);
   }
 }
 
 /* For inline alerts, reduce list indent further */
 .alert-type-inline .alert-message {
   & ul, & ol {
-    margin-left: 1rem;
+    margin-left: var(--w-4);
   }
 }

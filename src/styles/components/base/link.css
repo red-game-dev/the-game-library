@@ -1,0 +1,397 @@
+/**
+ * Link Component Styles
+ * Styles for link component with multiple variants
+ */
+
+/* Base link styles */
+.link {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2);
+  text-decoration: none;
+  cursor: pointer;
+  transition: all var(--duration-200) var(--ease-in-out);
+  outline: none;
+  border-radius: var(--rounded);
+  font-weight: var(--font-medium);
+  line-height: 1;
+  
+  &:focus-visible {
+    outline: var(--border-2) solid var(--color-primary);
+    outline-offset: var(--space-0-5);
+  }
+  
+  &:disabled,
+  &.link-disabled {
+    opacity: var(--opacity-50);
+    cursor: not-allowed;
+    pointer-events: none;
+  }
+}
+
+/* Gap modifiers - Important to override size defaults */
+.link-gap-none {
+  gap: 0 !important;
+}
+
+.link-gap-xs {
+  gap: var(--space-1) !important;
+}
+
+.link-gap-sm {
+  gap: var(--space-2) !important;
+}
+
+.link-gap-md {
+  gap: var(--space-3) !important;
+}
+
+.link-gap-lg {
+  gap: var(--space-4) !important;
+}
+
+.link-gap-xl {
+  gap: var(--space-5) !important;
+}
+
+/* Size variants */
+.link-size-xs {
+  font-size: var(--text-xs);
+}
+
+.link-size-sm {
+  font-size: var(--text-sm);
+}
+
+.link-size-md {
+  font-size: var(--text-base);
+}
+
+.link-size-lg {
+  font-size: var(--text-lg);
+}
+
+.link-size-xl {
+  font-size: var(--text-xl);
+}
+
+/* Default variant - simple text link */
+.link-default {
+  color: var(--link-default-text);
+  
+  &:hover:not(.link-disabled) {
+    color: var(--link-default-text-hover);
+  }
+  
+  &:active:not(.link-disabled) {
+    color: var(--link-default-text-active);
+  }
+}
+
+/* Primary variant */
+.link-primary {
+  color: var(--link-primary-text);
+  
+  &:hover:not(.link-disabled) {
+    color: var(--link-primary-text-hover);
+  }
+  
+  &:active:not(.link-disabled) {
+    color: var(--link-primary-text-active);
+  }
+}
+
+/* Secondary variant */
+.link-secondary {
+  color: var(--link-secondary-text);
+  
+  &:hover:not(.link-disabled) {
+    color: var(--link-secondary-text-hover);
+  }
+  
+  &:active:not(.link-disabled) {
+    color: var(--link-secondary-text-active);
+  }
+}
+
+/* Accent variant */
+.link-accent {
+  color: var(--link-accent-text);
+  
+  &:hover:not(.link-disabled) {
+    color: var(--link-accent-text-hover);
+  }
+  
+  &:active:not(.link-disabled) {
+    color: var(--link-accent-text-active);
+  }
+}
+
+/* Success variant */
+.link-success {
+  color: var(--link-success-text);
+  
+  &:hover:not(.link-disabled) {
+    color: var(--link-success-text-hover);
+  }
+  
+  &:active:not(.link-disabled) {
+    color: var(--link-success-text-active);
+  }
+}
+
+/* Error variant */
+.link-error {
+  color: var(--link-error-text);
+  
+  &:hover:not(.link-disabled) {
+    color: var(--link-error-text-hover);
+  }
+  
+  &:active:not(.link-disabled) {
+    color: var(--link-error-text-active);
+  }
+}
+
+/* Warning variant */
+.link-warning {
+  color: var(--link-warning-text);
+  
+  &:hover:not(.link-disabled) {
+    color: var(--link-warning-text-hover);
+  }
+  
+  &:active:not(.link-disabled) {
+    color: var(--link-warning-text-active);
+  }
+}
+
+/* Ghost variant */
+.link-ghost {
+  color: var(--link-ghost-text);
+  padding: var(--space-2) var(--space-3);
+  
+  &:hover:not(.link-disabled) {
+    color: var(--link-ghost-text-hover);
+    background-color: var(--link-ghost-bg-hover);
+  }
+  
+  &:active:not(.link-disabled) {
+    color: var(--link-ghost-text-active);
+    background-color: var(--link-ghost-bg-active);
+  }
+}
+
+/* Underline variant */
+.link-underline {
+  color: var(--link-underline-text);
+  text-decoration: underline;
+  text-underline-offset: 4px;
+  text-decoration-thickness: 1px;
+  text-decoration-color: var(--link-underline-decoration);
+  
+  &:hover:not(.link-disabled) {
+    color: var(--link-underline-text-hover);
+    text-decoration-thickness: 2px;
+    text-decoration-color: var(--link-underline-decoration-hover);
+  }
+  
+  &:active:not(.link-disabled) {
+    color: var(--link-underline-text-active);
+  }
+}
+
+/* Outline variants */
+.link-outline {
+  padding: var(--space-2) var(--space-3);
+  border: 1px solid;
+  background-color: transparent;
+  
+  &:hover:not(.link-disabled) {
+    transform: scale(1.02);
+  }
+  
+  &:active:not(.link-disabled) {
+    transform: scale(0.98);
+  }
+}
+
+.link-outline-purple {
+  border-color: var(--link-outline-purple-border);
+  color: var(--link-outline-purple-text);
+  
+  &:hover:not(.link-disabled) {
+    background-color: var(--link-outline-purple-bg-hover);
+    color: var(--link-outline-purple-text-hover);
+  }
+}
+
+.link-outline-blue {
+  border-color: var(--link-outline-blue-border);
+  color: var(--link-outline-blue-text);
+  
+  &:hover:not(.link-disabled) {
+    background-color: var(--link-outline-blue-bg-hover);
+    color: var(--link-outline-blue-text-hover);
+  }
+}
+
+.link-outline-green {
+  border-color: var(--link-outline-green-border);
+  color: var(--link-outline-green-text);
+  
+  &:hover:not(.link-disabled) {
+    background-color: var(--link-outline-green-bg-hover);
+    color: var(--link-outline-green-text-hover);
+  }
+}
+
+.link-outline-red {
+  border-color: var(--link-outline-red-border);
+  color: var(--link-outline-red-text);
+  
+  &:hover:not(.link-disabled) {
+    background-color: var(--link-outline-red-bg-hover);
+    color: var(--link-outline-red-text-hover);
+  }
+}
+
+.link-outline-orange {
+  border-color: var(--link-outline-orange-border);
+  color: var(--link-outline-orange-text);
+  
+  &:hover:not(.link-disabled) {
+    background-color: var(--link-outline-orange-bg-hover);
+    color: var(--link-outline-orange-text-hover);
+  }
+}
+
+.link-outline-cyan {
+  border-color: var(--link-outline-cyan-border);
+  color: var(--link-outline-cyan-text);
+  
+  &:hover:not(.link-disabled) {
+    background-color: var(--link-outline-cyan-bg-hover);
+    color: var(--link-outline-cyan-text-hover);
+  }
+}
+
+.link-outline-pink {
+  border-color: var(--link-outline-pink-border);
+  color: var(--link-outline-pink-text);
+  
+  &:hover:not(.link-disabled) {
+    background-color: var(--link-outline-pink-bg-hover);
+    color: var(--link-outline-pink-text-hover);
+  }
+}
+
+.link-outline-gray {
+  border-color: var(--link-outline-gray-border);
+  color: var(--link-outline-gray-text);
+  
+  &:hover:not(.link-disabled) {
+    background-color: var(--link-outline-gray-bg-hover);
+    color: var(--link-outline-gray-text-hover);
+  }
+}
+
+/* Full width modifier */
+.link-full-width {
+  width: 100%;
+  justify-content: flex-start;
+}
+
+/* Center content modifier */
+.link-center {
+  justify-content: center;
+}
+
+/* Icon-only modifier */
+.link-icon-only {
+  padding: var(--space-2);
+  aspect-ratio: 1;
+  justify-content: center;
+  
+  &.link-size-xs {
+    width: var(--w-7);
+    height: var(--h-7);
+  }
+  
+  &.link-size-sm {
+    width: var(--w-8);
+    height: var(--h-8);
+  }
+  
+  &.link-size-md {
+    width: var(--w-10);
+    height: var(--h-10);
+  }
+  
+  &.link-size-lg {
+    width: var(--w-12);
+    height: var(--h-12);
+  }
+  
+  &.link-size-xl {
+    width: var(--w-14);
+    height: var(--h-14);
+  }
+}
+
+/* Icon styles */
+.link-icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  line-height: 0;
+}
+
+/* Add margin for spacing - using direct child selector to ensure it applies */
+.link > .link-icon-left,
+.link .link-icon-left {
+  margin-right: var(--space-3) !important;
+}
+
+.link > .link-icon-right,
+.link .link-icon-right {
+  margin-left: var(--space-3) !important;
+}
+
+
+.link-icon svg {
+  width: 1em;
+  height: 1em;
+  display: block;
+}
+
+/* External link indicator */
+.link-external-icon {
+  margin-left: var(--space-1);
+  opacity: var(--opacity-70);
+}
+
+/* Loading state */
+.link-loading {
+  pointer-events: none;
+  
+  .link-text {
+    opacity: var(--opacity-70);
+  }
+}
+
+.link-spinner {
+  animation: spin var(--duration-1000) linear infinite;
+}
+
+/* Loading spinner animation */
+@keyframes spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}

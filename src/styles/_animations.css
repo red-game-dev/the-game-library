@@ -1,9 +1,14 @@
 /**
  * Animation Keyframes
  * Core animations for the design system
+ * 
+ * Performance optimizations:
+ * - Use transform and opacity only (GPU-accelerated)
+ * - Add will-change hints for frequently animated elements
+ * - Respect prefers-reduced-motion
  */
 
-/* Gradient shift for animated backgrounds */
+/* Gradient shift - Note: Not GPU-accelerated, use sparingly */
 @keyframes gradient-shift {
   0% {
     background-position: 0% 50%;
@@ -16,13 +21,13 @@
   }
 }
 
-/* Shimmer effect for loading and highlights */
+/* Shimmer effect - GPU optimized */
 @keyframes shimmer {
   0% {
-    transform: translateX(-100%);
+    transform: translate3d(-100%, 0, 0);
   }
   100% {
-    transform: translateX(100%);
+    transform: translate3d(100%, 0, 0);
   }
 }
 
@@ -38,76 +43,82 @@
   }
 }
 
-/* Pulse animation */
+/* Pulse animation - GPU optimized */
 @keyframes pulse {
   0%, 100% {
     opacity: var(--opacity-100);
+    transform: scale3d(1, 1, 1);
   }
   50% {
-    opacity: var(--opacity-50);
+    opacity: var(--opacity-80);
+    transform: scale3d(1.05, 1.05, 1);
   }
 }
 
-/* Bounce animation */
+/* Bounce animation - GPU optimized */
 @keyframes bounce {
   0%, 100% {
-    transform: translateY(0);
+    transform: translate3d(0, 0, 0);
   }
   50% {
-    transform: translateY(-25%);
+    transform: translate3d(0, -25%, 0);
   }
 }
 
-/* Spin animation */
+/* Spin animation - GPU optimized */
 @keyframes spin {
   from {
-    transform: rotate(0deg);
+    transform: rotate(0deg) translateZ(0);
   }
   to {
-    transform: rotate(360deg);
+    transform: rotate(360deg) translateZ(0);
   }
 }
 
-/* Fade in animation - already exists, keeping for reference */
+/* Fade in animation - GPU optimized */
 @keyframes fadeIn {
   from {
     opacity: var(--opacity-0);
+    transform: translateZ(0);
   }
   to {
     opacity: var(--opacity-100);
+    transform: translateZ(0);
   }
 }
 
-/* Fade out animation */
+/* Fade out animation - GPU optimized */
 @keyframes fadeOut {
   from {
     opacity: var(--opacity-100);
+    transform: translateZ(0);
   }
   to {
     opacity: var(--opacity-0);
+    transform: translateZ(0);
   }
 }
 
-/* Slide in from top */
+/* Slide in from top - GPU optimized */
 @keyframes slideInTop {
   from {
-    transform: translateY(-100%);
+    transform: translate3d(0, -100%, 0);
     opacity: var(--opacity-0);
   }
   to {
-    transform: translateY(0);
+    transform: translate3d(0, 0, 0);
     opacity: var(--opacity-100);
   }
 }
 
-/* Slide in from top (subtle) - for alerts/toasts */
+/* Slide in from top (subtle) - for alerts/toasts - GPU optimized */
 @keyframes slideInTopSubtle {
   from {
-    transform: translateY(-10px);
+    transform: translate3d(0, -10px, 0);
     opacity: var(--opacity-0);
   }
   to {
-    transform: translateY(0);
+    transform: translate3d(0, 0, 0);
     opacity: var(--opacity-100);
   }
 }
@@ -124,98 +135,108 @@
   }
 }
 
-/* Slide in from bottom */
+/* Slide in from bottom - GPU optimized */
 @keyframes slideInBottom {
   from {
-    transform: translateY(100%);
+    transform: translate3d(0, 100%, 0);
     opacity: var(--opacity-0);
   }
   to {
-    transform: translateY(0);
+    transform: translate3d(0, 0, 0);
     opacity: var(--opacity-100);
   }
 }
 
-/* Slide in from left */
+/* Slide in from left - GPU optimized */
 @keyframes slideInLeft {
   from {
-    transform: translateX(-100%);
+    transform: translate3d(-100%, 0, 0);
     opacity: var(--opacity-0);
   }
   to {
-    transform: translateX(0);
+    transform: translate3d(0, 0, 0);
     opacity: var(--opacity-100);
   }
 }
 
-/* Slide in from right */
+/* Slide in from right - GPU optimized */
 @keyframes slideInRight {
   from {
-    transform: translateX(100%);
+    transform: translate3d(100%, 0, 0);
     opacity: var(--opacity-0);
   }
   to {
-    transform: translateX(0);
+    transform: translate3d(0, 0, 0);
     opacity: var(--opacity-100);
   }
 }
 
-/* Scale in animation */
+/* Slide up from bottom - for cookie consent banner - GPU optimized */
+@keyframes slideUp {
+  from {
+    transform: translate3d(0, 100%, 0);
+  }
+  to {
+    transform: translate3d(0, 0, 0);
+  }
+}
+
+/* Scale in animation - GPU optimized */
 @keyframes scaleIn {
   from {
-    transform: scale(0);
+    transform: scale3d(0, 0, 1);
     opacity: var(--opacity-0);
   }
   to {
-    transform: scale(1);
+    transform: scale3d(1, 1, 1);
     opacity: var(--opacity-100);
   }
 }
 
-/* Scale out animation */
+/* Scale out animation - GPU optimized */
 @keyframes scaleOut {
   from {
-    transform: scale(1);
+    transform: scale3d(1, 1, 1);
     opacity: var(--opacity-100);
   }
   to {
-    transform: scale(0);
+    transform: scale3d(0, 0, 1);
     opacity: var(--opacity-0);
   }
 }
 
-/* Ticker scroll for continuous scrolling elements */
+/* Ticker scroll for continuous scrolling elements - GPU optimized */
 @keyframes ticker {
   0% { 
-    transform: translateX(100%); 
+    transform: translate3d(100%, 0, 0); 
   }
   100% { 
-    transform: translateX(-100%); 
+    transform: translate3d(-100%, 0, 0); 
   }
 }
 
-/* Zoom in animation for modals and overlays */
+/* Zoom in animation for modals and overlays - GPU optimized */
 @keyframes zoomIn {
   from {
     opacity: 0;
-    transform: scale(0.95);
+    transform: scale3d(0.95, 0.95, 1);
   }
   to {
     opacity: 1;
-    transform: scale(1);
+    transform: scale3d(1, 1, 1);
   }
 }
 
-/* Shake animation for error/validation feedback */
+/* Shake animation for error/validation feedback - GPU optimized */
 @keyframes shake {
   0%, 100% {
-    transform: translateX(0);
+    transform: translate3d(0, 0, 0);
   }
   10%, 30%, 50%, 70%, 90% {
-    transform: translateX(-10px);
+    transform: translate3d(-10px, 0, 0);
   }
   20%, 40%, 60%, 80% {
-    transform: translateX(10px);
+    transform: translate3d(10px, 0, 0);
   }
 }
 
@@ -229,51 +250,51 @@
   }
 }
 
-/* Glitch effect cyan */
+/* Glitch effect cyan - GPU optimized */
 @keyframes glitch-cyan {
   0%, 100% {
     clip-path: inset(0 0 0 0);
-    transform: translate(0);
+    transform: translate3d(0, 0, 0);
   }
   20% {
     clip-path: inset(20% 0 30% 0);
-    transform: translate(-2px, 2px);
+    transform: translate3d(-2px, 2px, 0);
   }
   40% {
     clip-path: inset(50% 0 20% 0);
-    transform: translate(2px, -2px);
+    transform: translate3d(2px, -2px, 0);
   }
   60% {
     clip-path: inset(10% 0 60% 0);
-    transform: translate(-2px, 2px);
+    transform: translate3d(-2px, 2px, 0);
   }
   80% {
     clip-path: inset(80% 0 10% 0);
-    transform: translate(2px, -2px);
+    transform: translate3d(2px, -2px, 0);
   }
 }
 
-/* Glitch effect magenta */
+/* Glitch effect magenta - GPU optimized */
 @keyframes glitch-magenta {
   0%, 100% {
     clip-path: inset(0 0 0 0);
-    transform: translate(0);
+    transform: translate3d(0, 0, 0);
   }
   20% {
     clip-path: inset(30% 0 20% 0);
-    transform: translate(2px, -2px);
+    transform: translate3d(2px, -2px, 0);
   }
   40% {
     clip-path: inset(20% 0 50% 0);
-    transform: translate(-2px, 2px);
+    transform: translate3d(-2px, 2px, 0);
   }
   60% {
     clip-path: inset(60% 0 10% 0);
-    transform: translate(2px, -2px);
+    transform: translate3d(2px, -2px, 0);
   }
   80% {
     clip-path: inset(10% 0 80% 0);
-    transform: translate(-2px, 2px);
+    transform: translate3d(-2px, 2px, 0);
   }
 }
 
@@ -284,5 +305,294 @@
   }
   50% {
     box-shadow: 0 0 60px rgba(168, 85, 247, var(--opacity-60));
+  }
+}
+
+/* Heartbeat animation for favorite buttons - GPU optimized */
+@keyframes heartbeat {
+  0%, 100% {
+    transform: scale3d(1, 1, 1);
+  }
+  10%, 30% {
+    transform: scale3d(1.1, 1.1, 1);
+  }
+  20% {
+    transform: scale3d(1.3, 1.3, 1);
+  }
+}
+
+/* Tooltip fade in animation - GPU optimized */
+@keyframes tooltipFadeIn {
+  from {
+    opacity: 0;
+    transform: translate3d(0, -5px, 0);
+  }
+  to {
+    opacity: 1;
+    transform: translate3d(0, 0, 0);
+  }
+}
+
+/* Homepage specific animations - GPU optimized */
+@keyframes glow-float {
+  0%, 100% {
+    transform: translate3d(0, 0, 0) scale3d(1, 1, 1);
+    opacity: 0.4;
+  }
+  33% {
+    transform: translate3d(30px, -30px, 0) scale3d(1.1, 1.1, 1);
+    opacity: var(--opacity-50);
+  }
+  66% {
+    transform: translate3d(-20px, 20px, 0) scale3d(0.95, 0.95, 1);
+    opacity: 0.35;
+  }
+}
+
+@keyframes rotate-slow {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes live-pulse {
+  0%, 100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 0.6;
+    transform: scale(1.2);
+  }
+}
+
+/* Dropdown animations - GPU optimized */
+@keyframes dropdownSlideDown {
+  from {
+    opacity: 0;
+    transform: translate3d(0, -8px, 0);
+  }
+  to {
+    opacity: 1;
+    transform: translate3d(0, 0, 0);
+  }
+}
+
+@keyframes dropdownSlideUp {
+  from {
+    opacity: 0;
+    transform: translate3d(0, 8px, 0);
+  }
+  to {
+    opacity: 1;
+    transform: translate3d(0, 0, 0);
+  }
+}
+
+/* Neon theme pulse */
+@keyframes neonPulse {
+  0%, 100% {
+    filter: brightness(1);
+  }
+  50% {
+    filter: brightness(1.1);
+  }
+}
+
+/* Gold theme shimmer */
+@keyframes goldShimmer {
+  0% {
+    left: -100%;
+  }
+  50%, 100% {
+    left: 100%;
+  }
+}
+
+/* Provider scroll animation from home.css - GPU optimized */
+@keyframes scroll-providers {
+  0% {
+    transform: translate3d(0, 0, 0);
+  }
+  100% {
+    transform: translate3d(-50%, 0, 0);
+  }
+}
+
+/* Progress bar animations */
+@keyframes progress-stripes {
+  from {
+    background-position: 0 0;
+  }
+  to {
+    background-position: var(--space-10) 0;
+  }
+}
+
+@keyframes progress-indeterminate {
+  0% {
+    left: -100%;
+  }
+  100% {
+    left: 100%;
+  }
+}
+
+@keyframes progress-complete-pulse {
+  0% {
+    opacity: 1;
+    transform: scale3d(1, 1, 1);
+  }
+  50% {
+    opacity: 0.8;
+    transform: scale3d(1, 1.1, 1);
+  }
+  100% {
+    opacity: 1;
+    transform: scale3d(1, 1, 1);
+  }
+}
+
+/* Progress bar loading/scanning animation */
+@keyframes progress-loading {
+  0% {
+    width: 0%;
+    opacity: 0;
+  }
+  10% {
+    opacity: 1;
+  }
+  90% {
+    opacity: 1;
+  }
+  100% {
+    width: 100%;
+    opacity: 0;
+  }
+}
+
+/* Coming Soon animations - GPU optimized */
+@keyframes float-1 {
+  0%, 100% {
+    transform: translate3d(0, 0, 0) scale3d(1, 1, 1);
+  }
+  33% {
+    transform: translate3d(30px, -30px, 0) scale3d(1.1, 1.1, 1);
+  }
+  66% {
+    transform: translate3d(-20px, 20px, 0) scale3d(0.9, 0.9, 1);
+  }
+}
+
+@keyframes float-2 {
+  0%, 100% {
+    transform: translate3d(0, 0, 0) scale3d(1, 1, 1);
+  }
+  33% {
+    transform: translate3d(-30px, 30px, 0) scale3d(1.1, 1.1, 1);
+  }
+  66% {
+    transform: translate3d(20px, -20px, 0) scale3d(0.9, 0.9, 1);
+  }
+}
+
+@keyframes float-3 {
+  0%, 100% {
+    transform: translate3d(-50%, -50%, 0) scale3d(1, 1, 1);
+  }
+  50% {
+    transform: translate3d(-50%, -50%, 0) scale3d(1.2, 1.2, 1);
+  }
+}
+
+@keyframes pulse-scale {
+  0%, 100% {
+    transform: scale3d(1, 1, 1);
+  }
+  50% {
+    transform: scale3d(1.05, 1.05, 1);
+  }
+}
+
+@keyframes badge-glow {
+  0%, 100% {
+    box-shadow: 0 0 0 0 var(--color-primary-soft);
+  }
+  50% {
+    box-shadow: 0 0 20px 5px var(--color-primary-soft);
+  }
+}
+
+@keyframes progress-pulse {
+  0%, 100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.8;
+  }
+}
+
+@keyframes progress-shine {
+  0% {
+    transform: translate3d(-100px, 0, 0);
+  }
+  100% {
+    transform: translate3d(100px, 0, 0);
+  }
+}
+
+/* Session timeout warning animation */
+@keyframes pulse-warning {
+  0%, 100% {
+    box-shadow: 
+      0 0 0 0 transparent,
+      0 4px 6px -1px rgba(0, 0, 0, 0.1),
+      0 2px 4px -1px rgba(0, 0, 0, 0.06);
+  }
+  50% {
+    box-shadow: 
+      0 0 25px 5px var(--session-timeout-border-glow),
+      0 4px 6px -1px rgba(0, 0, 0, 0.1),
+      0 2px 4px -1px rgba(0, 0, 0, 0.06);
+  }
+}
+
+/* Error Page Animations */
+@keyframes float {
+  0%, 100% {
+    transform: translateY(0) scale(1);
+  }
+  50% {
+    transform: translateY(-20px) scale(1.05);
+  }
+}
+
+@keyframes swing {
+  0%, 100% {
+    transform: rotate(-5deg);
+  }
+  50% {
+    transform: rotate(5deg);
+  }
+}
+
+@keyframes flash {
+  0%, 100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: var(--opacity-50);
+  }
+}
+
+@keyframes rotate {
+  from {
+    transform: translateX(-50%) rotate(0deg);
+  }
+  to {
+    transform: translateX(-50%) rotate(360deg);
   }
 }

@@ -7,9 +7,20 @@
 .game-card {
   position: relative;
   overflow: hidden;
+  z-index: var(--z-10); /* Keep game cards below dropdowns */
+  display: flex;
+  height: 100%;
+  flex-direction: column;
+}
+
+/* Ensure card element takes full height */
+.game-card > .card {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
   
   .card-image {
-    transition: transform 0.3s ease;
+    transition: transform var(--duration-300) ease;
   }
   
   &:hover .card-image {
@@ -22,7 +33,7 @@
     inset: 0;
     background: linear-gradient(180deg, transparent 0%, rgba(0, 0, 0, var(--opacity-80)) 100%);
     opacity: var(--opacity-0);
-    transition: opacity 0.3s ease;
+    transition: opacity var(--duration-300) ease;
   }
   
   &:hover .card-overlay {
@@ -37,7 +48,7 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  background: rgba(0, 0, 0, 0.6);
+  background: rgba(0, 0, 0, var(--opacity-60));
   opacity: 0;
   transition: opacity var(--duration-300) var(--ease-in-out);
   pointer-events: none;
@@ -54,52 +65,93 @@
   pointer-events: auto;
 }
 
-/* Game card content spacing */
+/* Game card content spacing - structured layout */
 .game-card-content {
   display: flex;
   flex-direction: column;
-  gap: var(--space-3); /* Better default spacing between sections */
+  flex: 1; /* Take remaining height */
+  min-height: 0; /* Allow shrinking */
 }
 
-/* Mobile-first responsive adjustments */
-@media (max-width: 640px) {
-  /* Smaller text sizes on mobile for game card elements */
+/* Ensure the card grows to fill container */
+.game-card .card {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+
+/* Header section - fixed at top */
+.game-card-header {
+  flex-shrink: 0;
+  margin-bottom: var(--space-2);
+}
+
+/* Middle section - grows to fill space */
+.game-card-middle {
+  flex: 1;
+  min-height: 0;
+  margin-bottom: var(--space-2);
+}
+
+/* Placeholder for when no description */
+.game-card-description-placeholder {
+  min-height: var(--space-8);
+}
+
+/* Footer section - fixed at bottom */
+.game-card-footer {
+  flex-shrink: 0;
+  margin-top: auto; /* Push to bottom */
+  padding-top: var(--space-2);
+  border-top: 1px solid var(--color-border-subtle);
+}
+
+.game-card-title {
+  font-size: var(--text-base);
+}
+
+.game-card-description {
+  font-size: var(--text-sm);
+  line-height: var(--leading-snug);
+}
+
+.game-card-content {
+  gap: var(--space-1-5);
+}
+
+.game-card .card-image-container {
+  max-height: var(--h-30);
+}
+
+@media (min-width: 641px) {
   .game-card-title {
-    font-size: var(--text-base); /* 16px instead of larger */
+    font-size: var(--text-lg);
+  }
+  
+  .game-card-content {
+    gap: var(--space-2);
+  }
+  
+  .game-card .card-image-container {
+    max-height: var(--h-37-5);
+  }
+}
+
+@media (min-width: 1025px) {
+  .game-card-title {
+    font-size: var(--text-xl);
   }
   
   .game-card-description {
-    font-size: var(--text-sm); /* 14px */
-    line-height: 1.4; /* Tighter line height for mobile */
-  }
-  
-  /* Keep reasonable gap between elements */
-  .game-card-content {
-    gap: var(--space-2); /* 8px gap for better spacing */
-  }
-  
-  /* Smaller image height on mobile */
-  .game-card .card-image-container {
-    max-height: 120px;
-  }
-}
-
-/* Tablet adjustments */
-@media (min-width: 641px) and (max-width: 1024px) {
-  .game-card-title {
-    font-size: var(--text-lg); /* 18px */
+    font-size: var(--text-base);
+    line-height: var(--leading-normal);
   }
   
   .game-card-content {
-    gap: var(--space-2-5); /* 10px gap for better spacing */
+    gap: var(--space-3);
   }
   
   .game-card .card-image-container {
-    max-height: 150px;
+    max-height: none;
   }
-}
-
-/* Desktop - full size (default) */
-@media (min-width: 1025px) {
-  /* Use default styles */
 }

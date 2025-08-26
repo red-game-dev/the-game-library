@@ -1,0 +1,288 @@
+/**
+ * ErrorPage Component Styles
+ * Comprehensive error page display with animations
+ */
+
+.error-page {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh;
+  width: 100%;
+  padding: var(--space-4);
+  background: var(--error-page-bg);
+  position: relative;
+  overflow: hidden;
+}
+
+.error-page-container {
+  position: relative;
+  width: 100%;
+  max-width: var(--max-w-2xl);
+  z-index: 1;
+}
+
+/* Content */
+.error-page-content {
+  background: var(--error-page-content-bg);
+  border: 1px solid var(--error-page-content-border);
+  border-radius: var(--radius-xl);
+  padding: var(--space-8);
+  text-align: center;
+  backdrop-filter: blur(16px);
+  box-shadow: var(--error-page-content-shadow);
+  position: relative;
+  overflow: hidden;
+}
+
+/* Icon */
+.error-page-icon-wrapper {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: var(--space-6);
+  position: relative;
+}
+
+.error-page-icon {
+  width: var(--w-20);
+  height: var(--h-20);
+  color: var(--error-page-icon-color);
+  animation: pulse var(--duration-2000) ease-in-out infinite;
+}
+
+.error-page-security-badge {
+  position: absolute;
+  bottom: -4px;
+  right: -4px;
+  width: var(--w-8);
+  height: var(--h-8);
+  color: var(--error-page-security-color);
+  background: var(--error-page-content-bg);
+  border-radius: var(--radius-full);
+  padding: var(--space-1);
+}
+
+/* Badge */
+.error-page-badge {
+  margin-bottom: var(--space-4);
+  font-size: var(--text-sm);
+  font-weight: var(--font-bold);
+  letter-spacing: 0.05em;
+}
+
+/* Title */
+.error-page-title {
+  font-size: var(--text-3xl);
+  font-weight: var(--font-bold);
+  color: var(--error-page-title-color);
+  margin-bottom: var(--space-4);
+  line-height: 1.2;
+  background: var(--error-page-title-gradient);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+/* Description */
+.error-page-description {
+  font-size: var(--text-base);
+  color: var(--error-page-description-color);
+  margin-bottom: var(--space-8);
+  max-width: var(--max-w-lg);
+  margin-left: auto;
+  margin-right: auto;
+  line-height: 1.6;
+}
+
+/* Extra Content */
+.error-page-extra {
+  margin-bottom: var(--space-8);
+}
+
+/* Actions */
+.error-page-actions {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-4);
+  width: 100%;
+  margin-bottom: var(--space-8);
+}
+
+.error-page-button {
+  width: 100%;
+  min-width: var(--w-36);
+}
+
+/* Help Text */
+.error-page-help {
+  border-top: 1px solid var(--error-page-help-border);
+  padding-top: var(--space-6);
+  margin-top: var(--space-8);
+}
+
+.error-page-help-text {
+  font-size: var(--text-sm);
+  color: var(--error-page-help-color);
+}
+
+.error-page-help-link {
+  color: var(--error-page-help-link-color);
+  text-decoration: underline;
+  transition: color var(--duration-150) ease;
+  
+  &:hover {
+    color: var(--error-page-help-link-hover);
+  }
+}
+
+/* Decorative Elements */
+.error-page-decoration {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  overflow: hidden;
+}
+
+.error-page-decoration-glow {
+  position: absolute;
+  top: -50%;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 150%;
+  height: 150%;
+  background: var(--error-page-glow);
+  opacity: var(--opacity-50);
+  animation: rotate var(--duration-20000) linear infinite;
+}
+
+.error-page-decoration-pattern {
+  position: absolute;
+  inset: 0;
+  background-image: var(--error-page-pattern);
+  opacity: var(--opacity-5);
+}
+
+/* Background Elements */
+.error-page-bg-elements {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  overflow: hidden;
+}
+
+.error-page-bg-circle {
+  position: absolute;
+  border-radius: var(--radius-full);
+  background: var(--error-page-circle-bg);
+  opacity: var(--opacity-10);
+}
+
+.error-page-bg-circle-1 {
+  width: 300px;
+  height: 300px;
+  top: -150px;
+  left: -150px;
+  animation: float var(--duration-20000) ease-in-out infinite;
+}
+
+.error-page-bg-circle-2 {
+  width: 400px;
+  height: 400px;
+  bottom: -200px;
+  right: -200px;
+  animation: float var(--duration-25000) ease-in-out infinite reverse;
+}
+
+.error-page-bg-circle-3 {
+  width: 200px;
+  height: 200px;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  animation: float var(--duration-15000) ease-in-out infinite;
+}
+
+/* Error Type Specific Styles */
+.error-page-404 {
+  .error-page-icon {
+    animation: swing var(--duration-2000) ease-in-out infinite;
+  }
+}
+
+.error-page-500,
+.error-page-502,
+.error-page-503 {
+  .error-page-icon {
+    color: var(--color-error);
+    animation: shake var(--duration-500) ease-in-out infinite;
+  }
+}
+
+.error-page-401,
+.error-page-403 {
+  .error-page-icon {
+    animation: pulse var(--duration-1000) ease-in-out infinite;
+  }
+}
+
+.error-page-network {
+  .error-page-icon {
+    animation: fade var(--duration-2000) ease-in-out infinite;
+  }
+}
+
+.error-page-429 {
+  .error-page-icon {
+    animation: flash var(--duration-1000) ease-in-out infinite;
+  }
+}
+
+
+.error-page-bg-circle-1,
+.error-page-bg-circle-2 {
+  display: none;
+}
+
+@media (min-width: 768px) {
+  .error-page {
+    padding: var(--space-8);
+  }
+  
+  .error-page-content {
+    padding: var(--space-10);
+  }
+  
+  .error-page-icon {
+    width: var(--w-24);
+    height: var(--h-24);
+  }
+  
+  .error-page-title {
+    font-size: var(--text-4xl);
+  }
+  
+  .error-page-description {
+    font-size: var(--text-lg);
+  }
+  
+  .error-page-actions {
+    flex-direction: row;
+    justify-content: center;
+  }
+  
+  .error-page-button {
+    width: auto;
+  }
+  
+  .error-page-bg-circle-1,
+  .error-page-bg-circle-2 {
+    display: block;
+  }
+}
+
+@media (min-width: 1024px) {
+  .error-page-content {
+    padding: var(--space-12);
+  }
+}

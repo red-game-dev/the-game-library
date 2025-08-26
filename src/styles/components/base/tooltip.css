@@ -12,19 +12,20 @@
 /* Tooltip content - uses fixed positioning to escape overflow */
 .tooltip-content {
   position: fixed;
-  z-index: 9999;
+  z-index: var(--z-1040);
   padding: var(--space-2) var(--space-3);
   font-size: var(--text-sm);
-  color: white;
-  background-color: var(--gray-900);
+  color: var(--tooltip-text);
+  background-color: var(--tooltip-bg);
+  border: 1px solid var(--tooltip-border);
   border-radius: var(--radius-lg);
   box-shadow: var(--shadow-xl);
   pointer-events: none;
   white-space: nowrap;
-  max-width: 20rem;
+  max-width: var(--w-80);
   opacity: 0;
   visibility: hidden;
-  transition: opacity 0.2s ease, visibility 0.2s ease;
+  transition: opacity var(--duration-200) ease, visibility var(--duration-200) ease;
   word-break: break-word;
   overflow-wrap: break-word;
   hyphens: auto;
@@ -36,52 +37,37 @@
   visibility: visible;
 }
 
-/* Dark mode adjustments */
-[data-theme="dark"] .tooltip-content {
-  background-color: var(--gray-800);
-  border: 1px solid var(--gray-700);
-}
-
-/* Light mode adjustments */
-[data-theme="light"] .tooltip-content {
-  background-color: var(--gray-900);
-  color: white;
-}
-
 /* Arrow styles */
 .tooltip-arrow {
   position: absolute;
-  width: 0.5rem;
-  height: 0.5rem;
-  background-color: var(--gray-900);
+  width: var(--space-2);
+  height: var(--space-2);
+  background-color: var(--tooltip-arrow-bg);
+  border: 1px solid var(--tooltip-arrow-border);
   transform: rotate(45deg);
-}
-
-[data-theme="dark"] .tooltip-arrow {
-  background-color: var(--gray-800);
 }
 
 /* Placement-specific arrow positions */
 .tooltip-top .tooltip-arrow {
-  bottom: -0.25rem;
+  bottom: calc(var(--space-1) * -1);
   left: 50%;
   transform: translateX(-50%) rotate(45deg);
 }
 
 .tooltip-bottom .tooltip-arrow {
-  top: -0.25rem;
+  top: calc(var(--space-1) * -1);
   left: 50%;
   transform: translateX(-50%) rotate(45deg);
 }
 
 .tooltip-left .tooltip-arrow {
-  right: -0.25rem;
+  right: calc(var(--space-1) * -1);
   top: 50%;
   transform: translateY(-50%) rotate(45deg);
 }
 
 .tooltip-right .tooltip-arrow {
-  left: -0.25rem;
+  left: calc(var(--space-1) * -1);
   top: 50%;
   transform: translateY(-50%) rotate(45deg);
 }
@@ -93,111 +79,51 @@
   word-break: break-word;
   overflow-wrap: break-word;
   hyphens: auto;
-  line-height: 1.4;
-  min-width: 10rem;
+  line-height: var(--leading-snug);
+  min-width: var(--w-40);
 }
 
-/* Variant styles - Dark mode (default) */
+/* Variant styles */
 .tooltip-variant-default {
   /* Default styles already applied */
 }
 
 .tooltip-variant-info {
-  background: linear-gradient(135deg, 
-    rgba(59, 130, 246, 0.95) 0%, 
-    rgba(37, 99, 235, 0.95) 100%);
-  color: white;
-  border: 1px solid rgba(59, 130, 246, 0.5);
+  background: var(--tooltip-info-bg);
+  color: var(--tooltip-info-text);
+  border: 1px solid var(--tooltip-info-border);
   
   & .tooltip-arrow {
-    background: var(--blue-600);
-    border: 1px solid rgba(59, 130, 246, 0.5);
+    background: var(--tooltip-info-arrow-bg);
+    border: 1px solid var(--tooltip-info-arrow-border);
   }
 }
 
 .tooltip-variant-warning {
-  background: linear-gradient(135deg, 
-    rgba(249, 115, 22, 0.95) 0%, 
-    rgba(245, 158, 11, 0.95) 100%);
-  color: white;
-  border: 1px solid rgba(249, 115, 22, 0.5);
+  background: var(--tooltip-warning-bg);
+  color: var(--tooltip-warning-text);
+  border: 1px solid var(--tooltip-warning-border);
   
   & .tooltip-arrow {
-    background: var(--orange-600);
-    border: 1px solid rgba(249, 115, 22, 0.5);
+    background: var(--tooltip-warning-arrow-bg);
+    border: 1px solid var(--tooltip-warning-arrow-border);
   }
 }
 
 .tooltip-variant-error {
-  background: linear-gradient(135deg, 
-    rgba(239, 68, 68, 0.95) 0%, 
-    rgba(220, 38, 38, 0.95) 100%);
-  color: white;
-  border: 1px solid rgba(239, 68, 68, 0.5);
+  background: var(--tooltip-error-bg);
+  color: var(--tooltip-error-text);
+  border: 1px solid var(--tooltip-error-border);
   
   & .tooltip-arrow {
-    background: var(--red-600);
-    border: 1px solid rgba(239, 68, 68, 0.5);
+    background: var(--tooltip-error-arrow-bg);
+    border: 1px solid var(--tooltip-error-arrow-border);
   }
 }
 
-/* Light mode variant adjustments - matching alert colors */
-[data-theme="light"] {
-  & .tooltip-variant-default {
-    background-color: var(--gray-900);
-    color: white;
-    
-    & .tooltip-arrow {
-      background-color: var(--gray-900);
-    }
-  }
-  
-  & .tooltip-variant-info {
-    background: var(--blue-600);
-    border-color: var(--blue-700);
-    color: white;
-    
-    & .tooltip-arrow {
-      background: var(--blue-600);
-      border-color: var(--blue-700);
-    }
-  }
-  
-  & .tooltip-variant-warning {
-    background: var(--orange-600);
-    border-color: var(--orange-700);
-    color: white;
-    
-    & .tooltip-arrow {
-      background: var(--orange-600);
-      border-color: var(--orange-700);
-    }
-  }
-  
-  & .tooltip-variant-error {
-    background: var(--red-600);
-    border-color: var(--red-700);
-    color: white;
-    
-    & .tooltip-arrow {
-      background: var(--red-600);
-      border-color: var(--red-700);
-    }
-  }
-}
 
-/* Animation */
-@keyframes tooltipFadeIn {
-  from {
-    opacity: 0;
-    transform: translateY(2px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
+/* Animation moved to _animations.css */
 
 .tooltip-visible {
-  animation: tooltipFadeIn 0.2s ease-out;
+  animation: tooltipFadeIn var(--duration-200) ease-out;
 }
