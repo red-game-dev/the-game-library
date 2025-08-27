@@ -43,7 +43,7 @@ export default meta;
 type Story = StoryObj<typeof meta>;
 
 // Helper component to reset localStorage for demo
-const CookieConsentWrapper = (args: any) => {
+const CookieConsentWrapper = (args: Parameters<typeof CookieConsent>[0]) => {
   const [key, setKey] = useState(0);
 
   useEffect(() => {
@@ -68,7 +68,7 @@ const CookieConsentWrapper = (args: any) => {
         <div className="max-w-6xl mx-auto">
           <h1 className="text-3xl font-bold mb-4">Cookie Consent Demo</h1>
           <p className="text-gray-600 mb-8">
-            This is a demo page showing the cookie consent banner. Click "Reset Cookie Consent" to show the banner again.
+            This is a demo page showing the cookie consent banner. Click &quot;Reset Cookie Consent&quot; to show the banner again.
           </p>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
             {[1, 2, 3, 4, 5, 6].map((i) => (

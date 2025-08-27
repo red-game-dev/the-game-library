@@ -9,7 +9,7 @@ import React, { useState, useEffect, useCallback } from 'react';
 import { Modal } from '@/components/ui/Modal';
 import { Button } from '@/components/ui/Button';
 import { Alert } from '@/components/ui/Alert';
-import { Clock, AlertTriangle, Timer } from 'lucide-react';
+import { AlertTriangle } from 'lucide-react';
 import { useAuthStore } from '@/lib/core/frontend/stores/auth/useAuthStore';
 import '@/styles/components/features/session-timeout.css';
 

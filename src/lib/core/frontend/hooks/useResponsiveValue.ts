@@ -6,7 +6,7 @@
 import { useState, useEffect, useMemo } from 'react';
 import { useDebounce } from './useDebounce';
 
-interface ResponsiveBreakpoints<T = any> {
+interface ResponsiveBreakpoints<T = unknown> {
   xs?: T; // < 390px (Mobile portrait)
   sm?: T; // < 640px (Large phones) 
   md?: T; // < 768px (Small tablets - iPad Mini portrait)

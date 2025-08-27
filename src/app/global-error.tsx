@@ -8,6 +8,7 @@
 import { ErrorPage } from '@/components/features/ErrorPage';
 
 export default function GlobalError({
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   error,
   reset,
 }: {

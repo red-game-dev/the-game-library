@@ -240,7 +240,7 @@ export const CustomPadding: Story = {
           padding="none"
         >
           <div className="bg-purple-100 dark:bg-purple-900 p-4">
-            <p>Content with no drawer padding (padding="none")</p>
+            <p>Content with no drawer padding (padding=&quot;none&quot;)</p>
             <p className="text-sm text-secondary mt-2">Content extends to edges</p>
           </div>
         </Drawer>
@@ -252,7 +252,7 @@ export const CustomPadding: Story = {
           padding="sm"
         >
           <div className="bg-purple-100 dark:bg-purple-900 p-4">
-            <p>Content with small drawer padding (padding="sm")</p>
+            <p>Content with small drawer padding (padding=&quot;sm&quot;)</p>
             <p className="text-sm text-secondary mt-2">Compact spacing</p>
           </div>
         </Drawer>
@@ -264,7 +264,7 @@ export const CustomPadding: Story = {
           padding="md"
         >
           <div className="bg-purple-100 dark:bg-purple-900 p-4">
-            <p>Content with medium drawer padding (padding="md")</p>
+            <p>Content with medium drawer padding (padding=&quot;md&quot;)</p>
             <p className="text-sm text-secondary mt-2">Default spacing</p>
           </div>
         </Drawer>
@@ -276,7 +276,7 @@ export const CustomPadding: Story = {
           padding="lg"
         >
           <div className="bg-purple-100 dark:bg-purple-900 p-4">
-            <p>Content with large drawer padding (padding="lg")</p>
+            <p>Content with large drawer padding (padding=&quot;lg&quot;)</p>
             <p className="text-sm text-secondary mt-2">Generous spacing</p>
           </div>
         </Drawer>
@@ -313,12 +313,12 @@ export const CustomClassNames: Story = {
           This drawer uses the classNames prop to apply custom CSS classes to nested elements:
         </p>
         <ul className="text-sm space-y-1">
-          <li>• overlay: "custom-overlay-class"</li>
-          <li>• drawer: "custom-drawer-class"</li>
-          <li>• content: "custom-content-class"</li>
-          <li>• header: "custom-header-class"</li>
-          <li>• body: "custom-body-class"</li>
-          <li>• footer: "custom-footer-class"</li>
+          <li>• overlay: &quot;custom-overlay-class&quot;</li>
+          <li>• drawer: &quot;custom-drawer-class&quot;</li>
+          <li>• content: &quot;custom-content-class&quot;</li>
+          <li>• header: &quot;custom-header-class&quot;</li>
+          <li>• body: &quot;custom-body-class&quot;</li>
+          <li>• footer: &quot;custom-footer-class&quot;</li>
         </ul>
         <p className="text-sm text-secondary">
           Useful for applying specific styles without modifying the component.

@@ -1,4 +1,4 @@
-import type { Meta, StoryObj } from '@storybook/react';
+import type { Meta, StoryObj } from '@storybook/nextjs';
 import { VirtualGrid } from './VirtualGrid';
 import { Card } from '../Card';
 import { Badge } from '../Badge';
@@ -43,8 +43,25 @@ const meta = {
 export default meta;
 type Story = StoryObj<typeof meta>;
 
+// Types for mock data
+type SimpleItem = {
+  id: string;
+  title: string;
+  description: string;
+};
+
+type ComplexItem = {
+  id: string;
+  title: string;
+  description: string;
+  image: string;
+  price: number;
+  rating: string;
+  category: string;
+};
+
 // Generate mock data
-const generateMockItems = (count: number) => {
+const generateMockItems = (count: number): ComplexItem[] => {
   return Array.from({ length: count }, (_, i) => ({
     id: `item-${i}`,
     title: `Item ${i + 1}`,
@@ -56,44 +73,59 @@ const generateMockItems = (count: number) => {
   }));
 };
 
+// Generate simple mock data
+const generateSimpleItems = (count: number): SimpleItem[] => {
+  return Array.from({ length: count }, (_, i) => ({
+    id: `item-${i}`,
+    title: `Item ${i + 1}`,
+    description: `This is item number ${i + 1} in the virtual grid`
+  }));
+};
+
 // Simple item renderer
-const SimpleItemRenderer = (item: any) => (
-  <Card className="p-4">
-    <div className="aspect-video bg-gray-200 rounded mb-2" />
-    <h3 className="font-semibold">{item.title}</h3>
-    <p className="text-sm text-gray-600">{item.description}</p>
-  </Card>
-);
+const SimpleItemRenderer = (item: unknown) => {
+  const typedItem = item as SimpleItem;
+  return (
+    <Card className="p-4">
+      <div className="aspect-video bg-gray-200 rounded mb-2" />
+      <h3 className="font-semibold">{typedItem.title}</h3>
+      <p className="text-sm text-gray-600">{typedItem.description}</p>
+    </Card>
+  );
+};
 
 // Complex item renderer
-const ComplexItemRenderer = (item: any) => (
-  <Card className="overflow-hidden">
-    <div 
-      className="h-48 bg-cover bg-center"
-      style={{ backgroundImage: `url(${item.image})` }}
-    />
-    <div className="p-4">
-      <div className="flex justify-between items-start mb-2">
-        <h3 className="font-semibold text-lg">{item.title}</h3>
-        <Badge variant="secondary">{item.category}</Badge>
-      </div>
-      <p className="text-sm text-gray-600 mb-3">{item.description}</p>
-      <div className="flex justify-between items-center">
-        <span className="text-xl font-bold">${item.price}</span>
-        <div className="flex items-center gap-1">
-          <span className="text-yellow-500">★</span>
-          <span className="text-sm">{item.rating}</span>
+const ComplexItemRenderer = (item: unknown) => {
+  const typedItem = item as ComplexItem;
+  return (
+    <Card className="overflow-hidden">
+      <div 
+        className="h-48 bg-cover bg-center"
+        style={{ backgroundImage: `url(${typedItem.image})` }}
+      />
+      <div className="p-4">
+        <div className="flex justify-between items-start mb-2">
+          <h3 className="font-semibold text-lg">{typedItem.title}</h3>
+          <Badge variant="secondary">{typedItem.category}</Badge>
         </div>
+        <p className="text-sm text-gray-600 mb-3">{typedItem.description}</p>
+        <div className="flex justify-between items-center">
+          <span className="text-xl font-bold">${typedItem.price}</span>
+          <div className="flex items-center gap-1">
+            <span className="text-yellow-500">★</span>
+            <span className="text-sm">{typedItem.rating}</span>
+          </div>
+        </div>
+        <Button className="w-full mt-3" size="sm">Add to Cart</Button>
       </div>
-      <Button className="w-full mt-3" size="sm">Add to Cart</Button>
-    </div>
-  </Card>
-);
+    </Card>
+  );
+};
 
 // Basic example with 100 items
 export const Default: Story = {
   args: {
-    items: generateMockItems(100),
+    items: generateSimpleItems(100),
     columns: 3,
     gap: 16,
     estimateSize: 200,
@@ -133,7 +165,7 @@ export const LargeDataset: Story = {
 // Responsive columns
 export const ResponsiveColumns: Story = {
   args: {
-    items: generateMockItems(100),
+    items: generateSimpleItems(100),
     columns: 5, // Will adjust based on viewport
     gap: 16,
     renderItem: SimpleItemRenderer
@@ -151,7 +183,7 @@ export const ResponsiveColumns: Story = {
 // With infinite scroll
 export const InfiniteScroll: Story = {
   args: {
-    items: [],
+    items: [] as ComplexItem[],
     columns: 3,
     gap: 16,
     renderItem: ComplexItemRenderer
@@ -194,7 +226,7 @@ export const InfiniteScroll: Story = {
 // Empty state
 export const EmptyState: Story = {
   args: {
-    items: [],
+    items: [] as SimpleItem[],
     columns: 3,
     gap: 16,
     renderItem: SimpleItemRenderer,
@@ -215,7 +247,7 @@ export const EmptyState: Story = {
 // Debug mode
 export const DebugMode: Story = {
   args: {
-    items: generateMockItems(100),
+    items: generateSimpleItems(100),
     columns: 3,
     gap: 16,
     renderItem: SimpleItemRenderer,
@@ -262,7 +294,7 @@ export const TwoColumns: Story = {
 
 export const SixColumns: Story = {
   args: {
-    items: generateMockItems(100),
+    items: generateSimpleItems(100),
     columns: 6,
     gap: 12,
     renderItem: SimpleItemRenderer

@@ -142,7 +142,7 @@ export const GameGrid = memo<GameGridProps>(({
   /**
    * Get card size based on grid variant
    */
-  const getCardVariant = () => {
+  const getCardVariant = useCallback(() => {
     switch (variant) {
       case 'compact':
         return 'grid-sm';
@@ -151,7 +151,7 @@ export const GameGrid = memo<GameGridProps>(({
       default:
         return 'grid-md';
     }
-  };
+  }, [variant]);
 
   /**
    * Render a game card (used for both regular and virtual grids)
@@ -167,7 +167,7 @@ export const GameGrid = memo<GameGridProps>(({
       showPlayOnHover={true}
       testId={`${testId}-card-${game.id}`}
     />
-  ), [onGameClick, onFavoriteToggle, testId, variant]);
+  ), [onGameClick, onFavoriteToggle, getCardVariant, testId]);
 
   /**
    * Get grid columns based on variant

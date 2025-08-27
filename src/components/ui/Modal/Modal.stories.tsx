@@ -1611,12 +1611,12 @@ export const CustomClassNames: Story = {
           <div className="space-y-4">
             <p>This modal demonstrates the classNames prop which allows applying custom CSS classes to nested elements:</p>
             <ul className="text-sm space-y-1">
-              <li>• <code>overlay</code>: "custom-overlay-class"</li>
-              <li>• <code>container</code>: "custom-container-class"</li>
-              <li>• <code>content</code>: "custom-content-class"</li>
-              <li>• <code>header</code>: "custom-header-class"</li>
-              <li>• <code>body</code>: "custom-body-class"</li>
-              <li>• <code>footer</code>: "custom-footer-class"</li>
+              <li>• <code>overlay</code>: &quot;custom-overlay-class&quot;</li>
+              <li>• <code>container</code>: &quot;custom-container-class&quot;</li>
+              <li>• <code>content</code>: &quot;custom-content-class&quot;</li>
+              <li>• <code>header</code>: &quot;custom-header-class&quot;</li>
+              <li>• <code>body</code>: &quot;custom-body-class&quot;</li>
+              <li>• <code>footer</code>: &quot;custom-footer-class&quot;</li>
             </ul>
             <Alert variant="info" size="sm">
               These custom classes can be used to apply specific styles without modifying the component.

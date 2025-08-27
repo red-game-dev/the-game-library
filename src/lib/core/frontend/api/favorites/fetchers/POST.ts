@@ -15,7 +15,6 @@ import { ApiError } from '@/lib/core/shared/errors';
 import { ErrorCodes } from '@/lib/core/shared/errors/constants';
 import { useFavoritesStore } from '@/lib/core/frontend/stores/favorites/useFavoritesStore';
 import { favoriteApiTransformers } from '@/lib/core/shared/transformers';
-import { favoriteStoreTransformers } from '@/lib/core/frontend/transformers';
 
 /**
  * Toggle favorite response type

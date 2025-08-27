@@ -9,7 +9,7 @@ import { useRef, useCallback, useMemo, ReactNode, CSSProperties } from 'react';
 import { useVirtualizer } from '@tanstack/react-virtual';
 import { cn } from '@/lib/utils';
 
-export interface VirtualGridProps<T = any> {
+export interface VirtualGridProps<T = unknown> {
   items: T[];
   columns?: number;
   gap?: number;
@@ -27,7 +27,7 @@ export interface VirtualGridProps<T = any> {
   debug?: boolean;
 }
 
-export function VirtualGrid<T = any>({
+export function VirtualGrid<T = unknown>({
   items,
   columns = 3,
   gap = 16,

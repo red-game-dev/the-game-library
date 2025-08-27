@@ -54,7 +54,6 @@ export const ProfileCard: React.FC<ProfileCardProps> = ({
 }) => {
   // Calculate balance change
   const balanceChange = balance && previousBalance ? balance - previousBalance : 0;
-  const hasIncrease = balanceChange > 0;
   const changePercent = previousBalance && previousBalance !== 0 
     ? Math.abs((balanceChange / previousBalance) * 100) 
     : 0;
