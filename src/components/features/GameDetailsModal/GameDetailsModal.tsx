@@ -269,12 +269,12 @@ export function GameDetailsModal({
           )}
 
           {/* Action Buttons */}
-          <div className="flex gap-3">
+          <div className="game-details-modal-actions">
             {isComingSoon ? (
               <Button
                 variant="primary"
                 size="lg"
-                className="flex-1"
+                className="game-details-modal-button"
                 disabled
               >
                 🔒 Coming Soon
@@ -284,7 +284,7 @@ export function GameDetailsModal({
                 <Button
                   variant="primary"
                   size="lg"
-                  className="flex-1"
+                  className="game-details-modal-button"
                   onClick={handlePlay}
                   disabled={isPlaying}
                 >
@@ -300,7 +300,7 @@ export function GameDetailsModal({
                 <Button
                   variant="outline"
                   size="lg"
-                  className="flex-1"
+                  className="game-details-modal-button"
                   onClick={handlePlay}
                   disabled={isPlaying}
                 >
