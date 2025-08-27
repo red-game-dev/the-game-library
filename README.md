@@ -22,14 +22,20 @@ The Game Library demonstrates enterprise-grade frontend development with:
 # Install dependencies
 npm install
 
-# Run development server
+# Run development server (with Turbopack)
 npm run dev
 
 # View component library
 npm run storybook
 
 # Type checking
-npx tsc --noEmit
+npm run type:check
+
+# Lint code
+npm run lint
+
+# Build for production
+npm run build
 ```
 
 Visit [http://localhost:3000](http://localhost:3000) for the app and [http://localhost:6006](http://localhost:6006) for Storybook.

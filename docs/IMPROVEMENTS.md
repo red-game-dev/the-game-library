@@ -237,41 +237,76 @@ test('user can search and favorite games', async ({ page }) => {
 - **Visual**: Chromatic (Storybook)
 - **Accessibility**: axe-core integration
 
-### 2. CI/CD Pipeline
+### 2. CI/CD Pipeline with Comprehensive Quality Gates
 
-**Current State**: Manual deployments
-**Better Choice**: Automated pipeline with quality gates
+**Current State**: Manual deployments, no automated testing
+**Better Choice**: Full GitHub Actions pipeline with quality gates
 
+**Comprehensive Pipeline Structure**:
 ```yaml
 # .github/workflows/ci.yml
-name: CI/CD
+name: CI/CD Pipeline
 on: [push, pull_request]
 
 jobs:
-  test:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v3
-      - run: npm ci
-      - run: npm run lint          # ESLint
-      - run: npm run type-check    # TypeScript
-      - run: npm run test          # Unit tests
-      - run: npm run test:e2e      # E2E tests
-      - run: npm run lighthouse    # Performance audit
-      
-  deploy:
-    if: github.ref == 'refs/heads/main'
-    needs: test
-    runs-on: ubuntu-latest
-    steps:
-      - run: npm run deploy
+  quality:     # Linting, formatting, type checking
+  security:    # NPM audit, Snyk scanning  
+  test:        # Unit/integration tests with coverage
+  build:       # Build + bundle size checks
+  lighthouse:  # Performance audits
+  e2e:         # Cross-browser testing
+  deploy:      # Automated deployment
 ```
 
-**Quality Gates**:
-- **Code Quality**: ESLint, Prettier, TypeScript strict
-- **Performance**: Lighthouse scores >90
-- **Accessibility**: axe-core violations = 0
-- **Security**: Snyk vulnerability scanning
+**Quality Gates to Implement**:
+
+1. **Code Quality**
+   - ESLint: `npm run lint`
+   - Prettier formatting check
+   - TypeScript: `npm run type:check`
+
+2. **Security Audits**
+   - NPM audit for vulnerabilities
+   - Snyk security scanning
+   - Dependency updates check
+
+3. **Test Coverage**
+   - Minimum 80% code coverage
+   - Unit & integration tests
+   - E2E tests on Chrome, Firefox, Safari
+
+4. **Performance Monitoring**
+   ```json
+   // lighthouse-ci.json thresholds
+   {
+     "performance": 90,
+     "accessibility": 95,
+     "best-practices": 90,
+     "seo": 90
+   }
+   ```
+
+5. **Bundle Size Limits**
+   ```json
+   // Prevent JavaScript bloat
+   {
+     "main.js": "150 KB",
+     "pages/*.js": "100 KB",
+     "styles.css": "50 KB"
+   }
+   ```
+
+**Benefits of Comprehensive Pipeline**:
+- **Test Coverage Enforcement**: Minimum 80% code coverage required
+- **Performance Budget**: Bundle size limits prevent bloat
+- **Security Scanning**: Catches vulnerabilities before production
+- **Format Consistency**: Prettier ensures consistent code style
+- **Type Safety**: TypeScript errors block deployment
+- **Lighthouse Scores**: Performance regression prevention
+- **Cross-browser Testing**: E2E tests on Chrome, Firefox, Safari
+- **Preview Deployments**: Test PRs before merging
+- **Parallel Jobs**: Faster CI with parallel execution
+- **Artifact Caching**: Speeds up subsequent runs
 
 ### 3. Feature Flags & A/B Testing
 
@@ -469,32 +504,117 @@ packages/
 - **Platform-specific UX** optimizations
 - **App store distribution**
 
-### 2. Package Architecture
+### 2. Monorepo Architecture with Turborepo or Nx
 
-**Current State**: Single Next.js application
-**Better Choice**: Monorepo with shared packages
+**Current State**: Single Next.js application with mock backend
+**Better Choice**: Monorepo architecture for proper separation of concerns
 
+**Why Monorepo is Essential**:
+- **Real Backend Integration**: Separate backend service from frontend
+- **Code Sharing**: Share types, utilities, and business logic
+- **Independent Deployments**: Deploy frontend and backend separately
+- **Team Scalability**: Different teams can own different packages
+- **Better CI/CD**: Affected-only builds and tests
+
+**Option 1: Turborepo (Recommended for Speed)**
+```
+apps/
+├── web/              # Next.js frontend
+├── backend/          # Node.js/NestJS backend
+├── mobile/           # React Native app
+└── admin/            # Admin dashboard
+
+packages/
+├── @game-library/ui           # Shared UI components
+├── @game-library/db           # Prisma schema & client
+├── @game-library/types        # Shared TypeScript types
+├── @game-library/utils        # Shared utilities
+└── @game-library/config       # Shared configurations
+└── @game-library/core         # Shared configurations
+```
+
+**Turborepo Benefits**:
+- **10x faster builds** with remote caching
+- **Parallel execution** of tasks
+- **Smart filtering** - only rebuild what changed
+- **Zero config** - works out of the box
+
+**Option 2: Nx (Recommended for Enterprise)**
+```
+apps/
+├── game-library-web/
+├── game-library-api/
+├── game-library-mobile/
+└── game-library-e2e/
+
+libs/
+├── shared/
+│   ├── data-access/     # API clients, state management
+│   ├── ui/              # UI component library
+│   └── util/            # Utilities
+├── game-library/
+│   ├── feature/         # Feature libraries
+│   └── domain/          # Business logic
+└── backend/
+    ├── api/             # API endpoints
+    └── database/        # Database layer
+```
+
+**Nx Benefits**:
+- **Dependency graph** visualization
+- **Affected commands** for targeted testing
+- **Code generators** for consistency
+- **Module boundaries** enforcement
+- **Built-in best practices**
+
+**Implementation with Actual Backend**:
 ```json
+// turbo.json
 {
-  "workspaces": [
-    "packages/core",
-    "packages/ui",
-    "packages/web", 
-    "packages/mobile"
-  ]
+  "pipeline": {
+    "build": {
+      "dependsOn": ["^build"],
+      "outputs": ["dist/**", ".next/**"]
+    },
+    "test": {
+      "dependsOn": ["build"],
+      "outputs": []
+    },
+    "deploy": {
+      "dependsOn": ["build", "test"],
+      "outputs": []
+    }
+  }
 }
 ```
 
-**Package Structure**:
-- `@game-library/core` - Business logic, API clients
-- `@game-library/ui` - Shared UI components
-- `@game-library/web` - Next.js web application
-- `@game-library/mobile` - React Native mobile app
+**Development Workflow**:
+```bash
+# Turborepo commands
+turbo run build --filter=web      # Build only frontend
+turbo run dev --parallel          # Run all apps in dev mode
+turbo run test --affected         # Test only changed packages
 
-**Tools**:
-- **Monorepo**: Nx or Lerna for workspace management
-- **Build**: Turborepo for fast, cached builds
-- **Dependencies**: Shared dependencies, version alignment
+# Nx commands  
+nx run-many --target=build --projects=web,api
+nx affected:test                  # Test affected projects
+nx graph                          # Visualize dependencies
+```
+
+**Package Structure**:
+- `@game-library/core` - Business logic, domain models
+- `@game-library/ui` - Shared UI components
+- `@game-library/api-client` - Frontend API client
+- `@game-library/database` - Database schemas and migrations
+- `@game-library/auth` - Authentication logic
+- `@game-library/types` - Shared TypeScript interfaces
+
+**Benefits Over Current Architecture**:
+- **True separation** between frontend and backend
+- **Type safety** across the entire stack
+- **Faster CI/CD** with cached builds
+- **Better scalability** for team growth
+- **Independent versioning** of packages
 
 ## Testing Strategy
 
