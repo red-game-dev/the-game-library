@@ -244,9 +244,6 @@
 /* Prevent body scroll when modal is open */
 body.modal-open {
   overflow: hidden;
-  position: fixed;
-  width: 100%;
-  height: 100%;
 }
 
 /* Mobile-first base styles (already set above) - now add enhancements for larger screens */
