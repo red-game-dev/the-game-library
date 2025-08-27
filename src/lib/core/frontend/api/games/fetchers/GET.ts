@@ -15,6 +15,7 @@ import { createPaginationMeta } from '@/lib/core/domain/models/PaginationInfo';
 import { ApiError } from '@/lib/core/shared/errors';
 import { ErrorCodes } from '@/lib/core/shared/errors/constants';
 import { gameApiTransformers } from '@/lib/core/shared/transformers';
+import { useFavoritesStore } from '@/lib/core/frontend/stores/favorites/useFavoritesStore';
 
 /**
  * Response type for fetchGames
@@ -70,6 +71,13 @@ export async function fetchGames(
     // Transform API response to domain entities
     const games = gameApiTransformers.fromApiGetAllGamesResponse(result.data as ApiGameResponse[]);
     
+    // Sync favorite state from the favorites store
+    const favoriteIds = useFavoritesStore.getState().getFavoriteIds();
+    const gamesWithFavorites = games.map(game => ({
+      ...game,
+      isFavorite: favoriteIds.includes(game.id)
+    }));
+    
     // Use pagination utilities to ensure proper metadata
     const pagination = result.pagination || createPaginationMeta(
       criteria.page || 1,
@@ -78,7 +86,7 @@ export async function fetchGames(
     );
     
     return {
-      games,
+      games: gamesWithFavorites,
       pagination,
       meta: {
         providers: result.meta?.providers as Provider[] | undefined,

@@ -16,13 +16,14 @@ import {
   Crown
 } from 'lucide-react';
 import { Button } from '@/components/ui/Button';
-import { Card } from '@/components/ui/Card';
 import { Badge } from '@/components/ui/Badge';
 import { GameCarousel } from '@/components/features/GameCarousel';
-import { Image } from '@/components/ui/Image';
+import { GameCard } from '@/components/features/GameCard';
 import { PromotionBanner } from '@/components/features/PromotionBanner';
+import { GameDetailsModal } from '@/components/features/GameDetailsModal';
 import { useGamesQuery } from '@/hooks/useGames';
 import { useProvidersQuery } from '@/hooks/useProviders';
+import { useFavorites } from '@/hooks/useFavorites';
 import type { Game } from '@/lib/core/domain/entities';
 import './home.css';
 
@@ -45,7 +46,11 @@ const categories = [
 
 export default function HomePage() {
   const router = useRouter();
-  // Fetch featured games - limited for better carousel display
+  const [selectedGame, setSelectedGame] = React.useState<Game | null>(null);
+  const [isGameModalOpen, setIsGameModalOpen] = React.useState(false);
+  
+  const { toggleFavorite } = useFavorites();
+  
   const { data: hotGames } = useGamesQuery({ 
     isHot: true, 
     pageSize: 20 
@@ -55,7 +60,7 @@ export default function HomePage() {
     isNew: true, 
     pageSize: 20 
   });
-  
+
   const { data: jackpotGames } = useGamesQuery({ 
     types: ['jackpot'], 
     pageSize: 15 
@@ -81,8 +86,27 @@ export default function HomePage() {
   }, [router]);
 
   const handleGameClick = useCallback((game: Game) => {
+    setSelectedGame(game);
+    setIsGameModalOpen(true);
+  }, []);
+
+  const handleGamePlay = useCallback((game: Game) => {
+    // Navigate to game or open in modal
+    console.log('Playing game:', game.title);
     router.push(`/games/${game.slug}`);
   }, [router]);
+
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  const handleFavoriteToggle = useCallback((gameId: string, _isFavorite: boolean) => {
+    // Use the toggleFavorite from the useFavorites hook (it only needs gameId)
+    // The second parameter is ignored as the store manages the actual state
+    toggleFavorite(gameId);
+  }, [toggleFavorite]);
+  
+  const handleModalClose = useCallback(() => {
+    setIsGameModalOpen(false);
+    setSelectedGame(null);
+  }, []);
 
   return (
     <div className="home-page">
@@ -209,42 +233,15 @@ export default function HomePage() {
               infinite={false}
             >
               {hotGames.games.map((game: Game) => (
-                <div key={game.id} className="game-carousel-slide">
-                  <Card className="game-carousel-card" onClick={() => handleGameClick(game)}>
-                    <div className="game-carousel-image-wrapper">
-                      <Image 
-                        src={game.thumbnail} 
-                        alt={game.title}
-                        className="game-carousel-image"
-                        width={300}
-                        height={180}
-                      />
-                      <div className="game-carousel-overlay">
-                        <div className="game-carousel-play">▶</div>
-                      </div>
-                      {game.isHot && (
-                        <Badge 
-                          variant="error" 
-                          size="sm" 
-                          className="game-carousel-badge game-carousel-badge-hot"
-                          icon={<Zap className="w-3 h-3" />}
-                          gap="xs"
-                        >
-                          HOT
-                        </Badge>
-                      )}
-                    </div>
-                    <div className="game-carousel-content">
-                      <h3 className="game-carousel-title">{game.title}</h3>
-                      <p className="game-carousel-provider">{game.provider.name}</p>
-                      <div className="game-carousel-meta">
-                        {game.rtp && (
-                          <span className="game-carousel-rtp">RTP: {game.rtp}%</span>
-                        )}
-                      </div>
-                    </div>
-                  </Card>
-                </div>
+                <GameCard
+                  key={game.id}
+                  game={game}
+                  onClick={handleGameClick}
+                  onPlay={handleGamePlay}
+                  onFavoriteToggle={handleFavoriteToggle}
+                  size="grid-md"
+                  showPlayOnHover={true}
+                />
               ))}
             </GameCarousel>
           </div>
@@ -307,37 +304,15 @@ export default function HomePage() {
               infinite={false}
             >
               {newGames.games.map((game: Game) => (
-                <div key={game.id} className="game-carousel-slide">
-                  <Card className="game-carousel-card" onClick={() => handleGameClick(game)}>
-                    <div className="game-carousel-image-wrapper">
-                      <Image 
-                        src={game.thumbnail} 
-                        alt={game.title}
-                        className="game-carousel-image"
-                        width={300}
-                        height={180}
-                      />
-                      <div className="game-carousel-overlay">
-                        <div className="game-carousel-play">▶</div>
-                      </div>
-                      {game.isNew && (
-                        <Badge 
-                          variant="success" 
-                          size="sm" 
-                          className="game-carousel-badge game-carousel-badge-new"
-                          icon={<Sparkles className="w-3 h-3" />}
-                          gap="xs"
-                        >
-                          NEW
-                        </Badge>
-                      )}
-                    </div>
-                    <div className="game-carousel-content">
-                      <h3 className="game-carousel-title">{game.title}</h3>
-                      <p className="game-carousel-provider">{game.provider.name}</p>
-                    </div>
-                  </Card>
-                </div>
+                <GameCard
+                  key={game.id}
+                  game={game}
+                  onClick={handleGameClick}
+                  onPlay={handleGamePlay}
+                  onFavoriteToggle={handleFavoriteToggle}
+                  size="grid-md"
+                  showPlayOnHover={true}
+                />
               ))}
             </GameCarousel>
           </div>
@@ -375,35 +350,15 @@ export default function HomePage() {
               infinite={false}
             >
               {jackpotGames.games.map((game: Game) => (
-                <div key={game.id} className="game-carousel-slide">
-                  <Card className="game-carousel-card" onClick={() => handleGameClick(game)}>
-                    <div className="game-carousel-image-wrapper">
-                      <Image 
-                        src={game.thumbnail} 
-                        alt={game.title}
-                        className="game-carousel-image"
-                        width={300}
-                        height={180}
-                      />
-                      <div className="game-carousel-overlay">
-                        <div className="game-carousel-play">▶</div>
-                      </div>
-                      <Badge 
-                        variant="warning" 
-                        size="sm" 
-                        className="game-carousel-badge game-carousel-badge-jackpot"
-                        icon={<Trophy className="w-3 h-3" />}
-                        gap="xs"
-                      >
-                        JACKPOT
-                      </Badge>
-                    </div>
-                    <div className="game-carousel-content">
-                      <h3 className="game-carousel-title">{game.title}</h3>
-                      <p className="game-carousel-provider">{game.provider.name}</p>
-                    </div>
-                  </Card>
-                </div>
+                <GameCard
+                  key={game.id}
+                  game={game}
+                  onClick={handleGameClick}
+                  onPlay={handleGamePlay}
+                  onFavoriteToggle={handleFavoriteToggle}
+                  size="grid-md"
+                  showPlayOnHover={true}
+                />
               ))}
             </GameCarousel>
           </div>
@@ -466,39 +421,15 @@ export default function HomePage() {
               infinite={false}
             >
               {liveGames.games.map((game: Game) => (
-                <div key={game.id} className="game-carousel-slide">
-                  <Card className="game-carousel-card" onClick={() => handleGameClick(game)}>
-                    <div className="game-carousel-image-wrapper">
-                      <Image 
-                        src={game.thumbnail} 
-                        alt={game.title}
-                        className="game-carousel-image"
-                        width={300}
-                        height={180}
-                      />
-                      <div className="game-carousel-overlay">
-                        <div className="game-carousel-play">▶</div>
-                      </div>
-                      <Badge 
-                        variant="error" 
-                        size="sm" 
-                        className="game-carousel-badge game-carousel-badge-live"
-                        icon={<span className="live-indicator"></span>}
-                        gap="xs"
-                      >
-                        LIVE
-                      </Badge>
-                    </div>
-                    <div className="game-carousel-content">
-                      <h3 className="game-carousel-title">{game.title}</h3>
-                      <p className="game-carousel-provider">{game.provider.name}</p>
-                      <div className="game-carousel-live-info">
-                        <Users className="w-3 h-3" />
-                        <span>Live Dealer</span>
-                      </div>
-                    </div>
-                  </Card>
-                </div>
+                <GameCard
+                  key={game.id}
+                  game={game}
+                  onClick={handleGameClick}
+                  onPlay={handleGamePlay}
+                  onFavoriteToggle={handleFavoriteToggle}
+                  size="grid-md"
+                  showPlayOnHover={true}
+                />
               ))}
             </GameCarousel>
           </div>
@@ -588,6 +519,15 @@ export default function HomePage() {
           />
         </div>
       </section>
+      
+      {/* Game Details Modal */}
+      <GameDetailsModal
+        game={selectedGame}
+        isOpen={isGameModalOpen}
+        onClose={handleModalClose}
+        onPlay={handleGamePlay}
+        onFavorite={(game) => handleFavoriteToggle(game.id, game.isFavorite || false)}
+      />
     </div>
   );
 }

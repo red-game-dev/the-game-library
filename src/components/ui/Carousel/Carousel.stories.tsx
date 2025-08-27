@@ -1500,34 +1500,6 @@ export const MobileFriendly: Story = {
 };
 
 /**
- * Vertical Showcase - Multiple slides visible
- */
-export const VerticalShowcase: Story = {
-  args: {
-    children: generateSlides(8),
-    options: {
-      axis: 'y',
-      loop: true,
-      align: 'start',
-      slidesToScroll: 1
-    },
-    plugins: {
-      autoplay: {
-        delay: 4000
-      },
-      wheelGestures: {
-        forceWheelAxis: 'y'
-      }
-    }
-  },
-  render: (args) => (
-    <div style={{ height: '400px' }}>
-      <Carousel {...args} />
-    </div>
-  )
-};
-
-/**
  * RTL Support - Right to Left
  */
 export const RTLSupport: Story = {

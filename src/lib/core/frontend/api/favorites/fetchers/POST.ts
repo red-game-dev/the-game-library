@@ -48,8 +48,7 @@ export interface SyncFavoritesResponse {
  */
 export async function toggleFavorite(gameId: string): Promise<ToggleFavoriteResponse> {
   const store = useFavoritesStore.getState();
-  
-  // Optimistic update
+
   store.toggleFavorite(gameId);
   
   try {
@@ -68,12 +67,17 @@ export async function toggleFavorite(gameId: string): Promise<ToggleFavoriteResp
     // Transform API response using transformers
     const transformed = favoriteApiTransformers.fromApiResponse(result.data as ApiFavoriteResponse);
     
+    // Update store with confirmed state from backend
+    if (transformed.isFavorite !== store.isFavorite(gameId)) {
+      store.toggleFavorite(gameId);
+    }
+    
     return {
       gameId: transformed.gameId,
       isFavorite: transformed.isFavorite,
     };
   } catch (error) {
-    // Rollback on error
+    // Rollback on error - the store update is also rolled back in the mutation's onError
     store.toggleFavorite(gameId);
     
     if (error instanceof ApiError) {
