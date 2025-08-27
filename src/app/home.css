@@ -844,7 +844,7 @@
 /* Game Carousel Cards */
 .game-carousel-card {
   cursor: pointer;
-  overflow: hidden;
+  overflow: hidden !important;
   height: 320px;
   display: flex;
   flex-direction: column;
@@ -854,32 +854,11 @@
   transition: all var(--duration-300) var(--ease-out);
   position: relative;
   
-  &::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    height: 60%;
-    background: linear-gradient(
-      180deg,
-      transparent 60%,
-      rgba(0, 0, 0, 0.8) 100%
-    );
-    opacity: 0;
-    transition: opacity var(--duration-300) ease;
-    z-index: 1;
-  }
-  
   &:hover {
     transform: translateY(-8px) scale(1.03);
     box-shadow: 
       0 20px 40px rgba(0, 0, 0, 0.3),
       0 0 0 1px rgba(var(--purple-500-rgb), 0.5);
-    
-    &::before {
-      opacity: 1;
-    }
     
     .game-carousel-image {
       transform: scale(1.1);
@@ -953,8 +932,9 @@
 .game-carousel-image-wrapper {
   position: relative;
   height: 200px;
-  overflow: hidden;
+  overflow: hidden !important;
   flex-shrink: 0;
+  border-radius: var(--radius-lg) var(--radius-lg) 0 0;
 }
 
 .game-carousel-badge {
